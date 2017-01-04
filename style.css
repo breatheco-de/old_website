@@ -1,0 +1,11 @@
+/*
+Theme Name: thedocs Child Theme
+Theme URI: http://shtheme.com
+Description: This is child theme of thedocs
+Author: Shtheme
+Author URI: http://shtheme.com
+Template: thedocs
+Version: 1.0
+Text Domain:  thedocs-child
+*/
+@import url("../thedocs/style.css");
