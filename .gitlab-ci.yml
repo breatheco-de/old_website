@@ -12,7 +12,7 @@ deploy master:
   image: gitlab.services4geeks.co:4567/devops/runner4runer:capistrano
   script:
   - cd config/capistrano
-  - cap master deploy
+  - cap dev deploy 
   tags:
   - deploy
   only:
