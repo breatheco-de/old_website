@@ -5,5 +5,5 @@ server '4geeks.co', user: 'deploy', roles: %w{app}, port: 5388
 
 set :branch, 'master'
 
-set :deploy_to, '/home/deploy/4geeksacademy/themes3/'
+set :deploy_to, '/home/deploy/4geeksacademy/themes3'
 set :application, 'online-4geeksacademy'
