@@ -1,0 +1,21 @@
+image: docker:git
+
+stages:
+#- build
+- test
+- deploy
+
+services:
+- docker:dind
+
+deploy dev:
+  image: gitlab.services4geeks.co:4567/devops/runner4runer:capistrano
+  script:
+  - cd config/capistrano
+  - cap dev deploy
+  tags:
+  - deploy
+  only:
+  - dev
+  stage: deploy
+
