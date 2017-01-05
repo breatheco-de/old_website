@@ -9,3 +9,6 @@ Version: 1.0
 Text Domain:  thedocs-child
 */
 @import url("../thedocs/style.css");
+
+.asset-preview-img{max-width: 150px;float: left; margin-right: 10px;}
+#lesson-assets .asset-preview-img{max-width: 100px;float: left; margin-right: 10px;}
