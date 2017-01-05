@@ -8,14 +8,14 @@ stages:
 services:
 - docker:dind
 
-deploy dev:
+deploy master:
   image: gitlab.services4geeks.co:4567/devops/runner4runer:capistrano
   script:
   - cd config/capistrano
-  - cap dev deploy
+  - cap master deploy
   tags:
   - deploy
   only:
-  - dev
+  - master
   stage: deploy
 
