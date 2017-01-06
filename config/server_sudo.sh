@@ -4,7 +4,7 @@ DIR="$1"
 DOMAIN="$2"
 
 echo 'ajustando path supervisor nginx'
-ln -s $DIR /home/deploy/4geeksacademy.co/wordpress/wp-content/themes/thedocs-child
+ln -s $DIR/current /home/deploy/4geeksacademy.co/wordpress/wp-content/themes/thedocs-child
 
 
 
