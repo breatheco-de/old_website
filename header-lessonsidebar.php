@@ -1,7 +1,12 @@
 <?php 
-$postId = get_the_ID(); 
-$menu_name = get_post_meta( $postId, 'wpcf-sidebar-id',true);
-if(!$menu_name or $menu_name=='') $menu_name = 'default-lesson-menu';
+$postId = get_the_ID();
+$terms = wp_get_post_terms($postId,'course');
+
+if(count($terms)!=1) die('This lesson needs to be asigned to a course.');
+else $course = $terms[0];
+
+$menu_name = types_render_termmeta('course-sidebar-id',array( "term_id" => $course->term_id));
+if(!$menu_name or $menu_name=='') die('There is no menu for the course taxonomy: '.$menu_name);
 
 $menu = wp_get_nav_menu_object($menu_name);
 $menu_items = wp_get_nav_menu_items($menu->term_id);
@@ -14,13 +19,23 @@ foreach ( (array) $menu_items as $key => $menu_item ) {
   $url = $menu_item->url;
   if(!$menu_item->menu_item_parent or $menu_item->menu_item_parent=='')
   {
-    $menuParents[$id] = array("title"=>$title, "url"=>$url, "childs"=>array());
+    $menuParents[$id] = array("id"=>$id,"title"=>$title, "url"=>$url, "childs"=>array());
   }
   else
   {
-    array_push($menuParents[$menu_item->menu_item_parent]["childs"],array("title"=>$title, "url"=>$url));
+    if(isset($menuParents[$menu_item->menu_item_parent]))
+      $menuParents[$menu_item->menu_item_parent]["childs"][$id] = array("id"=>$id,"title"=>$title, "url"=>$url, "childs"=>array());
+    else
+      foreach ($menuParents as $parent){
+        if(isset($parent["childs"][$menu_item->menu_item_parent]))
+        {
+          $menuParents[$parent["id"]]["childs"][$menu_item->menu_item_parent]["childs"][$id] = array("id"=>$id,"title"=>$title, "url"=>$url, "childs"=>array());
+        }
+      }
   }
 } 
+
+//die(print_r($menuParents));
 
 ?>
 <!DOCTYPE html>
@@ -43,7 +58,7 @@ $redux_demo = get_option('redux_demo'); ?>
   <body>
 
     <!-- Sidebar -->
-    <aside class="sidebar sidebar-boxed">
+    <aside class="sidebar sidebar-boxed sidebar-dark">
 
       <a class="sidebar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
         <?php $redux_demo = get_option('redux_demo'); if(isset($redux_demo['logo']['url'])){?>
@@ -61,13 +76,22 @@ $redux_demo = get_option('redux_demo'); ?>
                   $title = $menu_item["title"];
                   $url = $menu_item["url"];
             ?>
-              <li class="menu-item menu-item-object-page drop-normal">
+              <li>
                 <a title="<?php echo $title; ?>" href="<?php echo $url; ?>"><?php echo $title; ?></a>
                 <?php if(count($menu_item["childs"]) > 0){ ?>
-                      <ul role="menu" class="">
+                      <ul>
                         <?php foreach ( $menu_item["childs"] as $child_item ) { ?>
-                        <li class="menu-item menu-item-type-post_type menu-item-object-page drop-normal">
+                        <li>
                           <a title="<?php echo $child_item["title"]; ?>" href="<?php echo $child_item["url"]; ?>"><?php echo $child_item["title"]; ?></a>
+                          <?php if(count($child_item["childs"]) > 0){ ?>
+                                <ol>
+                                  <?php foreach ( $child_item["childs"] as $grandchild_item ) { ?>
+                                  <li>
+                                    <a title="<?php echo $grandchild_item["title"]; ?>" href="<?php echo $grandchild_item["url"]; ?>"><?php echo $grandchild_item["title"]; ?></a>
+                                  </li>
+                                  <?php } ?>
+                                </ol>
+                          <?php } ?>
                         </li>
                         <?php } ?>
                       </ul>
