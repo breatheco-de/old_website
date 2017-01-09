@@ -61,7 +61,7 @@ function ead_add_custompost_caps($data, $post_type) {
  
     return $data;
 }
-add_filter( 'wpcf_type', 'ead_add_custompost_caps', 10, 2);
+//add_filter( 'wpcf_type', 'ead_add_custompost_caps', 10, 2);
 
 
 /*
