@@ -38,22 +38,21 @@ function ead_add_custompost_caps($data, $post_type) {
         $args = array(
         'capability_type' => 'lesson',
         'capabilities' => array(
-            'read_private_posts',
-            'read_post',
-            'delete_others_posts',
-            'delete_posts',
-            'delete_private_posts',
-            'delete_published_posts',
-            'edit_others_posts',
-            'edit_posts',
-            'edit_private_posts',
-            'edit_published_posts',
-            'manage_categories',
-            'manage_links',
-            'publish_posts',
-            'read',
-            'read_private_posts',
-            'upload_files'
+            'read_private_posts' => 'read_private_lessons',
+            'read_post' => 'read_lesson',
+            'delete_others_posts' => 'delete_other_lessons',
+            'delete_posts' => 'delete_lessons',
+            'delete_private_posts' => 'delete_private_lessons',
+            'delete_published_posts' => 'delete_published_lessons',
+            'edit_others_posts' => 'edit_other_lessons',
+            'edit_posts' => 'edit_lessons',
+            'edit_private_posts' => 'edit_private_lessons',
+            'edit_published_posts' => 'edit_published_lessons',
+            'manage_categories' => 'manage_lesson_categories',
+            'manage_links' => 'manage_lesson_links',
+            'publish_posts' => 'publish_lessons',
+            'read' => 'read_lessons',
+            'upload_files' => 'upload_lesson_files'
             )
         );
         $data = array_merge($data, $args);
