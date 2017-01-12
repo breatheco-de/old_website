@@ -19,6 +19,15 @@ function thedocs_child_theme_setup() {
 }
 add_action( 'after_setup_theme', 'thedocs_child_theme_setup' );
 
+/*
+ ESTILOS Y SCRIPTS
+*/
+function wmt_theme_style(){
+ 
+        
+}
+//add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
+
 /**
  * Hooks the WP cpt_post_types filter 
  *
@@ -94,5 +103,64 @@ function pippin_add_taxonomy_filters() {
     }
 }
 add_action( 'restrict_manage_posts', 'pippin_add_taxonomy_filters' );
+
+function geeksAcademyIntegrationWithVisualComposter() {
+   
+   vc_map( array(
+      "name" => __( "Code Highliter", "code-highliter" ),
+      "base" => "codehighliter",
+      "category" => __( "Content", "code-highliter"),
+      "params" => array(
+         array(
+            "type" => "checkbox",
+            "heading" => __( "Show line numbers", "code-highliter" ),
+            "param_name" => "linenumbers",
+            "value" => array('on'   => 'true' ),
+            "description" => __( "Line numbers on the left of the container.", "code-highliter" )
+         ),
+        array(
+            "type" => "dropdown",
+            "heading" => "Language",
+            "param_name" => "codelanguage",
+            "value" => array('html' => 'markup',
+                            'JS' => 'javascript',
+                            'CSS' => 'css',
+                            'Python' => 'python',
+                            'GIT' => 'git',
+                            'JSON' => 'json',
+                            'PHP' => 'php',
+                            'SQL' => 'sql',
+                            'YAML' => 'yaml'),
+            "description" => __( "Select the language for codeview", "code-highliter" )
+         ),
+        array(
+            "type" => "textarea_html",
+            "holder" => "div",
+            "weight" => 20,
+            "heading" => __( "Content", "code-highliter" ),
+            "param_name" => "content",
+            "value" => __( "Write the code here", "code-highliter" ),
+            "description" => __( "Write you code lines.", "code-highliter" )
+            )
+        )
+   ) );
+
+}
+add_action( 'vc_before_init', 'geeksAcademyIntegrationWithVisualComposter' );
+
+function codehighliter_func( $atts , $content = null) {
+   extract( shortcode_atts( array(
+      'linenumbers' => 'true',
+      'codelanguage' => 'markup'
+   ), $atts ) );
+
+   $content = wpb_js_remove_wpautop($content, true);
+
+   if(!$linenumbers or $linenumbers!='true') $numerstring = '';
+   else $numerstring = 'line-numbers';
+  
+   return '<pre class="'.$numerstring.'"><code class="language-'.$codelanguage.'">'.$content.'</code></pre>';
+}
+add_shortcode( 'codehighliter', 'codehighliter_func' );
 
 include('class/GeeksAcademyOnline.class.php');

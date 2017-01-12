@@ -55,7 +55,7 @@ get_header('lessonsidebar');
         ?>
 
           <section id="lesson-assets">
-            <h2 id="assets"><a href="#assets">Assets for this lesson</a></h2>
+            <h2 id="assets"><a href="#assets">Assets for this lessons</a></h2>
             <p>We know is hard and some times overwhelming, we have prepared the following materials to help you.</p>
             <ul class="step-text">
           <?php foreach ($assets as $asset){ ?>
