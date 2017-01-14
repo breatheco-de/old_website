@@ -106,6 +106,7 @@ add_action( 'restrict_manage_posts', 'pippin_add_taxonomy_filters' );
 
 function geeksAcademyIntegrationWithVisualComposter() {
    
+
    vc_map( array(
       "name" => __( "Code Highliter", "code-highliter" ),
       "base" => "codehighliter",
@@ -145,6 +146,60 @@ function geeksAcademyIntegrationWithVisualComposter() {
         )
    ) );
 
+
+   vc_map( array(
+      "name" => __( "Code Preview", "code-preview" ),
+      "base" => "codepreview",
+      "category" => __( "Content", "code-preview"),
+      "as_child" => array('only' => 'codetabs'),
+      "params" => array(
+        array(
+            "type" => "textarea_html",
+            "holder" => "div",
+            "weight" => 20,
+            "heading" => __( "Content", "code-preview" ),
+            "param_name" => "content",
+            "value" => __( "Write the code here", "code-preview" ),
+            "description" => __( "Write you code lines.", "code-preview" )
+            )
+        )
+   ) );
+
+   vc_map( array(
+      "name" => __( "Code Tabs", "code-tabs" ),
+      "base" => "codetabs",
+      "as_parent" => array('only' => 'codepreview, codehighliter'),
+      "content_element" => true,
+      "show_settings_on_create" => false,
+      "is_containter" => true,
+      "js_view" => "VcColumnView"
+    ));
+
+    //Your "container" content element should extend WPBakeryShortCodesContainer class to inherit all required functionality
+    if ( class_exists( 'WPBakeryShortCodesContainer' ) ) {
+        class WPBakeryShortCode_CodeTabs extends WPBakeryShortCodesContainer {
+        }
+    }
+    if ( class_exists( 'WPBakeryShortCode' ) ) {
+        class WPBakeryShortCode_CodePreview extends WPBakeryShortCode {}
+        class WPBakeryShortCode_CodeHighliter extends WPBakeryShortCode {}
+    }
+
+   vc_map( array(
+      "name" => __( "Replit Classroom", "replit-class" ),
+      "base" => "replitclass",
+      "category" => __( "Content", "replit-class"),
+      "params" => array(
+        array(
+            "type" => "textfield",
+            "holder" => "div",
+            "heading" => __( "URL", "replit-class" ),
+            "param_name" => "classurl",
+            "value" => __( "Write the URL here", "replit-class" ),
+            "description" => __( "Replit URL to embed the class", "replit-class" )
+            )
+        )
+   ) );
 }
 add_action( 'vc_before_init', 'geeksAcademyIntegrationWithVisualComposter' );
 
@@ -162,5 +217,30 @@ function codehighliter_func( $atts , $content = null) {
    return '<pre class="'.$numerstring.'"><code class="language-'.$codelanguage.'">'.$content.'</code></pre>';
 }
 add_shortcode( 'codehighliter', 'codehighliter_func' );
+
+function codepreview_func( $atts , $content = null) {
+    extract( shortcode_atts( array(
+   ), $atts ) );
+   $content = wpb_js_remove_wpautop($content, true);
+   return '<div class="code-preview">'.$content.'</div>';
+}
+add_shortcode( 'codepreview', 'codepreview_func' );
+
+function codetabs_func( $atts , $content = null) {
+    extract( shortcode_atts( array(
+   ), $atts ) );
+   $content = wpb_js_remove_wpautop($content, true);
+   return '<div class="code-tabs">'.$content.'</div>';
+}
+add_shortcode( 'codetabs', 'codetabs_func' );
+
+function replitclass_func( $atts) {
+   extract( shortcode_atts( array(
+      'classurl' => ''
+   ), $atts ) );
+
+   return '<iframe frameborder="0" width="100%" height="600px" src="'.$classurl.'"></iframe>';
+}
+add_shortcode( 'replitclass', 'replitclass_func' );
 
 include('class/GeeksAcademyOnline.class.php');
