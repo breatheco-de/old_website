@@ -151,7 +151,7 @@ function geeksAcademyIntegrationWithVisualComposter() {
       "name" => __( "Code Preview", "code-preview" ),
       "base" => "codepreview",
       "category" => __( "Content", "code-preview"),
-      "as_child" => array('only' => 'codetabs'),
+      "as_child" => array('only' => 'coderepl'),
       "params" => array(
         array(
             "type" => "textarea_html",
@@ -166,23 +166,33 @@ function geeksAcademyIntegrationWithVisualComposter() {
    ) );
 
    vc_map( array(
-      "name" => __( "Code Tabs", "code-tabs" ),
-      "base" => "codetabs",
+      "name" => __( "Code REPL", "code-repl" ),
+      "base" => "coderepl",
       "as_parent" => array('only' => 'codepreview, codehighliter'),
       "content_element" => true,
-      "show_settings_on_create" => false,
+      "show_settings_on_create" => true,
       "is_containter" => true,
+      "params" => array(
+        array(
+            "type" => "dropdown",
+            "heading" => "Type",
+            "param_name" => "countainertype",
+            "value" => array('Tabs' => 'tabs',
+                            'Window' => 'window'),
+            "description" => __( "Select the language for codeview", "code-repl" )
+            )
+        ),
       "js_view" => "VcColumnView"
     ));
 
     //Your "container" content element should extend WPBakeryShortCodesContainer class to inherit all required functionality
     if ( class_exists( 'WPBakeryShortCodesContainer' ) ) {
-        class WPBakeryShortCode_CodeTabs extends WPBakeryShortCodesContainer {
+        class WPBakeryShortCode_coderepl extends WPBakeryShortCodesContainer {
         }
     }
     if ( class_exists( 'WPBakeryShortCode' ) ) {
-        class WPBakeryShortCode_CodePreview extends WPBakeryShortCode {}
-        class WPBakeryShortCode_CodeHighliter extends WPBakeryShortCode {}
+        class WPBakeryShortCode_codepreview extends WPBakeryShortCode {}
+        class WPBakeryShortCode_codehighliter extends WPBakeryShortCode {}
     }
 
    vc_map( array(
@@ -226,13 +236,14 @@ function codepreview_func( $atts , $content = null) {
 }
 add_shortcode( 'codepreview', 'codepreview_func' );
 
-function codetabs_func( $atts , $content = null) {
+function coderepl_func( $atts , $content = null) {
     extract( shortcode_atts( array(
+      'countainertype' => 'tabs'
    ), $atts ) );
    $content = wpb_js_remove_wpautop($content, true);
-   return '<div class="code-tabs">'.$content.'</div>';
+   return '<div class="code-'.$countainertype.'">'.$content.'</div>';
 }
-add_shortcode( 'codetabs', 'codetabs_func' );
+add_shortcode( 'coderepl', 'coderepl_func' );
 
 function replitclass_func( $atts) {
    extract( shortcode_atts( array(
