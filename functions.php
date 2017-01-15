@@ -237,6 +237,7 @@ function codepreview_func( $atts , $content = null) {
 add_shortcode( 'codepreview', 'codepreview_func' );
 
 function coderepl_func( $atts , $content = null) {
+    
     extract( shortcode_atts( array(
       'countainertype' => 'tabs'
    ), $atts ) );
