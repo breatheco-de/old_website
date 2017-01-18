@@ -235,9 +235,10 @@ function codepreview_func( $atts , $content = null) {
    $content = preg_replace( "/\r|\n/", "", $content );
 
    $frameId = 'codePreviewFrame'.rand(0,9999999);
-   $htmlcontent = '<iframe class="code-iframe" id="'.$frameId.'"  width="100%" frameBorder="0" src="about:blank"></iframe>
+   $htmlcontent = '<div class="code-preview"><iframe class="code-iframe" id="'.$frameId.'"  width="100%" frameBorder="0" src="about:blank"></iframe></div>
                   <script type="text/javascript">
-                  var doc = document.getElementById(\''.$frameId.'\').src = "data:text/html;charset=utf-8,'.$content.'";
+                  var doc = document.getElementById(\''.$frameId.'\');
+                  doc.src = "data:text/html;charset=utf-8,'.$content.'";
                   </script>';
    return $htmlcontent;
 }
