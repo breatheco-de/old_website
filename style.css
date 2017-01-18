@@ -16,3 +16,6 @@ Text Domain:  thedocs-child
 ul, ol {
     list-style: inherit;
 }
+.container {
+	padding-bottom: 40px;
+}

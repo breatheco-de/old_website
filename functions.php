@@ -154,7 +154,7 @@ function geeksAcademyIntegrationWithVisualComposter() {
       "as_child" => array('only' => 'coderepl'),
       "params" => array(
         array(
-            "type" => "textarea_html",
+            "type" => "textarea",
             "holder" => "div",
             "weight" => 20,
             "heading" => __( "Content", "code-preview" ),
@@ -237,7 +237,7 @@ function codepreview_func( $atts , $content = null) {
 add_shortcode( 'codepreview', 'codepreview_func' );
 
 function coderepl_func( $atts , $content = null) {
-    
+
     extract( shortcode_atts( array(
       'countainertype' => 'tabs'
    ), $atts ) );

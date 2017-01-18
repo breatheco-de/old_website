@@ -48,6 +48,8 @@ $courses = get_courses();
                 </div>
               </div>
 			<?php } ?>
+        </div>
+        <p>&nbsp;</p>
     </main>
 
 <?php get_footer(); ?>
