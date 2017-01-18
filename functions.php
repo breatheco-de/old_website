@@ -154,7 +154,7 @@ function geeksAcademyIntegrationWithVisualComposter() {
       "as_child" => array('only' => 'coderepl'),
       "params" => array(
         array(
-            "type" => "textarea",
+            "type" => "textarea_raw_html",
             "holder" => "div",
             "weight" => 20,
             "heading" => __( "Content", "code-preview" ),
