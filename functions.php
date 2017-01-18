@@ -232,7 +232,14 @@ function codepreview_func( $atts , $content = null) {
     extract( shortcode_atts( array(
    ), $atts ) );
    $content = wpb_js_remove_wpautop($content, true);
-   return '<div class="code-preview">'.$content.'</div>';
+   $content = preg_replace( "/\r|\n/", "", $content );
+
+   $frameId = 'codePreviewFrame'.rand(0,9999999);
+   $htmlcontent = '<iframe class="code-iframe" id="'.$frameId.'"  width="100%" frameBorder="0" src="about:blank"></iframe>
+                  <script type="text/javascript">
+                  var doc = document.getElementById(\''.$frameId.'\').src = "data:text/html;charset=utf-8,'.$content.'";
+                  </script>';
+   return $htmlcontent;
 }
 add_shortcode( 'codepreview', 'codepreview_func' );
 

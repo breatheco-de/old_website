@@ -10,6 +10,7 @@ Text Domain:  thedocs-child
 */
 @import url("../thedocs/style.css");
 
+.code-iframe{border: 0 solid white; width: 100%;}
 .asset-preview-img{max-width: 150px;float: left; margin-right: 10px;}
 #lesson-assets .asset-preview-img{max-width: 100px;float: left; margin-right: 10px;}
 .grid-view.view-col-12 li{width: 100% !important;}
