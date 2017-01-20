@@ -30,7 +30,8 @@ $posts_array = get_posts(
                 <div class="col-md-12">
                     <h2>Assets related to <span class="label label-teal"><?php echo $technology->name; ?></span></h2>
 					<ul class="list-view">
-						<?php foreach ($posts_array as $lesson) { 
+						<?php foreach ($posts_array as $lesson) {
+                            the_post(); 
 							setup_postdata( $lesson );
 							$postId = get_the_ID();
 							$types = wp_get_post_terms($postId,'asset-type');
