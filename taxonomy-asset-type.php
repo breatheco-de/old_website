@@ -34,7 +34,7 @@ $posts_array = get_posts(
 							setup_postdata( $lesson );
 							$postId = get_the_ID();
 							$types = wp_get_post_terms($postId,'asset-type');
-							$technologies = wp_get_post_terms($postId,'technology');
+							$technologies = wp_get_post_terms($postId,'asset-technology');
 						?>
 						  <li>
 						    	<a class="btn btn-teal pull-right" href="<?php the_permalink(); ?>">View more</a>
@@ -62,7 +62,7 @@ $posts_array = get_posts(
             <ul class="grid-view view-col-12">
               <li>
                 <h6>By Technology</h6>
-                <?php $technologies = get_terms('technology');
+                <?php $technologies = get_terms('asset-technology');
                 foreach ($technologies as $technology) { ?>
                     <a href="<?php echo get_term_link($technology); ?>" class="label label-default"><?php echo $technology->name; ?></a>
                 <?php } ?>
