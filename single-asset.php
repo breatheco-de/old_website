@@ -63,7 +63,12 @@ if (have_posts()){
                             <i class="fa fa-download"></i>
                             Download or view this asset
                         </h4>
-                        <p>To download this asset right click and "save as..." the <a href="<?php echo $assetUrl; ?>">following link</a>.</p>
+                        <?php if($assetType=='image') { ?>
+                            <p>Click here to download this asset: <a href="<?php echo $assetUrl; ?>" target="_blank" role="button" class="btn btn-lg btn-default"><i class="fa fa-download"></i> Download</a></p>
+                        <?php } ?>
+                        <?php if($assetType=='pdf') { ?>
+                            <p>To download this asset right click and "save as..." the <a href="<?php echo $assetUrl; ?>">following link</a>.</p>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

@@ -167,7 +167,7 @@ function geeksAcademyIntegrationWithVisualComposter() {
             "heading" => __( "Content", "code-preview" ),
             "param_name" => "content",
             "value" => __( "Write the code here", "code-preview" ),
-            "description" => __( "Write you code lines.", "code-preview" )
+            "description" => __( "Write you code lines, to add styles use  <style type=\"text/css\" scoped>", "code-preview" )
             )
         )
    ) );

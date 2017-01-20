@@ -37,7 +37,7 @@ $posts_array = get_posts(
 							$technologies = wp_get_post_terms($postId,'technology');
 						?>
 						  <li>
-						    	<a class="btn btn-teal pull-right" href="<?php the_permalink(); ?>">Detalles</a>
+						    	<a class="btn btn-teal pull-right" href="<?php the_permalink(); ?>">View more</a>
 						    <h5><a href="#"><?php the_title(); ?></a></h5>
 						    <p class="meta-data">
 						    <?php echo $types[0]->name; ?> | 
