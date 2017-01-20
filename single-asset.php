@@ -41,7 +41,7 @@ if (have_posts()){
                         <tr>
                             <td>Technologies:</td>
                             <td>
-                                <?php $technologies = wp_get_post_terms($postId,'technology');
+                                <?php $technologies = wp_get_post_terms($postId,'asset-technology');
                                 foreach ($technologies as $technology) { ?>
                                     <a href="<?php echo get_term_link($technology); ?>" class="label label-default"><?php echo $technology->name; ?></a>
                                 <?php } ?>
@@ -81,7 +81,7 @@ if (have_posts()){
             <ul class="grid-view view-col-12">
               <li>
                 <h6>By Technology</h6>
-                <?php $technologies = get_terms('technology');
+                <?php $technologies = get_terms('asset-technology');
                 foreach ($technologies as $technology) { ?>
                     <a href="<?php echo get_term_link($technology); ?>" class="label label-default"><?php echo $technology->name; ?></a>
                 <?php } ?>
