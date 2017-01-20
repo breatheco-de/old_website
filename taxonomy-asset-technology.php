@@ -39,7 +39,7 @@ $posts_array = get_posts(
 						?>
 						  <li>
 						    	<a class="btn btn-teal pull-right" href="<?php the_permalink(); ?>">View more</a>
-						    <h5><a href="#"><?php the_title(); ?></a></h5>
+						    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
 						    <p class="meta-data">
 						    <?php echo $types[0]->name; ?> | 
 						    <?php foreach ($technologies as $technology) { ?>
@@ -50,7 +50,7 @@ $posts_array = get_posts(
 						    	<?php echo the_content(); ?>
 						    </p>
 						  </li>
-						<?php } ?>
+						<?php } wp_reset_postdata(); ?>
 					</ul>
                 </div>
             </div>
