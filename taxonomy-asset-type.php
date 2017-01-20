@@ -31,6 +31,7 @@ $posts_array = get_posts(
                     <h2><span class="label label-teal"><?php echo $type->name; ?></span> lesson assets</h2>
 					<ul class="list-view">
 						<?php foreach ($posts_array as $lesson) { 
+                            the_post();
 							setup_postdata( $lesson );
 							$postId = get_the_ID();
 							$types = wp_get_post_terms($postId,'asset-type');
@@ -49,7 +50,7 @@ $posts_array = get_posts(
 						    	<?php echo the_content(); ?>
 						    </p>
 						  </li>
-						<?php } ?>
+						<?php } wp_reset_postdata(); ?>
 					</ul>
                 </div>
             </div>
