@@ -278,3 +278,4 @@ function replitclass_func( $atts) {
 add_shortcode( 'replitclass', 'replitclass_func' );
 
 include('class/GeeksAcademyOnline.class.php');
+//include('class/CustomLogin.class.php');

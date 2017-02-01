@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name Posts: Course Template
+ * Template Name Posts: Technology Asset
  * Description: A Page Template with a Page Builder design.
  */
 

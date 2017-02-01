@@ -29,10 +29,14 @@ if (have_posts()){
                         <img class="img-responsive img-rounded" src="<?php echo $preview; ?>">
                     </a>
                 </div>
-            <?php } ?>
                 <div class="col-sm-9">
                     <?php echo the_content(); ?>
                 </div>
+            <?php } else { ?>
+                <div class="col-sm-12">
+                    <?php echo the_content(); ?>
+                </div>
+            <?php } ?>
             </div>
             <div class="row">
                 <div class="col-sm-12">
