@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<?php 
-$redux_demo = get_option('redux_demo'); ?>
+<?php
+/*
+ * Template Name: Breathe Template
+ * Description: A Page Template with a Page Builder design.
+ */
 
+$companyLogo = get_option('4gacademy_op-company_logo');
+$companyFavicon = get_option('4gacademy_op-company_favicon');
+ ?>
+
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
-    <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
-        ?>
     <!-- Favicons-->
-    <link rel="shortcut icon" href="<?php if(isset($redux_demo['favicon']['url'])){?><?php echo esc_url($redux_demo['favicon']['url']); ?><?php }?>" type="image/x-icon"/>
-    <?php }?>
+    <link rel="shortcut icon" href="<?php if(isset($companyFavicon)) {?><?php echo esc_url($companyFavicon); ?><?php }?>" type="image/x-icon"/>
       <?php wp_head();?>
 
     <!-- Fonts -->
