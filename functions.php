@@ -24,10 +24,10 @@ add_action( 'after_setup_theme', 'thedocs_child_theme_setup' );
 */
 function wmt_theme_style(){
  
- wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css');
+    wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css', array('theDocs.all.min.css'));
         
 }
-//add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
+add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
 
 /**
  * Hooks the WP cpt_post_types filter 

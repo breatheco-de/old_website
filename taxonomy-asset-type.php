@@ -28,7 +28,7 @@ $posts_array = get_posts(
         <article class="col-md-9 col-sm-9" role="main">
             <div class="row">
                 <div class="col-md-12">
-                    <h2><span class="label label-teal"><?php echo $type->name; ?></span> lesson assets</h2>
+                    <h2><span class="label label-dark"><?php echo $type->name; ?></span> lesson assets</h2>
 					<ul class="list-view">
 						<?php foreach ($posts_array as $lesson) { 
                             the_post();
@@ -38,7 +38,7 @@ $posts_array = get_posts(
 							$technologies = wp_get_post_terms($postId,'asset-technology');
 						?>
 						  <li>
-						    	<a class="btn btn-teal pull-right" href="<?php the_permalink(); ?>">View more</a>
+						    	<a class="btn btn-primary pull-right" href="<?php the_permalink(); ?>">View more</a>
 						    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
 						    <p class="meta-data">
 						    <?php echo $types[0]->name; ?> | 
