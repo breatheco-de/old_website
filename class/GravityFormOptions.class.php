@@ -12,6 +12,7 @@ class GravityFormOptions {
     add_filter( 'gform_validation_message', array($this,'change_gf_validation_message'), 10, 2 );
   }
 
+
   function change_gf_validation_message( $message, $form ) {
       return "<div class='alert alert-danger' role='alert'>".$message."</div>";
   }
