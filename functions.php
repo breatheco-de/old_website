@@ -111,3 +111,5 @@ $GeeksAcademyOnline = new GeeksAcademyOnline();
 
 include('class/VisualComposerSettings.class.php');
 $VisualComposerSettings = new VisualComposerSettings();
+
+include('class/GeeksAcademyOptions.class.php');
