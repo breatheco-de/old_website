@@ -5,6 +5,7 @@ Class GeeksAcademyOnline {
 	function __construct() {
 		add_filter('upload_mimes', array($this,'custom_upload_mimes'));
 		add_filter( 'login_redirect', array($this,'custom_user_redirect'), 10, 3 );
+		add_filter( 'wp_nav_menu_items', array($this,'wti_loginout_menu_link'), 10, 2 );
 
 	}
 
@@ -31,12 +32,13 @@ Class GeeksAcademyOnline {
 				return $redirect_to;
 			} else if(in_array( 'subscriber',$user->roles)) {
 
-				return home_url();
+				return get_permalink( get_page_by_path( 'my-courses' ) );;
 
 			} else if(in_array( 'unverified',$user->roles)) {
+				$perma = get_permalink( get_page_by_path( 'pending' ) );
 
-				return get_permalink( get_page_by_path( 'pending' ) );
-				
+				return $perma;
+
 			} else {
 				return get_permalink( get_page_by_path( 'pending' ) );
 			}
@@ -45,6 +47,18 @@ Class GeeksAcademyOnline {
 			return $redirect_to;
 		}
 
+	}
+
+
+	function wti_loginout_menu_link( $items, $args ) {
+	   if ($args->theme_location == 'primary') {
+	      if (is_user_logged_in()) {
+	      	 if(!strpos($items,"Log Out")) $items .= '<li class="menu-item drop-normal"><a href="'. wp_logout_url() .'">'. __("Log Out") .'</a></li>';
+	      } else {
+	         if(!strpos($items,"Log In")) $items .= '<li class="menu-item drop-normal"><a href="'. wp_login_url(get_permalink()) .'">'. __("Log In") .'</a></li>';
+	      }
+	   }
+	   return $items;
 	}
 
 	function createCourseHierarchy($menu_name) 

@@ -17,7 +17,6 @@ function get_courses()
 
 $courses = get_courses();
 ?>
-
 <main class="container">
       <div class="row">
 
