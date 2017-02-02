@@ -20,3 +20,11 @@ ul, ol {
 .container {
 	padding-bottom: 40px;
 }
+
+
+/* GRAVITY FORMS */
+
+.gform_fields li{list-style: none;}
+.gform_fields{margin: 0; padding: 0;}
+li.hidden_label label{display: none;}
+.validation_message{color: #a94442;}

@@ -4,6 +4,7 @@ Class GeeksAcademyOnline {
 
 	function __construct() {
 		add_filter('upload_mimes', array($this,'custom_upload_mimes'));
+		add_filter( 'login_redirect', array($this,'custom_user_redirect'), 10, 3 );
 
 	}
 
@@ -12,6 +13,38 @@ Class GeeksAcademyOnline {
 	    $existing_mimes['zip'] = 'application/zip';
 	    $existing_mimes['gz'] = 'application/x-gzip';
 	    return $existing_mimes;
+	}
+
+	/**
+	 * Redirect users to custom URL based on their role after login
+	 *
+	 * @param string $redirect
+	 * @param object $user
+	 * @return string
+	 */
+	function custom_user_redirect( $redirect_to, $request, $user ) {
+		//is there a user to check?
+		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+			//check for admins
+			if ( in_array( 'administrator', $user->roles ) ) {
+				// redirect them to the default place
+				return $redirect_to;
+			} else if(in_array( 'subscriber',$user->roles)) {
+
+				return home_url();
+
+			} else if(in_array( 'unverified',$user->roles)) {
+
+				return get_permalink( get_page_by_path( 'pending' ) );
+				
+			} else {
+				return get_permalink( get_page_by_path( 'pending' ) );
+			}
+
+		} else {
+			return $redirect_to;
+		}
+
 	}
 
 	function createCourseHierarchy($menu_name) 

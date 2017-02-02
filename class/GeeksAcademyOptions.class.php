@@ -34,24 +34,18 @@ class GeeksAcademyOptions {
 
 	function display_textinput_element($args)
 	{
-		?>
-	    	<input type="text" name="<?php echo $args["name"]; ?>" id="<?php echo $args["name"]; ?>" value="<?php echo get_option($args["name"]); ?>" />
-	    <?php
+		echo '<input type="text" name="<?php echo $args["name"]; ?>" id="<?php echo $args["name"]; ?>" value="<?php echo get_option($args["name"]); ?>" />';
 	}
 
 	function display_textarea_element($args)
 	{
-		?>
-			<textarea style="width: 440px; height: 120px;" id="<?php echo $args["name"]; ?>" name="<?php echo $args["name"]; ?>"><?php echo get_option($args["name"]); ?></textarea>
-	    <?php
+		echo '<textarea style="width: 440px; height: 120px;" id="<?php echo $args["name"]; ?>" name="<?php echo $args["name"]; ?>"><?php echo get_option($args["name"]); ?></textarea>';
 	}
 
 	function logo_display()
 	{
-		?>
-	        <input type="file" name="logo" /> 
-	        <?php echo get_option('logo'); ?>
-	   <?php
+        echo '<input type="file" name="logo" />';
+        echo get_option('logo');
 	}
 
 	function handle_logo_upload()
@@ -68,15 +62,11 @@ class GeeksAcademyOptions {
 
 	function render_options($section_slug)
 	{
-	    ?>
-		    <form method="post" action="options.php">
-		        <?php
+		    echo '<form method="post" action="options.php">';
 		            settings_fields($section_slug);
 		            do_settings_sections($_GET['page']);      
 		            submit_button(); 
-		        ?>          
-		    </form>
-		<?php
+		    echo '</form>';
 	}
 
 	function register_theme_settings_page()

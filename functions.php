@@ -105,6 +105,7 @@ function pippin_add_taxonomy_filters() {
 add_action( 'restrict_manage_posts', 'pippin_add_taxonomy_filters' );
 
 
+include('class/GeeksAcademyOptions.class.php');
 
 include('class/GeeksAcademyOnline.class.php');
 $GeeksAcademyOnline = new GeeksAcademyOnline();
@@ -112,4 +113,6 @@ $GeeksAcademyOnline = new GeeksAcademyOnline();
 include('class/VisualComposerSettings.class.php');
 $VisualComposerSettings = new VisualComposerSettings();
 
-include('class/GeeksAcademyOptions.class.php');
+include('class/GravityFormOptions.class.php');
+$GravityFormOptions = new GravityFormOptions();
+
