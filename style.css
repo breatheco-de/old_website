@@ -21,8 +21,8 @@ ul, ol {
 	padding-bottom: 40px;
 }
 body.logged-in #main-wrapper header{
-	margin-top: 0px;
-	top: 0;
+	margin-top: 0px !important;
+	top: 0 !important;
 }
 
 /* GRAVITY FORMS */
