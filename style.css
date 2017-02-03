@@ -20,6 +20,10 @@ ul, ol {
 .container {
 	padding-bottom: 40px;
 }
+body.logged-in #main-wrapper header{
+	margin-top: 0px;
+	top: 0;
+}
 
 /* GRAVITY FORMS */
 
