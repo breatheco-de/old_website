@@ -6,7 +6,6 @@ Class GeeksAcademyOnline {
 		add_filter('upload_mimes', array($this,'custom_upload_mimes'));
 		add_filter( 'login_redirect', array($this,'custom_user_redirect'), 10, 3 );
 		add_filter( 'wp_nav_menu_items', array($this,'wti_loginout_menu_link'), 10, 2 );
-
 	}
 
 	function custom_upload_mimes ( $existing_mimes=array() ) {
@@ -26,6 +25,14 @@ Class GeeksAcademyOnline {
 	function custom_user_redirect( $redirect_to, $request, $user ) {
 		//is there a user to check?
 		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+
+		    // if first time login
+			$promtOnLogin = get_user_meta($user->ID, 'prompt_page_on_login', true);
+		    if(!empty($promtOnLogin) and $promtOnLogin != '' ) {
+		        update_user_meta($user->ID, 'prompt_page_on_login', '');
+		        return $promtOnLogin;
+		    }
+
 			//check for admins
 			if ( in_array( 'administrator', $user->roles ) ) {
 				// redirect them to the default place
@@ -48,7 +55,6 @@ Class GeeksAcademyOnline {
 		}
 
 	}
-
 
 	function wti_loginout_menu_link( $items, $args ) {
 	   if ($args->theme_location == 'primary') {

@@ -8,10 +8,14 @@ class GeeksAcademyOptions {
 	function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
+		//Adding more fields to the user profile
+		add_action( 'show_user_profile', array( $this,'tm_additional_profile_fields' ));
+		add_action( 'edit_user_profile', array( $this,'tm_additional_profile_fields' ));
+		add_action( 'personal_options_update', array( $this,'tm_save_profile_fields' ));
+		add_action( 'edit_user_profile_update', array( $this,'tm_save_profile_fields' ));
+
 		if(function_exists('pll_register_string'))
 		{
-			//pll_register_string( '', '' );
-
 			pll_register_string( 'Phone Label', 'Phone' );
 		}
 	}
@@ -149,6 +153,87 @@ class GeeksAcademyOptions {
 			$this->render_options(array_pop($breadcrumb));
 		}
 	}
+
+	/**
+	 * Add new fields above 'Update' button.
+	 *
+	 * @param WP_User $user User object.
+	 */
+	function tm_additional_profile_fields( $user ) {
+
+	    $months 	= array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
+	    $default	= array( 'day' => 1, 'month' => 'January', 'year' => 1950, );
+	    $birth_date = wp_parse_args( get_user_meta( $user->ID, 'birth_date', true), $default );
+	    
+	    $prompt_page_on_login = get_user_meta( $user->ID, 'prompt_page_on_login', true);
+	    ?>
+	    <h3>Extra profile information </h3>
+
+	    <table class="form-table">
+	   	 <tr>
+	   		 <th><label for="birth-date-day">Birth date</label></th>
+	   		 <td>
+	   			 <select id="birth-date-day" name="birth_date[day]"><?php
+	   				 for ( $i = 1; $i <= 31; $i++ ) {
+	   					 printf( '<option value="%1$s" %2$s>%1$s</option>', $i, selected( $birth_date['day'], $i, false ) );
+	   				 }
+	   			 ?></select>
+	   			 <select id="birth-date-month" name="birth_date[month]"><?php
+	   				 foreach ( $months as $month ) {
+	   					 printf( '<option value="%1$s" %2$s>%1$s</option>', $month, selected( $birth_date['month'], $month, false ) );
+	   				 }
+	   			 ?></select>
+	   			 <select id="birth-date-year" name="birth_date[year]"><?php
+	   				 for ( $i = 1950; $i <= 2015; $i++ ) {
+	   					 printf( '<option value="%1$s" %2$s>%1$s</option>', $i, selected( $birth_date['year'], $i, false ) );
+	   				 }
+	   			 ?></select>
+	   		 </td>
+	   	 </tr>
+		 <tr>
+	   		 <th><label>Prompt page on next sign-in</label></th>
+	   		 <td>
+				<select name="prompt_page_on_login"> 
+				<option value="">
+				<?php echo esc_attr( __( 'No page' ) ); ?></option> 
+				<?php 
+				$pages = get_pages(); 
+				foreach ( $pages as $page ) {
+					$selectPage = '';
+					if($prompt_page_on_login==get_page_link( $page->ID )) $selectPage = 'selected="selected"';
+					
+					$option = '<option value="' . get_page_link( $page->ID ) . '" '.$selectPage.'>';
+					$option .= $page->post_title;
+					$option .= '</option>';
+					echo $option;
+				}
+				?>
+				</select>
+	   		 </td>
+	   	 </tr>
+	    </table>
+	    <?php
+	}
+
+	/**
+	 * Save additional profile fields.
+	 *
+	 * @param  int $user_id Current user ID.
+	 */
+	function tm_save_profile_fields( $user_id ) {
+
+	    if ( ! current_user_can( 'edit_user', $user_id ) ) {
+	   	 return false;
+	    }
+
+	    if ( !empty( $_POST['birth_date'] ) ) {
+		    update_user_meta( $user_id, 'birth_date', $_POST['birth_date'] );
+	    }
+	    if (!empty($_POST['prompt_page_on_login'])) update_user_meta( $user_id, 'prompt_page_on_login', $_POST['prompt_page_on_login'] );
+	    else update_user_meta( $user_id, 'prompt_page_on_login', '' );
+
+	}
+
 }
 
 $GeeksAcademyOptions = new GeeksAcademyOptions();

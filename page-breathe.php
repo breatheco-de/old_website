@@ -73,9 +73,9 @@ function Circle(x, y, step) {
 
 Circle.prototype.draw = function($) {
   var grd = $.createLinearGradient(this.x + this.x * 2, this.y + this.y * 2, this.x + this.x * 2, 1);
-  grd.addColorStop(0, "hsla(232, 95%, 70%, 1)");
-  grd.addColorStop(0.5, "hsla(267, 25%, 45%, 1)");
-  grd.addColorStop(1, "hsla(233, 80%, 50%, 1)");
+  grd.addColorStop(0, "#9ab9ed");
+  grd.addColorStop(0.5, "#9ab9ed");
+  grd.addColorStop(1, "#9ab9ed");
   this.step += obj.rad.step;
   this.col = grd;
 
