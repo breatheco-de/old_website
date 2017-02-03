@@ -9,6 +9,7 @@ $bannerURL = get_post_meta( $postId, 'wpcf-banner_url',true);
 $bannerHeading = get_post_meta( $postId, 'wpcf-banner_heading',true);
 $bannerSubHeading = get_post_meta( $postId, 'wpcf-banner_subheading',true);
 $bannerButton = get_post_meta( $postId, 'wpcf-banner_button',true);
+$topBarMenu = get_post_meta( $postId, 'wpcf-top_bar_menu',true);
 
 ?>
 
@@ -16,11 +17,7 @@ $bannerButton = get_post_meta( $postId, 'wpcf-banner_button',true);
   <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
-    <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
-        ?>
-    <!-- Favicons-->
     <link rel="shortcut icon" href="<?php if(isset($companyFavicon)) {?><?php echo esc_url($companyFavicon); ?><?php }?>" type="image/x-icon"/>
-    <?php }?>
       <?php wp_head();?>
 
     <!-- Fonts -->
@@ -57,7 +54,7 @@ $bannerButton = get_post_meta( $postId, 'wpcf-banner_button',true);
           </a>
           </div>
           <!-- END Toggle buttons and brand -->
-
+          <?php if(!empty($topBarMenu) and $topBarMenu!=''){ ?>
           <!-- Top navbar -->
           <div id="navbar" class="navbar-collapse collapse" aria-expanded="true" role="banner">
             <?php 
@@ -83,6 +80,7 @@ $bannerButton = get_post_meta( $postId, 'wpcf-banner_button',true);
                      ); ?>
           </div>
           <!-- END Top navbar -->
+          <?php } ?>
 
         </div>
       </nav>
