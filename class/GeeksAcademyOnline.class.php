@@ -24,7 +24,13 @@ Class GeeksAcademyOnline {
 	 */
 	function custom_user_redirect( $redirect_to, $request, $user ) {
 		//is there a user to check?
-		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+		if ( isset( $user->roles ) && is_array( $user->roles ) ) 
+		{
+			$studentRoles = array(
+				'subscriber', 
+				'premium_full_stack', 
+				'prework_full_stack'
+			);
 
 		    // if first time login
 			$promtOnLogin = get_user_meta($user->ID, 'prompt_page_on_login', true);
@@ -34,14 +40,17 @@ Class GeeksAcademyOnline {
 		    }
 
 			//check for admins
-			if ( in_array( 'administrator', $user->roles ) ) {
+			if ( in_array( 'administrator', $user->roles ) ) 
+			{
 				// redirect them to the default place
 				return $redirect_to;
-			} else if(in_array( 'subscriber',$user->roles)) {
+			} 
+			else if(in_array( $studentRoles, $user->roles)) {
 
 				return get_permalink( get_page_by_path( 'my-courses' ) );;
-
-			} else if(in_array( 'unverified',$user->roles)) {
+			} 
+			else if(in_array( 'unverified',$user->roles)) 
+			{
 				$perma = get_permalink( get_page_by_path( 'pending' ) );
 
 				return $perma;

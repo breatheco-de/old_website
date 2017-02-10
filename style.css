@@ -25,6 +25,13 @@ body.logged-in #main-wrapper header{
 	top: 0 !important;
 }
 
+/* OVERRIDING THEDOCS STYLES */
+.comment
+{
+	margin-bottom: 30px !important;
+}
+
+
 /* GRAVITY FORMS */
 
 .gform_fields li{list-style: none;}
