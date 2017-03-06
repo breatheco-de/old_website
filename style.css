@@ -38,3 +38,5 @@ body.logged-in #main-wrapper header{
 .gform_fields{margin: 0; padding: 0;}
 li.hidden_label label{display: none;}
 .validation_message{color: #a94442;}
+.single-title{margin-top: 10px;}
+#assignment-meta{margin-top: 55px;}

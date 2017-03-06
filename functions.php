@@ -38,6 +38,7 @@ add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
 function my_cpt_post_types( $post_types ) {
     $post_types[] = 'lesson';
     $post_types[] = 'lesson-asset';
+    $post_types[] = 'lesson-project';
     return $post_types;
 }
 add_filter( 'cpt_post_types', 'my_cpt_post_types' );
@@ -116,4 +117,7 @@ $VisualComposerSettings = new VisualComposerSettings();
 
 include('class/GravityFormOptions.class.php');
 $GravityFormOptions = new GravityFormOptions();
+
+include('class/WPTypesOptions.class.php');
+$TypesOptions = new WPTypesOptions();
 
