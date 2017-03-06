@@ -221,7 +221,7 @@ class WPProjectAssignment
 		$content .= '</table>';
 
 		add_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
-		//$status = wp_mail($user->user_email, $subject, $content);
+		$status = wp_mail($user->user_email, $subject, $content);
 		remove_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
 	}
 	function set_html_content_type() {return 'text/html';}
