@@ -20,6 +20,7 @@ class WPProjectAssignment
 	  	{
 		  	if ( $old_status != 'publish'  &&  $new_status == 'publish' ) {
 		  		$assignmentId = get_the_ID();
+		  		$assignmentSlug = get_post_field( 'post_name', $assignmentId );
 				$studentId = get_post_meta( $assignmentId, 'wpcf-student-assigned',true);
 	            $user = get_user_by('id',$studentId);
 	            if ($user)
@@ -28,7 +29,7 @@ class WPProjectAssignment
 	            	$duedate = get_post_meta( $assignmentId, 'wpcf-assignment-due-date',true);
 	            	$project = array(
 	            		"title" => get_the_title($projectId),
-	            		"assignment" => $assignmentId,
+	            		"assignment" => $assignmentSlug,
 	            		"duedate" => date('jS \of F: hA', $duedate),
 	            		"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true)
 	            		);
@@ -215,7 +216,7 @@ class WPProjectAssignment
 				$content .= '<td>'.$project['duedate'].'</td>';
 			$content .= '</tr>';
 			$content .= '<tr>';
-				$content .= '<td colspan="2"><a href="http://online.4geeksacademy.com/student-assignment/'.$project['assignment'].'/">Click here for more details</a></td>';
+				$content .= '<td colspan="2"><a href="http://online.4geeksacademy.com/?student-assignment='.$project['assignment'].'/">Click here for more details</a></td>';
 			$content .= '</tr>';
 		$content .= '</table>';
 
