@@ -22,7 +22,7 @@ $redux_demo = get_option('redux_demo'); ?>
     <header class="site-header sticky navbar-fullwidth navbar-transparent">
 
       <!-- Top navbar & branding -->
-      <nav class="navbar navbar-default">
+      <nav id="main-nav-bar" class="navbar navbar-default">
         <div class="container">
 
           <!-- Toggle buttons and brand -->

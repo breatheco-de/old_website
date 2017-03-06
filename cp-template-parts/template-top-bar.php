@@ -1,6 +1,6 @@
 <header class="site-header navbar-fullwidth">
       <!-- Top navbar & branding -->
-      <nav class="navbar navbar-default">
+      <nav id="main-nav-bar" class="navbar navbar-default">
         <div class="container">
 
           <!-- Toggle buttons and brand -->

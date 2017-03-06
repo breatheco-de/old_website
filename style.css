@@ -14,6 +14,7 @@ Text Domain:  thedocs-child
 .asset-preview-img{max-width: 150px;float: left; margin-right: 10px;}
 #lesson-assets .asset-preview-img{max-width: 100px;float: left; margin-right: 10px;}
 .grid-view.view-col-12 li{width: 100% !important;}
+#main-nav-bar{margin-top: 0px !important;}
 ul, ol {
     list-style: inherit;
 }
@@ -33,7 +34,6 @@ body.logged-in #main-wrapper header{
 
 
 /* GRAVITY FORMS */
-
 .gform_fields li{list-style: none;}
 .gform_fields{margin: 0; padding: 0;}
 li.hidden_label label{display: none;}
