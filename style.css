@@ -14,16 +14,11 @@ Text Domain:  thedocs-child
 .asset-preview-img{max-width: 150px;float: left; margin-right: 10px;}
 #lesson-assets .asset-preview-img{max-width: 100px;float: left; margin-right: 10px;}
 .grid-view.view-col-12 li{width: 100% !important;}
-#main-nav-bar{margin-top: 0px !important;}
 ul, ol {
     list-style: inherit;
 }
 .container {
 	padding-bottom: 40px;
-}
-body.logged-in #main-wrapper header{
-	margin-top: 0px !important;
-	top: 0 !important;
 }
 
 /* OVERRIDING THEDOCS STYLES */
@@ -31,6 +26,7 @@ body.logged-in #main-wrapper header{
 {
 	margin-bottom: 30px !important;
 }
+#main-nav-bar{top: 0px !important;}
 
 
 /* GRAVITY FORMS */
@@ -39,4 +35,3 @@ body.logged-in #main-wrapper header{
 li.hidden_label label{display: none;}
 .validation_message{color: #a94442;}
 .single-title{margin-top: 10px;}
-#assignment-meta{margin-top: 55px;}
