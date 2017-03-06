@@ -27,7 +27,7 @@ if (have_posts()){
         <article class="col-md-8 col-sm-9" role="main">
             <div class="row">
                 <div class="col-sm-12">
-                    <?php echo $projectContent; ?>
+                    <?php echo do_shortcode($projectContent); ?>
                 </div>
             </div>
             <div class="row">
