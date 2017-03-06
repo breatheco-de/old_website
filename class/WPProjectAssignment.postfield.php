@@ -1,6 +1,7 @@
 <?php
 
 require_once('ActiveCampaignWrapper.php');
+require_once('PHPUtils.class.php');
 
 class WPProjectAssignment
 {
@@ -10,6 +11,7 @@ class WPProjectAssignment
 	    add_action( 'manage_'.self::POST_TYPE.'_posts_columns' , array($this,'projectPostsColumns'), 10, 2 );
 	    add_action( 'manage_'.self::POST_TYPE.'_posts_custom_column' , array($this,'customProjectSolumn'), 10, 2 );
 	    add_action( 'transition_post_status', array($this,'post_published_notification'), 10, 2 );
+	    add_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
 	  }
 
 	  function post_published_notification($new_status, $old_status )
@@ -169,6 +171,27 @@ class WPProjectAssignment
 		}
 	}
 
+	function slug_save_post_callback( $post_ID, $post, $update ) {
+	    // allow 'publish', 'draft', 'future'
+	    if ($post->post_status == 'auto-draft')
+	        return;
+
+	    // only change slug when the post is created (both dates are equal)
+	    if ($post->post_date_gmt != $post->post_modified_gmt)
+	        return;
+
+	    $new_slug = 'SA'.$post_ID;
+	    // unhook this function to prevent infinite looping
+	    remove_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
+	    // update the post slug (WP handles unique post slug)
+	    wp_update_post( array(
+	        'ID' => $post_ID,
+	        'post_name' => $new_slug
+	    ));
+	    // re-hook this function
+	    add_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
+	}
+
 	function notifyNewProjectToUser($user,$project)
 	{
 		$userNickname = '';
@@ -192,12 +215,12 @@ class WPProjectAssignment
 				$content .= '<td>'.$project['duedate'].'</td>';
 			$content .= '</tr>';
 			$content .= '<tr>';
-				$content .= '<td colspan="2"><a href="http://online.4geeksacademy.com/learn/student-assignment/'.$project['assignment'].'/">Click here for more details</a></td>';
+				$content .= '<td colspan="2"><a href="http://online.4geeksacademy.com/student-assignment/'.$project['assignment'].'/">Click here for more details</a></td>';
 			$content .= '</tr>';
 		$content .= '</table>';
 
 		add_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
-		$status = wp_mail($user->user_email, $subject, $content);
+		//$status = wp_mail($user->user_email, $subject, $content);
 		remove_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
 	}
 	function set_html_content_type() {return 'text/html';}
