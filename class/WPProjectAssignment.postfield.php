@@ -6,13 +6,16 @@ require_once('PHPUtils.class.php');
 class WPProjectAssignment
 {
 	const POST_TYPE = 'student-assignment';
+	//const FORM_ASSIGNMENT_ID = '6';
+	const FORM_ASSIGNMENT_TITLE = 'Assign Project to Class';
+
 	  function __construct() {
 	    add_filter( 'wpt_field_options', array($this,'fill_select'), 10, 3);
 	    add_action( 'manage_'.self::POST_TYPE.'_posts_columns' , array($this,'projectPostsColumns'), 10, 2 );
 	    add_action( 'manage_'.self::POST_TYPE.'_posts_custom_column' , array($this,'customProjectSolumn'), 10, 2 );
 	    add_action( 'transition_post_status', array($this,'post_published_notification'), 10, 2 );
 	    add_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
-	    add_filter( 'gform_pre_render_6', array($this,'populate_project_fields') );
+	    add_filter( 'gform_pre_render', array($this,'populate_project_fields') );
 	    add_action( 'gform_after_submission', array($this,'set_post_content'), 10, 2 );
 	  }
 
@@ -33,7 +36,8 @@ class WPProjectAssignment
 	            		"title" => get_the_title($projectId),
 	            		"assignment" => $assignmentSlug,
 	            		"duedate" => date('jS \of F: hA', $duedate),
-	            		"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true)
+	            		"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true),
+	            		"excerpt" => get_post_meta( $projectId, 'wpcf-project-excerpt',true)
 	            		);
 					$this->notifyNewProjectToUser($user,$project);
 	            }
@@ -137,6 +141,9 @@ class WPProjectAssignment
 
 	function populate_project_fields($form){
 
+		//Cut the execution of the function
+		if($form['title']!=self::FORM_ASSIGNMENT_TITLE) return $form;
+
 		foreach ( $form['fields'] as $field )
 		{
 			if ( $field->type == 'select' and strpos( $field->cssClass,'student-cohorts' )!==false ) {
@@ -168,36 +175,40 @@ class WPProjectAssignment
 
 	function set_post_content( $entry, $form ) {
 
-	    //getting post
-	    $post = get_post( $entry['post_id'] );
+	    if($form['title']==self::FORM_ASSIGNMENT_TITLE)
+	    {
+		    //getting post
+		    $post = get_post( $entry['post_id'] );
 
-	    $projectId = rgar( $entry, '1' );
-	    $cohort = rgar( $entry, '2' );
-	    $duedate = rgar( $entry, '5' );
+		    $projectId = rgar( $entry, '1' );
+		    $cohort = rgar( $entry, '2' );
+		    $duedate = rgar( $entry, '3' );
 
-	    $users = get_objects_in_term( $cohort, 'user_cohort' );
-	    foreach( $users as $u ) {
-	        $options = array(
-		        'post_status' => 'publish',
-		        'post_type' => 'student-assignment',
-		        'meta_input' => array(
-		        	'wpcf-assignment-due-date' => strtotime($duedate),
-		        	'wpcf-project-assigned' => $projectId,
-		        	'wpcf-assignment-status' => 'pending',
-		        	'wpcf-student-assigned' => $u
-		        	)
-		    );
+		    $users = get_objects_in_term( $cohort, 'user_cohort' );
+		    foreach( $users as $u ) {
+		        $options = array(
+			        'post_status' => 'publish',
+			        'post_type' => 'student-assignment',
+			        'meta_input' => array(
+			        	'wpcf-assignment-due-date' => strtotime($duedate),
+			        	'wpcf-project-assigned' => $projectId,
+			        	'wpcf-assignment-status' => 'pending',
+			        	'wpcf-student-assigned' => $u
+			        	)
+			    );
 
-		    $assignmentId = wp_insert_post($options);
-		    if($assignmentId===false) throw new Exception("Error creating assignment", 1);
+			    $assignmentId = wp_insert_post($options);
+			    if($assignmentId===false) throw new Exception("Error creating assignment", 1);
 
-			$projectObj = array(
-				"title" => get_the_title($projectId),
-				"assignment" => 'SA'.$assignmentId,
-				"duedate" => date('jS \of F', strtotime($duedate)),
-				"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true)
-				);
-			$this->notifyNewProjectToUser(get_user_by('id',$u),$projectObj);
+				$projectObj = array(
+					"title" => get_the_title($projectId),
+					"assignment" => 'SA'.$assignmentId,
+					"duedate" => date('jS \of F', strtotime($duedate)),
+					"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true),
+					"excerpt" => get_post_meta( $projectId, 'wpcf-project-excerpt',true)
+					);
+				$this->notifyNewProjectToUser(get_user_by('id',$u),$projectObj);
+		    }
 	    }
 	}
 
@@ -270,15 +281,15 @@ class WPProjectAssignment
 		
 		$subject = 'New Project Assigned';
 		$content = 'Hi '.$userNickname.',';
-		$content .= '<p>Your teacher has assign a new project:</p>';
+		$content .= '<p>Your teacher has assigned you a new project: '.$project['title'].'</p>';
 		$content .= '<table>';
 			$content .= '<tr>';
-				$content .= '<td>Project Title</td>';
-				$content .= '<td>'.$project['title'].'</td>';
+				$content .= '<td>Project Description</td>';
+				$content .= '<td>'.$project['excerpt'].'</td>';
 			$content .= '</tr>';
 			$content .= '<tr>';
-				$content .= '<td>Project Duration</td>';
-				$content .= '<td>'.$project['duration'].'</td>';
+				$content .= '<td>Estimated Duration</td>';
+				$content .= '<td>'.$project['duration'].' hrs</td>';
 			$content .= '</tr>';
 			$content .= '<tr>';
 				$content .= '<td>Due Date</td>';
