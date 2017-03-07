@@ -13,10 +13,32 @@ class WPUser
 		add_action( 'edit_user_profile', array($this, 'show_user_cohort' ));
 		add_action( 'personal_options_update', array($this, 'save_user_cohort' ));
 		add_action( 'edit_user_profile_update', array($this, 'save_user_cohort' ));
+	    
 	    add_action( 'manage_users_columns' , array($this,'userColumns'), 10, 2 );
 	    add_action( 'manage_users_custom_column' , array($this,'customUserColumn'), 10, 3 );
+		
+		add_filter( 'bulk_actions-users', array($this,'register_my_bulk_actions' ), 10, 3);
+		add_filter( 'handle_bulk_actions-users', array($this,'my_bulk_action_handler'), 10, 3 );
+	
 	}
 
+ 
+	function register_my_bulk_actions($bulk_actions) {
+		$bulk_actions['add_to_cohort'] = __( 'Add to Cohort', 'add_to_cohort');
+		return $bulk_actions;
+	}
+
+	 
+	function my_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
+	  if ( $doaction !== 'add_to_cohort' ) {
+	    return $redirect_to;
+	  }
+	  foreach ( $post_ids as $post_id ) {
+	    // Perform action for each post.
+	  }
+	  $redirect_to = add_query_arg( 'bulk_emailed_posts', count( $post_ids ), $redirect_to );
+	  return $redirect_to;
+	}
 
 	function userColumns( $columns ) {
 		//unset( $columns['title'] );

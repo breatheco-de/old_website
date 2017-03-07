@@ -149,7 +149,7 @@ class WPProjectAssignment
 			if ( $field->type == 'select' and strpos( $field->cssClass,'student-cohorts' )!==false ) {
 			   	$terms = get_terms('user_cohort');
 			   	$choices = array();
-				foreach($terms as $term) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
+				foreach($terms as $term) if($term->parent!=0) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
 			   	$field->choices = $choices;
 			   	$field->placeholder = 'Select a cohort';
 			}
