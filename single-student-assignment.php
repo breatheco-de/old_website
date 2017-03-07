@@ -39,7 +39,7 @@ if (have_posts()){
 <!-- Sidebar -->
         <aside class="col-md-4 col-sm-3">
             <div class="">
-                <h4>
+                <h4 id="duedate">
                     <i class="fa fa-calendar" aria-hidden="true"></i> Due:
                     <?php echo date('jS \of F', $duedate); ?>
                 </h4> 

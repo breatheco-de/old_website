@@ -20,19 +20,20 @@ if (have_posts()){
         else $course = $terms[0];
     } 
     else $course = get_queried_object();
-    $filesUrl = get_post_meta( $postId, 'wpcf-files_url',true);
-    $duration = get_post_meta( $postId, 'wpcf-duration',true);
-    $dificulty = get_post_meta( $postId, 'wpcf-dificulty',true);
+    $thumbnail = get_the_post_thumbnail( $postId, 'post_thumbnail', array( 'class' => 'alignleft img-responsive' ) );
+    $filesUrl = get_post_meta( $postId, 'wpcf-project-files',true);
+    $duration = get_post_meta( $postId, 'wpcf-project-hour-duration',true);
+    $dificulty = get_post_meta( $postId, 'wpcf-project-difficulty',true);
 ?>
     <main class="container">
     <div class="row">
+        <div class="col-sm-12">
+            <h2 class="single-title"><?php echo the_title(); ?></h2>
+        </div>
+    </div>
+    <div class="row">
         <!-- Main content -->
-        <article class="col-md-9 col-sm-9 main-content" role="main">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="single-title"><?php the_title(); ?></h2>
-                </div>
-            </div>
+        <article class="col-md-9 col-sm-9" role="main">
             <div class="row">
                 <div class="col-sm-12">
                     <?php the_content(); ?>
@@ -73,6 +74,9 @@ if (have_posts()){
                 </tr>
               </tbody>
             </table>
+            <?php if($thumbnail and $thumbnail!='') { ?>
+                <?php echo $thumbnail; ?>
+            <?php } ?>
             <?php if($filesUrl and $filesUrl!=''){ ?>
             <div class="callout callout-info" role="alert">
                 <h4>

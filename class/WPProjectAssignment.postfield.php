@@ -12,6 +12,8 @@ class WPProjectAssignment
 	    add_action( 'manage_'.self::POST_TYPE.'_posts_custom_column' , array($this,'customProjectSolumn'), 10, 2 );
 	    add_action( 'transition_post_status', array($this,'post_published_notification'), 10, 2 );
 	    add_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
+	    add_filter( 'gform_pre_render_6', array($this,'populate_project_fields') );
+	    add_action( 'gform_after_submission', array($this,'set_post_content'), 10, 2 );
 	  }
 
 	  function post_published_notification($new_status, $old_status )
@@ -39,8 +41,9 @@ class WPProjectAssignment
 	  	}
 	  }
 
-	  function projectPostsColumns( $column ) {
-	    //unset( $columns['author'] );
+	  function projectPostsColumns( $columns ) {
+	    unset( $columns['title'] );
+	    unset( $columns['date'] );
 	    $columns['student'] = 'Student';
 	    $columns['project'] = 'Project';
 	    $columns['duedate'] = 'Due Date';
@@ -68,7 +71,7 @@ class WPProjectAssignment
 
 	          case 'duedate' :
 	              $duedate = get_post_meta( $postId, 'wpcf-assignment-due-date',true);
-	              if ( is_string( $duedate ) ) echo  date('l jS \of F Y h:i:s A', $duedate);
+	              if ( is_string( $duedate ) ) echo  date('l jS \of F', $duedate);
 	              else echo 'Unable to get due date';
 	            break;
 
@@ -131,6 +134,72 @@ class WPProjectAssignment
 
 	      return $optns;
 	  }
+
+	function populate_project_fields($form){
+
+		foreach ( $form['fields'] as $field )
+		{
+			if ( $field->type == 'select' and strpos( $field->cssClass,'student-cohorts' )!==false ) {
+			   	$terms = get_terms('user_cohort');
+			   	$choices = array();
+				foreach($terms as $term) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
+			   	$field->choices = $choices;
+			   	$field->placeholder = 'Select a cohort';
+			}
+			if ( $field->type == 'select' and strpos( $field->cssClass,'student-projects' )!==false ) {
+				$args = array( 'post_type' => 'lesson-project', 'posts_per_page' => -1 );
+			   	$choices = array();
+				global $post;
+				$this->setup_admin_postdata($post);
+				$loop = new WP_Query( $args );
+				while ( $loop->have_posts() ) { $loop->the_post();
+					$id = get_the_ID();
+					$title = get_the_title();
+					$choices[] = array( 'text' => $title, 'value' => $id );
+				}
+				wp_reset_postdata();
+				$this->wp_reset_admin_postdata();
+			   	$field->choices = $choices;
+			   	$field->placeholder = 'Select a project';
+			}
+		}
+		return $form;
+	}
+
+	function set_post_content( $entry, $form ) {
+
+	    //getting post
+	    $post = get_post( $entry['post_id'] );
+
+	    $projectId = rgar( $entry, '1' );
+	    $cohort = rgar( $entry, '2' );
+	    $duedate = rgar( $entry, '5' );
+
+	    $users = get_objects_in_term( $cohort, 'user_cohort' );
+	    foreach( $users as $u ) {
+	        $options = array(
+		        'post_status' => 'publish',
+		        'post_type' => 'student-assignment',
+		        'meta_input' => array(
+		        	'wpcf-assignment-due-date' => strtotime($duedate),
+		        	'wpcf-project-assigned' => $projectId,
+		        	'wpcf-assignment-status' => 'pending',
+		        	'wpcf-student-assigned' => $u
+		        	)
+		    );
+
+		    $assignmentId = wp_insert_post($options);
+		    if($assignmentId===false) throw new Exception("Error creating assignment", 1);
+
+			$projectObj = array(
+				"title" => get_the_title($projectId),
+				"assignment" => 'SA'.$assignmentId,
+				"duedate" => date('jS \of F', strtotime($duedate)),
+				"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true)
+				);
+			$this->notifyNewProjectToUser(get_user_by('id',$u),$projectObj);
+	    }
+	}
 
 	function setup_admin_postdata( $post_to_setup ) {
 	 

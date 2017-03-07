@@ -30,6 +30,8 @@ ul, ol {
 }
 #main-nav-bar{top: 0px !important;}
 
+/* PROJECT AND ASIGNMENT VIEW */
+#duedate{margin-bottom: 20px;}
 
 /* GRAVITY FORMS */
 .gform_fields li{list-style: none;}
