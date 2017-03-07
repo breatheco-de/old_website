@@ -279,24 +279,28 @@ class WPProjectAssignment
 		if($user->first_name and $user->first_name!='') $userNickname = $user->first_name;
 		else if($user->display_name and $user->display_name!='') $userNickname = $user->display_name;
 		
+		$tdTitleStyles = 'style="padding: 5px; background: #f1f1f1; color: #bc7a16;"';
+		$tdStyles = 'padding: 5px;';
+		$buttonStyle = 'style="padding: 10px 15px; background: #bc7a16; color: #FFF; margin-top: 10px; text-decoration: none;"';
+		
 		$subject = 'New Project Assigned';
 		$content = 'Hi '.$userNickname.',';
-		$content .= '<p>Your teacher has assigned you a new project: '.$project['title'].'</p>';
-		$content .= '<table>';
+		$content .= '<p>Your teacher has assigned you a new project: <strong>'.$project['title'].'</strong></p>';
+		$content .= '<table style="width: 100%;">';
 			$content .= '<tr>';
-				$content .= '<td>Project Description</td>';
-				$content .= '<td>'.$project['excerpt'].'</td>';
+				$content .= '<td '.$tdTitleStyles.' valign="top">Project Description</td>';
+				$content .= '<td style="'.$tdStyles.'" valign="top">'.$project['excerpt'].'</td>';
 			$content .= '</tr>';
 			$content .= '<tr>';
-				$content .= '<td>Estimated Duration</td>';
-				$content .= '<td>'.$project['duration'].' hrs</td>';
+				$content .= '<td '.$tdTitleStyles.' valign="top">Estimated Duration</td>';
+				$content .= '<td style="'.$tdStyles.'" valign="top">'.$project['duration'].' hrs</td>';
 			$content .= '</tr>';
 			$content .= '<tr>';
-				$content .= '<td>Due Date</td>';
-				$content .= '<td>'.$project['duedate'].'</td>';
+				$content .= '<td '.$tdTitleStyles.' valign="top">Due Date</td>';
+				$content .= '<td style="'.$tdStyles.'" valign="top">'.$project['duedate'].'</td>';
 			$content .= '</tr>';
 			$content .= '<tr>';
-				$content .= '<td colspan="2"><a href="http://online.4geeksacademy.com/?student-assignment='.$project['assignment'].'/">Click here for more details</a></td>';
+				$content .= '<td style="padding-top: 20px;" align="center" colspan="2"><a '.$buttonStyle.' href="'.get_site_url().'?student-assignment='.$project['assignment'].'">Click here for more details</a></td>';
 			$content .= '</tr>';
 		$content .= '</table>';
 
