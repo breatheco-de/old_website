@@ -181,13 +181,13 @@ class WPProjectAssignment
 	    if ($post->post_date_gmt != $post->post_modified_gmt)
 	        return;
 
-	    $new_slug = 'SA'.$post_ID;
 	    // unhook this function to prevent infinite looping
 	    remove_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
 	    // update the post slug (WP handles unique post slug)
 	    wp_update_post( array(
 	        'ID' => $post_ID,
-	        'post_name' => $new_slug
+	        'post_name' => 'SA'.$post_ID,
+	        'post_title' => 'Student Assigment '.$post_ID
 	    ));
 	    // re-hook this function
 	    add_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );

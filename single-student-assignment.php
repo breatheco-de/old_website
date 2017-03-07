@@ -51,7 +51,7 @@ if (have_posts()){
                     <td>
                         <?php $technologies = wp_get_post_terms($projectId,'project-technology');
                         foreach ($technologies as $technology) { ?>
-                            <a href="<?php echo get_term_link($technology); ?>" class="label label-default"><?php echo $technology->name; ?></a>
+                            <a href="#" class="label label-default"><?php echo $technology->name; ?></a>
                         <?php } ?>
                     </td>
                 </tr>

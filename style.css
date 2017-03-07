@@ -24,7 +24,9 @@ ul, ol {
 /* OVERRIDING THEDOCS STYLES */
 .comment
 {
-	margin-bottom: 30px !important;
+	display: inline-table;
+	margin-bottom: 5px !important;
+	margin-top: 5px !important;
 }
 #main-nav-bar{top: 0px !important;}
 
