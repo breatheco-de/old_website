@@ -8,7 +8,9 @@ get_header('boxed');
 function get_courses()
 {
 	$terms = get_terms( array(
-	    'taxonomy' => 'course'
+	    'taxonomy' => 'course',
+      'meta_key' => 'wpcf-taxonomy-status',
+      'meta_value' => 'publish'
 	) );
 
 	return $terms;
