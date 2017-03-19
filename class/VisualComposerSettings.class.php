@@ -120,7 +120,8 @@ Class VisualComposerSettings {
 	      'codelanguage' => 'markup'
 	   ), $atts ) );
 
-	   $content = wpb_js_remove_wpautop($content, true);
+	   //$content = wpb_js_remove_wpautop($content, true);
+	   $content = urldecode(base64_decode($content));
 
 	   if(!$linenumbers or $linenumbers!='true') $numerstring = '';
 	   else $numerstring = 'line-numbers';
