@@ -24,6 +24,13 @@ Class VisualComposerSettings {
 	            "value" => array('on'   => 'true' ),
 	            "description" => __( "Line numbers on the left of the container.", "code-highliter" )
 	         ),
+	         array(
+	            "type" => "checkbox",
+	            "heading" => __( "Is this new code example?", "code-highliter" ),
+	            "param_name" => "newcodeexample",
+	            "value" => array('on'   => 'true' ),
+	            "description" => __( "True if you added the code before the base64 encodeing update.", "code-highliter" )
+	         ),
 	        array(
 	            "type" => "dropdown",
 	            "heading" => "Language",
@@ -117,11 +124,17 @@ Class VisualComposerSettings {
 	function codehighliter_func( $atts , $content = null) {
 	   extract( shortcode_atts( array(
 	      'linenumbers' => 'true',
+	      'newcodeexample' => 'false',
 	      'codelanguage' => 'markup'
 	   ), $atts ) );
 
-	   //$content = wpb_js_remove_wpautop($content, true);
-	   $content = urldecode(base64_decode($content));
+	   if(!$newcodeexample or $newcodeexample=='false') {
+	   	$content = wpb_js_remove_wpautop($content, true);
+	   }
+	   else {
+	    $content = urldecode(base64_decode($content));
+	   	if($codelanguage=='html' || $codelanguage=='markup') $content = htmlentities($content);
+	   }
 
 	   if(!$linenumbers or $linenumbers!='true') $numerstring = '';
 	   else $numerstring = 'line-numbers';
