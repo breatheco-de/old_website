@@ -40,7 +40,7 @@ Class VisualComposerSettings {
 	            "description" => __( "Select the language for codeview", "code-highliter" )
 	         ),
 	        array(
-	            "type" => "textarea_html",
+	            "type" => "textarea_raw_html",
 	            "holder" => "div",
 	            "weight" => 20,
 	            "heading" => __( "Content", "code-highliter" ),
