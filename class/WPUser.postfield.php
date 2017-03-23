@@ -5,6 +5,7 @@ require_once('PHPUtils.class.php');
 class WPUser
 {
 	const POST_TYPE = 'user';
+	const FORM_TITLE = 'Assign Project to Class';
 
 	function __construct() {
 		add_action( 'init', array($this, 'register_user_taxonomy' ));
