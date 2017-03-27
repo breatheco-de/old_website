@@ -27,7 +27,6 @@ Class GeeksAcademyOnline {
 		if ( isset( $user->roles ) && is_array( $user->roles ) ) 
 		{
 			$studentRoles = array(
-				'subscriber', 
 				'premium_full_stack', 
 				'prework_full_stack'
 			);
@@ -45,7 +44,7 @@ Class GeeksAcademyOnline {
 				// redirect them to the default place
 				return $redirect_to;
 			} 
-			else if(in_array( $studentRoles, $user->roles)) {
+			else if($this->matchAnyValues( $studentRoles, $user->roles)) {
 
 				return get_permalink( get_page_by_path( 'my-courses' ) );;
 			} 
@@ -63,6 +62,15 @@ Class GeeksAcademyOnline {
 			return $redirect_to;
 		}
 
+	}
+
+	private function matchAnyValues($matching, $toArray)
+	{
+		foreach ($matching as $value) {
+			if(in_array( $value, $toArray)) return true;
+		}
+
+		return false;
 	}
 
 	function wti_loginout_menu_link( $items, $args ) {
