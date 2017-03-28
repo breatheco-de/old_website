@@ -39,3 +39,5 @@ ul, ol {
 li.hidden_label label{display: none;}
 .validation_message{color: #a94442;}
 .single-title{margin-top: 10px;}
+.step-text.assignments h5{margin-top: 0px;}
+.assignment-bar{padding-top: 15px;}
