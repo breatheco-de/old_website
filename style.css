@@ -23,6 +23,10 @@ ul, ol {
 .site-header .navbar{
 	padding-top: 0px;padding-bottom: 0px;
 }
+.sidebar-boxed .sidebar-brand{
+	margin-top: -70px;
+    margin-bottom: 20px;
+}
 /* OVERRIDING THEDOCS STYLES */
 .comment
 {
