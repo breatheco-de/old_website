@@ -18,27 +18,23 @@ function get_courses()
 
 
 $courses = get_courses();
+$content = false;
+if(have_posts()) { 
+  the_post();
+  $content = do_shortcode(get_the_content());
+}
 ?>
 
 <main class="container">
+    <?php if($content){ ?>
       <div class="row">
 
         <!-- Main content -->
         <article class="col-md-12 main-content" role="main">
-          
-          <?php if (have_posts()){ ?>
-	
-		<?php while (have_posts()) : the_post()?>
-			<?php the_content(); ?>
-		<?php endwhile; ?>
-	
-	<?php }else {
-		echo 'Page Canvas For Page Builder'; 
-	}?>
-
-          
+            <?php echo $content; ?>          
         </article>
       </div>
+    <?php } ?>
 		<div class="row">
 			<?php foreach ($courses as $course) { ?>
               <div class="col-md-4 col-sm-6">

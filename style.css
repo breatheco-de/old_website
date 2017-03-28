@@ -17,10 +17,12 @@ Text Domain:  thedocs-child
 ul, ol {
     list-style: inherit;
 }
-.container {
-	padding-bottom: 40px;
+.main-content {
+	padding-top: 20px;
 }
-
+.site-header .navbar{
+	padding-top: 0px;padding-bottom: 0px;
+}
 /* OVERRIDING THEDOCS STYLES */
 .comment
 {
@@ -38,6 +40,5 @@ ul, ol {
 .gform_fields{margin: 0; padding: 0;}
 li.hidden_label label{display: none;}
 .validation_message{color: #a94442;}
-.single-title{margin-top: 10px;}
 .step-text.assignments h5{margin-top: 0px;}
 .assignment-bar{padding-top: 15px;}
