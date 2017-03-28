@@ -103,7 +103,7 @@ $assignments = get_assignments();
                 </li>
         <?php } ?>
             </ul>
-            <?php if(count($assignments)==0) echo "<h2>No assignments yet, get ready! ;)</h2>"; ?>
+            <?php if(count($assignments)==0) echo "<h3>No assignments yet, get ready! ;)</h3>"; ?>
           </div>
       </div>
       <p>&nbsp;</p>
