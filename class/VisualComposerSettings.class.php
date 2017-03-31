@@ -126,28 +126,27 @@ Class VisualComposerSettings {
 	      "base" => "regextester",
 	      "category" => __( "Content", "regex-texter"),
 	      "params" => array(
-	        array(
-	            "type" => "textfield",
-	            "holder" => "div",
-	            "heading" => __( "URL", "regex-texter" ),
-	            "param_name" => "regexheight",
-	            "value" => __( "200px", "regex-texter" ),
-	            "description" => __( "The height of the test tool container.", "regex-texter" )
-	            )
-	        ),
-	        array(
-	            "type" => "textarea_raw_html",
-	            "heading" => "Regular Expression",
-	            "param_name" => "reg_expression",
-	            "description" => __( "Type the regex to test", "regex-texter" )
-	         ),
-	        array(
-	            "type" => "textarea",
-	            "holder" => "div",
-	            "heading" => __( "Content", "code-highliter" ),
-	            "param_name" => "content",
-	            "description" => __( "Type the content to test", "code-highliter" )
-	            )
+		        array(
+		            "type" => "textfield",
+		            "holder" => "div",
+		            "heading" => __( "URL", "regex-texter" ),
+		            "param_name" => "regexheight",
+		            "value" => __( "200px", "regex-texter" ),
+		            "description" => __( "The height of the test tool container.", "regex-texter" )
+		        ),
+		        array(
+		            "type" => "textarea_raw_html",
+		            "heading" => "Regular Expression",
+		            "param_name" => "reg_expression",
+		            "description" => __( "Type the regex to test", "regex-texter" )
+		         ),
+		        array(
+		            "type" => "textarea",
+		            "holder" => "div",
+		            "heading" => __( "Content", "code-highliter" ),
+		            "param_name" => "content",
+		            "description" => __( "Type the content to test", "code-highliter" )
+		        )
 	        )
 	   ) );
 	}
