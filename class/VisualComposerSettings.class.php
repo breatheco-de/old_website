@@ -127,6 +127,15 @@ Class VisualComposerSettings {
 	      "category" => __( "Content", "regex-texter"),
 	      "params" => array(
 	        array(
+	            "type" => "textfield",
+	            "holder" => "div",
+	            "heading" => __( "URL", "regex-texter" ),
+	            "param_name" => "regexheight",
+	            "value" => __( "200px", "regex-texter" ),
+	            "description" => __( "The height of the test tool container.", "regex-texter" )
+	            )
+	        ),
+	        array(
 	            "type" => "textarea_raw_html",
 	            "heading" => "Regular Expression",
 	            "param_name" => "reg_expression",
@@ -206,13 +215,13 @@ Class VisualComposerSettings {
 	function regextester_func( $atts , $content = null) {
 	    extract( shortcode_atts( array(
 	      'reg_expression' => '',
-	      'height' => '200px'
+	      'regexheight' => '200px'
 	   ), $atts ) );
 
 	   $reg_expression = rawurlencode($reg_expression);
 	   $content = urlencode(base64_encode($content));
 	   $srcURL = 'https://assets.breatheco.de/live-demos/js/regex-tester/?encoded=true&e='.$reg_expression.'&c='.$content;
-	   $htmlcontent = '<iframe style="border:0; overflow:hidden;" frameborder="0" width="100%" height="'.$height.'" src="'.$srcURL.'"></iframe>';
+	   $htmlcontent = '<iframe style="border:0; overflow:hidden;" frameborder="0" width="100%" height="'.$regexheight.'" src="'.$srcURL.'"></iframe>';
 	   return $htmlcontent;
 	}
 
