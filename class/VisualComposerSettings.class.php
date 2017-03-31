@@ -8,6 +8,7 @@ Class VisualComposerSettings {
 		add_shortcode( 'codepreview', array($this,'codepreview_func' ));
 		add_shortcode( 'coderepl', array($this,'coderepl_func' ));
 		add_shortcode( 'replitclass', array($this,'replitclass_func' ));
+		add_shortcode( 'regextester', array($this,'regextester_func' ));
 	}
 
 	function geeksAcademyIntegrationWithVisualComposter() {
@@ -119,6 +120,27 @@ Class VisualComposerSettings {
 	            )
 	        )
 	   ) );
+
+	   vc_map( array(
+	      "name" => __( "Regex Tester", "regex-texter" ),
+	      "base" => "regextester",
+	      "category" => __( "Content", "regex-texter"),
+	      "params" => array(
+	        array(
+	            "type" => "textarea_raw_html",
+	            "heading" => "Regular Expression",
+	            "param_name" => "reg_expression",
+	            "description" => __( "Type the regex to test", "regex-texter" )
+	         ),
+	        array(
+	            "type" => "textarea",
+	            "holder" => "div",
+	            "heading" => __( "Content", "code-highliter" ),
+	            "param_name" => "content",
+	            "description" => __( "Type the content to test", "code-highliter" )
+	            )
+	        )
+	   ) );
 	}
 
 	function codehighliter_func( $atts , $content = null) {
@@ -179,6 +201,18 @@ Class VisualComposerSettings {
 	   ), $atts ) );
 
 	   return '<iframe frameborder="0" width="100%" height="600px" src="'.$classurl.'"></iframe>';
+	}
+
+	function regextester_func( $atts , $content = null) {
+	    extract( shortcode_atts( array(
+	      'reg_expression' => '',
+	      'height' => '200px'
+	   ), $atts ) );
+
+	   $reg_expression = rawurlencode($reg_expression);
+	   $srcURL = 'https://assets.breatheco.de/live-demos/js/regex-tester/?encoded=true&e='.$reg_expression.'&c='.$content;
+	   $htmlcontent = '<iframe style="border:0; overflow:hidden;" frameborder="0" width="100%" height="'.$height.'" src="'.$srcURL.'"></iframe>';
+	   return $htmlcontent;
 	}
 
 }
