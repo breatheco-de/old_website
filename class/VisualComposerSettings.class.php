@@ -9,6 +9,7 @@ Class VisualComposerSettings {
 		add_shortcode( 'coderepl', array($this,'coderepl_func' ));
 		add_shortcode( 'replitclass', array($this,'replitclass_func' ));
 		add_shortcode( 'regextester', array($this,'regextester_func' ));
+		add_shortcode( 'mysqltester', array($this,'mysqltester_func' ));
 	}
 
 	function geeksAcademyIntegrationWithVisualComposter() {
@@ -129,7 +130,7 @@ Class VisualComposerSettings {
 		        array(
 		            "type" => "textfield",
 		            "holder" => "div",
-		            "heading" => __( "URL", "regex-texter" ),
+		            "heading" => __( "Box Height", "regex-texter" ),
 		            "param_name" => "regexheight",
 		            "value" => __( "200px", "regex-texter" ),
 		            "description" => __( "The height of the test tool container.", "regex-texter" )
@@ -145,8 +146,47 @@ Class VisualComposerSettings {
 		            "holder" => "div",
 		            "heading" => __( "Content", "code-highliter" ),
 		            "param_name" => "content",
-		            "description" => __( "Type the content to test", "code-highliter" )
+		            "description" => __( "Type the content to test", "regex-highliter" )
 		        )
+	        )
+	   ) );
+
+	   vc_map( array(
+	      "name" => __( "MySQL Tester", "mysql-texter" ),
+	      "base" => "mysqltester",
+	      "category" => __( "Content", "mysql-texter"),
+	      "params" => array(
+	      		array(
+		            "type" => "textfield",
+		            "holder" => "div",
+		            "heading" => __( "Box Height", "mysql-texter" ),
+		            "param_name" => "mysqlheight",
+		            "value" => __( "200px", "mysql-texter" ),
+		            "description" => __( "The height of the test tool container.", "mysql-texter" )
+		        ),
+		        array(
+		            "type" => "textfield",
+		            "holder" => "div",
+		            "heading" => __( "Database sample", "mysql-texter" ),
+		            "param_name" => "databasename",
+		            "value" => __( "chat", "mysql-texter" ),
+		            "description" => __( "Name of the database (used on the .sql and .png files)", "mysql-texter" )
+		        ),
+		        array(
+		            "type" => "dropdown",
+		            "heading" => "Table Styles",
+		            "param_name" => "tablestyles",
+		            "value" => array('hor-minimalist-a' => 'hor-minimalist-a',
+		                            'hor-minimalist-b' => 'hor-minimalist-b',
+		                            'ver-minimalist' => 'ver-minimalist',
+		                            'box-table-a' => 'box-table-a',
+		                            'box-table-b' => 'box-table-b',
+		                            'hor-zebra' => 'hor-zebra',
+		                            'ver-zebra' => 'ver-zebra',
+		                            'newspaper-a' => 'newspaper-a',
+		                            'newspaper-b' => 'newspaper-b'),
+		            "description" => __( "Select the style of the tables", "mysql-highliter" )
+		         ),
 	        )
 	   ) );
 	}
@@ -221,6 +261,18 @@ Class VisualComposerSettings {
 	   $content = urlencode(base64_encode($content));
 	   $srcURL = 'https://assets.breatheco.de/live-demos/js/regex-tester/?encoded=true&e='.$reg_expression.'&c='.$content;
 	   $htmlcontent = '<iframe style="border:0; overflow:hidden;" frameborder="0" width="100%" height="'.$regexheight.'" src="'.$srcURL.'"></iframe>';
+	   return $htmlcontent;
+	}
+
+	function mysqltester_func( $atts , $content = null) {
+	    extract( shortcode_atts( array(
+	      'databasename' => '',
+	      'mysqlheight' => '200px',
+	      'tablestyles' => ''
+	   ), $atts ) );
+
+	   $srcURL = 'http://assets.breatheco.de/live-demos/sql/mysql-tester/?db='.$databasename.'&tablestyle='.$tablestyles;
+	   $htmlcontent = '<iframe style="border:0; overflow:hidden;" frameborder="0" width="100%" height="'.$mysqlheight.'" src="'.$srcURL.'"></iframe>';
 	   return $htmlcontent;
 	}
 
