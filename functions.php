@@ -113,6 +113,11 @@ function pippin_add_taxonomy_filters() {
 }
 add_action( 'restrict_manage_posts', 'pippin_add_taxonomy_filters' );
 
+add_action('wp_head', 'wpse_43672_wp_head');
+function wpse_43672_wp_head(){
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+}
+
 
 include('class/GeeksAcademyOptions.class.php');
 

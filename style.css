@@ -35,6 +35,7 @@ ul, ol {
 	margin-top: 0px !important;
 }
 #main-nav-bar{top: 0px !important;}
+header.navbar-fullwidth .navbar{max-height: initial;}
 
 /* PROJECT AND ASIGNMENT VIEW */
 #duedate{margin-bottom: 20px;}

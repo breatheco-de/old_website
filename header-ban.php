@@ -15,7 +15,6 @@ $topBarMenu = get_post_meta( $postId, 'wpcf-top_bar_menu',true);
 
 <html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
     <link rel="shortcut icon" href="<?php if(isset($companyFavicon)) {?><?php echo esc_url($companyFavicon); ?><?php }?>" type="image/x-icon"/>
