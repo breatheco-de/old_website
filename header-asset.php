@@ -4,6 +4,7 @@ $redux_demo = get_option('redux_demo'); ?>
 
 <html lang="en" <?php language_attributes(); ?>>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
     <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {

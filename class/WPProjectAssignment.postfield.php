@@ -8,6 +8,7 @@ class WPProjectAssignment
 	const POST_TYPE = 'student-assignment';
 	//const FORM_ASSIGNMENT_ID = '6';
 	const FORM_ASSIGNMENT_TITLE = 'Assign Project to Class';
+	const FORM_DELIVER_ASSIGNMENT_TITLE = 'Deliver Project Assignment';
 
 	  function __construct() {
 	    add_filter( 'wpt_field_options', array($this,'fill_select'), 10, 3);
@@ -19,6 +20,9 @@ class WPProjectAssignment
 	    add_action( 'gform_after_submission', array($this,'set_post_content'), 10, 2 );
 	  }
 
+	  /**
+	   * Gets triggered when a new "student-assignment" is created
+	   */
 	  function post_published_notification($new_status, $old_status )
 	  {
 	  	if(isset($_POST['post_type']) and $_POST['post_type']==self::POST_TYPE)
@@ -173,42 +177,18 @@ class WPProjectAssignment
 		return $form;
 	}
 
+	/**
+	 * Gets called right after ANY gravity form gets submited by the user
+	 */
 	function set_post_content( $entry, $form ) {
 
 	    if($form['title']==self::FORM_ASSIGNMENT_TITLE)
 	    {
-		    //getting post
-		    $post = get_post( $entry['post_id'] );
-
-		    $projectId = rgar( $entry, '1' );
-		    $cohort = rgar( $entry, '2' );
-		    $duedate = rgar( $entry, '3' );
-
-		    $users = get_objects_in_term( $cohort, 'user_cohort' );
-		    foreach( $users as $u ) {
-		        $options = array(
-			        'post_status' => 'publish',
-			        'post_type' => 'student-assignment',
-			        'meta_input' => array(
-			        	'wpcf-assignment-due-date' => strtotime($duedate),
-			        	'wpcf-project-assigned' => $projectId,
-			        	'wpcf-assignment-status' => 'pending',
-			        	'wpcf-student-assigned' => $u
-			        	)
-			    );
-
-			    $assignmentId = wp_insert_post($options);
-			    if($assignmentId===false) throw new Exception("Error creating assignment", 1);
-
-				$projectObj = array(
-					"title" => get_the_title($projectId),
-					"assignment" => 'SA'.$assignmentId,
-					"duedate" => date('jS \of F', strtotime($duedate)),
-					"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true),
-					"excerpt" => get_post_meta( $projectId, 'wpcf-project-excerpt',true)
-					);
-				$this->notifyNewProjectToUser(get_user_by('id',$u),$projectObj);
-		    }
+		    $this->createNewClassAssignment($entry, $form);
+	    }
+	    else if($form['title']==self::FORM_DELIVER_ASSIGNMENT_TITLE)
+	    {
+		    $this->createDeliverAssignmentFromStudent($entry, $form);
 	    }
 	}
 
@@ -309,5 +289,48 @@ class WPProjectAssignment
 		remove_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
 	}
 	function set_html_content_type() {return 'text/html';}
+	
+	private function createDeliverAssignmentFromStudent($entry, $form)
+	{
+		$curerntUser = get_current_user_id();
+		$assignmentId = rgar( $entry, '2' );
+		$assignment = update_post_meta($assignmentId, 'wpcf-assignment-status', 'done');
+	}
+
+	private function createNewClassAssignment($entry, $form)
+	{
+		//getting post
+		$post = get_post( $entry['post_id'] );
+
+		$projectId = rgar( $entry, '1' );
+		$cohort = rgar( $entry, '2' );
+		$duedate = rgar( $entry, '3' );
+
+		$users = get_objects_in_term( $cohort, 'user_cohort' );
+		foreach( $users as $u ) {
+		    $options = array(
+		        'post_status' => 'publish',
+		        'post_type' => 'student-assignment',
+		        'meta_input' => array(
+		        	'wpcf-assignment-due-date' => strtotime($duedate),
+		        	'wpcf-project-assigned' => $projectId,
+		        	'wpcf-assignment-status' => 'pending',
+		        	'wpcf-student-assigned' => $u
+		        	)
+		    );
+
+		    $assignmentId = wp_insert_post($options);
+		    if($assignmentId===false) throw new Exception("Error creating assignment", 1);
+
+			$projectObj = array(
+				"title" => get_the_title($projectId),
+				"assignment" => 'SA'.$assignmentId,
+				"duedate" => date('jS \of F', strtotime($duedate)),
+				"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true),
+				"excerpt" => get_post_meta( $projectId, 'wpcf-project-excerpt',true)
+				);
+			$this->notifyNewProjectToUser(get_user_by('id',$u),$projectObj);
+		}
+	}
 
 }

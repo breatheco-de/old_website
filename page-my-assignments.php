@@ -24,7 +24,7 @@ function get_assignments()
 
     array_push($assignments,array(
       "assignment-id" => $assignmentId,
-      "assignment-status" => getStatus($status),
+      "assignment-status" => $status,
       "assignment-duedate" => $duedate,
       "assignment-permalink" => get_the_permalink($assignmentId),
       "project-id" => $projectId,
@@ -36,7 +36,7 @@ function get_assignments()
   return $assignments;
 }
 
-function getStatus($status)
+function getStatusTag($status)
 {
   switch($status)
   {
@@ -86,18 +86,23 @@ $assignments = get_assignments();
           ?>
                 <li>
                   <div class="row push-right">
-                    <div class="col-sm-8">
-                      <h5><?php echo $a["project-name"]; ?></h5>
+                    <div class="col-xs-9 col-md-10">
+                      <h5><?php echo $a["project-name"]; ?>
+                        <small>
+                          <?php if($a["assignment-status"]=="pending"){ ?>
+                            <i class="fa fa-calendar" aria-hidden="true"></i> Due by <?php echo $duedate; ?>
+                          <?php } else { ?>
+                            <?php echo getStatusTag($a["assignment-status"]); ?>
+                          <?php } ?>
+                        </small>
+                      </h5>
                       <p><?php echo $a["project-excerpt"]; ?></p>
                     </div>
-                    <div class="col-sm-2 assignment-bar">
-                      <p class="text-center">
-                        <i class="fa fa-calendar" aria-hidden="true"></i> Due: <?php echo $duedate; ?><br />
-                        <?php echo $a["assignment-status"]; ?>
-                      </p>
-                    </div>
-                    <div class="col-sm-2 assignment-bar">
-                      <a href="<?php echo $a["assignment-permalink"]; ?>" class="btn btn-primary">View</a>
+                    <div class="col-xs-3 col-md-2 assignment-bar">
+                      <a href="<?php echo $a["assignment-permalink"]; ?>" class="btn btn-xs btn-primary">View</a>
+                      <?php if($a["assignment-status"]!="done" and $a["assignment-status"]!="missed"){ ?>
+                      <a href="<?php echo get_permalink( get_page_by_path( 'deliver-assignment' ) ); ?>?assignment=515&project=<?php echo urlencode($a["project-name"]); ?>" class="btn btn-xs btn-success">Deliver</a>
+                      <?php } ?>
                     </div>
                   </div>
                 </li>

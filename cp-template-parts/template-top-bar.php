@@ -2,7 +2,6 @@
       <!-- Top navbar & branding -->
       <nav id="main-nav-bar" class="navbar navbar-default">
         <div class="container">
-
           <!-- Toggle buttons and brand -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">

@@ -25,7 +25,8 @@ $menuParents = $GeeksAcademyLibrary->createCourseHierarchy($menu_name);
 
 ?>
 
-	<aside class="sidebar sidebar-boxed sidebar-dark">
+	<aside class="sidebar sidebar-boxed sidebar-dark toggled">
+      <a id="menu-toggle" style="visibility: hidden;" href="#"><i class="fa fa-bars" aria-hidden="true"></i> Lessons</a>
 
       <a class="sidebar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
         <img alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" src="<?php echo $logo_url; ?>" class="logo-padding"/>

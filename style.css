@@ -46,3 +46,27 @@ li.hidden_label label{display: none;}
 .validation_message{color: #a94442;}
 .step-text.assignments h5{margin-top: 0px;}
 .assignment-bar{padding-top: 15px;}
+.gfield_description{font-style: italic; font-size: 80%; line-height: 16px; color: grey;}
+.gfield_description.validation_message{font-style: normal; font-size: 100%; line-height: 16px; color: #a94442;}
+.field_description_below .form-control{margin-bottom: 10px;}
+.field_description_below{margin-bottom: 20px;}
+.field_description_below #extensions_message{display: none;}
+
+/** Overriding Sidebar styles */
+@media (min-width:768px){
+	.sidebar-boxed{overflow: inherit; z-index: 9;}
+	.sidebar-boxed #menu-toggle{position: absolute; right: -100px; top: 10px; color: black;
+	font-size: 18px; visibility: visible !important;}
+	.sidebar-boxed.toggled~footer, 
+	.sidebar-boxed.toggled~header,.sidebar-boxed.toggled~main{
+		padding-left: 0;
+		overflow: hidden;
+	}
+	.sidebar-boxed.toggled .sidebar-brand, .sidebar-boxed.toggled .sidenav{
+		visibility: hidden;
+	}
+	.sidebar-boxed.toggled{
+		width: 0px;
+		transition: width linear .5s;
+	}
+}

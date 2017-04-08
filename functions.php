@@ -29,6 +29,13 @@ function wmt_theme_style(){
 }
 add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
 
+
+function wmt_theme_js(){
+    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), NULL, true );
+    wp_enqueue_script( 'main-js' );
+}
+add_action( 'wp_enqueue_scripts', 'wmt_theme_js' );
+
 /**
  * Hooks the WP cpt_post_types filter 
  *
