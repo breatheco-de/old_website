@@ -23,10 +23,6 @@ ul, ol {
 .site-header .navbar{
 	padding-top: 0px;padding-bottom: 0px;
 }
-.sidebar-boxed .sidebar-brand{
-	margin-top: -70px;
-    margin-bottom: 20px;
-}
 /* OVERRIDING THEDOCS STYLES */
 .comment
 {
@@ -54,6 +50,15 @@ li.hidden_label label{display: none;}
 .field_description_below #extensions_message{display: none;}
 
 /** Overriding Sidebar styles */
+.sidebar-boxed .sidebar-brand{
+	margin-top: -85px;
+    margin-bottom: 0px;
+}
+.sidebar-boxed .sidenav{
+	height: calc(100vh - 60px);
+    overflow: auto;
+}
+
 @media (min-width:768px){
 	.sidebar-boxed{overflow: inherit; z-index: 9;}
 	.sidebar-boxed #menu-toggle{position: absolute; right: -100px; top: 10px; color: black;
