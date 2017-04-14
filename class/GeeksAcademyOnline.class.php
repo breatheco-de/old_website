@@ -2,6 +2,16 @@
 
 Class GeeksAcademyOnline {
 
+	private $studentRoles = array(
+				'premium_full_stack', 
+				'prework_full_stack'
+			);
+
+	private $teacherRoles = array(
+				'teacher_assistant',
+				'main_teacher',
+			);
+
 	function __construct() {
 		add_filter('upload_mimes', array($this,'custom_upload_mimes'));
 		add_filter( 'login_redirect', array($this,'custom_user_redirect'), 10, 3 );
@@ -26,11 +36,11 @@ Class GeeksAcademyOnline {
 		//is there a user to check?
 		if ( isset( $user->roles ) && is_array( $user->roles ) ) 
 		{
-			$studentRoles = array(
-				'premium_full_stack', 
-				'prework_full_stack'
-			);
-
+			if(!isset($_SESSION['academy_roles']))
+			{
+				$_SESSION['academy_roles'] = $user->roles;
+			}
+			
 		    // if first time login
 			$promtOnLogin = get_user_meta($user->ID, 'prompt_page_on_login', true);
 		    if(!empty($promtOnLogin) and $promtOnLogin != '' ) {
@@ -44,7 +54,7 @@ Class GeeksAcademyOnline {
 				// redirect them to the default place
 				return $redirect_to;
 			} 
-			else if($this->matchAnyValues( $studentRoles, $user->roles)) {
+			else if($this->matchAnyValues( $this->studentRoles, $user->roles)) {
 
 				return get_permalink( get_page_by_path( 'my-courses' ) );;
 			} 

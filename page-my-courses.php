@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Template Name: Page My Courses
  * Description: A Page Template with a Page Builder design.

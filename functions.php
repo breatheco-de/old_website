@@ -118,11 +118,14 @@ function wpse_43672_wp_head(){
     echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 }
 
+include('class/WPSessionManagment.class.php');
+$WPSessionManagment = new WPSessionManagment();
 
 include('class/GeeksAcademyOptions.class.php');
 
 include('class/GeeksAcademyOnline.class.php');
 $GeeksAcademyOnline = new GeeksAcademyOnline();
+
 
 include('class/VisualComposerSettings.class.php');
 $VisualComposerSettings = new VisualComposerSettings();

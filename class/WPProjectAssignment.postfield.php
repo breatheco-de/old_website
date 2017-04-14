@@ -263,7 +263,7 @@ class WPProjectAssignment
 		$tdStyles = 'padding: 5px;';
 		$buttonStyle = 'style="padding: 10px 15px; background: #bc7a16; color: #FFF; margin-top: 10px; text-decoration: none;"';
 		
-		$subject = 'New Project Assigned';
+		$subject = 'New Project Assigned: '.$project['title'];
 		$content = 'Hi '.$userNickname.',';
 		$content .= '<p>Your teacher has assigned you a new project: <strong>'.$project['title'].'</strong></p>';
 		$content .= '<table style="width: 100%;">';
