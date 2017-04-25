@@ -5,7 +5,7 @@ require_once('PHPUtils.class.php');
 class WPUser
 {
 	const POST_TYPE = 'user';
-	const FORM_TITLE = 'Assign Project to Class';
+	const FORM_USER_REGISTRATION = 'Manual User Registration';
 
 	function __construct() {
 		add_action( 'init', array($this, 'register_user_taxonomy' ));
@@ -20,6 +20,9 @@ class WPUser
 		
 		add_filter( 'bulk_actions-users', array($this,'register_my_bulk_actions' ), 10, 3);
 		add_filter( 'handle_bulk_actions-users', array($this,'my_bulk_action_handler'), 10, 3 );
+
+		add_filter( 'gform_pre_render', array($this,'populate_new_user_fields') );
+		add_action( 'gform_user_registered', array($this,'finishUserRegistration'), 10, 4 );
 	
 	}
 
@@ -127,6 +130,32 @@ class WPUser
 	 
 		//make sure you clear the term cache
 		clean_object_term_cache($user_id, 'user_cohort');
+	}
+
+	function populate_new_user_fields($form){
+
+		//Cut the execution of the function
+		if($form['title']!=self::FORM_USER_REGISTRATION) return $form;
+
+		foreach ( $form['fields'] as $field )
+		{
+			if ( $field->type == 'select' and strpos( $field->cssClass,'student-cohorts' )!==false ) {
+			   	$terms = get_terms('user_cohort',array('hide_empty' => 0));
+			   	$choices = array();
+				foreach($terms as $term) if($term->parent!=0) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
+			   	$field->choices = $choices;
+			   	$field->placeholder = 'Select a cohort';
+			}
+		}
+		return $form;
+	}
+
+	function finishUserRegistration($user_id, $feed, $entry)
+	{
+		//getting post
+	    $cohort = rgar( $entry, '11' );
+	    $term = get_term($cohort);
+		$users = wp_set_object_terms( $user_id, $term->name,'user_cohort' );
 	}
 
 }
