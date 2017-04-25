@@ -29,7 +29,7 @@ class GravityFormOptions {
       <tr id="form_button_text_setting" class="child_setting_row" style="' . $text_style_display . '">
               <th>
                   ' .
-        __( 'Button Class', 'gravityforms' ) . ' ' .
+        pll__( 'Button Class', 'gravityforms' ) . ' ' .
         gform_tooltip( 'form_button_class', '', true ) .
         '
       </th>

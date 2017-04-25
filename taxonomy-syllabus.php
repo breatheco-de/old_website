@@ -90,7 +90,7 @@ $assignments = get_assignments();
                       <h5><?php echo $a["project-name"]; ?>
                         <small>
                           <?php if($a["assignment-status"]=="pending"){ ?>
-                            <i class="fa fa-calendar" aria-hidden="true"></i> Due by <?php echo $duedate; ?>
+                            <i class="fa fa-calendar" aria-hidden="true"></i><?php echo pll__( 'Due by' ); ?> <?php echo $duedate; ?>
                           <?php } else { ?>
                             <?php echo getStatusTag($a["assignment-status"]); ?>
                           <?php } ?>
@@ -99,16 +99,16 @@ $assignments = get_assignments();
                       <p><?php echo $a["project-excerpt"]; ?></p>
                     </div>
                     <div class="col-xs-3 col-md-2 assignment-bar">
-                      <a href="<?php echo $a["assignment-permalink"]; ?>" class="btn btn-xs btn-primary">View</a>
+                      <a href="<?php echo $a["assignment-permalink"]; ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'View more' ); ?></a>
                       <?php if($a["assignment-status"]!="done" and $a["assignment-status"]!="missed"){ ?>
-                      <a href="<?php echo get_permalink( get_page_by_path( 'deliver-assignment' ) ); ?>?assignment=515&project=<?php echo urlencode($a["project-name"]); ?>" class="btn btn-xs btn-success">Deliver</a>
+                      <a href="<?php echo get_permalink( get_page_by_path( 'deliver-assignment' ) ); ?>?assignment=515&project=<?php echo urlencode($a["project-name"]); ?>" class="btn btn-xs btn-success"><?php echo pll__( 'Deliver' ); ?></a>
                       <?php } ?>
                     </div>
                   </div>
                 </li>
         <?php } ?>
             </ul>
-            <?php if(count($assignments)==0) echo "<h3>No assignments yet, get ready! ;)</h3>"; ?>
+            <?php if(count($assignments)==0) echo "<h3>".pll__( 'No assignments yet, get ready!' )."</h3>"; ?>
           </div>
       </div>
       <p>&nbsp;</p>

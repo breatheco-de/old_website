@@ -55,15 +55,15 @@ get_header('lessonsidebar');
         ?>
 
           <section id="lesson-assets">
-            <h2 id="assets"><a href="#assets">Assets for this lessons</a></h2>
-            <p>We know is hard and some times overwhelming, we have prepared the following materials to help you.</p>
+            <h2 id="assets"><a href="#assets"><?php echo pll__( 'Assets for this lessons' ); ?></a></h2>
+            <p><?php echo pll__( 'We know is hard and some times overwhelming, we have prepared the following materials to help you.' ); ?></p>
             <ul class="step-text">
           <?php foreach ($assets as $asset){ ?>
               <li>
                 <img class="asset-preview-img" src="<?php echo $asset["preview"]; ?>">
                 <h5><?php echo $asset["title"]; ?></h5>
                 <p><?php echo $asset["description"]; ?></p>
-                <p><a class="btn btn-teal" href="<?php echo $asset["url"]; ?>">Download</a></p>
+                <p><a class="btn btn-teal" href="<?php echo $asset["url"]; ?>"><?php echo pll__( 'Download' ); ?></a></p>
               </li>
           <?php } ?>
             </ul>

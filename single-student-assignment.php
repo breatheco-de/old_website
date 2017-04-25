@@ -40,14 +40,14 @@ if (have_posts()){
         <aside class="col-md-4 col-sm-3">
             <div class="">
                 <h4 id="duedate">
-                    <i class="fa fa-calendar" aria-hidden="true"></i> Due:
+                    <i class="fa fa-calendar" aria-hidden="true"></i> <?php echo pll__( 'Due' ); ?>:
                     <?php echo date('jS \of F', $duedate); ?>
                 </h4> 
             </div>
             <table class="table table-striped table-changelog">
               <tbody>
                 <tr>
-                    <td>Technologies:</td>
+                    <td><?php echo pll__( 'Technologies' ); ?>:</td>
                     <td>
                         <?php $technologies = wp_get_post_terms($projectId,'project-technology');
                         foreach ($technologies as $technology) { ?>
@@ -56,15 +56,15 @@ if (have_posts()){
                     </td>
                 </tr>
                 <tr>
-                    <td>Difficulty</td>
+                    <td><?php echo pll__( 'Difficulty' ); ?></td>
                     <td>
                         <?php echo $dificulty; ?>
                     </td>
                 </tr>
                 <tr>
-                    <td>Duration</td>
+                    <td><?php echo pll__( 'Duration' ); ?></td>
                     <td>
-                        <?php echo $duration; ?> Hours
+                        <?php echo $duration; ?> <?php echo pll__( 'Hours' ); ?>
                     </td>
                 </tr>
               </tbody>
@@ -76,7 +76,7 @@ if (have_posts()){
             <div class="callout callout-info" role="alert">
                 <h4>
                     <i class="fa fa-download"></i>
-                    <a target="_parent" href="<?php echo $filesUrl; ?>">Download project files</a>
+                    <a target="_parent" href="<?php echo $filesUrl; ?>"><?php echo pll__( 'Download project files' ); ?></a>
                 </h4>
             </div>
             <?php } ?>

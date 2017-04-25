@@ -136,3 +136,6 @@ $GravityFormOptions = new GravityFormOptions();
 include('class/WPTypesOptions.class.php');
 $TypesOptions = new WPTypesOptions();
 
+include('class/WPLanguages.class.php');
+$WPLanguages = new WPLanguages();
+

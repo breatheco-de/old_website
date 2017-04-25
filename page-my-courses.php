@@ -43,7 +43,7 @@ if(have_posts()) {
                   <i class="fa fa-code"></i>
                   <h3><?php echo $course->name; ?></h3>
                   <p><?php echo $course->description; ?></p>
-                  <a class="btn btn-primary btn-block" href="<?php echo esc_url( get_term_link( $course ) ); ?>">Get inside</a>
+                  <a class="btn btn-primary btn-block" href="<?php echo esc_url( get_term_link( $course ) ); ?>"><?php echo pll__('Get inside'); ?></a>
                 </div>
               </div>
 			<?php } ?>

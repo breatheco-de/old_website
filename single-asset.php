@@ -43,7 +43,7 @@ if (have_posts()){
                     <table class="table table-striped table-changelog">
                       <tbody>
                         <tr>
-                            <td>Technologies:</td>
+                            <td><?php echo pll__( 'Technologies' ); ?>:</td>
                             <td>
                                 <?php $technologies = wp_get_post_terms($postId,'asset-technology');
                                 foreach ($technologies as $technology) { ?>
@@ -52,7 +52,7 @@ if (have_posts()){
                             </td>
                         </tr>
                         <tr>
-                            <td>Asset Type</td>
+                            <td><?php echo pll__( 'Asset Type' ); ?>:</td>
                             <td>
                                 <?php $types = wp_get_post_terms($postId,'asset-type');
                                 foreach ($types as $type) { ?>
@@ -65,13 +65,13 @@ if (have_posts()){
                     <div class="callout callout-info" role="alert">
                         <h4>
                             <i class="fa fa-download"></i>
-                            Download or view this asset
+                            <?php echo pll__( 'Download or view this asset' ); ?>
                         </h4>
                         <?php if($assetType=='image') { ?>
-                            <p>Click here to download this asset: <a href="<?php echo $assetUrl; ?>" target="_blank" role="button" class="btn btn-lg btn-default"><i class="fa fa-download"></i> Download</a></p>
+                            <p><?php echo pll__( 'Click here to download this asset' ); ?>: <a href="<?php echo $assetUrl; ?>" target="_blank" role="button" class="btn btn-lg btn-default"><i class="fa fa-download"></i> <?php echo pll__( 'Download' ); ?></a></p>
                         <?php } ?>
                         <?php if($assetType=='pdf' || $assetType=='zip') { ?>
-                            <p>To download this asset right click and "save as..." the <a href="<?php echo $assetUrl; ?>">following link</a>.</p>
+                            <p><a href="<?php echo $assetUrl; ?>"><?php echo pll__( 'To download this asset right click and "save as..." the this text.' ); ?></a></p>
                         <?php } ?>
                     </div>
                 </div>
@@ -81,17 +81,17 @@ if (have_posts()){
         <!-- END Main content -->
         <!-- Sidebar -->
         <aside class="col-md-3 col-sm-3 sidebar">
-            <h5>Browse other assets:</h5>
+            <h5><?php echo pll__('Browse other assets'); ?>:</h5>
             <ul class="grid-view view-col-12">
               <li>
-                <h6>By Technology</h6>
+                <h6><?php echo pll__('By Technology'); ?></h6>
                 <?php $technologies = get_terms('asset-technology');
                 foreach ($technologies as $technology) { ?>
                     <a href="<?php echo get_term_link($technology); ?>" class="label label-default"><?php echo $technology->name; ?></a>
                 <?php } ?>
               </li>
               <li>
-                <h6>By Type</h6>
+                <h6><?php echo pll__('By Type'); ?></h6>
                 <?php $types = get_terms('asset-type');
                 foreach ($types as $type) { ?>
                     <a href="<?php echo get_term_link($type); ?>" class="label label-default"><?php echo $type->name; ?></a>

@@ -28,7 +28,7 @@ $posts_array = get_posts(
         <article class="col-md-9 col-sm-9" role="main">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Assets related to <span class="label label-dark"><?php echo $technology->name; ?></span></h2>
+                    <h2><?php echo pll__( 'Assets related to' ); ?> <span class="label label-dark"><?php echo $technology->name; ?></span></h2>
 					<ul class="list-view">
 						<?php foreach ($posts_array as $lesson) {
                             the_post(); 
@@ -38,7 +38,7 @@ $posts_array = get_posts(
 							$technologies = wp_get_post_terms($postId,'asset-technology');
 						?>
 						  <li>
-						    	<a class="btn btn-primary pull-right" href="<?php the_permalink(); ?>">View more</a>
+						    	<a class="btn btn-primary pull-right" href="<?php the_permalink(); ?>"><?php echo pll__( 'View more' ); ?></a>
 						    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
 						    <p class="meta-data">
 						    <?php echo $types[0]->name; ?> | 
@@ -59,17 +59,17 @@ $posts_array = get_posts(
         <!-- END Main content -->
         <!-- Sidebar -->
         <aside class="col-md-3 col-sm-3 sidebar">
-            <h5>Browse other assets:</h5>
+            <h5><?php echo pll__( 'Browse other assets' ); ?>:</h5>
             <ul class="grid-view view-col-12">
               <li>
-                <h6>By Technology</h6>
+                <h6><?php echo pll__( 'By Technology' ); ?></h6>
                 <?php $technologies = get_terms('asset-technology');
                 foreach ($technologies as $technology) { ?>
                     <a href="<?php echo get_term_link($technology); ?>" class="label label-default"><?php echo $technology->name; ?></a>
                 <?php } ?>
               </li>
               <li>
-                <h6>By Type</h6>
+                <h6><?php echo pll__( 'By Type' ); ?></h6>
                 <?php $types = get_terms('asset-type');
                 foreach ($types as $type) { ?>
                     <a href="<?php echo get_term_link($type); ?>" class="label label-default"><?php echo $type->name; ?></a>

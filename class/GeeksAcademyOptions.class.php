@@ -195,7 +195,7 @@ class GeeksAcademyOptions {
 	   		 <td>
 				<select name="prompt_page_on_login"> 
 				<option value="">
-				<?php echo esc_attr( __( 'No page' ) ); ?></option> 
+				<?php echo esc_attr( 'No page' ); ?></option> 
 				<?php 
 				$pages = get_pages(); 
 				foreach ( $pages as $page ) {
