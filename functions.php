@@ -136,6 +136,9 @@ $GravityFormOptions = new GravityFormOptions();
 include('class/WPTypesOptions.class.php');
 $TypesOptions = new WPTypesOptions();
 
+include('class/WPCohort.class.php');
+$WPCohort = new WPCohort();
+
 include('class/WPLanguages.class.php');
 $WPLanguages = new WPLanguages();
 

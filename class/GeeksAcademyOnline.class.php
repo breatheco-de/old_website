@@ -9,7 +9,7 @@ Class GeeksAcademyOnline {
 
 	private $teacherRoles = array(
 				'teacher_assistant',
-				'main_teacher',
+				'main_teacher'
 			);
 
 	function __construct() {
@@ -53,6 +53,10 @@ Class GeeksAcademyOnline {
 			{
 				// redirect them to the default place
 				return $redirect_to;
+			} 
+			else if($this->matchAnyValues( $this->teacherRoles, $user->roles)) {
+
+				return get_permalink( get_page_by_path( 'teacher-dashboard' ) );;
 			} 
 			else if($this->matchAnyValues( $this->studentRoles, $user->roles)) {
 

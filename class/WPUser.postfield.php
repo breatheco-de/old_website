@@ -23,7 +23,6 @@ class WPUser
 
 		add_filter( 'gform_pre_render', array($this,'populate_new_user_fields') );
 		add_action( 'gform_user_registered', array($this,'finishUserRegistration'), 10, 4 );
-	
 	}
 
  
