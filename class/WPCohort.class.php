@@ -18,6 +18,7 @@ class WPCohort{
 		"html" => '',
 		"css" => '',
 		"layouts" => '',
+		"forms" => '',
 		"arrays" => '',
 		"events" => '',
 		"scaffolding" => '',

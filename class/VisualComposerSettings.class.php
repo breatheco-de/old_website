@@ -6,6 +6,7 @@ Class VisualComposerSettings {
 		"html" => 'html',
 		"css" => 'css',
 		"layouts" => 'layouts',
+		"forms" => 'forms',
 		"arrays" => 'arrays',
 		"events" => 'events',
 		"scaffolding" => 'scaffolding',
