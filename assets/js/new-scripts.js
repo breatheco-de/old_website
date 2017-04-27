@@ -5,4 +5,8 @@ jQuery(document).ready(function(){
         $(".sidebar-boxed").toggleClass("toggled");
     });
 
+   browserChecker.init({ 
+   		browsers: ['safary']
+	});
+
 });   

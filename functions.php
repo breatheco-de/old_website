@@ -23,15 +23,33 @@ add_action( 'after_setup_theme', 'thedocs_child_theme_setup' );
  ESTILOS Y SCRIPTS
 */
 function wmt_theme_style(){
+    if(WP_DEBUG) $prependversion = time();
  
     wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css', array('theDocs.all.min.css'));
+    
+    wp_enqueue_style( 'breathecodecss', get_stylesheet_directory_uri().'/assets/css/components.breathecode.css', array('theDocs.all.min.css'),$prependversion.'0.1');
         
 }
 add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
 
 
 function wmt_theme_js(){
-    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), NULL, true );
+
+    if(WP_DEBUG) $prependversion = time();
+
+    wp_register_script( 'jquerytemplate', get_stylesheet_directory_uri().'/assets/js/jquery.tmpl.min' , array('jquery'), NULL, true );
+    wp_enqueue_script( 'jquerytemplate' );
+    
+    wp_register_script( 'bootstrapjs', get_stylesheet_directory_uri().'/assets/js/bootstrap.min.js' , array('jquery'), NULL, true );
+    wp_enqueue_script( 'bootstrapjs' );
+    
+    if(is_user_logged_in() && is_singular('lesson'))
+    {
+        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathcode.js' , array('jquery','jquerytemplate','bootstrapjs'), $prependversion.'0.1', true );
+        wp_enqueue_script( 'breathecodejs' );
+    }
+    
+    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery','breathecodejs'), NULL, true );
     wp_enqueue_script( 'main-js' );
 }
 add_action( 'wp_enqueue_scripts', 'wmt_theme_js' );
