@@ -37,7 +37,7 @@ function wmt_theme_js(){
 
     if(WP_DEBUG) $prependversion = time();
 
-    wp_register_script( 'jquerytemplate', get_stylesheet_directory_uri().'/assets/js/jquery.tmpl.min' , array('jquery'), NULL, true );
+    wp_register_script( 'jquerytemplate', get_stylesheet_directory_uri().'/assets/js/jquery.tmpl.min.js' , array('jquery'), NULL, true );
     wp_enqueue_script( 'jquerytemplate' );
     
     wp_register_script( 'bootstrapjs', get_stylesheet_directory_uri().'/assets/js/bootstrap.min.js' , array('jquery'), NULL, true );
@@ -45,7 +45,7 @@ function wmt_theme_js(){
     
     if(is_user_logged_in() && is_singular('lesson'))
     {
-        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathcode.js' , array('jquery','jquerytemplate','bootstrapjs'), $prependversion.'0.1', true );
+        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathecode.js' , array('jquery','jquerytemplate','bootstrapjs'), $prependversion.'0.1', true );
         wp_enqueue_script( 'breathecodejs' );
     }
     
