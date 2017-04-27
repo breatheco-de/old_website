@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
     });
 
    browserChecker.init({ 
-   		browsers: ['safary']
+   		browsers: ['chrome']
 	});
 
 });   
