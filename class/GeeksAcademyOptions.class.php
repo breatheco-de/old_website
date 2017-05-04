@@ -37,13 +37,17 @@ class GeeksAcademyOptions {
 	}
 
 	function display_textinput_element($args)
-	{
-		echo '<input type="text" name="<?php echo $args["name"]; ?>" id="<?php echo $args["name"]; ?>" value="<?php echo get_option($args["name"]); ?>" />';
+	{ 
+		?>
+		<input type="text" name="<?php echo $args["name"]; ?>" id="<?php echo $args["name"]; ?>" value="<?php echo get_option($args["name"]); ?>" />
+		<?php
 	}
 
 	function display_textarea_element($args)
 	{
-		echo '<textarea style="width: 440px; height: 120px;" id="<?php echo $args["name"]; ?>" name="<?php echo $args["name"]; ?>"><?php echo get_option($args["name"]); ?></textarea>';
+		?>
+		<textarea style="width: 440px; height: 120px;" id="<?php echo $args["name"]; ?>" name="<?php echo $args["name"]; ?>"><?php echo get_option($args["name"]); ?></textarea>
+		<?php
 	}
 
 	function logo_display()
