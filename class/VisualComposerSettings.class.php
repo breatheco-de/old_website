@@ -208,7 +208,6 @@ Class VisualComposerSettings {
 	        )
 	   ) );
 
-	   
 	   array_unshift($this->excerciseClasses,array("#"=>'Select an exercise topic'));
 	   vc_map( array(
 	      "name" => __( "Replit Exercise", "breathecode" ),
