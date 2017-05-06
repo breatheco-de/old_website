@@ -4,6 +4,7 @@ class WPCohort{
 
 	const META_MAIN_TEACHER = 'cohort-main-teacher';
 	const META_COHORT_STAGE = 'cohort-stage';
+	const META_COHORT_SLACK = 'cohort-slack-url';
 	const POST_TYPE = 'user_cohort';
 
 	private $stage = array(
@@ -69,6 +70,14 @@ class WPCohort{
 			<p class="description"><?php _e( 'The current stage of the cohort','breathecode' ); ?></p>
 		</div>
 		<?php
+
+		// the stage of the cohort
+		?>
+		<div class="form-field">
+			<label for="<?php echo self::META_COHORT_SLACK; ?>"><?php _e( 'Slack Team URL', 'breathecode' ); ?></label>
+			<input type="text" name="<?php echo self::META_COHORT_SLACK; ?>">
+		</div>
+		<?php
 	}
 
 	// Edit term page
@@ -103,6 +112,13 @@ class WPCohort{
 				<p class="description"><?php _e( 'The current stage of the cohort','breathecode' ); ?></p>
 			</td>
 		</tr>
+		<?php $cohortSlack = get_option( self::META_COHORT_SLACK ); ?>
+		<tr class="form-field">
+		<th scope="row" valign="top"><label for="<?php echo self::META_COHORT_SLACK; ?>"><?php _e( 'Slack Group URL', 'breathecode' ); ?></label></th>
+			<td>
+				<input type="text" name="<?php echo self::META_COHORT_SLACK; ?>" value="<?php if(isset($cohortSlack)) echo $cohortSlack; ?>">
+			</td>
+		</tr>
 	<?php
 
 		$this->printReplitExercises($term);
@@ -113,6 +129,7 @@ class WPCohort{
 	{
 		$term_meta = get_option( "taxonomy_".$term->term_id );
 		// put the term ID into a variable
+		echo '<tr class="form-field"><td><h2>Repl.it Exercises</h2></td></tr>';
 		foreach ($this->excerciseClasses as $key => $value) {
 			$metaKey = "replit_".$key;
 		?>
@@ -149,6 +166,10 @@ class WPCohort{
 		if(isset( $_POST[self::META_MAIN_TEACHER] ))
 		{
 			update_option( self::META_MAIN_TEACHER, $_POST[self::META_MAIN_TEACHER] );
+		}
+		if(isset( $_POST[self::META_COHORT_SLACK] ))
+		{
+			update_option( self::META_COHORT_SLACK, $_POST[self::META_COHORT_SLACK] );
 		}
 	}  
 
