@@ -110,7 +110,7 @@ class WPUser
 	private function show_user_cohort( $user ) {
 	 
 	 	$user = $this->getUser();
-	 	if(in_array( 'administrator', $user->roles )) return;
+	 	if(!in_array( 'administrator', $user->roles )) return;
 
 	    //get the terms that the user is assigned to 
 	    $assigned_terms = wp_get_object_terms( $user->ID, 'user_cohort' );
@@ -137,7 +137,7 @@ class WPUser
 	 
 	 	//Only the admin
 	 	$user = $this->getUser();
-	 	if(in_array( 'administrator', $user->roles )) return;
+	 	if(!in_array( 'administrator', $user->roles )) return;
 
 	 	if(!empty($_POST['user_cohort']))
 	 	{
@@ -224,7 +224,7 @@ class WPUser
 	{
 	 	//Only the admin
 	 	$user = $this->getUser();
-	 	if(in_array( 'administrator', $user->roles )) return false;
+	 	if(!in_array( 'administrator', $user->roles )) return false;
 	   	 ?>
 		 <tr>
 	   		 <th><label>Prompt page on next sign-in</label></th>
@@ -266,7 +266,7 @@ class WPUser
 
 	 	//Only the admin
 	 	$user = $this->getUser();
-	 	if(in_array( 'administrator', $user->roles )) return false;
+	 	if(!in_array( 'administrator', $user->roles )) return false;
 	    
 	    if (!empty($_POST['prompt_page_on_login'])) update_user_meta( $user_id, 'prompt_page_on_login', $_POST['prompt_page_on_login'] );
 	    else update_user_meta( $user_id, 'prompt_page_on_login', '' );

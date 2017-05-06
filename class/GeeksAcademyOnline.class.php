@@ -80,6 +80,7 @@ Class GeeksAcademyOnline {
 
 	private function matchAnyValues($matching, $toArray)
 	{
+		print_r($toArray);
 		foreach ($matching as $value) {
 			if(in_array( $value, $toArray)) return true;
 		}
