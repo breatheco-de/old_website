@@ -109,8 +109,8 @@ class WPUser
 
 	private function show_user_cohort( $user ) {
 	 
-	 	//$user = $this->getUser();
-	 	if(!in_array( 'administrator', $user->roles )) return;
+	 	$currentUser = $this->getUser();
+	 	if(!in_array( 'administrator', $currentUser->roles )) return;
 
 	    //get the terms that the user is assigned to 
 	    $assigned_terms = wp_get_object_terms( $user->ID, 'user_cohort' );
@@ -136,8 +136,8 @@ class WPUser
 	private function save_user_cohort( $user_id ) {
 	 
 	 	//Only the admin
-	 	$user = $this->getUser();
-	 	if(!in_array( 'administrator', $user->roles )) return;
+	 	$currentUser = $this->getUser();
+	 	if(!in_array( 'administrator', $currentUser->roles )) return;
 
 	 	if(!empty($_POST['user_cohort']))
 	 	{
