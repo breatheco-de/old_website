@@ -55,7 +55,7 @@ li.hidden_label label{display: none;}
     margin-bottom: 0px;
 }
 .sidebar-boxed .sidenav{
-	height: calc(100vh - 60px);
+	height: calc(100vh - 60px) !important;
     overflow: auto;
 }
 

@@ -48,8 +48,8 @@ function wmt_theme_js(){
         wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathecode.js' , array('jquery','jquerytemplate','bootstrapjs'), $prependversion.'0.1', true );
         wp_enqueue_script( 'breathecodejs' );
     }
-    
-    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery','breathecodejs'), NULL, true );
+
+    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), $prependversion.'0.1', true );
     wp_enqueue_script( 'main-js' );
 }
 add_action( 'wp_enqueue_scripts', 'wmt_theme_js' );

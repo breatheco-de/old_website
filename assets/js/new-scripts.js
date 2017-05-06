@@ -5,8 +5,11 @@ jQuery(document).ready(function(){
         $(".sidebar-boxed").toggleClass("toggled");
     });
 
-   browserChecker.init({ 
-   		browsers: ['chrome']
-	});
+   if(typeof browserChecker!== 'undefined')
+   {
+	   browserChecker.init({ 
+	   		browsers: ['chrome']
+		});
+   }
 
 });   
