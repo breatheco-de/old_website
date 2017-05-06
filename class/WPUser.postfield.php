@@ -137,7 +137,7 @@ class WPUser
 	 
 	 	//Only the admin
 	 	$currentUser = $this->getUser();
-	 	if(!in_array( 'administrator', $currentUser->roles )) return;
+	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
 
 	 	if(!empty($_POST['user_cohort']))
 	 	{
@@ -148,6 +148,7 @@ class WPUser
 			//make sure you clear the term cache
 			clean_object_term_cache($user_id, 'user_cohort');
 	 	}
+
 	}
 
 	function populate_new_user_fields($form){
@@ -225,6 +226,8 @@ class WPUser
 	 	//Only the admin
 	 	$currentUser = $this->getUser();
 	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
+
+	 	$prompt_page_on_login = get_user_meta( $user->ID, 'prompt_page_on_login', true);
 	   	 ?>
 		 <tr>
 	   		 <th><label>Prompt page on next sign-in</label></th>
@@ -267,7 +270,7 @@ class WPUser
 	 	//Only the admin
 	 	$currentUser = $this->getUser();
 	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
-	    
+
 	    if (!empty($_POST['prompt_page_on_login'])) update_user_meta( $user_id, 'prompt_page_on_login', $_POST['prompt_page_on_login'] );
 	    else update_user_meta( $user_id, 'prompt_page_on_login', '' );
 
