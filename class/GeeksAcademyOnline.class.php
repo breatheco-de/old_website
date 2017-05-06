@@ -44,8 +44,13 @@ Class GeeksAcademyOnline {
 		    // if first time login
 			$promtOnLogin = get_user_meta($user->ID, 'prompt_page_on_login', true);
 		    if(!empty($promtOnLogin) and $promtOnLogin != '' ) {
-		        update_user_meta($user->ID, 'prompt_page_on_login', '');
-		        return $promtOnLogin;
+		        
+		        $url = get_permalink( get_page_by_path( $promtOnLogin ));
+		        if(!empty($url)) 
+	        	{
+	        		update_user_meta($user->ID, 'prompt_page_on_login', '');
+		        	return $url;
+		    	}
 		    }
 
 			//check for admins
@@ -56,11 +61,11 @@ Class GeeksAcademyOnline {
 			} 
 			else if($this->matchAnyValues( $this->teacherRoles, $user->roles)) {
 
-				return get_permalink( get_page_by_path( 'teacher-dashboard' ) );;
+				return get_permalink( get_page_by_path( 'teacher-dashboard' ) );
 			} 
 			else if($this->matchAnyValues( $this->studentRoles, $user->roles)) {
 
-				return get_permalink( get_page_by_path( 'my-courses' ) );;
+				return get_permalink( get_page_by_path( 'my-courses' ) );
 			} 
 			else if(in_array( 'unverified',$user->roles)) 
 			{

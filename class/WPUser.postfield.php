@@ -174,6 +174,7 @@ class WPUser
 	{
 		//getting post
 	    $cohort = rgar( $entry, '11' );
+	    //$cohort = rgar( $entry, '8' ); for development only
 	    $term = get_term($cohort);
 		$users = wp_set_object_terms( $user_id, $term->name,'user_cohort' );
 	}
@@ -241,15 +242,16 @@ class WPUser
 					$pages = get_pages(); 
 					foreach ( $pages as $page ) {
 						$selectPage = '';
-						if($prompt_page_on_login==get_page_link( $page->ID )) $selectPage = 'selected="selected"';
+						if($prompt_page_on_login==$page->post_name) $selectPage = 'selected="selected"';
 						
-						$option = '<option value="' . get_page_link( $page->ID ) . '" '.$selectPage.'>';
+						$option = '<option value="' . $page->post_name . '" '.$selectPage.'>';
 						$option .= $page->post_title;
 						$option .= '</option>';
 						echo $option;
 					}
 					?>
 					</select>
+					<?php echo $prompt_page_on_login; ?>
 		   		 </td>
 		   	 </tr>
 		    </table>
