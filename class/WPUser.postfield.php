@@ -110,45 +110,46 @@ class WPUser
 	private function show_user_cohort( $user ) {
 	 
 	 	$currentUser = $this->getUser();
-	 	if(!in_array( 'administrator', $currentUser->roles )) return;
-
-	    //get the terms that the user is assigned to 
-	    $assigned_terms = wp_get_object_terms( $user->ID, 'user_cohort' );
-	    $assigned_term_ids = array();
-	    foreach( $assigned_terms as $term ) {
-	        $assigned_term_ids[] = $term->term_id;
-	    }
-	 
-	    //get all the terms we have
-	    $user_cats = get_terms( 'user_cohort', array('hide_empty'=>false) );
-	 
-	    echo "<h3>User Cohort</h3>";
-	 
-	     //list the terms as checkbox, make sure the assigned terms are checked
-	    foreach( $user_cats as $cat ) { ?>
-	        <input type="checkbox" id="user-cohort-<?php echo $cat->term_id ?>" <?php if(in_array( $cat->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cat->term_id;?>"/> 
-	        <?php
-	    	echo '<label for="user-cohort-'.$cat->term_id.'">'.$cat->name.'</label>';
-	    	echo '<br />';
-	    }
+	 	if(in_array( 'administrator', $currentUser->roles ))
+	 	{
+		    //get the terms that the user is assigned to 
+		    $assigned_terms = wp_get_object_terms( $user->ID, 'user_cohort' );
+		    $assigned_term_ids = array();
+		    foreach( $assigned_terms as $term ) {
+		        $assigned_term_ids[] = $term->term_id;
+		    }
+		 
+		    //get all the terms we have
+		    $user_cats = get_terms( 'user_cohort', array('hide_empty'=>false) );
+		 
+		    echo "<h3>User Cohort</h3>";
+		 
+		     //list the terms as checkbox, make sure the assigned terms are checked
+		    foreach( $user_cats as $cat ) { ?>
+		        <input type="checkbox" id="user-cohort-<?php echo $cat->term_id ?>" <?php if(in_array( $cat->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cat->term_id;?>"/> 
+		        <?php
+		    	echo '<label for="user-cohort-'.$cat->term_id.'">'.$cat->name.'</label>';
+		    	echo '<br />';
+		    }
+	 	}
 	}
 
 	private function save_user_cohort( $user_id ) {
 	 
 	 	//Only the admin
 	 	$currentUser = $this->getUser();
-	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
-
-	 	if(!empty($_POST['user_cohort']))
+	 	if(in_array( 'administrator', $currentUser->roles ))
 	 	{
-			$user_terms = $_POST['user_cohort'];
-			$terms = array_unique( array_map( 'intval', $user_terms ) );
-			wp_set_object_terms( $user_id, $terms, 'user_cohort', false );
-		 
-			//make sure you clear the term cache
-			clean_object_term_cache($user_id, 'user_cohort');
+		 	if(!empty($_POST['user_cohort']))
+		 	{
+				$user_terms = $_POST['user_cohort'];
+				$terms = array_unique( array_map( 'intval', $user_terms ) );
+				wp_set_object_terms( $user_id, $terms, 'user_cohort', false );
+			 
+				//make sure you clear the term cache
+				clean_object_term_cache($user_id, 'user_cohort');
+		 	}
 	 	}
-
 	}
 
 	function populate_new_user_fields($form){
@@ -225,33 +226,35 @@ class WPUser
 	{
 	 	//Only the admin
 	 	$currentUser = $this->getUser();
-	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
+	 	if(in_array( 'administrator', $currentUser->roles ))
+	 	{
 
-	 	$prompt_page_on_login = get_user_meta( $user->ID, 'prompt_page_on_login', true);
-	   	 ?>
-		 <tr>
-	   		 <th><label>Prompt page on next sign-in</label></th>
-	   		 <td>
-				<select name="prompt_page_on_login"> 
-				<option value="">
-				<?php echo esc_attr( 'No page' ); ?></option> 
-				<?php 
-				$pages = get_pages(); 
-				foreach ( $pages as $page ) {
-					$selectPage = '';
-					if($prompt_page_on_login==get_page_link( $page->ID )) $selectPage = 'selected="selected"';
-					
-					$option = '<option value="' . get_page_link( $page->ID ) . '" '.$selectPage.'>';
-					$option .= $page->post_title;
-					$option .= '</option>';
-					echo $option;
-				}
-				?>
-				</select>
-	   		 </td>
-	   	 </tr>
-	    </table>
-	    <?php
+		 	$prompt_page_on_login = get_user_meta( $user->ID, 'prompt_page_on_login', true);
+		   	 ?>
+			 <tr>
+		   		 <th><label>Prompt page on next sign-in</label></th>
+		   		 <td>
+					<select name="prompt_page_on_login"> 
+					<option value="">
+					<?php echo esc_attr( 'No page' ); ?></option> 
+					<?php 
+					$pages = get_pages(); 
+					foreach ( $pages as $page ) {
+						$selectPage = '';
+						if($prompt_page_on_login==get_page_link( $page->ID )) $selectPage = 'selected="selected"';
+						
+						$option = '<option value="' . get_page_link( $page->ID ) . '" '.$selectPage.'>';
+						$option .= $page->post_title;
+						$option .= '</option>';
+						echo $option;
+					}
+					?>
+					</select>
+		   		 </td>
+		   	 </tr>
+		    </table>
+		    <?php
+		}
 	}
 
 	/**
@@ -269,13 +272,14 @@ class WPUser
 
 	 	//Only the admin
 	 	$currentUser = $this->getUser();
-	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
+	 	if(in_array( 'administrator', $currentUser->roles ))
+	 	{
+		    if (!empty($_POST['prompt_page_on_login'])) update_user_meta( $user_id, 'prompt_page_on_login', $_POST['prompt_page_on_login'] );
+		    else update_user_meta( $user_id, 'prompt_page_on_login', '' );
 
-	    if (!empty($_POST['prompt_page_on_login'])) update_user_meta( $user_id, 'prompt_page_on_login', $_POST['prompt_page_on_login'] );
-	    else update_user_meta( $user_id, 'prompt_page_on_login', '' );
-
-	    //also save the cohort field
-	    $this->save_user_cohort($user_id);
+		    //also save the cohort field
+		    $this->save_user_cohort($user_id);
+	 	}
 	}
 
 }
