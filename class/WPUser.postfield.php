@@ -109,7 +109,7 @@ class WPUser
 
 	private function show_user_cohort( $user ) {
 	 
-	 	$user = $this->getUser();
+	 	//$user = $this->getUser();
 	 	if(!in_array( 'administrator', $user->roles )) return;
 
 	    //get the terms that the user is assigned to 
@@ -223,7 +223,7 @@ class WPUser
 	private function show_user_redirect_field($user)
 	{
 	 	//Only the admin
-	 	$user = $this->getUser();
+	 	//$user = $this->getUser();
 	 	if(!in_array( 'administrator', $user->roles )) return false;
 	   	 ?>
 		 <tr>
