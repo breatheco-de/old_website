@@ -223,8 +223,8 @@ class WPUser
 	private function show_user_redirect_field($user)
 	{
 	 	//Only the admin
-	 	//$user = $this->getUser();
-	 	if(!in_array( 'administrator', $user->roles )) return false;
+	 	$currentUser = $this->getUser();
+	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
 	   	 ?>
 		 <tr>
 	   		 <th><label>Prompt page on next sign-in</label></th>
@@ -265,8 +265,8 @@ class WPUser
 	    }
 
 	 	//Only the admin
-	 	$user = $this->getUser();
-	 	if(!in_array( 'administrator', $user->roles )) return false;
+	 	$currentUser = $this->getUser();
+	 	if(!in_array( 'administrator', $currentUser->roles )) return false;
 	    
 	    if (!empty($_POST['prompt_page_on_login'])) update_user_meta( $user_id, 'prompt_page_on_login', $_POST['prompt_page_on_login'] );
 	    else update_user_meta( $user_id, 'prompt_page_on_login', '' );
