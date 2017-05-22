@@ -2,7 +2,7 @@
 use WPTypes\WPCohort as WPCohort;
 function getStudentsByCohort($cohortId){
     $auxUsers = array();
-    $users = get_objects_in_term( $cohortId, 'user_cohort' );
+    $users = get_objects_in_term( $cohortId, WPCohort::POST_TYPE );
     foreach($users as $u) 
     {
         array_push($auxUsers,get_user_by('id',$u));
@@ -22,7 +22,7 @@ function printRoles($roles){
 $term = get_queried_object();
 $termMeta = get_option( 'taxonomy_'.$term->term_id);
 $teacher = get_userdata($termMeta[WPCohort::META_MAIN_TEACHER]);
-$termParent = get_term($term->parent,'user_cohort');
+$termParent = get_term($term->parent,WPCohort::POST_TYPE);
 $students = getStudentsByCohort($term->term_id);
 get_header('boxed'); 
 

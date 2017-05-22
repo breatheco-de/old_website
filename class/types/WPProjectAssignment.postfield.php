@@ -9,6 +9,13 @@ class WPProjectAssignment
 	//const FORM_ASSIGNMENT_ID = '6';
 	const FORM_ASSIGNMENT_TITLE = 'Assign Project to Class';
 	const FORM_DELIVER_ASSIGNMENT_TITLE = 'Deliver Project Assignment';
+	
+	private static $assignmentStatus = array(
+		"due" => "Assignment Delivered",
+		"pending" => "Assignment Delivered",
+		"done" => "Assignment Delivered",
+		"missed" => "Assignment Delivered"
+		);
 
 	  function __construct() {
 	    add_filter( 'wpt_field_options', array($this,'fill_select'), 10, 3);

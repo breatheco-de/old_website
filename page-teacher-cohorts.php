@@ -14,13 +14,20 @@ function getCohorsWithByTeacher($teacherId){
     			);
     $user_meta = get_user_by('id',$teacherId);
     $user_roles = $user_meta->roles; //array of roles the user is part of.
+    $terms = get_terms($args); // Get all terms of a taxonomy
+    
+    $resultingCohorts = array();
     if (!in_array( 'administrator', $user_roles ) )
     {
-        $args['meta_key'] = WPCohort::META_MAIN_TEACHER;
-        $args['meta_value'] = $teacherId;
+        foreach($terms as $term){
+            $meta = get_option('taxonomy_'.$term->term_id);
+            if($meta[WPCohort::META_MAIN_TEACHER]==$teacherId)
+                array_push($resultingCohorts, $term);
+        }
+        
+        return $resultingCohorts;
     }
-    $terms = get_terms($args); // Get all terms of a taxonomy
-    return $terms;
+    else return $terms;
 }
 
 $cohorts = getCohorsWithByTeacher(get_current_user_id());

@@ -101,7 +101,7 @@ $assignments = get_assignments();
                     <div class="col-xs-3 col-md-2 assignment-bar">
                       <a href="<?php echo $a["assignment-permalink"]; ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'View' ); ?></a>
                       <?php if($a["assignment-status"]!="done" and $a["assignment-status"]!="missed"){ ?>
-                      <a href="<?php echo get_permalink( get_page_by_path( 'deliver-assignment' ) ); ?>?assignment=515&project=<?php echo urlencode($a["project-name"]); ?>" class="btn btn-xs btn-success"><?php echo pll__( 'Deliver' ); ?></a>
+                      <a href="<?php echo get_permalink( get_page_by_path( 'deliver-assignment' ) ); ?>?assignment=<?php echo $a["assignment-id"]; ?>&project=<?php echo urlencode($a["project-name"]); ?>" class="btn btn-xs btn-success"><?php echo pll__( 'Deliver' ); ?></a>
                       <?php } ?>
                     </div>
                   </div>
