@@ -61,7 +61,7 @@ Class GeeksAcademyOnline {
 			} 
 			else if($this->matchAnyValues( $this->teacherRoles, $user->roles)) {
 
-				return get_permalink( get_page_by_path( 'teacher-dashboard' ) );
+				return get_permalink( get_page_by_path( 'teacher-cohorts' ) );
 			} 
 			else if($this->matchAnyValues( $this->studentRoles, $user->roles)) {
 
