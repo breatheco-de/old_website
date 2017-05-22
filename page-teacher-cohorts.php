@@ -12,6 +12,13 @@ function getCohorsWithByTeacher($teacherId){
       				'hide_empty' => false,
       				'number' => 0
     			);
+    $user_meta = get_user_by('id',$teacherId);
+    $user_roles = $user_meta->roles; //array of roles the user is part of.
+    if (!in_array( 'administrator', $user_roles ) )
+    {
+        $args['meta_key'] = WPCohort::META_MAIN_TEACHER;
+        $args['meta_value'] = $teacherId;
+    }
     $terms = get_terms($args); // Get all terms of a taxonomy
     return $terms;
 }

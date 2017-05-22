@@ -65,7 +65,7 @@ get_header('boxed');
                     <tr>
                         <th>ID</th>
                         <th>Role</th>
-                        <th>Nickname</th>
+                        <th>Full Name</th>
                         <th>Email</th>
                         <th>Github</th>
                         <th>Phone</th>
@@ -77,7 +77,7 @@ get_header('boxed');
                     <tr>
                         <td>#<?php echo $std->data->ID; ?></td>
                         <td><?php echo printRoles($std->roles); ?></td>
-                        <td><?php echo $std->data->display_name; ?></td>
+                        <td><?php echo get_user_meta($std->data->ID,'first_name',true); ?> <?php echo get_user_meta($std->data->ID,'last_name',true); ?></td>
                         <td><?php echo $std->data->user_email; ?></td>
                         <td><?php echo get_user_meta( $std->data->ID, 'github', true ); ?></td>
                         <td><?php echo get_user_meta( $std->data->ID, 'phone', true ); ?></td>

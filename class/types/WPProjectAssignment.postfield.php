@@ -1,6 +1,8 @@
 <?php
 namespace WPTypes;
 
+use WP_Query;
+
 class WPProjectAssignment
 {
 	const POST_TYPE = 'student-assignment';
@@ -64,7 +66,7 @@ class WPProjectAssignment
 	          case 'student' :
 	              $studentId = get_post_meta( $postId, 'wpcf-student-assigned',true);
 	              $user = get_user_by('id',$studentId);
-	              if ($user) echo $user->display_name.' ('.$user->user_email.')';
+	              if ($user) echo $user->data->display_name.' ('.$user->data->email.')';
 	              else echo 'Unable to get user';
 	            break;
 

@@ -39,7 +39,7 @@ class BCThemeOptions {
 				    'type' => 'select', 
 				    'label' => 'Full Stack Premium Course (ESP)',
 				    'name' => self::PREMIUM_FULLSTACK_OPTION.'-es' ,
-					'description' => 'The english version of the fullstack',
+					'description' => 'The spanish version of the fullstack',
 					'options' => []
 				]
 			];
