@@ -66,7 +66,7 @@ class WPProjectAssignment
 	          case 'student' :
 	              $studentId = get_post_meta( $postId, 'wpcf-student-assigned',true);
 	              $user = get_user_by('id',$studentId);
-	              if ($user) echo $user->data->display_name.' ('.$user->data->email.')';
+	              if ($user) echo $user->data->display_name.' ('.$user->data->user_email.')';
 	              else echo 'Unable to get user';
 	            break;
 

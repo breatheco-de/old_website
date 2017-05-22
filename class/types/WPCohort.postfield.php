@@ -20,6 +20,7 @@ class WPCohort{
 	private $excerciseClasses = array(
 		"html" => '',
 		"css" => '',
+		"css-selectors" => '',
 		"layouts" => '',
 		"forms" => '',
 		"arrays" => '',
@@ -102,7 +103,7 @@ class WPCohort{
 				<select name="term_meta[<?php echo self::META_MAIN_TEACHER; ?>]">
 					<option value="0">Select a teacher</option>
 				<?php foreach ($teachers as $t) { ?>
-					<option value="<?php echo $t->ID; ?>" <?php if(isset($mainTeacher) and $mainTeacher==$t->ID) echo 'selected'; ?>><?php echo $t->display_name; ?></option>
+					<option value="<?php echo $t->ID; ?>" <?php if(isset($mainTeacher) and $mainTeacher==$t->ID) echo 'selected'; ?>><?php echo $t->display_name; ?> (<?php echo $t->user_email; ?>)</option>
 				<?php } ?>
 				</select>
 				<p class="description"><?php _e( 'Who is going to be teaching the cohort','breathecode' ); ?></p>
