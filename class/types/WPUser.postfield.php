@@ -62,13 +62,17 @@ class WPUser
 	function give_access_to_fullstack_prework($studentId)
 	{
 		$prework = get_option(BCThemeOptions::PREWORK_FULLSTACK_OPTION);
-		$this->giveAccessToParentCourse($studentId,$prework);
+		$prework_esp = get_option(BCThemeOptions::PREWORK_FULLSTACK_OPTION.'-es');
+		if(isset($prework)) $this->giveAccessToParentCourse($studentId,$prework);
+		if(isset($prework_esp)) $this->giveAccessToParentCourse($studentId,$prework_esp);
 	}
 	
 	function give_access_to_fullstack_premium($studentId)
 	{
 		$premium = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION);
-		$this->giveAccessToParentCourse($studentId,$premium);
+		$premium_esp = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION.'-es');
+		if(isset($premium)) $this->giveAccessToParentCourse($studentId,$premium);
+		if(isset($premium_esp)) $this->giveAccessToParentCourse($studentId,$premium_esp);
 	}
 	
 	private function giveAccessToParentCourse($studentId,$courseId)

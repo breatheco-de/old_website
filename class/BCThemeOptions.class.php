@@ -25,7 +25,21 @@ class BCThemeOptions {
 				    'type' => 'select', 
 				    'label' => 'Full Stack Premium Course',
 				    'name' => self::PREMIUM_FULLSTACK_OPTION ,
-					'description' => 'What is the parent course for the rest of the fullstack?',
+					'description' => 'What is the parent course for the rest of whole fullstack?',
+					'options' => []
+				],
+				[
+				    'type' => 'select', 
+				    'label' => 'Full Stack Prework Course (ESP)',
+				    'name' => self::PREWORK_FULLSTACK_OPTION.'-es',
+					'description' => 'The spanish version of the prework fullstack',
+					'options' => []
+				],
+				[
+				    'type' => 'select', 
+				    'label' => 'Full Stack Premium Course (ESP)',
+				    'name' => self::PREMIUM_FULLSTACK_OPTION.'-es' ,
+					'description' => 'The english version of the fullstack',
 					'options' => []
 				]
 			];
@@ -70,6 +84,14 @@ class BCThemeOptions {
 						],
 						[
 							'name' => self::PREMIUM_FULLSTACK_OPTION,
+							'options' => $auxCourses
+						],
+						[
+							'name' => self::PREWORK_FULLSTACK_OPTION.'-es',
+							'options' => $auxCourses
+						],
+						[
+							'name' => self::PREMIUM_FULLSTACK_OPTION.'-es',
 							'options' => $auxCourses
 						]
 					];
