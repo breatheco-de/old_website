@@ -1,7 +1,5 @@
 <?php
-
-require_once('ActiveCampaignWrapper.php');
-require_once('PHPUtils.class.php');
+namespace WPTypes;
 
 class WPProjectAssignment
 {

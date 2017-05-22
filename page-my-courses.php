@@ -8,13 +8,21 @@ get_header('boxed');
 
 function get_courses()
 {
-	$terms = get_terms( array(
-	    'taxonomy' => 'course',
-      'meta_key' => 'wpcf-taxonomy-status',
-      'meta_value' => 'publish'
-	) );
-
-	return $terms;
+  $auxTerms = array();
+  
+  $userId = get_current_user_id();
+  $parentTerms = wp_get_object_terms( $userId, 'course' );
+  foreach($parentTerms as $pTerm)
+  {
+    //array_push($auxTerms,$pTerm);
+    $childrens = get_term_children( $pTerm->term_id, 'course' );
+    //die(print_r($childrens));
+    foreach($childrens as $cTerm){
+      $cTerm = get_term_by('id', $cTerm, 'course');
+      array_push($auxTerms,$cTerm);
+    }
+  }
+	return $auxTerms;
 }
 
 

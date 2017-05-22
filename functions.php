@@ -27,7 +27,9 @@ function wmt_theme_style(){
  
     wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css', array('theDocs.all.min.css'));
     
-    wp_enqueue_style( 'breathecodecss', get_stylesheet_directory_uri().'/assets/css/components.breathecode.css', array('theDocs.all.min.css'),$prependversion.'0.1');
+    wp_enqueue_style( 'breathecodecss', get_stylesheet_directory_uri().'/assets/css/components.breathecode.css', array('theDocs.all.min.css'),$prependversion);
+    
+    //wp_enqueue_style( 'stretchynav', get_stylesheet_directory_uri().'/assets/css/stretchy-nav.component.css', array(),$prependversion);
         
 }
 add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
@@ -45,11 +47,11 @@ function wmt_theme_js(){
     
     if(is_user_logged_in() && is_singular('lesson'))
     {
-        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathecode.js' , array('jquery','jquerytemplate','bootstrapjs'), $prependversion.'0.1', true );
+        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathecode.js' , array('jquery','jquerytemplate','bootstrapjs'), $prependversion, true );
         wp_enqueue_script( 'breathecodejs' );
     }
 
-    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), $prependversion.'0.1', true );
+    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), $prependversion, true );
     wp_enqueue_script( 'main-js' );
 }
 add_action( 'wp_enqueue_scripts', 'wmt_theme_js' );
@@ -139,24 +141,22 @@ function wpse_43672_wp_head(){
 include('class/WPSessionManagment.class.php');
 $WPSessionManagment = new WPSessionManagment();
 
-include('class/GeeksAcademyOptions.class.php');
-
 include('class/GeeksAcademyOnline.class.php');
 $GeeksAcademyOnline = new GeeksAcademyOnline();
 
 
-include('class/VisualComposerSettings.class.php');
+include('class/vc_composer/VisualComposerSettings.class.php');
 $VisualComposerSettings = new VisualComposerSettings();
 
-include('class/GravityFormOptions.class.php');
-$GravityFormOptions = new GravityFormOptions();
+include('class/gravity_forms/GravityFormSettings.class.php');
+$GravityFormOptions = new GravityFormSettings();
 
-include('class/WPTypesOptions.class.php');
-$TypesOptions = new WPTypesOptions();
-
-include('class/WPCohort.class.php');
-$WPCohort = new WPCohort();
+include('class/types/TypesSettings.class.php');
+$TypesSettings = new WPTypesSettings();
 
 include('class/WPLanguages.class.php');
 $WPLanguages = new WPLanguages();
+
+include('class/BCThemeOptions.class.php');
+$BCThemeOptions = new BCThemeOptions();
 

@@ -1,15 +1,20 @@
 <?php
 
-require_once('PHPUtils.class.php');
+namespace WPTypes;
+
+use BCThemeOptions;
 
 class WPUser
 {
 	const POST_TYPE = 'user';
-	const FORM_USER_REGISTRATION = 'Manual User Registration';
 	private $user;
+	public static $actions = array(
+		'give_access_to_fullstack_prework' => 'Give PREWORK Fullstack Access',
+		'give_access_to_fullstack_premium' => 'Give PREMIUM Fullstack Access'
+		);
 
 	function __construct() {
-		add_action( 'init', array($this, 'register_user_taxonomy' ));
+		add_action( 'init', array($this, 'register_user_taxonomies' ));
 		add_action( 'admin_menu', array($this, 'add_user_cohort_menu' ));
 		add_action( 'show_user_profile', array($this, 'tm_additional_profile_fields' ));
 		add_action( 'edit_user_profile', array($this, 'tm_additional_profile_fields' ));
@@ -18,12 +23,12 @@ class WPUser
 	    
 	    add_action( 'manage_users_columns' , array($this,'userColumns'), 10, 2 );
 	    add_action( 'manage_users_custom_column' , array($this,'customUserColumn'), 10, 3 );
+		add_action( 'restrict_manage_users', array($this,'userFilters'),10,3 );
+		add_action( 'pre_get_users', array($this,'filterUsers'),10,3 );
 		
 		add_filter( 'bulk_actions-users', array($this,'register_my_bulk_actions' ), 10, 3);
 		add_filter( 'handle_bulk_actions-users', array($this,'my_bulk_action_handler'), 10, 3 );
 
-		add_filter( 'gform_pre_render', array($this,'populate_new_user_fields') );
-		add_action( 'gform_user_registered', array($this,'finishUserRegistration'), 10, 4 );
 	}
 
 	function getUser(){
@@ -36,25 +41,53 @@ class WPUser
 	}
 
 	function register_my_bulk_actions($bulk_actions) {
-		$bulk_actions['add_to_cohort'] = __( 'Add to Cohort', 'add_to_cohort');
+		foreach(self::$actions as $key => $value) $bulk_actions[$key] = __( $value, 'breathecode');
 		return $bulk_actions;
 	}
 
 	 
-	function my_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
-	  if ( $doaction !== 'add_to_cohort' ) {
+	function my_bulk_action_handler( $redirect_to, $doaction, $users ) {
+	  if ( !isset(self::$actions[$doaction]) ) {
 	    return $redirect_to;
 	  }
-	  foreach ( $post_ids as $post_id ) {
-	    // Perform action for each post.
+
+	  foreach ( $users as $userId ) {
+	    	call_user_func(array($this,$doaction), $userId);
 	  }
-	  $redirect_to = add_query_arg( 'bulk_emailed_posts', count( $post_ids ), $redirect_to );
+	  
+	  $redirect_to = add_query_arg( 'affected_ids', count( $users ), $redirect_to );
 	  return $redirect_to;
+	}
+	
+	function give_access_to_fullstack_prework($studentId)
+	{
+		$prework = get_option(BCThemeOptions::PREWORK_FULLSTACK_OPTION);
+		$this->giveAccessToParentCourse($studentId,$prework);
+	}
+	
+	function give_access_to_fullstack_premium($studentId)
+	{
+		$premium = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION);
+		$this->giveAccessToParentCourse($studentId,$premium);
+	}
+	
+	private function giveAccessToParentCourse($studentId,$courseId)
+	{
+		$courses = get_terms(array(
+			'taxonomy' => 'course',
+			'parent' => $courseId
+		));
+		$assigned_terms = wp_get_object_terms( $studentId, WPCourse::TAX_SLUG );
+	    $assigned_term_ids = array();
+	    foreach( $assigned_terms as $term ) array_push($assigned_term_ids, $term->term_id);
+	    foreach( $courses as $term ) array_push($assigned_term_ids, $term->term_id);
+	    array_push($assigned_term_ids, $courseId);
+		$this->addUserToTaxonomies($studentId,$assigned_term_ids,WPCourse::TAX_SLUG);
 	}
 
 	function userColumns( $columns ) {
 		//unset( $columns['title'] );
-		$columns['cohort'] = 'Cohort';
+		$columns[WPCohort::POST_TYPE] = 'Cohort';
 		//die(print_r($columns));
 		return $columns;
 	}
@@ -63,8 +96,8 @@ class WPUser
 	function customUserColumn( $value, $column_name ,$userId) {
 		switch ( $column_name ) {
 
-			case 'cohort' :
-				$terms = wp_get_post_terms($userId,'user_cohort');
+			case WPCohort::POST_TYPE :
+				$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
 				$termStrg = '';
 				if(!$terms or count($terms)==0) return 'No cohorts';
 				foreach ($terms as $term) {
@@ -74,33 +107,75 @@ class WPUser
 			break;
 		}
 	}
+	
 
-	function register_user_taxonomy(){
-	 
+	
+	function filterUsers( $query ) {
+	    global $pagenow;
+	
+	    if ( is_admin() && 'users.php' == $pagenow && isset( $_GET[ WPCohort::POST_TYPE ] ) && is_array( $_GET[ WPCohort::POST_TYPE ] )) {
+	        $section = $_GET[ WPCohort::POST_TYPE ];
+	        $section = !empty( $section[ 0 ] ) ? $section[ 0 ] : $section[ 1 ];
+
+			
+			$users = get_objects_in_term( $section, WPCohort::POST_TYPE );
+	        $query->set( 'include', $users );
+	        //$query->set( 'meta_query', $meta_query );
+	    }
+	}
+	
+	function userFilters() {
+	    if ( isset( $_GET[ WPCohort::POST_TYPE ]) ) {
+	        $section = $_GET[ WPCohort::POST_TYPE ];
+	        $section = !empty( $section[ 0 ] ) ? $section[ 0 ] : $section[ 1 ];
+	    } else {
+	        $section = -1;
+	    }
+	    $terms = get_terms(array('taxonomy' => WPCohort::POST_TYPE,
+      				'hide_empty' => false,
+      				'number' => 0
+      	));
+	    echo ' <select name="'.WPCohort::POST_TYPE.'[]" style="float:none;"><option value="">Filter by cohort...</option>';
+	    foreach ( $terms as $t ) {
+	        $selected = $t->term_id == $section ? ' selected="selected"' : '';
+	        echo '<option value="' . $t->term_id . '"' . $selected . '>' . $t->name . '</option>';
+	    }
+	    echo '<input type="submit" class="button" value="Filter">';
+	}
+
+	function register_user_taxonomies(){
+		$this->registerTaxonomy(array(
+			"slug" => WPCohort::POST_TYPE,
+			"singularName" => 'User Cohort',
+			"pluralName" => 'User Cohorts',
+			"hierarchical" => true,
+			));
+	}
+	
+	function registerTaxonomy($settings)
+	{
 		$labels = array(
-			'name' => 'User Cohort',
-			'singular_name' => 'User Cohort',
-			'search_items' => 'Search User Cohorts',
-			'all_items' => 'All User Cohorts',
-			'parent_item' => 'Parent User Cohort',
-			'parent_item_colon' => 'Parent User Cohort',
-			'edit_item' => 'Edit User Cohort',
-			'update_item' => 'Update User Cohort',
-			'add_new_item' => 'Add New User Cohort',
-			'new_item_name' => 'New User Cohort Name',
-			'menu_name' => 'User Cohort'
+			'name' => 'User '.$settings['singularName'],
+			'singular_name' => $settings['singularName'],
+			'search_items' => 'Search '.$settings['pluralName'],
+			'all_items' => 'All '.$settings['pluralName'],
+			'parent_item' => 'Parent '.$settings['singularName'],
+			'parent_item_colon' => 'Parent '.$settings['singularName'],
+			'edit_item' => 'Edit '.$settings['singularName'],
+			'update_item' => 'Update '.$settings['singularName'],
+			'add_new_item' => 'Add New '.$settings['singularName'],
+			'new_item_name' => 'New '.$settings['singularName'].' Name',
+			'menu_name' => $settings['singularName']
 		);
 	 
-		$args = array(
-			'hierarchical' => true,
+		register_taxonomy( $settings['slug'] , 'user' , array(
+			'hierarchical' => $settings['hierarchical'],
 			'labels' => $labels,
 			'show_ui' => true,
 			'show_admin_column' => true,
 			'query_var' => true,
-			'rewrite' => array( 'slug' => 'user_cohort')
-		);
-	 
-		register_taxonomy( 'user_cohort' , 'user' , $args );
+			'rewrite' => array( 'slug' => $settings['slug'])
+		));
 	}
 
 	function add_user_cohort_menu() {
@@ -128,6 +203,7 @@ class WPUser
 		    foreach( $user_cats as $cat ) { ?>
 		        <input type="checkbox" id="user-cohort-<?php echo $cat->term_id ?>" <?php if(in_array( $cat->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cat->term_id;?>"/> 
 		        <?php
+		        if($cat->parent) echo '->';
 		    	echo '<label for="user-cohort-'.$cat->term_id.'">'.$cat->name.'</label>';
 		    	echo '<br />';
 		    }
@@ -140,45 +216,22 @@ class WPUser
 	 	$currentUser = $this->getUser();
 	 	if(in_array( 'administrator', $currentUser->roles ))
 	 	{
-		 	if(!empty($_POST['user_cohort']))
+		 	if(isset($_POST[WPCohort::POST_TYPE]))
 		 	{
-				$user_terms = $_POST['user_cohort'];
-				$terms = array_unique( array_map( 'intval', $user_terms ) );
-				wp_set_object_terms( $user_id, $terms, 'user_cohort', false );
-			 
-				//make sure you clear the term cache
-				clean_object_term_cache($user_id, 'user_cohort');
+				$user_terms = $_POST[WPCohort::POST_TYPE];
+				$this->addUserToTaxonomies($user_id,$user_terms,WPCohort::POST_TYPE);
 		 	}
 	 	}
 	}
 
-	function populate_new_user_fields($form){
-
-		//Cut the execution of the function
-		if($form['title']!=self::FORM_USER_REGISTRATION) return $form;
-
-		foreach ( $form['fields'] as $field )
-		{
-			if ( $field->type == 'select' and strpos( $field->cssClass,'student-cohorts' )!==false ) {
-			   	$terms = get_terms('user_cohort',array('hide_empty' => 0));
-			   	$choices = array();
-				foreach($terms as $term) if($term->parent!=0) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
-			   	$field->choices = $choices;
-			   	$field->placeholder = 'Select a cohort';
-			}
-		}
-		return $form;
-	}
-
-	function finishUserRegistration($user_id, $feed, $entry)
+	private function addUserToTaxonomies($user_id, $taxonomies, $taxonomyType)
 	{
-		//getting post
-	    $cohort = rgar( $entry, '11' );
-	    //$cohort = rgar( $entry, '8' ); for development only
-	    $term = get_term($cohort);
-		$users = wp_set_object_terms( $user_id, $term->name,'user_cohort' );
+		$terms = array_unique( array_map( 'intval', $taxonomies ) );
+		wp_set_object_terms( $user_id, $terms, $taxonomyType, false );
+	 
+		//make sure you clear the term cache
+		clean_object_term_cache($user_id, $taxonomyType);
 	}
-
 
 	/**
 	 * Add new fields above 'Update' button.

@@ -1,7 +1,8 @@
 <?php
 
+require('forms.autoload.php');
 
-class GravityFormOptions {
+class GravityFormSettings {
 
   function __construct() {
     add_filter( 'gform_enable_field_label_visibility_settings', '__return_true' );
@@ -10,6 +11,8 @@ class GravityFormOptions {
     add_filter("gform_submit_button", array($this,"pbc_gf_add_class_to_button_front_end"), 10, 2);
     add_filter("gform_field_content", array($this,"bootstrap_styles_for_gravityforms_fields"), 10, 5);
     add_filter( 'gform_validation_message', array($this,'change_gf_validation_message'), 10, 2 );
+  
+    $userRegistration = new GFForm\GFUserRegistration();
   }
 
 

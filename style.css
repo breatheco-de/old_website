@@ -58,6 +58,17 @@ li.hidden_label label{display: none;}
 	height: calc(100vh - 60px) !important;
     overflow: auto;
 }
+.banner{background: #0c182f !important;}
+.banner .class-information p{font-size: 1.3em;}
+.banner .class-information a{color: white;}
+.banner .class-information .well{background: none; border: 1px solid rgba(255, 255, 255, 0.4);}
+.banner .breadcrumb{
+	background: rgba(255,255,255,0.2);
+    border-bottom: none;
+    border-radius: 5px;
+}
+.banner .breadcrumb a{ color: white; cursor: pointer;}
+.table-no-lines tbody tr td{border: none;}
 
 @media (min-width:768px){
 	.sidebar-boxed{overflow: inherit; z-index: 9;}
