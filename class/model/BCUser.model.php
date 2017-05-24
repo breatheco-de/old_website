@@ -7,7 +7,7 @@ class BCUser{
     
     function __construct($ID){
         $this->metadata = array(
-            "promtOnLogin" => "prompt_page_on_login"
+            "promt_on_login" => "prompt_page_on_login"
         );
     }
     

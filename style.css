@@ -72,7 +72,7 @@ li.hidden_label label{display: none;}
 
 @media (min-width:768px){
 	.sidebar-boxed{overflow: inherit; z-index: 9;}
-	.sidebar-boxed #menu-toggle{position: absolute; right: -100px; top: 10px; color: black;
+	.sidebar-boxed #menu-toggle{position: absolute; right: -100px; top: 10px; color: white;
 	font-size: 18px; visibility: visible !important;}
 	.sidebar-boxed.toggled~footer, 
 	.sidebar-boxed.toggled~header,.sidebar-boxed.toggled~main{

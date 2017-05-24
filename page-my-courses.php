@@ -16,10 +16,17 @@ function get_courses()
   {
     //array_push($auxTerms,$pTerm);
     $childrens = get_term_children( $pTerm->term_id, 'course' );
+    //taxonomy-status
     //die(print_r($childrens));
     foreach($childrens as $cTerm){
-      $cTerm = get_term_by('id', $cTerm, 'course');
-      array_push($auxTerms,$cTerm);
+      $status = get_term_meta($cTerm,'wpcf-taxonomy-status',true);
+      $currentLang = pll_current_language();
+      $language = pll_get_term_language($cTerm);
+      if($status=='publish' and $currentLang==$language)
+      {
+        $cTerm = get_term_by('id', $cTerm, 'course');
+        array_push($auxTerms,$cTerm);
+      }
     }
   }
 	return $auxTerms;
