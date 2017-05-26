@@ -38,12 +38,17 @@ class VCCodeHighlighter{
 	            "param_name" => "codelanguage",
 	            "value" => array('html' => 'markup',
 	                            'JS' => 'javascript',
-	                            'CSS' => 'css',
-	                            'Python' => 'python',
-	                            'GIT' => 'git',
 	                            'JSON' => 'json',
-	                            'PHP' => 'php',
+	                            'CSS' => 'css',
 	                            'SQL' => 'sql',
+	                            'PHP' => 'php',
+	                            'GIT' => 'git',
+	                            'Bash' => 'bash',
+	                            'Python' => 'python',
+	                            'C#' => 'csharp',
+	                            'HTTP' => 'http',
+	                            'Sass' => 'scss',
+	                            'Nginx' => 'nginx',
 	                            'YAML' => 'yaml'),
 	            "description" => __( "Select the language for codeview", "code-highliter" )
 	         ),
@@ -62,7 +67,7 @@ class VCCodeHighlighter{
     
 	function render( $atts , $content = null) {
 	   extract( shortcode_atts( array(
-	      'linenumbers' => 'true',
+	      'linenumbers' => 'false',
 	      'newcodeexample' => 'false',
 	      'codelanguage' => 'markup'
 	   ), $atts ) );
