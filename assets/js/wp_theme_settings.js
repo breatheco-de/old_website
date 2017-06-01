@@ -96,7 +96,42 @@ jQuery( document ).ready(function() {
     }
   };
 
+  jQuery('.add-new-option').click(function(e){
+    
+    var inputValue = jQuery(this).siblings('input').val();
+    jQuery.ajax({
+      url: 'admin-ajax.php',
+      method: "post",
+      dataType: 'json',
+      data: {action:"ajax_theme_option", target: jQuery(this).data("target"), value: inputValue, function: "add"},
+      success: function(data){
+        if(data.code==200) location.reload();
+        else alert('Something went wrong: '+data.message);
+      },
+      error: function(p1,p2,p3){
+        console.log(p3);
+      }
+    });
+    e.preventDefault();
+  });
 
+  jQuery('.delete-array-option').click(function(e){
+    
+    jQuery.ajax({
+      url: 'admin-ajax.php',
+      method: "post",
+      dataType: 'json',
+      data: {action:"ajax_theme_option", target: jQuery(this).data("target"), value: jQuery(this).data("key"), function: "delete"},
+      success: function(data){
+        if(data.code==200) location.reload();
+        else alert('Something went wrong: '+data.message);
+      },
+      error: function(p1,p2,p3){
+        console.log(p3);
+      }
+    });
+    e.preventDefault();
+  });
   
 });
 

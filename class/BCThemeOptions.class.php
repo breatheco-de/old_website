@@ -1,11 +1,13 @@
 <?php
 
-require("utils/wp_theme_settings.class.php");
+
 use WPTypes\WPCourse as WPCourse;
+use Utils\wp_theme_settings as wp_theme_settings;
 
 class BCThemeOptions {
 	
 	private $wpts;
+	const THEME_OPTIONS_KEY = "bc_theme_options_";
 	const PREWORK_FULLSTACK_OPTION = 'fullstack_prework_course'; 
 	const PREMIUM_FULLSTACK_OPTION = 'fullstack_premium_course';
 	
@@ -43,6 +45,9 @@ class BCThemeOptions {
 					'options' => []
 				]
 			];
+			
+		
+		
 		/*
 		* WPTS
 		*/
@@ -52,13 +57,16 @@ class BCThemeOptions {
 				'settingsID' => 'wp_theme_settings',
 				'settingFields' => array('wp_theme_settings_title'), 
 				'tabs' => array(
-					'courses' => array('text' => 'Courses', 'dashicon' => 'dashicons-admin-generic', 'tabFields' => $coursesFields),
+					'courses' => array('text' => 'Courses', 'dashicon' => 'dashicons-admin-page', 'tabFields' => $coursesFields),
+					'replit' => array('text' => 'Replit\'s', 'dashicon' => 'dashicons-hammer', 'tabFields' => $this->getReplitCoursesOptions()),
 					'buttons' => array('text' => 'Buttons')
 				),
 			)
 		);
 		
 		add_filter('wpts_tab_courses_before',array($this,'render_courses'));
+		//add_filter('wpts_tab_replit_before',array($this,'render_replit'));
+		add_action('wpts_tab_replit_table_after',array($this,'insert_another'));
 	}
 	
 	function wp_theme_settings_add_stylesheet()
@@ -108,6 +116,53 @@ class BCThemeOptions {
 		}
 		
 		return $tab;
+	}
+	
+	function getReplitCoursesOptions(){
+		$replitCourses = array();
+		$optionArray = $this->getThemeOptions('replit-courses');
+		if(is_array($optionArray))
+		{
+			foreach($optionArray as $key => $value)
+			{
+				array_push($replitCourses,[
+					    'type' => 'text_array', 
+					    'label' => $key,
+					    'name' => self::THEME_OPTIONS_KEY.'replit-courses',
+						'description' => 'Input the URL for the class about '.$key,
+					]);
+			}
+		}
+
+		array_push($replitCourses,[
+			    'type' => 'array', 
+			    'label' => 'Add another replit class',
+			    'target' => self::THEME_OPTIONS_KEY.'replit-courses'
+			]);
+		
+		return $replitCourses;
+		
+	}
+	
+	function insert_another(){
+
+	}
+	
+	function getThemeOptions($optKey)
+	{
+		$rawValue = get_option( self::THEME_OPTIONS_KEY.$optKey );
+		
+		return $rawValue;
+	}
+	
+	function setThemeOption($optKey, $optValue)
+	{
+		$currentOptionValue = get_option( self::THEME_OPTIONS_KEY );
+		if($currentOptionValue and (is_array($currentOptionValue) or is_object($currentOptionValue)))
+		{
+			$currentOptionValue[$optKey] = $optValue;
+			return update_option(self::THEME_OPTIONS_KEY, $currentOptionValue);
+		}
 	}
 	
 }

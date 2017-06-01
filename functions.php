@@ -138,12 +138,13 @@ function wpse_43672_wp_head(){
     echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 }
 
+include('class/utils/utils.autoload.php');
+
 include('class/WPSessionManagment.class.php');
 $WPSessionManagment = new WPSessionManagment();
 
 include('class/GeeksAcademyOnline.class.php');
 $GeeksAcademyOnline = new GeeksAcademyOnline();
-
 
 include('class/vc_composer/VisualComposerSettings.class.php');
 $VisualComposerSettings = new VisualComposerSettings();
@@ -157,6 +158,5 @@ $TypesSettings = new WPTypesSettings();
 include('class/WPLanguages.class.php');
 $WPLanguages = new WPLanguages();
 
-include('class/BCThemeOptions.class.php');
 $BCThemeOptions = new BCThemeOptions();
 

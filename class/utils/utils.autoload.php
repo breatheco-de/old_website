@@ -6,5 +6,5 @@ function autoloadUtils($controller)
 {
     $ce = explode('\\', $controller);
     $className = end($ce);
-    if (in_array('Utils',$ce)) require($className.'.component.php');
+    if (in_array('Utils',$ce)) require($className.'.php');
 }

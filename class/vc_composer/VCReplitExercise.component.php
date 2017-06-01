@@ -80,9 +80,10 @@ class VCReplitExercise{
 							<p style="text-align: center;">'.$formatedContent.'</p>
 						</div>
 						<div class="vc_cta3-actions">
-							<div class="vc_btn3-container vc_btn3-center">
-								<a class="vc_general vc_btn3 vc_btn3-size-lg vc_btn3-shape-rounded vc_btn3-style-modern vc_btn3-block vc_btn3-color-warning" href="'.$linkURL.'#term='.$term_name.'" title="" target="_blank" rel="nofollow">'.pll__('View more').'</a>
-							</div>
+							<div class="vc_btn3-container vc_btn3-center">';
+			if($linkURL!='') $htmlcontent .= '<a class="vc_general vc_btn3 vc_btn3-size-lg vc_btn3-shape-rounded vc_btn3-style-modern vc_btn3-block vc_btn3-color-warning" href="'.$linkURL.'#term='.$term_name.'" title="" target="_blank" rel="nofollow">'.pll__('View more').'</a>';
+			else $htmlcontent .= '<a class="vc_general vc_btn3 vc_btn3-size-lg vc_btn3-shape-rounded vc_btn3-style-modern vc_btn3-block vc_btn3-color-default" href="#term='.$term_name.'" title="" rel="nofollow">'.pll__( 'Your teacher has not uploaded this exercises in the platform yet' ).'.</a>';
+			$htmlcontent .=	'</div>
 						</div>
 					</div>
 				</div>

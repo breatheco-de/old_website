@@ -31,6 +31,29 @@ ul, ol {
 	margin-top: 0px !important;
 }
 #main-nav-bar{top: 0px !important;}
+ul.navbar-nav li:hover{
+	background: #75b9f9;
+	cursor: pointer;
+}
+ul.navbar-nav li:hover ul{
+	display: inline-block;
+}
+ul.navbar-nav li ul{
+    position: absolute;
+    background: #f5f5f5;
+    padding: 10px;
+    right: 0;
+    z-index: 2;
+    width: 200px;
+}
+ul.navbar-nav li ul li:hover{ background: none;}
+ul.navbar-nav li ul li a{
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: .2s ease;
+}
+ul.navbar-nav li ul li a:hover{text-decoration: none; }
 header.navbar-fullwidth .navbar{max-height: initial;}
 
 /* PROJECT AND ASIGNMENT VIEW */

@@ -1,6 +1,7 @@
 <?php
 
 namespace WPTypes;
+use BCThemeOptions;
 
 class WPCohort{
 
@@ -141,13 +142,17 @@ class WPCohort{
 	private function printReplitExercises($term)
 	{
 		$term_meta = get_option( "taxonomy_".$term->term_id );
+		
+		$replitTemplateKeys = get_option( BCThemeOptions::THEME_OPTIONS_KEY.'replit-courses' );
+		if(!$replitTemplateKeys or !is_array($replitTemplateKeys) or count($replitTemplateKeys)==0) 
+			$replitTemplateKeys = $this->excerciseClasses;
 		// put the term ID into a variable
 		echo '<tr class="form-field"><td><h2>Repl.it Exercises</h2></td></tr>';
-		foreach ($this->excerciseClasses as $key => $value) {
+		foreach ($replitTemplateKeys as $key => $value) {
 			$metaKey = "replit_".$key;
 		?>
 		<tr class="form-field">
-		<th scope="row" valign="top"><label for="term_meta[replit_<?php echo $key; ?>]"><?php _e( $key, 'breathecode' ); ?></label></th>
+		<th scope="row" valign="top"><label for="term_meta[replit_<?php echo $key; ?>]"><?php _e( $value.'('.$key.')', 'breathecode' ); ?></label></th>
 			<td>
 				<input type="text" name="term_meta[<?php echo $metaKey; ?>]" value="<?php echo ($term_meta[$metaKey]!='') ? $term_meta[$metaKey] : ''; ?>" />
 				<p class="description"><?php _e( 'Replit class for the technology','breathecode' ); ?></p>

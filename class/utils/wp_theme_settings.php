@@ -9,7 +9,7 @@
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+namespace Utils;
 
 class wp_theme_settings{
 
@@ -47,15 +47,18 @@ class wp_theme_settings{
 		 */
 		foreach ($this->tabs as $key => $data) {
 			if (array_key_exists('tabFields', $data)) {	
-				foreach ($data["tabFields"] as $key => $value) {
-					array_push($this->settingFields, $value['name']);
+				foreach ($data["tabFields"] as $key => $value){
+					//if($value['type']=='text_array') add_action( "update_option_".$value['name'], array($this,'update_array_option'),10,2);
+					if($value['type']!=='array') array_push($this->settingFields, $value['name']);
+					
 				}
 			}
 			if (array_key_exists('sections', $data)) {	
 				foreach ($data["sections"] as $key => $section) {
 					if (array_key_exists('tabFields', $section)) {	
 						foreach ($section["tabFields"] as $key => $section_tabFields) {
-							array_push($this->settingFields, $section_tabFields['name']);
+						//	if($value['type']=='text_array') add_action( "update_option_".$section_tabFields['name'], array($this,'update_array_option'),10,2);
+							if($section_tabFields['type']!=='array') array_push($this->settingFields, $section_tabFields['name']);
 						}
 					}
 				}
@@ -73,6 +76,10 @@ class wp_theme_settings{
 		 * @ call register menu
 		 */
 		add_action('admin_menu', array($this,'menu'));
+		/*
+		 * @ call register menu
+		 */
+		add_action('wp_ajax_ajax_theme_option', array($this,'ajax_theme_option_with_ajax'));
 		/*
 		 * @ call option function
 		 */
@@ -210,7 +217,7 @@ class wp_theme_settings{
 
 			echo '</tr>';
 
-			array_push($this->settingFields, $data['name']);
+			if($data['type']!='array') array_push($this->settingFields, $data['name']);
 		}
 
 		do_action('wpts_tab_'.$parent.'_table_after');
@@ -234,6 +241,18 @@ class wp_theme_settings{
 				if (array_key_exists('tooltip', $array)) {
 					echo '<div class="wpts-tooltip">!<span class="wpts-tooltiptext wpts-tooltip-right">'.$array['tooltip'].'</span></div>';
 				}
+				break;
+			// Build text
+			case 'text_array':
+				$meta = get_option($array['name']);
+				//die(print_r($meta));
+				$value = $meta[$array['label']];
+				echo '<input type="text" class="'.$html_class.'" name="'.$array['name'].'['.$array['label'].']" value="'.$value.'" />';
+				if (array_key_exists('tooltip', $array)) {
+					echo '<div class="wpts-tooltip">!<span class="wpts-tooltiptext wpts-tooltip-right">'.$array['tooltip'].'</span></div>';
+				}
+				
+				echo '<a style="text-decoration: none;" class="delete-array-option" data-target="'.$array['name'].'" data-key="'.$array['label'].'" href="#"><span class="dashicons dashicons-trash"></span></a>';
 				break;
 			// Build file
 			case 'file':
@@ -290,6 +309,12 @@ class wp_theme_settings{
 				if (array_key_exists('tooltip', $array)) {
 					echo '<div class="wpts-tooltip">!<span class="wpts-tooltiptext wpts-tooltip-right">'.$array['tooltip'].'</span></div>';
 				}
+				break;
+			// Build Toggle Switch
+			case 'array': 
+					echo '<input type="text" class="new-option" name="newoption" value="" />';
+					echo '<input type="button" value="Add" data-target="'.$array['target'].'" class="button button-primary add-new-option" />';
+					echo '<p class="description">Please specify a key for the new option</p>';
 				break;
 			// default return false
 			default:
@@ -399,7 +424,12 @@ class wp_theme_settings{
 	 * @ Sanitize inputs
 	 */
 	public function sanitize($input){
-		return sanitize_text_field($input);
+		if(is_array($input))
+		{
+			foreach($input as $key => $value) $input[$key] = sanitize_text_field($value);
+			return $input;
+		}
+		else return sanitize_text_field($input);
     }
     /*
 	 * @ Get Option value
@@ -437,5 +467,37 @@ class wp_theme_settings{
 		}
 	}
 
+	function ajax_theme_option_with_ajax() {
+		$target = $_POST['target'];
+		$value = $_POST['value'];
+		$function = $_POST['function'];
+		
+		$currentOptionValue = get_option( $target );
+		switch($function)
+		{
+			case "add":
+				if(is_array($currentOptionValue) or is_object($currentOptionValue))
+				{
+					$currentOptionValue[$value] = null;
+					update_option($target, $currentOptionValue);
+				}else update_option($target, array());
+			break;
+			case "delete":
+				if(is_array($currentOptionValue) or is_object($currentOptionValue))
+				{
+					unset($currentOptionValue[$value]);
+					update_option($target, $currentOptionValue);
+				}
+			break;
+		}
+	
+		header( "Content-Type: application/json" );
+		echo json_encode(array(
+			"code"=>200,
+			"message"=>"ok"
+		));
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+	
 }
 ?>

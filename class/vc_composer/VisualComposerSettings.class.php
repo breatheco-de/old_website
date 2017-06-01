@@ -2,6 +2,8 @@
 
 require("component.autoload.php");
 
+include(dirname(__FILE__)."/../BCThemeOptions.class.php");
+
 class VisualComposerSettings {
 
 	private $excerciseClasses = array(
@@ -25,7 +27,17 @@ class VisualComposerSettings {
 		$codeREPL = new VCComponent\VCCodeREPL();
 		$codePreview = new VCComponent\VCCodePreview();
 		$codeClassroom = new VCComponent\VCReplitClassRoom();
-		$codeReplitExercise = new VCComponent\VCReplitExercise($this->excerciseClasses);
+		
+		$replitTemplateKeys = get_option( BCThemeOptions::THEME_OPTIONS_KEY.'replit-courses' );
+		if(!$replitTemplateKeys or !is_array($replitTemplateKeys) or count($replitTemplateKeys)==0) 
+			$replitTemplateKeys = $this->excerciseClasses;
+		else
+		{
+			$auxArray = array();
+			foreach($replitTemplateKeys as $key => $value) $auxArray[$value] = $key;
+			$replitTemplateKeys = $auxArray;
+		}
+		$codeReplitExercise = new VCComponent\VCReplitExercise($replitTemplateKeys);
 		$codeRegexTester = new VCComponent\VCRegexTester();
 		$codeSQLTester = new VCComponent\VCMySQLTester();
 		
