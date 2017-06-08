@@ -11,7 +11,7 @@ class WPUser
 	public static $actions = array(
 		'give_access_to_fullstack_prework' => 'Give access to PREWORK Fullstack',
 		'give_access_to_fullstack_all' => 'Give access to ALL of Fullstack',
-		'give_access_to_breathecode_course' => 'Give access to BreatheCode course'
+		'give_access_to_teacher_course' => 'Give access to Teacher course'
 		);
 
 	function __construct() {
@@ -76,7 +76,7 @@ class WPUser
 		if(isset($premium_esp)) $this->giveAccessToParentCourse($studentId,$premium_esp);
 	}
 
-	function give_access_to_breathecode_course($studentId)
+	function give_access_to_teacher_course($studentId)
 	{
 		$breathecode = get_option(BCThemeOptions::BREATHECODE_OPTION);
 		//$breathecode_esp = get_option(BCThemeOptions::BREATHECODE_OPTION.'-es');
