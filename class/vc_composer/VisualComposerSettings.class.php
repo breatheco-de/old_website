@@ -40,7 +40,7 @@ class VisualComposerSettings {
 		$codeReplitExercise = new VCComponent\VCReplitExercise($replitTemplateKeys);
 		$codeRegexTester = new VCComponent\VCRegexTester();
 		$codeSQLTester = new VCComponent\VCMySQLTester();
-		
+		$codeQuiz = new VCComponent\VCQuiz();
 	}
 
 }

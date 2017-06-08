@@ -52,7 +52,7 @@ class VCRegexTester{
 
 	   $reg_expression = rawurlencode($reg_expression);
 	   $content = urlencode(base64_encode($content));
-	   $srcURL = 'https://assets.breatheco.de/live-demos/js/regex-tester/?encoded=true&e='.$reg_expression.'&c='.$content;
+	   $srcURL = ASSETS_URL.'live-demos/js/regex-tester/?encoded=true&e='.$reg_expression.'&c='.$content;
 	   $htmlcontent = '<iframe style="border:0; overflow:hidden;" frameborder="0" width="100%" height="'.$regexheight.'" src="'.$srcURL.'"></iframe>';
 	   return $htmlcontent;
 	}

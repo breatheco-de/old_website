@@ -61,7 +61,7 @@ class VCMySQLTester{
 	      'tablestyles' => ''
 	   ), $atts ) );
 
-	   $srcURL = 'http://assets.breatheco.de/live-demos/sql/mysql-tester/?db='.$databasename.'&tablestyle='.$tablestyles;
+	   $srcURL = ASSETS_URL.'live-demos/sql/mysql-tester/?db='.$databasename.'&tablestyle='.$tablestyles;
 	   $htmlcontent = '<iframe style="border:0; overflow:hidden;" frameborder="0" width="100%" height="'.$mysqlheight.'" src="'.$srcURL.'"></iframe>';
 	   return $htmlcontent;
 	}

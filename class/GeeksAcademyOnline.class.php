@@ -106,11 +106,12 @@ Class GeeksAcademyOnline {
 
 	function createCourseHierarchy($menu_name) 
 	{
+		$menuParents = array();
 		$menu = wp_get_nav_menu_object($menu_name);
+		if(!$menu) return $menuParents;
 		$menu_items = wp_get_nav_menu_items($menu->term_id,array(
 			//'post_status'            => 'publish'
 			));
-		$menuParents = array();
 
 		foreach ( (array) $menu_items as $key => $menu_item ) {
 		  $id = $menu_item->ID;
