@@ -9,8 +9,9 @@ class WPUser
 	const POST_TYPE = 'user';
 	private $user;
 	public static $actions = array(
-		'give_access_to_fullstack_prework' => 'Give PREWORK Fullstack Access',
-		'give_access_to_fullstack_premium' => 'Give PREMIUM Fullstack Access'
+		'give_access_to_fullstack_prework' => 'Give access to PREWORK Fullstack',
+		'give_access_to_fullstack_all' => 'Give access to ALL of Fullstack',
+		'give_access_to_breathecode_course' => 'Give access to BreatheCode course'
 		);
 
 	function __construct() {
@@ -67,12 +68,20 @@ class WPUser
 		if(isset($prework_esp)) $this->giveAccessToParentCourse($studentId,$prework_esp);
 	}
 	
-	function give_access_to_fullstack_premium($studentId)
+	function give_access_to_fullstack_all($studentId)
 	{
 		$premium = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION);
 		$premium_esp = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION.'-es');
 		if(isset($premium)) $this->giveAccessToParentCourse($studentId,$premium);
 		if(isset($premium_esp)) $this->giveAccessToParentCourse($studentId,$premium_esp);
+	}
+
+	function give_access_to_breathecode_course($studentId)
+	{
+		$breathecode = get_option(BCThemeOptions::BREATHECODE_OPTION);
+		//$breathecode_esp = get_option(BCThemeOptions::BREATHECODE_OPTION.'-es');
+		if(isset($breathecode)) $this->giveAccessToParentCourse($studentId,$breathecode);
+		//if(isset($breathecode_esp)) $this->giveAccessToParentCourse($studentId,$breathecode_esp);
 	}
 	
 	private function giveAccessToParentCourse($studentId,$courseId)

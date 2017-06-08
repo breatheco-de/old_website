@@ -10,6 +10,7 @@ class BCThemeOptions {
 	const THEME_OPTIONS_KEY = "bc_theme_options_";
 	const PREWORK_FULLSTACK_OPTION = 'fullstack_prework_course'; 
 	const PREMIUM_FULLSTACK_OPTION = 'fullstack_premium_course';
+	const BREATHECODE_OPTION = 'breathecode_course';
 	
 	function __construct() {
 		
@@ -42,6 +43,13 @@ class BCThemeOptions {
 				    'label' => 'Full Stack Premium Course (ESP)',
 				    'name' => self::PREMIUM_FULLSTACK_OPTION.'-es' ,
 					'description' => 'The spanish version of the fullstack',
+					'options' => []
+				],
+				[
+				    'type' => 'select', 
+				    'label' => 'Breathe Code Platform Course (EN)',
+				    'name' => self::BREATHECODE_OPTION ,
+					'description' => 'The main course for the BreatheCode platform traning',
 					'options' => []
 				]
 			];
@@ -100,6 +108,10 @@ class BCThemeOptions {
 						],
 						[
 							'name' => self::PREMIUM_FULLSTACK_OPTION.'-es',
+							'options' => $auxCourses
+						],
+						[
+							'name' => self::BREATHECODE_OPTION,
 							'options' => $auxCourses
 						]
 					];
