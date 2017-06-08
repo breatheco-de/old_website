@@ -47,9 +47,9 @@ class BCThemeOptions {
 				],
 				[
 				    'type' => 'select', 
-				    'label' => 'Breathe Code Platform Course (EN)',
+				    'label' => 'Breathe Code Teacher Course (EN)',
 				    'name' => self::BREATHECODE_OPTION ,
-					'description' => 'The main course for the BreatheCode platform traning',
+					'description' => 'The main course for the BreatheCode Teachers traning',
 					'options' => []
 				]
 			];
