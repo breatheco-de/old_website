@@ -73,6 +73,9 @@ if (have_posts()){
                         <?php if($assetType=='pdf' || $assetType=='zip') { ?>
                             <p><a href="<?php echo $assetUrl; ?>"><?php echo pll__( 'To download this asset right click and "save as..." the this text.' ); ?></a></p>
                         <?php } ?>
+                        <?php if($assetType=='url') { ?>
+                            <p><a href="<?php echo $assetUrl; ?>"><?php echo pll__( 'Go to website' ); ?></a></p>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

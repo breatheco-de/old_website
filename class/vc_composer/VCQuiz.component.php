@@ -56,12 +56,15 @@ class VCQuiz{
 	}
 	
 	function getQuizzesOptions(){
-	   $quizzesJSON = file_get_contents(ASSETS_URL.'quiz/quizzes.php');
-       $quizzes = json_decode($quizzesJSON);
-       $this->quizzes = array();
-       foreach($quizzes as $q)
-       {
-           $this->quizzes[$q->info->name.' ('.$q->info->slug.')'] = $q->info->slug;
-       }
+	   $quizzesJSON = @file_get_contents(ASSETS_URL.'quiz/quizzes.php');
+	   if($quizzesJSON)
+	   {
+	       $quizzes = json_decode($quizzesJSON);
+	       $this->quizzes = array();
+	       foreach($quizzes as $q)
+	       {
+	           $this->quizzes[$q->info->name.' ('.$q->info->slug.')'] = $q->info->slug;
+	       }
+	   }
 	}
 }

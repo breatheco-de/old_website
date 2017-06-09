@@ -16,7 +16,16 @@ Class GeeksAcademyOnline {
 		add_filter('upload_mimes', array($this,'custom_upload_mimes'));
 		add_filter( 'login_redirect', array($this,'custom_user_redirect'), 10, 3 );
 		add_filter( 'wp_nav_menu_items', array($this,'wti_loginout_menu_link'), 10, 2 );
+    	$this->inicialize();
 	}
+	
+    function inicialize(){
+		if( is_user_logged_in() ) {
+		    $page = get_page_by_path( 'my-courses' );
+		    update_option( 'page_on_front', $page->ID );
+		    update_option( 'show_on_front', 'page' );
+		}
+    }
 
 	function custom_upload_mimes ( $existing_mimes=array() ) {
 	    // add your extension to the mimes array as below
