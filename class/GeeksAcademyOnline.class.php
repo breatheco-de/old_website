@@ -25,6 +25,11 @@ Class GeeksAcademyOnline {
 		    update_option( 'page_on_front', $page->ID );
 		    update_option( 'show_on_front', 'page' );
 		}
+		else{
+		    $page = get_page_by_path( 'breathe' );
+		    update_option( 'page_on_front', $page->ID );
+		    update_option( 'show_on_front', 'page' );
+		}
     }
 
 	function custom_upload_mimes ( $existing_mimes=array() ) {
