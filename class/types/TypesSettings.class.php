@@ -5,10 +5,19 @@ require('types.autoload.php');
 class WPTypesSettings {
 
   function __construct() {
-    $projectAssignment = new WPTypes\WPProjectAssignment();
-    $user = new WPTypes\WPUser();
-    $course = new WPTypes\WPCourse();
-    $cohort = new WPTypes\WPCohort();
+
+    if(!is_plugin_active('types/wpcf.php')) throw new \Exception('The plugin WP_Types is required, please install it. https://wp-types.com/');
+    
+    try{
+      $projectAssignment = new WPTypes\WPProjectAssignment();
+      $user = new WPTypes\WPUser();
+      $course = new WPTypes\WPCourse();
+      $cohort = new WPTypes\WPCohort();
+    }
+    catch(\Exception $e)
+		{
+			Utils\BCError::notifyError($e->getMessage());
+		}
   }
 
 

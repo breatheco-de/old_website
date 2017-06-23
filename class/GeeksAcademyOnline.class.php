@@ -13,6 +13,9 @@ Class GeeksAcademyOnline {
 			);
 
 	function __construct() {
+		
+		if(!defined('ASSETS_URL')) Utils\BCError::notifyError('You need to define the ASSETS_URL inside of wp-config.php');
+		
 		add_filter('upload_mimes', array($this,'custom_upload_mimes'));
 		add_filter( 'login_redirect', array($this,'custom_user_redirect'), 10, 3 );
 		add_filter( 'wp_nav_menu_items', array($this,'wti_loginout_menu_link'), 10, 2 );

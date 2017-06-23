@@ -8,6 +8,7 @@ class VCQuiz{
     private $quizzes = array();
     
     function __construct(){
+        $this->getQuizzesOptions();
         
         add_action( 'vc_before_init', array($this,'register'));
         add_shortcode( self::BASE_NAME, array($this,'render'));
@@ -15,7 +16,6 @@ class VCQuiz{
     
     function register()
     {
-        $this->getQuizzesOptions();
         //die(print_r($this->quizzes));
 	    array_unshift($this->quizzes,array("#"=>'Select a quiz'));
 
@@ -56,12 +56,22 @@ class VCQuiz{
 	}
 	
 	function getQuizzesOptions(){
-	   $quizzesJSON = file_get_contents(ASSETS_URL.'quiz/quizzes.php');
-       $quizzes = json_decode($quizzesJSON);
-       $this->quizzes = array();
-       foreach($quizzes as $q)
-       {
-           $this->quizzes[$q->info->name.' ('.$q->info->slug.')'] = $q->info->slug;
-       }
+	   if(defined('ASSETS_URL')) 
+	   {
+		   $quizzesJSON = @file_get_contents(ASSETS_URL.'quiz/quizzes.php');
+		   if($quizzesJSON)
+		   {
+		       $quizzes = json_decode($quizzesJSON);
+		       $this->quizzes = array();
+		       foreach($quizzes as $q)
+		       {
+		           $this->quizzes[$q->info->name.' ('.$q->info->slug.')'] = $q->info->slug;
+		       }
+		       
+		   }
+		   else throw new \Exception('It was imposible to retrieve the quizzes from '.ASSETS_URL.'quiz/quizzes.php');
+	   }
+	   
+	   return;
 	}
 }
