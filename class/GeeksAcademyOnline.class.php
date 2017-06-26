@@ -11,14 +11,29 @@ Class GeeksAcademyOnline {
 				'teacher_assistant',
 				'main_teacher'
 			);
+	
+	private $prependversion = 0.03;
 
 	function __construct() {
 		
 		if(!defined('ASSETS_URL')) Utils\BCError::notifyError('You need to define the ASSETS_URL inside of wp-config.php');
+		if(WP_DEBUG) $this->prependversion = time();
 		
+		//setup the child-theme
+		add_action( 'after_setup_theme', [$this,'thedocs_child_theme_setup'] );
+		//allowed mime types
 		add_filter('upload_mimes', array($this,'custom_upload_mimes'));
+		//redirect according to the role
 		add_filter( 'login_redirect', array($this,'custom_user_redirect'), 10, 3 );
+		//
 		add_filter( 'wp_nav_menu_items', array($this,'wti_loginout_menu_link'), 10, 2 );
+		add_action('wp_head', [$this,'include_head_scripts']);
+		add_filter( 'cpt_post_types', [$this,'custom_post_type_templates'] );
+		
+		//Add styles and javascript's
+		add_action( 'wp_enqueue_scripts', [$this,'add_styles'] );
+		add_action( 'wp_enqueue_scripts', [$this,'add_scripts'] );
+    	
     	$this->inicialize();
 	}
 	
@@ -34,6 +49,73 @@ Class GeeksAcademyOnline {
 		    update_option( 'show_on_front', 'page' );
 		}
     }
+    
+	/**
+	 * Setup thedocs Child Theme's textdomain.
+	 *
+	 * Declare textdomain for this child theme.
+	 * Translations can be filed in the /languages/ directory.
+	 */
+	function thedocs_child_theme_setup() {
+		load_child_theme_textdomain( 'thedocs-child', get_stylesheet_directory() . '/languages' );
+	
+	    register_nav_menus( array(
+	        'assets-menu' => 'Menu for browsing all the lesson assets'
+	    ) );
+	
+	    //add formats suppor to the theme.
+	    add_theme_support( 'post-formats', array( 'link', 'video', 'image' ) );
+	    // add post-formats to post_type 'lesson-assets'
+	    add_post_type_support( 'lesson-asset', 'post-formats' ); 
+	}
+    
+	/*
+	 ESTILOS Y SCRIPTS
+	*/
+	function add_styles(){
+	 
+	    wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css', array('theDocs.all.min.css'));
+	    
+	    wp_enqueue_style( 'breathecodecss', get_stylesheet_directory_uri().'/assets/css/components.breathecode.css', array('theDocs.all.min.css'),$this->prependversion);
+	    
+	    //wp_enqueue_style( 'stretchynav', get_stylesheet_directory_uri().'/assets/css/stretchy-nav.component.css', array(),$this->prependversion);
+	        
+	}
+
+	function add_scripts(){
+	
+	    wp_register_script( 'jquerytemplate', get_stylesheet_directory_uri().'/assets/js/jquery.tmpl.min.js' , array('jquery'), NULL, true );
+	    wp_enqueue_script( 'jquerytemplate' );
+	    
+	    wp_register_script( 'bootstrapjs', get_stylesheet_directory_uri().'/assets/js/bootstrap.min.js' , array('jquery'), NULL, true );
+	    wp_enqueue_script( 'bootstrapjs' );
+	    
+	    if(is_user_logged_in() && is_singular('lesson'))
+	    {
+	        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathecode.js' , array('jquery','jquerytemplate','bootstrapjs'), $this->prependversion, true );
+	        wp_enqueue_script( 'breathecodejs' );
+	    }
+	
+	    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), $this->prependversion, true );
+	    wp_enqueue_script( 'main-js' );
+	}
+    
+	/**
+	 * Hooks the WP cpt_post_types filter 
+	 *
+	 * @param array $post_types An array of post type names that the templates be used by
+	 * @return array The array of post type names that the templates be used by
+	 **/
+	function custom_post_type_templates( $post_types ) {
+	    $post_types[] = 'lesson';
+	    $post_types[] = 'lesson-asset';
+	    $post_types[] = 'lesson-project';
+	    return $post_types;
+	}
+    
+	function include_head_scripts(){
+	    echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	}
 
 	function custom_upload_mimes ( $existing_mimes=array() ) {
 	    // add your extension to the mimes array as below

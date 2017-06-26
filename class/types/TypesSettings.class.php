@@ -13,6 +13,7 @@ class WPTypesSettings {
       $user = new WPTypes\WPUser();
       $course = new WPTypes\WPCourse();
       $cohort = new WPTypes\WPCohort();
+      $cohort = new WPTypes\WPLesson();
     }
     catch(\Exception $e)
 		{
