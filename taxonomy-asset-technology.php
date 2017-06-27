@@ -21,6 +21,20 @@ $posts_array = get_posts(
         )
     )
 );
+
+
+//$posttitle = 'Cloud9 Keybindings File';
+//$postid = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $posttitle . "'" );
+//echo $postid;
+
+$post_id = 791;
+$queried_post = get_post($post_id);
+$title = $queried_post->post_title;
+//echo $title."<br>";
+//echo $queried_post->post_content."<br>";
+
+//die(' =Cloud9 Keybindings File');
+
 ?>
     <main class="container">
     <div class="row">
@@ -47,7 +61,7 @@ $posts_array = get_posts(
                             <?php } ?>
 						 	</p>
 						    <p>
-						    	<?php echo the_content(); ?>
+						    	<?php echo the_excerpt(); ?>
 						    </p>
 						  </li>
 						<?php } wp_reset_postdata(); ?>

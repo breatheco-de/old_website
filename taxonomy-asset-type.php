@@ -39,7 +39,7 @@ $posts_array = get_posts(
 						?>
 						  <li>
 						    	<a class="btn btn-primary pull-right" href="<?php the_permalink(); ?>"><?php echo pll__( 'View more' ); ?></a>
-						    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+						    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?> (<?php echo $postId; ?>)</a></h5>
 						    <p class="meta-data">
 						    <?php echo $types[0]->name; ?> | 
 						    <?php foreach ($technologies as $technology) { ?>

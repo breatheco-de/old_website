@@ -139,6 +139,7 @@ function wpse_43672_wp_head(){
 }
 
 include('class/utils/utils.autoload.php');
+\Utils\BCError::loadTransientErrors();
 
 include('class/WPSessionManagment.class.php');
 $WPSessionManagment = new WPSessionManagment();
