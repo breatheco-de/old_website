@@ -1,157 +1,34 @@
 <?php
-/**
- * Setup thedocs Child Theme's textdomain.
- *
- * Declare textdomain for this child theme.
- * Translations can be filed in the /languages/ directory.
- */
-function thedocs_child_theme_setup() {
-	load_child_theme_textdomain( 'thedocs-child', get_stylesheet_directory() . '/languages' );
-
-    register_nav_menus( array(
-        'assets-menu' => 'Menu for browsing all the lesson assets'
-    ) );
-
-    //add formats suppor to the theme.
-    add_theme_support( 'post-formats', array( 'link', 'video', 'image' ) );
-    // add post-formats to post_type 'lesson-assets'
-    add_post_type_support( 'lesson-asset', 'post-formats' ); 
-}
-add_action( 'after_setup_theme', 'thedocs_child_theme_setup' );
-
-/*
- ESTILOS Y SCRIPTS
-*/
-function wmt_theme_style(){
-    if(WP_DEBUG) $prependversion = time();
- 
-    wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css', array('theDocs.all.min.css'));
-    
-    wp_enqueue_style( 'breathecodecss', get_stylesheet_directory_uri().'/assets/css/components.breathecode.css', array('theDocs.all.min.css'),$prependversion);
-    
-    //wp_enqueue_style( 'stretchynav', get_stylesheet_directory_uri().'/assets/css/stretchy-nav.component.css', array(),$prependversion);
-        
-}
-add_action( 'wp_enqueue_scripts', 'wmt_theme_style' );
-
-
-function wmt_theme_js(){
-
-    if(WP_DEBUG) $prependversion = time();
-
-    wp_register_script( 'jquerytemplate', get_stylesheet_directory_uri().'/assets/js/jquery.tmpl.min.js' , array('jquery'), NULL, true );
-    wp_enqueue_script( 'jquerytemplate' );
-    
-    wp_register_script( 'bootstrapjs', get_stylesheet_directory_uri().'/assets/js/bootstrap.min.js' , array('jquery'), NULL, true );
-    wp_enqueue_script( 'bootstrapjs' );
-    
-    if(is_user_logged_in() && is_singular('lesson'))
-    {
-        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathecode.js' , array('jquery','jquerytemplate','bootstrapjs'), $prependversion, true );
-        wp_enqueue_script( 'breathecodejs' );
-    }
-
-    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), $prependversion, true );
-    wp_enqueue_script( 'main-js' );
-}
-add_action( 'wp_enqueue_scripts', 'wmt_theme_js' );
-
-/**
- * Hooks the WP cpt_post_types filter 
- *
- * @param array $post_types An array of post type names that the templates be used by
- * @return array The array of post type names that the templates be used by
- **/
-function my_cpt_post_types( $post_types ) {
-    $post_types[] = 'lesson';
-    $post_types[] = 'lesson-asset';
-    $post_types[] = 'lesson-project';
-    return $post_types;
-}
-add_filter( 'cpt_post_types', 'my_cpt_post_types' );
-
-
-function ead_add_custompost_caps($data, $post_type) {
-    if($post_type == 'lesson'){
-        $args = array(
-        'capability_type' => 'lesson',
-        'capabilities' => array(
-            'read_private_posts' => 'read_private_lessons',
-            'read_post' => 'read_lesson',
-            'delete_others_posts' => 'delete_other_lessons',
-            'delete_posts' => 'delete_lessons',
-            'delete_private_posts' => 'delete_private_lessons',
-            'delete_published_posts' => 'delete_published_lessons',
-            'edit_others_posts' => 'edit_other_lessons',
-            'edit_posts' => 'edit_lessons',
-            'edit_private_posts' => 'edit_private_lessons',
-            'edit_published_posts' => 'edit_published_lessons',
-            'manage_categories' => 'manage_lesson_categories',
-            'manage_links' => 'manage_lesson_links',
-            'publish_posts' => 'publish_lessons',
-            'read' => 'read_lessons',
-            'upload_files' => 'upload_lesson_files'
-            )
-        );
-        $data = array_merge($data, $args);
-
-    }
- 
-    return $data;
-}
-//add_filter( 'wpcf_type', 'ead_add_custompost_caps', 10, 2);
-
-
-/*
-*   FILTER POSTS BY TAXONOMY IN THE ADMIN
-*
-*/
-
-function pippin_add_taxonomy_filters() {
-    global $typenow;
- 
-    // an array of all the taxonomyies you want to display. Use the taxonomy name or slug
-    $taxonomies = array('course');
- 
-    // must set this to the post type you want the filter(s) displayed on
-    if( $typenow == 'lesson' ){
- 
-        foreach ($taxonomies as $tax_slug) {
-            $tax_obj = get_taxonomy($tax_slug);
-            $tax_name = $tax_obj->labels->name;
-            $terms = get_terms($tax_slug);
-            if(count($terms) > 0) {
-                echo "<select name='$tax_slug' id='$tax_slug' class='postform'>";
-                echo "<option value=''>Show All $tax_name</option>";
-                foreach ($terms as $term) { 
-                    echo '<option value='. $term->slug, (isset($_GET[$tax_slug]) and $_GET[$tax_slug] == $term->slug) ? ' selected="selected"' : '','>' . $term->name .' (' . $term->count .')</option>'; 
-                }
-                echo "</select>";
-            }
-        }
-    }
-}
-add_action( 'restrict_manage_posts', 'pippin_add_taxonomy_filters' );
-
-add_action('wp_head', 'wpse_43672_wp_head');
-function wpse_43672_wp_head(){
-    echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
-}
 
 include('class/utils/utils.autoload.php');
 \Utils\BCError::loadTransientErrors();
 
-include('class/WPSessionManagment.class.php');
-$WPSessionManagment = new WPSessionManagment();
+/**
+ * TODO: An attempt to have a single sessions in between several websites (wordpress or not)
+ * */
+//include('class/WPSessionManagment.class.php');
+//$WPSessionManagment = new WPSessionManagment();
 
 include('class/GeeksAcademyOnline.class.php');
 include('class/vc_composer/VisualComposerSettings.class.php');
 include('class/gravity_forms/GravityFormSettings.class.php');
 include('class/types/TypesSettings.class.php');
 try{
+    /**
+     * This class takes care of all the theme setup
+     * */
     $GeeksAcademyOnline = new GeeksAcademyOnline();
+    /**
+     * Everything related to the visual composer settings and components.
+     * */
     $VisualComposerSettings = new VisualComposerSettings();
+    /**
+     * Everything related to te gravityforms integration
+     * */
     $GravityFormOptions = new GravityFormSettings();
+    /**
+     * The custom post types like (Lesson, Lesson Assets, Course, Assignment, etc.).
+     * */
     $TypesSettings = new WPTypesSettings();
 }
 catch(\Exception $e)
@@ -159,8 +36,15 @@ catch(\Exception $e)
 	Utils\BCError::notifyError($e->getMessage());
 }
 
+/**
+ * This theme is multilangual and this class handles most of the logic by integrating with
+ * the PolilangPlugin.
+ * */
 include('class/WPLanguages.class.php');
 $WPLanguages = new WPLanguages();
 
+/**
+ * This class takes care of the adminisitation interface under appereache->theme_options
+ **/
 $BCThemeOptions = new BCThemeOptions();
 
