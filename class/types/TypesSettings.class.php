@@ -10,7 +10,7 @@ class WPTypesSettings {
     
     try{
       $projectAssignment = new WPTypes\WPProjectAssignment();
-      $user = new WPTypes\WPUser();
+      $user = new WPTypes\WPUser();PROBANDO
       $course = new WPTypes\WPCourse();
       $cohort = new WPTypes\WPCohort();
       $lessonAsset = new WPTypes\WPLessonAsset();
