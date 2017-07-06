@@ -3,15 +3,18 @@
 namespace WPTypes;
 
 use BCThemeOptions;
+use Utils\BCNotification;
 
 class WPUser
 {
 	const POST_TYPE = 'user';
+	
 	private $user;
 	public static $actions = array(
 		'give_access_to_fullstack_prework' => 'Give access to PREWORK Fullstack',
 		'give_access_to_fullstack_all' => 'Give access to ALL of Fullstack',
-		'give_access_to_teacher_course' => 'Give access to Teacher course'
+		'give_access_to_teacher_course' => 'Give access to Teacher course',
+		'generate_api_credentials' => 'Generate API credentials'
 		);
 
 	function __construct() {
@@ -68,24 +71,48 @@ class WPUser
 		if(isset($prework_esp)) $this->giveAccessToParentCourse($studentId,$prework_esp);
 	}
 	
-	function give_access_to_fullstack_all($studentId)
-	{
+	function generate_api_credentials($userId){
+		
+		$wpUser = get_userdata($userId);
+		if($wpUser)
+		{
+			$type = $this->getUserType($wpUser->roles);
+			$bcUser = \Utils\BreatheCodeAPI::createCredentials([
+				"email" => $wpUser->user_email,
+				"password" => $wpUser->user_pass,
+				"wp_id" => $wpUser->ID,
+				"type" => $type
+				]);
+			if($bcUser) update_user_meta( $userId, 'breathecode_id', $bcUser->id );
+			else BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue obtaining the Breathecode ID');
+		}
+		else BCNotification::addTransientMessage(BCNotification::ERROR,'User '.$userId.' not found');
+	}
+	
+	function getUserType($roles){
+		
+		if(in_array('administrator',$roles)) return 'admin';
+		else if(in_array('teacher_assistant',$roles) || in_array('main_teacher',$roles)) return 'teacher';
+		else return 'student';
+	}
+	
+	function give_access_to_fullstack_all($studentId){
+		
 		$premium = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION);
 		$premium_esp = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION.'-es');
 		if(isset($premium)) $this->giveAccessToParentCourse($studentId,$premium);
 		if(isset($premium_esp)) $this->giveAccessToParentCourse($studentId,$premium_esp);
 	}
 
-	function give_access_to_teacher_course($studentId)
-	{
+	function give_access_to_teacher_course($studentId){
+		
 		$breathecode = get_option(BCThemeOptions::BREATHECODE_OPTION);
 		//$breathecode_esp = get_option(BCThemeOptions::BREATHECODE_OPTION.'-es');
 		if(isset($breathecode)) $this->giveAccessToParentCourse($studentId,$breathecode);
 		//if(isset($breathecode_esp)) $this->giveAccessToParentCourse($studentId,$breathecode_esp);
 	}
 	
-	private function giveAccessToParentCourse($studentId,$courseId)
-	{
+	private function giveAccessToParentCourse($studentId,$courseId){
 		$courses = get_terms(array(
 			'taxonomy' => 'course',
 			'parent' => $courseId
@@ -99,17 +126,17 @@ class WPUser
 	}
 
 	function userColumns( $columns ) {
-		//unset( $columns['title'] );
+		unset( $columns['level'] );
 		$columns[WPCohort::POST_TYPE] = 'Cohort';
+		$columns['breathecode_id'] = 'API ID';
 		//die(print_r($columns));
 		return $columns;
 	}
 
-
 	function customUserColumn( $value, $column_name ,$userId) {
 		switch ( $column_name ) {
 
-			case WPCohort::POST_TYPE :
+			case WPCohort::POST_TYPE:
 				$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
 				$termStrg = '';
 				if(!$terms or count($terms)==0) return 'No cohorts';
@@ -118,10 +145,11 @@ class WPUser
 				}
 				return $termStrg;
 			break;
+			case 'breathecode_id':
+				return get_user_meta( $userId, 'breathecode_id', true);
+			break;
 		}
 	}
-	
-
 	
 	function filterUsers( $query ) {
 	    global $pagenow;
@@ -165,8 +193,7 @@ class WPUser
 			));
 	}
 	
-	function registerTaxonomy($settings)
-	{
+	function registerTaxonomy($settings){
 		$labels = array(
 			'name' => 'User '.$settings['singularName'],
 			'singular_name' => $settings['singularName'],
@@ -237,8 +264,7 @@ class WPUser
 	 	}
 	}
 
-	private function addUserToTaxonomies($user_id, $taxonomies, $taxonomyType)
-	{
+	private function addUserToTaxonomies($user_id, $taxonomies, $taxonomyType){
 		$terms = array_unique( array_map( 'intval', $taxonomies ) );
 		wp_set_object_terms( $user_id, $terms, $taxonomyType, false );
 	 
@@ -262,6 +288,12 @@ class WPUser
 	    <h3>Extra profile information </h3>
 
 	    <table class="form-table">
+	   	 <tr>
+	   		 <th><label for="breathecode_id">BreatheCode API ID</label></th>
+	   		 <td>
+	   			 <?php echo get_user_meta( $user->ID, 'breathecode_id', true); ?>
+	   		 </td>
+	   	 </tr>
 	   	 <tr>
 	   		 <th><label for="birth-date-day">Birth date</label></th>
 	   		 <td>

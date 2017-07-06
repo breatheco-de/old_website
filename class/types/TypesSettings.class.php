@@ -18,7 +18,7 @@ class WPTypesSettings {
     }
     catch(\Exception $e)
 		{
-			Utils\BCError::notifyError($e->getMessage());
+			Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,$e->getMessage());
 		}
   }
 

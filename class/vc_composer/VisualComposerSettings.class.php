@@ -24,7 +24,7 @@ class VisualComposerSettings {
 
 	function __construct() {
 		
-		if(!function_exists('vc_map')) Utils\BCError::notifyError('The plugin Visual Composer is required, please install https://vc.wpbakery.com/');
+		if(!function_exists('vc_map')) Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,'The plugin Visual Composer is required, please install https://vc.wpbakery.com/');
 		
 		try{
 			$codeHighliter = new VCComponent\VCCodeHighlighter();
@@ -48,7 +48,7 @@ class VisualComposerSettings {
 		}
 		catch(\Exception $e)
 		{
-			Utils\BCError::notifyError($e->getMessage());
+			Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,$e->getMessage());
 		}
 	}
 

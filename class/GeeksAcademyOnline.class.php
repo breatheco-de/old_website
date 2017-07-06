@@ -16,7 +16,7 @@ Class GeeksAcademyOnline {
 
 	function __construct() {
 		
-		if(!defined('ASSETS_URL')) Utils\BCError::notifyError('You need to define the ASSETS_URL inside of wp-config.php');
+		if(!defined('ASSETS_URL')) Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,'You need to define the ASSETS_URL inside of wp-config.php');
 		if(WP_DEBUG) $this->prependversion = time();
 		
 		//setup the child-theme

@@ -1,8 +1,6 @@
 <?php
 
 include('class/utils/utils.autoload.php');
-\Utils\BCError::loadTransientErrors();
-
 /**
  * TODO: An attempt to have a single sessions in between several websites (wordpress or not)
  * */
@@ -33,7 +31,7 @@ try{
 }
 catch(\Exception $e)
 {
-	Utils\BCError::notifyError($e->getMessage());
+	Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,$e->getMessage());
 }
 
 /**
@@ -48,3 +46,10 @@ $WPLanguages = new WPLanguages();
  **/
 $BCThemeOptions = new BCThemeOptions();
 
+/**
+ * Simple rout mathin for ajax requests
+ **/
+include('class/AJAXController.class.php');
+$ajaxHandler = new MyAjaxHandler();
+
+\Utils\BCNotification::loadTransientMessages();

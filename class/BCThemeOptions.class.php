@@ -53,6 +53,15 @@ class BCThemeOptions {
 					'options' => []
 				]
 			];
+		
+		$apiFields = [
+				[
+				    'type' => 'text', 
+				    'label' => 'API Token',
+				    'name' => 'breathecode-api-token',
+					'description' => 'Oauth token for BreatheCode API'
+				],
+			];
 			
 		
 		
@@ -67,6 +76,7 @@ class BCThemeOptions {
 				'tabs' => array(
 					'courses' => array('text' => 'Courses', 'dashicon' => 'dashicons-admin-page', 'tabFields' => $coursesFields),
 					'replit' => array('text' => 'Replit\'s', 'dashicon' => 'dashicons-hammer', 'tabFields' => $this->getReplitCoursesOptions()),
+					'api' => array('text' => 'API', 'dashicon' => 'dashicons-admin-page', 'tabFields' => $apiFields),
 					'buttons' => array('text' => 'Buttons')
 				),
 			)
@@ -160,7 +170,7 @@ class BCThemeOptions {
 
 	}
 	
-	function getThemeOptions($optKey)
+	public static function getThemeOptions($optKey)
 	{
 		$rawValue = get_option( self::THEME_OPTIONS_KEY.$optKey );
 		
