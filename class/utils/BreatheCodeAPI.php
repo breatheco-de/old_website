@@ -3,10 +3,10 @@ namespace Utils;
 
 class BreatheCodeAPI{
     
-    private static $clientId = "testclient";
-    private static $clientSecret = "testpass";
+    private static $clientId = BREATHECODE_CLIENT_ID;
+    private static $clientSecret = BREATHECODE_CLIENT_SECRET;
     private static $accessToken = "";
-    private static $host = 'https://talenttree-alesanchezr.c9users.io/';
+    private static $host = BREATHECODE_API_HOST;
     
     private static function request($method,$resource,$args){
         $method = strtoupper($method);
