@@ -21,6 +21,9 @@ class MyAjaxHandler
     		$password = $_POST["password"];
     		// send the response back to the front end
     		
+    		//hashing the password just like how wordpress hashes it
+    		$password = wp_hash_password($password);
+    		
     		try{
     		    $bcUser = \Utils\BreatheCodeAPI::autenticate($username,$password);
     		}
