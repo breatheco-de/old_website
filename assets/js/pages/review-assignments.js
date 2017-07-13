@@ -3,19 +3,14 @@
 *    Declaration of your module
 *    @params modulename and undefined
 **/
-var MyAssignmentsController = function(theSettings) { 
+var ReviewAssignmentsController = function(theSettings) { 
     
     let published = {};
     
     published.init = function(){
-    	let assignmentBtn = document.querySelectorAll(".deliver-assignment");
-    	assignmentBtn.forEach(function(btn){
-    	    btn.addEventListener('click',function(e) {
-        	    e.preventDefault();
-                send(this.getAttribute('data-assignment'));
-                
-                return false;
-            });    
+    	let assignmentBtn = document.querySelector("#new-assignment");
+    	assignmentBtn.addEventListener('click',function(){
+    	    
     	})
     	
     }

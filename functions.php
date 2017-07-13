@@ -15,6 +15,7 @@ $c = new BCController();
 $c->route('MyTalents','TalentTree');
 $c->route('My-Assignments','Assignments');
 $c->route('Lesson-Project','Assignments');
+$c->route('Review-Assignments','Assignments');
 
 /**
  * Binding Ajax methos with views and controllers
@@ -22,8 +23,9 @@ $c->route('Lesson-Project','Assignments');
  * @param controller
  * @param method
  */
-$c->routeAjax('bclogin','Credentials','custom_login');     
-$c->routeAjax('My-Assignments','Assignments','deliver_project');    
+$c->routeAjax('bclogin','Credentials','Public:custom_login');     
+$c->routeAjax('My-Assignments','Assignments','Private:deliver_project');    
+$c->routeAjax('Review-Assignments','Assignments','Private:create_new_assignment');    
 $c->loadAjax();
 
 

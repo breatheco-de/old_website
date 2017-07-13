@@ -29,10 +29,20 @@ class BCController{
             foreach($routes as $controller => $method){
                 $controller = 'BreatheCode\\Controller\\'.$controller;
                 $v = new $controller();
-                
-                $methodName = 'ajax_'.$method;
-                if(!is_callable([$v,$methodName])) throw new Exception('Ajax method '.$methodName.' does not exists in controller '.$controller);
-                add_action('wp_ajax_nopriv_'.$method, [$v,$methodName]);
+
+                $pieces = explode(':',$method);
+                if(count($pieces)==2)
+                {
+                    $methodName = 'ajax_'.$pieces[1];
+                    
+                    $pieces[0] = strtolower($pieces[0]);
+                    $hookName = 'wp_ajax_'.$pieces[1];
+                    if($pieces[0]=='public') $hookName = 'wp_ajax_nopriv_'.$pieces[1];
+                    if(!is_callable([$v,$methodName])) throw new Exception('Ajax method '.$methodName.' does not exists in controller '.$controller);
+                    
+                    add_action($hookName, [$v,$methodName]);
+                }
+                else throw new Exception('Ajax rout '.$method.' must be Public or Private');
             }
         }
     }

@@ -22,19 +22,6 @@ $posts_array = get_posts(
     )
 );
 
-
-//$posttitle = 'Cloud9 Keybindings File';
-//$postid = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_title = '" . $posttitle . "'" );
-//echo $postid;
-
-$post_id = 791;
-$queried_post = get_post($post_id);
-$title = $queried_post->post_title;
-//echo $title."<br>";
-//echo $queried_post->post_content."<br>";
-
-//die(' =Cloud9 Keybindings File');
-
 ?>
     <main class="container">
     <div class="row">
@@ -44,16 +31,14 @@ $title = $queried_post->post_title;
                 <div class="col-md-12">
                     <h2><?php echo pll__( 'Assets related to' ); ?> <span class="label label-dark"><?php echo $technology->name; ?></span></h2>
 					<ul class="list-view">
-						<?php foreach ($posts_array as $lesson) {
-                            the_post(); 
-							setup_postdata( $lesson );
-							$postId = get_the_ID();
+						<?php foreach ($posts_array as $asset) {
+							$postId = $asset->ID;
 							$types = wp_get_post_terms($postId,'asset-type');
 							$technologies = wp_get_post_terms($postId,'asset-technology');
 						?>
 						  <li>
-						    	<a class="btn btn-primary pull-right" href="<?php the_permalink(); ?>"><?php echo pll__( 'View more' ); ?></a>
-						    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+						    	<a class="btn btn-primary pull-right" href="<?php echo get_permalink($asset->ID); ?>"><?php echo pll__( 'View more' ); ?></a>
+						    <h5><a href="<?php echo get_permalink($asset->ID); ?>"><?php echo $asset->post_title; ?></a></h5>
 						    <p class="meta-data">
 						    <?php echo $types[0]->name; ?> | 
 						    <?php foreach ($technologies as $technology) { ?>
@@ -61,7 +46,11 @@ $title = $queried_post->post_title;
                             <?php } ?>
 						 	</p>
 						    <p>
-						    	<?php echo the_excerpt(); ?>
+                            <?php if ( empty( $asset->post_excerpt ) ) { ?>
+                                <?php echo wp_kses_post( wp_trim_words( $asset->post_content, 40 ) ); ?>
+                            <?php }else { ?>
+                                <?php echo wp_kses_post( $asset->post_excerpt ); ?>
+                            <?php } ?>
 						    </p>
 						  </li>
 						<?php } wp_reset_postdata(); ?>

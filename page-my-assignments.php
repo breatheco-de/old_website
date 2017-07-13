@@ -37,7 +37,7 @@ $args = BCController::getViewData();
                     <div class="col-xs-9 col-md-10">
                       <h5><?php echo $a->template->title; ?>
                         <small>
-                          <?php if($a->status=="pending"){ ?>
+                          <?php if($a->status=="not-delivered"){ ?>
                             <i class="fa fa-calendar" aria-hidden="true"></i><?php echo pll__( 'Due by' ); ?> <?php echo $duedate; ?>
                           <?php } else { ?>
                             <?php echo $args['getStatusTag']($a->status); ?>
@@ -46,10 +46,10 @@ $args = BCController::getViewData();
                       </h5>
                     </div>
                     <div class="col-xs-3 col-md-2 assignment-bar">
-                      <a href="<?php echo $args['getAssignmentPermalink']($a); ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'View' ); ?></a>
-                      <?php if($a->status!="done" and $a->status!="missed"){ ?>
+                      <?php if(!in_array($a->status,['reviewed','delivered'])){ ?>
                       <a data-assignment="<?php echo $a->id; ?>" href="<?php echo get_permalink( get_page_by_path( 'deliver-assignment' ) ); ?>?assignment=<?php echo $a->id; ?>&project=<?php echo urlencode($a->template->title); ?>" class="btn btn-xs btn-success deliver-assignment"><?php echo pll__( 'Deliver' ); ?></a>
                       <?php } ?>
+                      <a href="<?php echo $args['getAssignmentPermalink']($a); ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'View' ); ?></a>
                     </div>
                   </div>
                 </li>

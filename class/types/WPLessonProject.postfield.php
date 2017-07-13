@@ -38,7 +38,6 @@ class WPLessonProject
 	  $redirect_to = add_query_arg( 'affected_ids', count( $users ), $redirect_to );
 	  return $redirect_to;
 	}
-	
 
 	function renderColumns( $columns ) {
 		$columns['breathecode_id'] = 'API ID';

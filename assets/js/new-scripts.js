@@ -1,15 +1,16 @@
 jQuery(document).ready(function(){
 
-   $("#menu-toggle").click(function(e) {
+    $('[data-toggle="tooltip"]').tooltip(); 
+    $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $(".sidebar-boxed").toggleClass("toggled");
     });
 
-   if(typeof browserChecker!== 'undefined')
-   {
-	   browserChecker.init({ 
-	   		browsers: ['chrome']
-		});
-   }
-
+    if(typeof browserChecker!== 'undefined')
+    {
+       browserChecker.init({ 
+       		browsers: ['chrome']
+    	});
+    }
+   
 });   

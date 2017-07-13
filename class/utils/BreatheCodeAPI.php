@@ -1,6 +1,8 @@
 <?php
 namespace Utils;
 
+use \Exception;
+
 class BreatheCodeAPI{
     
     private static $clientId = BREATHECODE_CLIENT_ID;
@@ -200,6 +202,12 @@ class BreatheCodeAPI{
 	    return $assignments;
 	}
 	
+	public static function getTeacherAssignments($args=[],$decode=true){
+	
+	    $assignments = self::request('GET','assignments/teacher/'.$args['teacher_id'],$args);
+	    return $assignments;
+	}
+
 	public static function getSingleStudentAssignment($args=[],$decode=true){
 
 	    $assignment = self::request('GET','student/assignment/'.$args['assignment_id']);
@@ -208,7 +216,7 @@ class BreatheCodeAPI{
 	
 	public static function deliverStudentAssignment($args=[],$decode=true){
 
-	    $assignment = self::request('GET','student/assignment/'.$args['assignment_id']);
+	    $assignment = self::request('POST','student/assignment/'.$args['assignment_id'],$args);
 	    return $assignment;
 	}
 	

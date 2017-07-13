@@ -105,6 +105,9 @@ Class GeeksAcademyOnline {
 	        wp_enqueue_script( 'breathecodejs' );
 	    }
 	    
+	    wp_register_script( 'mfb', get_stylesheet_directory_uri().'/assets/js/mfb.min.js' , array('jquery'), $this->prependversion, true );
+	    wp_enqueue_script( 'mfb' );
+	    
 	    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), $this->prependversion, true );
 	    wp_enqueue_script( 'main-js' );
 	}

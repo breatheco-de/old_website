@@ -21,6 +21,7 @@ $posts_array = get_posts(
         )
     )
 );
+
 ?>
     <main class="container">
     <div class="row">
@@ -30,16 +31,15 @@ $posts_array = get_posts(
                 <div class="col-md-12">
                     <h2><span class="label label-dark"><?php echo $type->name; ?></span> <?php echo pll__( 'lesson assets' ); ?></h2>
 					<ul class="list-view">
-						<?php foreach ($posts_array as $lesson) { 
-                            the_post();
-							setup_postdata( $lesson );
-							$postId = get_the_ID();
-							$types = wp_get_post_terms($postId,'asset-type');
-							$technologies = wp_get_post_terms($postId,'asset-technology');
+						<?php foreach ($posts_array as $asset) { 
+							$postId = $asset->ID;
+							$types = wp_get_post_terms($asset->ID,'asset-type');
+							//if(empty($asset->post_excerpt)) $excerpt = wp_get_post_terms($asset->ID,'asset-type');
+							$technologies = wp_get_post_terms($asset->ID,'asset-technology');
 						?>
 						  <li>
-						    	<a class="btn btn-primary pull-right" href="<?php the_permalink(); ?>"><?php echo pll__( 'View more' ); ?></a>
-						    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?> (<?php echo $postId; ?>)</a></h5>
+						    	<a class="btn btn-primary pull-right" href="<?php echo get_permalink($asset->ID); ?>"><?php echo pll__( 'View more' ); ?></a>
+						    <h5><a href="<?php echo get_permalink($asset->ID); ?>"><?php echo $asset->post_title; ?></a></h5>
 						    <p class="meta-data">
 						    <?php echo $types[0]->name; ?> | 
 						    <?php foreach ($technologies as $technology) { ?>
@@ -47,7 +47,11 @@ $posts_array = get_posts(
                             <?php } ?>
 						 	</p>
 						    <p>
-						    	<?php echo the_content(); ?>
+                            <?php if ( empty( $asset->post_excerpt ) ) { ?>
+                                <?php echo wp_kses_post( wp_trim_words( $asset->post_content, 40 ) ); ?>
+                            <?php }else { ?>
+                                <?php echo wp_kses_post( $asset->post_excerpt ); ?>
+                            <?php } ?>
 						    </p>
 						  </li>
 						<?php } wp_reset_postdata(); ?>
