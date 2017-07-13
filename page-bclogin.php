@@ -8,42 +8,16 @@ if (is_user_logged_in())
 
 get_header('boxed'); 
 ?>
-    <div class="container">
-        <input type="text" id="username" name='username'>
-        <input type="password" id="password" name='password'>
-        <button id="login">Login</button>
-    </div>
+<div class="container">
 
-<script type="text/javascript">
-jQuery(document).ready( function($) {
-	$("#login").click( function() {
-		var thedata = {
-		    action: 'custom_login',
-			username: $("#username").val(),
-			password: $("#password").val()
-		};
-		// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
-	 	$.ajax({
-	 	    url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
-	 	    method: 'post',
-	 	    dataType: "json",
-	 	    data: thedata, 
-	 	    success: function(response) {
-			    if(response){
-			        if(response.code=='200')
-			        {
-			            window.location.href = response.data;
-			        }
-			        else
-			        {
-			            alert(response.msg);
-			        }
-			    }
-	 	    }
-	 	});
-	 	
-	 	return false;
-	});
-});
-</script>
+      <form class="form-signin" role="form">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <div style="display:none;" class="alert alert-danger" role="alert"></div>
+        <input id="username" class="form-control" placeholder="Email address" required="required" autofocus="" type="email">
+        <input id="password" class="form-control" placeholder="Password" required="required" type="password">
+        <p><a href="#">Forgot your password?</a></p>
+        <button id="login" class="btn btn-lg btn-primary btn-block">Sign in</button>
+      </form>
+
+</div>
 <?php get_footer(); ?>

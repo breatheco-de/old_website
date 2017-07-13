@@ -41,7 +41,7 @@ class BCNotification{
     	
         foreach(self::$messages as $type => $messages)
         {
-        	$class = 'notice notice-'.$type;
+        	$class = 'notice is-dismissible notice-'.$type;
         	$content = $type.'! <ul>';
         	foreach($messages as $msg)  $content .= '<li>'.$msg.'</li>';
         	$content .= '</ul>';

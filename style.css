@@ -65,7 +65,7 @@ header.navbar-fullwidth .navbar{max-height: initial;}
 li.hidden_label label{display: none;}
 .validation_message{color: #a94442;}
 .step-text.assignments h5{margin-top: 0px;}
-.assignment-bar{padding-top: 15px;}
+.assignment-bar{padding-top: 10px;}
 .gfield_description{font-style: italic; font-size: 80%; line-height: 16px; color: grey;}
 .gfield_description.validation_message{font-style: normal; font-size: 100%; line-height: 16px; color: #a94442;}
 .field_description_below .form-control{margin-bottom: 10px;}
@@ -92,6 +92,7 @@ li.hidden_label label{display: none;}
 }
 .banner .breadcrumb a{ color: white; cursor: pointer;}
 .table-no-lines tbody tr td{border: none;}
+.form-signin{margin-bottom: 50px;}
 
 @media (min-width:768px){
 	.sidebar-boxed{overflow: inherit; z-index: 9;}

@@ -63,8 +63,7 @@ class WPUser
 	  return $redirect_to;
 	}
 	
-	function give_access_to_fullstack_prework($studentId)
-	{
+	function give_access_to_fullstack_prework($studentId){
 		$prework = get_option(BCThemeOptions::PREWORK_FULLSTACK_OPTION);
 		$prework_esp = get_option(BCThemeOptions::PREWORK_FULLSTACK_OPTION.'-es');
 		if(isset($prework)) $this->giveAccessToParentCourse($studentId,$prework);

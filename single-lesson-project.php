@@ -5,7 +5,7 @@
  */
 
 get_header('asset'); 
-
+$args = BCController::getViewData();
 if (have_posts()){
     the_post();
 
@@ -48,7 +48,15 @@ if (have_posts()){
 
         <!-- END Main content -->
         <!-- Sidebar -->
-        <aside class="col-md-3 col-sm-3 sidebar">
+        <aside class="col-md-3 col-sm-3">
+            <?php if($args['assignment']){ ?>
+            <div class="">
+                <h4 id="duedate">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> <?php echo pll__( 'Due' ); ?>:
+                    <?php echo date('jS \of F', $duedate); ?>
+                </h4> 
+            </div>
+            <?php } ?>
             <table class="table table-striped table-changelog">
               <tbody>
                 <tr>

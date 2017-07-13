@@ -40,7 +40,7 @@ class wp_theme_settings{
 		$this->settingsID = (array_key_exists('settingsID', $args)) ? $this->keyEntity($args['settingsID']).'-settings-group' : '';
 		$this->settingFields = (array_key_exists('settingFields', $args)) ? $args['settingFields'] : array();
 		$this->toolbar = (array_key_exists('toolbar', $args['general'])) ? $args['general']['toolbar'] : array();
-		$this->notice = (array_key_exists('notice', $args['general'])) ? $args['general']['notice'] : true;
+		$this->notice = (array_key_exists('notice', $args['general'])) ? $args['general']['notice'] : false;
 
 		/*
 		 * @ Add tabfields (tabs & sections) to settingsfield
@@ -89,14 +89,6 @@ class wp_theme_settings{
 		 */
 		if (array_key_exists('toolbar', $args['general']) && $args['general']['toolbar'] != false) {
 			add_action('admin_bar_menu', array($this, 'wpts_toolbar'), 999);
-		}
-		/*
-		 * @ check update notice
-		 */
-		if ($this->notice !== false ) {
-			if ( $this->get_wpts_git_version() > $this->currversion ) {
-				add_action( 'admin_notices', array($this, 'wpts_update_admin_notice') );
-			}
 		}
 	}
 	
@@ -436,35 +428,6 @@ class wp_theme_settings{
 	 */
 	public function wpts_option($key){
 		return esc_attr( get_option($key) );
-	}
-
-	/*
-	 * @ Update notice
-	 */
-	public function wpts_update_admin_notice() {
-		$class = 'notice notice-info is-dismissible';
-		$message = __( 'New version of WPTS is available ('.$this->get_wpts_git_version().'), click <a href="https://git.io/vi1Gr" target="_new">here</a> to learn more about it.');
-		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message ); 
-	}
-
-	/*
-	 * @ Get wpts github version
-	 */
-	private function get_wpts_git_version(){
-		try {
-			$url  = "http://wpts.nexxoz.com/changelog.txt";
-			$data = file_get_contents($url);
-			$t    = preg_split("#\n\s*\n#Uis", $data);
-			foreach ($t as $key => $value) {
-			  $lines = explode('+', $value);
-			  $version = str_replace("**", "", $lines[0]); 
-			  unset($lines[0]);
-			  $new_data[] = array('version' => $version, 'data' => $lines);
-			}
-			return trim($new_data[0]['version']);
-		} catch (Exception $e) {
-			return $this->currversion;
-		}
 	}
 
 	function ajax_theme_option_with_ajax() {

@@ -14,10 +14,15 @@ Class GeeksAcademyOnline {
 	
 	private $prependversion = 0.03;
 
-	function __construct() {
+	function __construct($controller) {
 		
 		if(!defined('ASSETS_URL')) Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,'You need to define the ASSETS_URL inside of wp-config.php');
-		if(WP_DEBUG) $this->prependversion = time();
+		if(WP_DEBUG) 
+		{
+			//error_reporting(E_ALL & ~E_NOTICE);
+			error_reporting(E_ERROR | E_WARNING | E_PARSE);
+			$this->prependversion = time();
+		}
 		
 		//setup the child-theme
 		add_action( 'after_setup_theme', [$this,'thedocs_child_theme_setup'] );
@@ -78,6 +83,8 @@ Class GeeksAcademyOnline {
 	    
 	    wp_enqueue_style( 'breathecodecss', get_stylesheet_directory_uri().'/assets/css/components.breathecode.css', array('theDocs.all.min.css'),$this->prependversion);
 	    
+	    if(is_page('mytalents')) wp_enqueue_style( 'mytalents', get_stylesheet_directory_uri().'/assets/css/mytalents.css', array(),$this->prependversion);
+	    
 	    //wp_enqueue_style( 'stretchynav', get_stylesheet_directory_uri().'/assets/css/stretchy-nav.component.css', array(),$this->prependversion);
 	        
 	}
@@ -90,12 +97,14 @@ Class GeeksAcademyOnline {
 	    wp_register_script( 'bootstrapjs', get_stylesheet_directory_uri().'/assets/js/bootstrap.min.js' , array('jquery'), NULL, true );
 	    wp_enqueue_script( 'bootstrapjs' );
 	    
-	    if(is_user_logged_in() && is_singular('lesson'))
-	    {
+	    wp_register_script( 'ajaxmodule', get_stylesheet_directory_uri().'/assets/js/ajaxmodule.js' , array(), $this->prependversion, true );
+	    wp_enqueue_script( 'ajaxmodule' );
+	    
+	    if(is_user_logged_in() && is_singular('lesson')){
 	        wp_register_script( 'breathecodejs', get_stylesheet_directory_uri().'/assets/js/components.breathecode.js' , array('jquery','jquerytemplate','bootstrapjs'), $this->prependversion, true );
 	        wp_enqueue_script( 'breathecodejs' );
 	    }
-	
+	    
 	    wp_register_script( 'main-js', get_stylesheet_directory_uri().'/assets/js/new-scripts.js' , array('jquery'), $this->prependversion, true );
 	    wp_enqueue_script( 'main-js' );
 	}

@@ -15,6 +15,7 @@ class WPTypesSettings {
       $cohort = new WPTypes\WPCohort();
       $lessonAsset = new WPTypes\WPLessonAsset();
       $lesson = new WPTypes\WPLesson();
+      $lessonProject = new WPTypes\WPLessonProject();
     }
     catch(\Exception $e)
 		{

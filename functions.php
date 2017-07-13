@@ -1,11 +1,31 @@
 <?php
 
 include('class/utils/utils.autoload.php');
+
 /**
- * TODO: An attempt to have a single sessions in between several websites (wordpress or not)
- * */
-//include('class/WPSessionManagment.class.php');
-//$WPSessionManagment = new WPSessionManagment();
+ * Simple routs for binding controller classes with Views and AJAX
+ **/
+include('class/controller/BCController.class.php');
+$c = new BCController();
+/**
+ * Binding render methods with views and controllers
+ * @param view
+ * @param controller
+ */
+$c->route('MyTalents','TalentTree');
+$c->route('My-Assignments','Assignments');
+$c->route('Lesson-Project','Assignments');
+
+/**
+ * Binding Ajax methos with views and controllers
+ * @param view
+ * @param controller
+ * @param method
+ */
+$c->routeAjax('bclogin','Credentials','custom_login');     
+$c->routeAjax('My-Assignments','Assignments','deliver_project');    
+$c->loadAjax();
+
 
 include('class/GeeksAcademyOnline.class.php');
 include('class/vc_composer/VisualComposerSettings.class.php');
@@ -15,7 +35,7 @@ try{
     /**
      * This class takes care of all the theme setup
      * */
-    $GeeksAcademyOnline = new GeeksAcademyOnline();
+    $GeeksAcademyOnline = new GeeksAcademyOnline($c);
     /**
      * Everything related to the visual composer settings and components.
      * */
@@ -45,11 +65,5 @@ $WPLanguages = new WPLanguages();
  * This class takes care of the adminisitation interface under appereache->theme_options
  **/
 $BCThemeOptions = new BCThemeOptions();
-
-/**
- * Simple rout mathin for ajax requests
- **/
-include('class/AJAXController.class.php');
-$ajaxHandler = new MyAjaxHandler();
 
 \Utils\BCNotification::loadTransientMessages();
