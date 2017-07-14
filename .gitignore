@@ -11,6 +11,12 @@
 # track this file .gitignore (i.e. do NOT ignore it)
 !composer.json
 
+# track webpack stuff but don't track the bundle file
+!package.json
+!webpack.config.js
+!wp-content/themes/thedocs-child/public/
+wp-content/themes/thedocs-child/public/*
+
 # track .editorconfig file (i.e. do NOT ignore it)
 !.editorconfig
 

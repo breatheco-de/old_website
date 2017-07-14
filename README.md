@@ -41,14 +41,28 @@ $ wp core install --url={domain.com} --title="First Attempt" --admin_user={youru
 ```sh
 $ composer install
 ```
+
+9) **Install npm and webpack**
+```sh
+$ npm init
+
+$ npm install --save-dev webpack
+```
+
+10) **Run webpack every time you want to generate a new bundle**
+
+```sh
+$ webpack
+```
     
-## The System Uses the following plugins
+## The Application Uses the following plugins
 
 These are all the mandatory plugins for the wordpress instalation (any other plugin is not really mandatory)
     
 | Included Via      | Plugin        |
 | -                 | -             |
 | composer install  | [polylang](https://wordpress.org/plugins/polylang/)     |
+| composer install  | [email-templates](https://wordpress.org/plugins/email-templates/)     |
 | composer install  | [nav-menu-roles](https://wordpress.org/plugins/nav-menu-roles/)     |
 | composer install  | [post-types-order](https://wordpress.org/plugins/post-types-order/)     |
 | current repo      | [GravityForms](http://www.gravityforms.com/)  |

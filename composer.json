@@ -7,6 +7,7 @@
     ],
     "require": {
         "wpackagist-plugin/polylang": "*"
+        "wpackagist-plugin/email-templates": "*"
         "wpackagist-plugin/nav-menu-roles": "*"
         "wpackagist-plugin/post-types-order": "*"
     }

@@ -1,0 +1,26 @@
+{
+  "name": "breathecode-lms",
+  "version": "1.0.0",
+  "description": "LMS client platform for teaching how to code",
+  "main": "index.js",
+  "dependencies": {
+    "webpack": "^3.2.0"
+  },
+  "devDependencies": {
+    "webpack": "^3.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/codingacademy/platform.git"
+  },
+  "keywords": [
+    "lms",
+    "breathecode"
+  ],
+  "author": "Alejandro Sanchez",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/codingacademy/platform#readme"
+}
