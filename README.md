@@ -1,15 +1,6 @@
-# BreatheCode Theme
+# BreatheCode LMS Theme for Wordpress
 
-This is the sexiest developer starting theme for The WordPress CMS, it has all you need to start coding right away and feeling like a real developer, here are some of the perks:
-- Bootstrap 3: Extend the [_tk parent theme](https://github.com/Themekraft/_tk) (one of the most recomended base themes).
-- Using [Composer](https://wpackagist.org/) as package manager for everything (including plugins).
-- Using the command line to install and manage wordpress ([WP-CLI](http://wp-cli.org/)).
-- The perfect .gitignore to only upload the minimum files.
-- Laravel Eloquent ORM [Eloquent ORM](https://github.com/tareq1988/wp-eloquent) for any database extend (use the WP_Query or any other WordPress function if your are working on your own tables).
-- A few plugins already suggested on composer.json based on my experience.
-- A lot of examples on how to do stuff inside your wordpress.
-
-## Installing Wordpress
+## Installing the LMS
 
 0) **Clone this repository and then change the remote to your own repository**
 ```sh
@@ -50,15 +41,23 @@ $ wp core install --url={domain.com} --title="First Attempt" --admin_user={youru
 ```sh
 $ composer install
 ```
+    
+## The System Uses the following plugins
+
+These are all the mandatory plugins for the wordpress instalation (any other plugin is not really mandatory)
+    
+| Included Via      | Plugin        |
+| -                 | -             |
+| composer install  | [polylang](https://wordpress.org/plugins/polylang/)     |
+| composer install  | [nav-menu-roles](https://wordpress.org/plugins/nav-menu-roles/)     |
+| composer install  | [post-types-order](https://wordpress.org/plugins/post-types-order/)     |
+| current repo      | [GravityForms](http://www.gravityforms.com/)  |
+| current repo      | [Visual Composer](https://vc.wpbakery.com/)   |
+| current repo      | [GravityForms Registration Add-On](http://www.gravityforms.com/add-ons/user-registration/)|
+| current repo      | [Restrict User Access](https://wordpress.org/plugins/restrict-user-access/) |
+| current repo      | [Toolset Types](https://wordpress.org/plugins/types/) |
 
 ## Author
 
 **Alejandro Sanchez**
 - About me: [alesanchezr.com](alesanchezr.com)
-    
-## More WordPress plugins?
-
-From now on, you should only install plugins available in the WPackagist project, there are thousands of plugins and basicall all the professional plugins are available:
-https://wpackagist.org/search
-
-If your plugin is no available, you can still install your own plugins if you want and nothing will break (unless you install crapy plugins) :)

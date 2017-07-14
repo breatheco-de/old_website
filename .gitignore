@@ -58,9 +58,14 @@ Thumbs.db
 wp-content/*
 !wp-content/plugins/
 wp-content/plugins/*
+!wp-content/plugins/gravityforms
+!wp-content/plugins/gravityformsuserregistration-master/
+!wp-content/plugins/js_composer
+!wp-content/plugins/restrict-user-access
+!wp-content/plugins/types
 
-wp-content/themes/*
 !wp-content/themes/
+wp-content/themes/*
 !wp-content/themes/thedocs
 !wp-content/themes/thedocs-child
 

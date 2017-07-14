@@ -6,6 +6,8 @@
         }
     ],
     "require": {
-        "wpackagist-plugin/wordpress-seo": "*"
+        "wpackagist-plugin/polylang": "*"
+        "wpackagist-plugin/nav-menu-roles": "*"
+        "wpackagist-plugin/post-types-order": "*"
     }
 }
