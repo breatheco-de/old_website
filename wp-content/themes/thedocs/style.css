@@ -1,0 +1,192 @@
+/*
+Theme Name: TheDocs
+Theme URI: http://shtheme.com/demosd/thedocs
+Author: Verga Theme Team
+Author URI: http://vergatheme.com
+Description: Thedocs is a powerful, responsive, and high-performance html online documentation template which can help you rapidly develop your next software’s documentation. It can be used for documenting API, frameworks, plugins, templates, etc.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
+Text Domain: thedocs
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+
+input.submit{
+	background-color: #00bfa5;
+	color: #fff;
+	border-radius: 4px;
+	border:none;
+	transition: .3s ease;
+	 padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    display: inline-block;
+    margin-bottom: 0px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.pagination .current{
+    background-color: #5cc7b2;
+    border-radius: 2px;
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    border-color: #337ab7;
+}
+#menu-item-19 {
+    background-color: hsla(0,0%,100%,.25);
+    border-radius: 3px !important;
+    transition: .3s linear !important;
+}
+.banner .container.text-center{
+    padding-bottom: 11px;
+}
+
+.widget_calendar {float: none;}
+#wp-calendar {width: 100%; }
+#wp-calendar caption { 
+    background: none repeat scroll 0 0 #E9E9E9;
+    color: #333333;
+    font-size: 16px;
+    padding: 10px 0;
+    text-align: center; 
+}
+#wp-calendar thead { font-size: 10px; }
+#wp-calendar thead th {
+    border: 1px solid #E9E9E9;
+    font-size: 13px;
+    padding: 8px 0;
+    text-align: center;
+    vertical-align: middle;
+}
+#wp-calendar tbody { color: #aaa; }
+#wp-calendar tbody td { background: #f5f5f5; border: 1px solid #E9E9E9; text-align: center; padding:8px;}
+#wp-calendar tbody td#today {background: #FBB12F;color: #fff;}
+#wp-calendar tbody td:hover { background: #fff; }
+#wp-calendar tbody .pad { background: none; }
+#wp-calendar tfoot {border: 1px solid #E9E9E9;}
+#wp-calendar tfoot #next { font-size: 12px; text-transform: uppercase; text-align: right; color: #83c99f;}
+#wp-calendar tfoot #prev { font-size: 12px; text-transform: uppercase; padding-top: 10px; color: #83c99f;}
+
+.widget select {max-width: 100%;padding: 5px;border: 1px solid #ccc; width: 100%;}
+.widget_text .textwidget img{max-width: 100%;height: auto;}
+.widget_text select, .widget_text input , .widget_text textarea  {max-width: 100%;padding: 5px;border: 1px solid #ccc; width: 100%;}
+.widget_text option {max-width: 100%;}
+
+.widget_nav_menu ul li, .widget_pages ul li {color: #827b7d;line-height: 28px;}
+.widget_nav_menu ul li ul, .widget_pages ul li ul {padding-left: 20px;}
+.widget_nav_menu ul li a, .widget_pages ul li a{color: #827b7d;}
+.widget_nav_menu ul li a:hover, .widget_pages ul li a:hover {color: #615C5C;}
+
+ul, ol {
+    padding-left: 10px;
+    list-style: none;
+}
+.tagcloud a{
+        display: inline-block;
+    padding: 6px 12px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #f5f5f5;
+    color: #777;
+    text-transform: uppercase;
+    font-size: 12px;
+    transition: .3s linear;
+    text-decoration: none;
+    background-color: transparent;
+}
+.tagcloud  a:hover{
+        color: #5cc7b2;
+}
+.logo {
+    margin-left: -5px;
+}
+
+header.navbar-fullwidth .navbar{
+}
+.post img, .post .wp-caption{
+    max-width: 100%;
+}
+ul.navbar-nav li ul{
+    display: none;
+}
+
+
+.featured-post{
+  background: #5cc7b2;
+padding-left: 15px;
+padding-right: 15px;
+padding-top: 5px;
+padding-bottom: 5px;
+color:#fff;
+margin-right:15px;
+    position: relative;
+    top: -5px;
+font-weight: bold;
+}
+.wp-caption-text, .screen-reader-text, .gallery-caption, .bypostauthor, {}
+.alignright{
+    text-align: right;
+}
+.alignleft{
+    text-align: left
+}
+.aligncenter{
+    text-align: center;
+}
+.logo-padding{
+    margin-left: -5px !important;
+}
+
+
+.post ol{
+    list-style: decimal;
+    padding-left: 15px; 
+}
+.post ul{
+    list-style: disc;
+    padding-left: 15px; 
+}
+.post table{ 
+    border-collapse: separate;
+    border-spacing: 0;
+    border-width: 1px 0 0 1px;
+    margin: 0 0 1.75em;
+    table-layout: fixed;
+    width: 100%;
+    border: 1px solid #d1d1d1;
+}
+.post table td{
+    border: 1px solid #d1d1d1;
+    padding-left: 5px;
+} 
+ .post table th{
+    border: 1px solid #d1d1d1;
+    padding-left: 5px;
+ }
+ .text-align-center{
+    text-align: center;
+ }
+ .margin-bottom40{
+    margin-bottom: 40px;
+ }
+ .background-color1{
+    background-color: #5cc7b2;
+ }
+ .comment-text ul{
+    list-style: disc;
+    padding-left: 15px; 
+ }
+ .comment-text ol{
+    list-style: decimal;
+    padding-left: 15px; 
+}
+.fn{
+    color:#333;
+    text-decoration: none;
+}

@@ -59,9 +59,10 @@ wp-content/*
 !wp-content/plugins/
 wp-content/plugins/*
 
+wp-content/themes/*
 !wp-content/themes/
-wp-content/themes/thedocs
-wp-content/themes/thedocs-child
+!wp-content/themes/thedocs
+!wp-content/themes/thedocs-child
 
 # ignore these plugins
 wp-content/plugins/hello.php
