@@ -11,6 +11,12 @@
 # track this file .gitignore (i.e. do NOT ignore it)
 !composer.json
 
+# track webpack stuff but don't track the bundle file
+!package.json
+!webpack.config.js
+!wp-content/themes/thedocs-child/public/
+wp-content/themes/thedocs-child/public/*
+
 # track .editorconfig file (i.e. do NOT ignore it)
 !.editorconfig
 
@@ -56,6 +62,7 @@ Thumbs.db
 # "plugins" directory (ignore the content but not the directory itself)
 # and the whole "themes" directory
 wp-content/*
+!wp-content/plugins/
 wp-content/plugins/*
 !wp-content/plugins/gravityforms
 !wp-content/plugins/gravityformsuserregistration-master/
@@ -63,6 +70,7 @@ wp-content/plugins/*
 !wp-content/plugins/restrict-user-access
 !wp-content/plugins/types
 
+!wp-content/themes/
 wp-content/themes/*
 !wp-content/themes/thedocs
 !wp-content/themes/thedocs-child
@@ -76,7 +84,5 @@ wp-content/themes/twenty*/
 # ignore node/grunt dependency directories
 node_modules/
 
-# track webpack stuff but don't track the bundle file
-!package.json
-!webpack.config.js
-!wp-content/themes/thedocs-child/public/
+#dont ignore any folder containing a .gitkeep file
+!*.gitkeep
