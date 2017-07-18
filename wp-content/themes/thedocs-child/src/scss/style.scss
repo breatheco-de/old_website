@@ -1,0 +1,150 @@
+/*
+Theme Name: thedocs Child Theme
+Theme URI: http://shtheme.com
+Description: This is child theme of thedocs
+Author: Shtheme
+Author URI: http://shtheme.com
+Template: thedocs
+Version: 1.0
+Text Domain:  thedocs-child
+*/
+@import "../../../thedocs/style.css";
+@import 'mfb';
+@import 'bccomponents';
+
+.code-iframe{border: 0 solid white; width: 100%;}
+.asset-preview-img{max-width: 150px;float: left; margin-right: 10px;}
+#lesson-assets .asset-preview-img{max-width: 100px;float: left; margin-right: 10px;}
+.grid-view.view-col-12 li{width: 100% !important;}
+ul, ol {
+    list-style: inherit;
+}
+.main-content {
+	padding-top: 60px !important;
+}
+.site-header .navbar{
+	padding-top: 0px;padding-bottom: 0px;
+}
+/* OVERRIDING THEDOCS STYLES */
+.comment
+{
+	display: inline-table;
+	margin-bottom: 0px !important;
+	margin-top: 0px !important;
+}
+#main-nav-bar{top: 0px !important;}
+ul.navbar-nav li{
+	:hover{
+		background: #75b9f9;
+		cursor: pointer;
+	}
+	:hover ul{
+		display: inline-block;
+	}
+	ul{
+	    padding: 10px;
+	    display: block;
+	    background: #75b9f9;
+		li{
+	    	padding: 5px 15px;
+			:hover{ background: none;}
+	    	a{
+	    		color: white;
+			    font-weight: 500;
+			    text-transform: uppercase;
+			    letter-spacing: 1px;
+			    transition: .2s ease;
+				:hover{text-decoration: none; }
+	    	}
+	    }
+	}
+}
+header.navbar-fullwidth .navbar{max-height: initial;}
+
+/* GRAVITY FORMS */
+.gform_fields li{list-style: none;}
+.gform_fields{margin: 0; padding: 0;}
+li.hidden_label label{display: none;}
+.validation_message{color: #a94442;}
+.step-text.assignments h5{margin-top: 0px;}
+.assignment-bar{padding-top: 10px;}
+.gfield_description{font-style: italic; font-size: 80%; line-height: 16px; color: grey;}
+.gfield_description.validation_message{font-style: normal; font-size: 100%; line-height: 16px; color: #a94442;}
+.field_description_below .form-control{margin-bottom: 10px;}
+.field_description_below{margin-bottom: 20px;}
+.field_description_below #extensions_message{display: none;}
+
+.modal {
+	padding:0;
+	background: white;
+	h2{text-align: center;}
+	.modal-body {
+		height: 100vh;
+		width: 100vh;
+		overflow-y: auto;
+	}
+	.modal-boy {background-color:tomato!important}
+}
+
+
+/** Overriding Sidebar styles */
+.sidebar-boxed{
+	.sidebar-brand{
+		margin-top: -85px;
+	    margin-bottom: 0px;
+	}
+	.sidenav{
+		height: calc(100vh - 60px) !important;
+	    overflow: auto;
+	}
+}
+
+/** Taxonomy User Cohort View */
+.tax-user_cohort{
+	.table-no-lines tbody tr td{border: none;}
+	h1,h5{color: black; text-align: center;}
+	h1{margin-bottom:0;}
+	.title-container{padding: 10vh 0;}
+	.main-container{margin-bottom: 50px;}
+}
+
+#material-menu a:hover{color: white;}
+.form-signin{margin-bottom: 50px;}
+.form-create-assignment{
+	.input-group{ margin-bottom: 15px;}
+}
+
+@media (min-width:768px){
+	.main-content {
+		padding-top: 20px !important;
+	}
+	.sidebar-boxed{overflow: inherit; z-index: 9;}
+	.sidebar-boxed #menu-toggle{position: absolute; right: -100px; top: 10px; color: white;
+	font-size: 18px; visibility: visible !important;}
+	.sidebar-boxed.toggled~footer, 
+	.sidebar-boxed.toggled~header,.sidebar-boxed.toggled~main{
+		padding-left: 0;
+		overflow: hidden;
+	}
+	.sidebar-boxed.toggled .sidebar-brand, .sidebar-boxed.toggled .sidenav{
+		visibility: hidden;
+	}
+	.sidebar-boxed.toggled{
+		width: 0px;
+		transition: width linear .5s;
+	}
+	
+	ul.navbar-nav li{
+		ul{
+		    position: absolute;
+		    background: #f5f5f5;
+		    right: 0;
+		    z-index: 2;
+		    width: 200px;
+		    display: none;
+		}
+	}
+}
+
+@import 'pages/mytalents';
+@import 'pages/usercohort';

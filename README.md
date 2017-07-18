@@ -1,5 +1,8 @@
 # BreatheCode LMS Theme for Wordpress
 
+This LMS is built as a child theme of "TheDocs" a wordpress theme meant for code documentation.
+Here is the link: http://thetheme.io/thedocs/landing/?utm_source=themeforest&utm_medium=preview&utm_campaign=thedocs
+
 ## Installing the LMS
 
 0) **Clone this repository and then change the remote to your own repository**
@@ -47,6 +50,8 @@ $ composer install
 $ npm init
 
 $ npm install --save-dev webpack
+
+$ npm install style-loader css-loader sass-loader node-sass file-loader url-loader raw-loader --save
 ```
 
 10) **Run webpack every time you want to generate a new bundle**
@@ -70,6 +75,15 @@ These are all the mandatory plugins for the wordpress instalation (any other plu
 | current repo      | [GravityForms Registration Add-On](http://www.gravityforms.com/add-ons/user-registration/)|
 | current repo      | [Restrict User Access](https://wordpress.org/plugins/restrict-user-access/) |
 | current repo      | [Toolset Types](https://wordpress.org/plugins/types/) |
+
+## Plugin usage description
+
+1. Toolset WP Types: The theme is heavily integrated with that plugin, all the custom posts and taxonomies have been configured with this tool and there is a folder class/types/ that contains all the code about this integration, staring for TypesSettings.class.php that is the main manager class.
+
+2. Gravity Forms: This plugin handles most of the interactions with the user. We use the "User Registration add-on" to implement the sign-up functionality. All the other forms are heavily integrated as weel, each of the Gravity Forms takes care of a very particular but important data imput from the user.
+
+3. VC Comporser: This plugin is the reason for the platform being on wordpress, the idea is to create many components to help the content team create better courses. Components like: Replit Exercise, Quizz, Regex Parser, etc. 
+
 
 ## Author
 
