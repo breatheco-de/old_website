@@ -33,28 +33,29 @@ ul, ol {
 	margin-top: 0px !important;
 }
 #main-nav-bar{top: 0px !important;}
-ul.navbar-nav li{
-	:hover{
-		background: #75b9f9;
-		cursor: pointer;
-	}
-	:hover ul{
+ul.navbar-nav li:hover{
+	background: #75b9f9;
+	cursor: pointer;
+	display: inline-block;
+	ul{
 		display: inline-block;
 	}
+}
+ul.navbar-nav li{
 	ul{
 	    padding: 10px;
 	    display: block;
 	    background: #75b9f9;
+		li:hover{ background: none;}
 		li{
 	    	padding: 5px 15px;
-			:hover{ background: none;}
+	    	a:hover{text-decoration: none; }
 	    	a{
 	    		color: white;
 			    font-weight: 500;
 			    text-transform: uppercase;
 			    letter-spacing: 1px;
 			    transition: .2s ease;
-				:hover{text-decoration: none; }
 	    	}
 	    }
 	}
@@ -137,7 +138,6 @@ li.hidden_label label{display: none;}
 	ul.navbar-nav li{
 		ul{
 		    position: absolute;
-		    background: #f5f5f5;
 		    right: 0;
 		    z-index: 2;
 		    width: 200px;

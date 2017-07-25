@@ -98,6 +98,6 @@ $args = WPAS\Controller\WPASController::getViewData();
     </ul>
   </li>
 </ul>
-<?php include(locate_template(VIEWS_PATH.'_partials/modal-newassignment.php')); ?>
+<?php include(locate_template(VIEWS_PATH.'_partials/modal-new_assignment.php')); ?>
 
 <?php get_footer(); ?>

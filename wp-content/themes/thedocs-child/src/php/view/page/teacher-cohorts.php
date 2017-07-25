@@ -1,6 +1,6 @@
 <?php
 
-use WPTypes\WPCohort as WPCohort;
+use BreatheCode\WPTypes\PostType\WPCohort;
 get_header('boxed'); 
 $args = WPAS\Controller\WPASController::getViewData();
 ?>
