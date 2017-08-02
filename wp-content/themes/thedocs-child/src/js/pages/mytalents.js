@@ -1,4 +1,3 @@
-"use strict";
 /**
 *    Declaration of your module
 *    @params modulename and undefined
@@ -6,18 +5,14 @@
 export default class MyTalents{ 
 
     init(){
+        
+        this.badges = [];
         //this function initialize your module
-        if(typeof WPAS_APP.badges === 'undefined') this.getAllBadges();
-        else this.refreshBadges(WPAS_APP.badges);
-    }
-    
-    getAllBadges(){
-    
-        ajax.get(WPAS_APP.host+'badges/', {}, function(response) {
-            if(response.code==200){
-                this.refreshBadges(response.data);
-            }
-            else alert(response.msg);
+        //if(typeof WPAS_APP.badges === 'undefined') this.getAllBadges();
+        //else this.refreshBadges(WPAS_APP.badges);
+        document.querySelectorAll('.talent-badge li').forEach(elm => {
+            elm.addEventListener("mouseenter",evt => this.getPopoverContent(evt));
+            elm.addEventListener("mouseout",evt => this.hidePopover(evt));
         });
     }
     
@@ -36,6 +31,38 @@ export default class MyTalents{
                 if(elm.classList && badge.name && badge.name != '' && elm.classList.contains('badge-name')) elm.innerHTML = badge.name;
             });
         });
+        
+    }
+    
+    hidePopover(e){
+        if (e.target.classList.contains('single-badge')) $(e.target).popover('hide');
+    }
+    
+    getPopoverContent(e){
+        //console.log(e);
+        var badgeArrray = this.badges;
+        let badgeId = $(e.target).data('slug');
+        if(typeof badgeId === 'undefined') return;
+        
+        if(typeof badgeArrray[badgeId] !== 'undefined'){
+        
+            $(e.target).popover({content: badgeArrray[badgeId].description}).popover('show');
+            return badgeArrray[badgeId];
+        }
+        else{
+            $.ajax({
+                url: WPAS_APP.ajax_url, 
+                method: 'GET',
+                data: { action: 'get_badge', badge: badgeId}, 
+                success: function(response) {
+                    if(response.code==200){
+                        badgeArrray[badgeId] = response.data;
+                        $(e.target).popover({content: badgeArrray[badgeId].description}).popover('show');
+                    }
+                    else alert(response.msg);
+                }
+            });
+        }
     }
     
 };

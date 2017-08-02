@@ -1,5 +1,5 @@
-var ajax = {};
-ajax.x = function () {
+export var AJAX = {};
+AJAX.x = function () {
     if (typeof XMLHttpRequest !== 'undefined') {
         return new XMLHttpRequest();
     }
@@ -23,7 +23,7 @@ ajax.x = function () {
     return xhr;
 };
 
-ajax.send = function (url, callback, method, data, async) {
+AJAX.send = function (url, callback, method, data, async) {
     if (async === undefined) {
         async = true;
     }
@@ -40,7 +40,7 @@ ajax.send = function (url, callback, method, data, async) {
     x.send(data)
 };
 
-ajax.get = function (url, data, callback, async) {
+AJAX.get = function (url, data, callback, async) {
     var query = [];
     for (var key in data) {
         query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
@@ -48,7 +48,7 @@ ajax.get = function (url, data, callback, async) {
     ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
 };
 
-ajax.post = function (url, data, callback, async) {
+AJAX.post = function (url, data, callback, async) {
     var query = [];
     for (var key in data) {
         query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));

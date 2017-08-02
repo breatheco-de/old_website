@@ -2,8 +2,8 @@
 namespace BreatheCode\WPTypes\PostType;
 
 use WP_Query;
-use Utils\BCNotification as BCNotification;
-use Utils\BreatheCodeAPI as BreatheCodeAPI;
+use WPAS\Messaging\WPASAdminNotifier as BCNotification;
+use BreatheCode\Utils\BreatheCodeAPI;
 
 class WPLessonProject
 {

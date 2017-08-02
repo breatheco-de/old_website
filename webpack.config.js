@@ -13,8 +13,7 @@ module.exports = {
   entry: {
     app: pathToJS+'/app.js',
     vendor: [
-      pathToJS+"/vendor/mfb",
-      pathToJS+'/breathecode/module/ajax'
+      pathToJS+"/vendor/mfb"
     ]
   },
   output: {

@@ -6,10 +6,10 @@
 			<?php foreach($args['repls'] as $key => $val) { ?>
             <div class="input-group">
                 <span class="input-group-addon"><?php echo $key; ?></span>
-			    <input id="cohort" class="form-control" value="<?php echo $val; ?>" required="required" type="text">
+			    <input data-cohort="<?php echo $args['term']->term_id; ?>" id="<?php echo $key; ?>" class="form-control" name='replit[<?php echo $key; ?>][]' value="<?php echo $val; ?>" required="required" type="text">
             </div>
             <?php } ?>
-			<button id="login" class="btn btn-lg btn-primary btn-block">Update Cohort Replit Classes</button>
+			<button id="login" type="button" class="btn btn-lg btn-primary btn-block send-btn">Update Cohort Replit Classes</button>
 		</form>
     </div>
 </div>

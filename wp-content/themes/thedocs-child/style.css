@@ -1042,6 +1042,9 @@ li.hidden_label label {
     overflow-y: auto; }
   .modal .modal-boy {
     background-color: tomato !important; }
+  .modal .modal-description {
+    text-align: center;
+    font-size: 20px; }
 
 /** Overriding Sidebar styles */
 .sidebar-boxed .sidebar-brand {
@@ -1110,6 +1113,9 @@ li.hidden_label label {
 * {
   box-sizing: border-box; }
 
+.specialties-content h1, .specialties-content h4 {
+  text-align: center; }
+
 .specialties {
   text-align: left; }
 
@@ -1121,7 +1127,8 @@ li.hidden_label label {
     margin: 10px 0px; }
 
 .talent-badge {
-  padding: 0; }
+  padding: 0;
+  text-align: center; }
   .talent-badge li {
     list-style: none;
     display: inline-block; }

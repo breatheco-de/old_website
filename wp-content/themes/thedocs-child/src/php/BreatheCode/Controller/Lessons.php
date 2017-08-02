@@ -34,9 +34,8 @@ class Lessons{
     public function renderMyCourses(){
         $userId = get_current_user_id();
         
-        if(empty($userId)) throw new WPASException('Unable to load your user information, try loggin in again');;
-        
-        $args['courses'] = $this->getCourses($userId);
+        $args = [];
+        if(!empty($userId)) $args['courses'] = $this->getCourses($userId);
         return $args;
     }
     

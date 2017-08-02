@@ -14,8 +14,8 @@ class User{
         $args['students'] = $this->getStudentsByCohort($term->term_id);
         $args['printRoles'] = $this->printRoles;
         $args['termMeta'] = get_option( 'taxonomy_'.$term->term_id);
-        
         $teacher = get_userdata($args['termMeta'][WPCohort::META_MAIN_TEACHER]);
+
         $args['teacher'] = $teacher;
         $args['teacher_name'] = (isset($teacher) && isset($teacher->display_name)) ? $teacher->display_name : 'Not assigned';;
         

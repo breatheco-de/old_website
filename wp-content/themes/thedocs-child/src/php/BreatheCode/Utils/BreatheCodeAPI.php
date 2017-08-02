@@ -45,7 +45,6 @@ class BreatheCodeAPI{
         if($method=='GET') $response = wp_remote_get(self::$host.$resource.'?'.http_build_query($args));
         else if($method=='POST') $response = wp_remote_post(self::$host.$resource,['body'=>$args]);
 		else throw new \Exception('Invalid HTTP request type '.$method);
-		
 		if(is_wp_error( $response )) throw new \Exception($return->get_error_message());
 		$http_code = wp_remote_retrieve_response_code( $response );
 		if($http_code==500) 
@@ -196,6 +195,11 @@ class BreatheCodeAPI{
 	    return self::request('GET','badges/',$args,$decode);
 	}
 	
+	public static function getBadge($args=[],$decode=true){
+	
+	    return self::request('GET','badge/'.$args['badge_id'],$args,$decode);
+	}
+	
 	public static function getStudentAssignments($args=[],$decode=true){
 	
 	    $assignments = self::request('GET','assignments/student/'.$args['student_id']);
@@ -208,6 +212,12 @@ class BreatheCodeAPI{
 	    return $assignments;
 	}
 
+	public static function getAssignmentTemplates($args=[],$decode=true){
+	
+	    $assignments = self::request('GET','atemplates/',$args);
+	    return $assignments;
+	}
+	
 	public static function getSingleStudentAssignment($args=[],$decode=true){
 
 	    $assignment = self::request('GET','student/assignment/'.$args['assignment_id']);
@@ -217,6 +227,12 @@ class BreatheCodeAPI{
 	public static function deliverStudentAssignment($args=[],$decode=true){
 
 	    $assignment = self::request('POST','student/assignment/'.$args['assignment_id'],$args);
+	    return $assignment;
+	}
+	
+	public static function createCohortAssignment($args=[],$decode=true){
+
+	    $assignment = self::request('POST','assignment/cohort/'.$args['cohort_id'],$args);
 	    return $assignment;
 	}
 	

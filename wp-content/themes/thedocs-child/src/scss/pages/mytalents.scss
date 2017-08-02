@@ -5,6 +5,9 @@ $avater-size: 90px;
 *{
   box-sizing: border-box;
 }
+.specialties-content{
+  h1, h4{text-align: center;}
+}
 .specialties{text-align: left;}
 .specialty{
   padding: 0;
@@ -16,6 +19,7 @@ $avater-size: 90px;
 }
 .talent-badge{
   padding: 0;
+  text-align: center;
   li{
     list-style: none;
     display: inline-block;

@@ -1,5 +1,4 @@
 require('./vendor/mfb');
-require('./breathecode/module/ajax');
 
 //Require the styles of the app
 require('../scss/style.scss')

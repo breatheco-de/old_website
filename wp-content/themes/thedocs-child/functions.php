@@ -53,6 +53,8 @@ $controller->routeAjax([ 'slug' => 'bclogin', 'controller' => 'Credentials:custo
 $controller->routeAjax([ 'slug' => 'My-Assignments', 'controller' => 'Assignments:deliver_project']);    
 $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:create_new_assignment']);    
 $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:check_attendancy']);     
+$controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:update_replits']);     
+$controller->routeAjax([ 'slug' => 'mytalents', 'controller' => 'TalentTree:get_badge']);    
 
 try{
     /**
@@ -87,6 +89,8 @@ $WPLanguages = new BreatheCode\WPLanguages();
  * This class takes care of the adminisitation interface under appereache->theme_options
  **/
 $BCThemeOptions = new BreatheCode\BCThemeOptions();
+
+
 /**
  * Load the notifications
  **/

@@ -3,7 +3,7 @@
 namespace BreatheCode\WPTypes\PostType;
 
 use BCThemeOptions;
-use Utils\BCNotification;
+use WPAS\Messaging\WPASAdminNotifier as BCNotification;
 use BreatheCode\Utils\BreatheCodeAPI;
 
 class WPUser
@@ -83,7 +83,10 @@ class WPUser
 				"wp_id" => $wpUser->ID,
 				"type" => $type
 				]);
-			if($bcUser) update_user_meta( $userId, 'breathecode_id', $bcUser->id );
+			if($bcUser){
+				$result = update_user_meta( $userId, 'breathecode_id', $bcUser->id );
+				if($result) BCNotification::addTransientMessage(BCNotification::SUCCESS,'The user was successfully synced with ID '.$bcUser->id);
+			}
 			else BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue obtaining the Breathecode ID');
 		}
 		else BCNotification::addTransientMessage(BCNotification::ERROR,'User '.$userId.' not found');

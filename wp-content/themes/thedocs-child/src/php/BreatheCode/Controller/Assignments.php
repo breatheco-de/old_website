@@ -2,7 +2,8 @@
 
 namespace BreatheCode\Controller;
 
-use \WPASController,\Exception;
+use WPAS\Controller\WPASController;
+use \Exception;
 use BreatheCode\Utils\BreatheCodeAPI;
 
 class Assignments{
@@ -53,14 +54,15 @@ class Assignments{
               'cohort_slug' => $_GET['cohort'],
               'teacher_id' => $bcId
             ]);
+
+            $args['cohort_slug'] = $_GET['cohort'];
+            $args['templates'] = BreatheCodeAPI::getAssignmentTemplates();
         }
-        
         return $args;
     }
     
     public function deliver_project() {
 
-        header('Content-type: application/json');
     	// first check if data is being sent and that it is the data we want
       	if ( isset( $_POST["assignment"] )  ) {
       		// now set our response var equal to that of the POST var (this will need to be sanitized based on what you're doing with with it)
@@ -83,25 +85,21 @@ class Assignments{
     }
     
     public function create_new_assignment() {
-
-        header('Content-type: application/json');
     	// first check if data is being sent and that it is the data we want
       	if(!isset( $_POST["cohort_id"] )) WPASController::ajaxError('Missing cohort_id');
       	if(!isset( $_POST["template_id"] )) WPASController::ajaxError('Missing cohort_id');
+      	if(!isset( $_POST["duedate"] )) WPASController::ajaxError('Missing Due Date');
     		// now set our response var equal to that of the POST var (this will need to be sanitized based on what you're doing with with it)
     		// send the response back to the front end
     		try{
     		    $bcUser = BreatheCodeAPI::createCohortAssignment([
     		      'template_id' => $_POST["template_id"],
-    		      'cohort_id' => $_POST["cohort_id"]
+    		      'cohort_id' => $_POST["cohort_id"],
+    		      'duedate' => $_POST["duedate"]
     		    ]);
     		}
     		catch(Exception $e){
             WPASController::ajaxError($e->getMessage());
     		}
-          
-		    WPASController::ajaxSuccess(get_permalink(get_page_by_path( 'review-assignments' )));
-    	
-        WPASController::ajaxError('There was an error deliver');
     }
 }

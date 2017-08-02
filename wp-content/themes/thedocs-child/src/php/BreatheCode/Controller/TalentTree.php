@@ -19,4 +19,18 @@ class TalentTree{
         
         return $args;
     }
+    
+    //ajax
+    public function get_badge(){
+        
+        try{
+            $badge = BreatheCodeAPI::getBadge(['badge_id' => $_GET['badge']]);
+            WPASController::ajaxSuccess($badge);
+        }
+        catch(Exception $e){
+            WPASController::ajaxError($e->getMessage());
+        }
+    }
+    
+    
 }

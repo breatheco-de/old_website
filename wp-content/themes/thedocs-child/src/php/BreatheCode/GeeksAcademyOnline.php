@@ -42,6 +42,9 @@ class GeeksAcademyOnline {
 		//Add styles and javascript's
 		add_action( 'wp_enqueue_scripts', [$this,'add_styles'] );
 		add_action( 'wp_enqueue_scripts', [$this,'add_scripts'] );
+		
+		//custom login page
+		add_filter( 'login_url', [$this,'custom_login_url'], 10, 3 );
     	
     	$this->inicialize();
 	}
@@ -91,7 +94,10 @@ class GeeksAcademyOnline {
 
 	function add_scripts(){
 	    
-	    wp_register_script( 'vendor', get_stylesheet_directory_uri().'/public/vendor.js' ,['jquery'], $this->prependversion, true );
+	    wp_register_script( 'bootstrap', get_stylesheet_directory_uri().'/public/bootstrap.min.js' ,['jquery'], $this->prependversion, true );
+	    wp_enqueue_script( 'bootstrap' );
+	    
+	    wp_register_script( 'vendor', get_stylesheet_directory_uri().'/public/vendor.js' ,['jquery','bootstrap'], $this->prependversion, true );
 	    wp_enqueue_script( 'vendor' );
 	    
 	    wp_register_script( 'appjs', get_stylesheet_directory_uri().'/public/app.js' , ['vendor'], '0.1' );
@@ -125,11 +131,31 @@ class GeeksAcademyOnline {
 	    echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 	}
 
+	//aditional mime-types allowed
 	function custom_upload_mimes ( $existing_mimes=array() ) {
 	    // add your extension to the mimes array as below
 	    $existing_mimes['zip'] = 'application/zip';
 	    $existing_mimes['gz'] = 'application/x-gzip';
 	    return $existing_mimes;
+	}
+	
+	/**
+	 * Set a custom login page
+	 *
+	 * @param string $url Default login URL
+	 * @param string $redirect Redirect URL on login
+	 * @param bool $force_reauth Whether to force reauthorization
+	 * @link https://developer.wordpress.org/reference/hooks/login_url/
+	 */
+	function custom_login_url( $url, $redirect, $force_reauth ){
+	    $new_login_url = home_url( '/bclogin/' );
+	    if ( !empty($redirect) ){
+	        $new_login_url = add_query_arg( 'redirect_to', urlencode( $redirect ), $new_login_url );
+	    }
+	    if ( $force_reauth ){
+	        $new_login_url = add_query_arg( 'reauth', '1', $new_login_url ) ;
+	    }
+	    return $new_login_url;
 	}
 
 	/**

@@ -63,7 +63,7 @@ $args = WPAS\Controller\WPASController::getViewData();
         </a>
         <ul class="mfb-component__list">
           <li>
-            <a href="<?php echo get_permalink( get_page_by_path( 'review-assignments' ) ); ?>?teacher=<?php echo $args['teacher']->ID; ?>" data-mfb-label="Review Cohort Assignments" class="mfb-component__button--child">
+            <a href="<?php echo get_permalink( get_page_by_path( 'review-assignments' ) ); ?>?teacher=<?php echo $args['teacher']->ID; ?>&cohort=<?php echo $args['term']->name; ?>" data-mfb-label="Review Cohort Assignments" class="mfb-component__button--child">
               <i class="mfb-component__child-icon fa fa-file-code-o"></i>
             </a>
           </li>
