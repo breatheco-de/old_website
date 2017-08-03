@@ -5,7 +5,10 @@
 **/
 export default class MyAssignments{ 
 
-    init(){
+    init(GLOBALS){
+    	
+    	this.notifier = GLOBALS.notifier;
+    	
     	let assignmentBtn = document.querySelectorAll(".deliver-assignment");
     	assignmentBtn.forEach(function(btn){
     	    btn.addEventListener('click',e => {
@@ -42,7 +45,7 @@ export default class MyAssignments{
 	 	    method: 'post',
 	 	    dataType: "json",
 	 	    data: thedata, 
-	 	    success: function(response) {
+	 	    success: response => {
 			    if(response){
 			        if(response.code=='200')
 			        {
@@ -50,7 +53,7 @@ export default class MyAssignments{
 			        }
 			        else
 			        {
-			            alert(response.msg);
+			        	this.notifier.notify(this.notifier.ERROR,response.msg);
 			        }
 			    }
 	 	    }

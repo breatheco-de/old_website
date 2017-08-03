@@ -2,7 +2,7 @@
 
 namespace BreatheCode\WPTypes\PostType;
 
-use BCThemeOptions;
+use BreatheCode\BCThemeOptions;
 use WPAS\Messaging\WPASAdminNotifier as BCNotification;
 use BreatheCode\Utils\BreatheCodeAPI;
 
@@ -15,7 +15,7 @@ class WPUser
 		'give_access_to_fullstack_prework' => 'Give access to PREWORK Fullstack',
 		'give_access_to_fullstack_all' => 'Give access to ALL of Fullstack',
 		'give_access_to_teacher_course' => 'Give access to Teacher course',
-		'generate_api_credentials' => 'Generate API credentials'
+		'sync_with_api' => 'Sync with API'
 		);
 
 	function __construct() {
@@ -71,18 +71,19 @@ class WPUser
 		if(isset($prework_esp)) $this->giveAccessToParentCourse($studentId,$prework_esp);
 	}
 	
-	function generate_api_credentials($userId){
+	function sync_with_api($userId){
 		
 		$wpUser = get_userdata($userId);
 		if($wpUser)
 		{
 			$studentCohorts = [];
 			$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
-			foreach($terms as $t) $studentCohorts[] = $t->term_id;
+			foreach($terms as $t) $studentCohorts[] = $t->name;
 			
 			$type = $this->getUserType($wpUser->roles);
 			$bcUser = BreatheCodeAPI::syncUser([
 				"email" => $wpUser->user_email,
+				"full_name" => $wpUser->display_name,
 				"password" => $wpUser->user_pass,
 				"wp_id" => $wpUser->ID,
 				"cohorts" => $studentCohorts,

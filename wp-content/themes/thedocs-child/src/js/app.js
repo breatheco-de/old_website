@@ -1,9 +1,13 @@
 require('./vendor/mfb');
-
+import {BCMessaging} from './breathecode/module/messaging';
 //Require the styles of the app
 require('../scss/style.scss')
 
 jQuery(document).ready(function(){
+    
+    var GLOBALS = {
+        notifier : BCMessaging()
+    }
     
     $('[data-toggle="tooltip"]').tooltip(); 
     $("#menu-toggle").click(function(e) {
@@ -22,10 +26,10 @@ jQuery(document).ready(function(){
     {
         System.import('./pages/' + WPAS_APP.wpas_controller.toLowerCase()).then(Controller => {
             var c = new Controller.default();
-            c.init();
+            c.init(GLOBALS);
         }, function(error) {
           alert(error.name + ': ' + error.message);
         });
     }
-   
+    
 });

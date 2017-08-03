@@ -10,8 +10,10 @@ class Assignments{
     
     public function renderMyAssignments(){
         
+        $bcId = get_user_meta(get_current_user_id(), 'breathecode_id',true);
+        
         $args = [];
-        $args['assignments'] = BreatheCodeAPI::getStudentAssignments(['student_id' => get_current_user_id()]);
+        $args['assignments'] = BreatheCodeAPI::getStudentAssignments(['student_id' => $bcId]);
         $args['getStatusTag'] = function($status)
         {
           switch($status)

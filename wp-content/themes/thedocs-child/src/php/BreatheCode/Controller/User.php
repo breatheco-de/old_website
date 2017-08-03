@@ -5,6 +5,7 @@ namespace BreatheCode\Controller;
 use BreatheCode\WPTypes\PostType\WPCohort;
 use BreatheCode\BCThemeOptions;
 use BreatheCode\Utils\BreatheCodeAPI;
+use BreatheCode\GeeksAcademyOnline;
 use \Exception;
 
 class User{
@@ -13,13 +14,15 @@ class User{
         
         $term = get_queried_object();
         $args['term'] = $term;
-        $args['students'] = $this->getStudentsByCohort($term->term_id);
+        
+        $members = $this->getCohortMembers($term->term_id);
+        $args['students'] = $members['students'];
+        $args['teachers'] = $members['teachers'];
+        
         $args['printRoles'] = $this->printRoles;
+        
         $args['termMeta'] = get_option( 'taxonomy_'.$term->term_id);
-        $teacher = get_userdata($args['termMeta'][WPCohort::META_MAIN_TEACHER]);
-
-        $args['teacher'] = $teacher;
-        $args['teacher_name'] = (isset($teacher) && isset($teacher->display_name)) ? $teacher->display_name : 'Not assigned';;
+        $args['teacher_id'] = $args['termMeta'][WPCohort::META_MAIN_TEACHER];
         
         $args['termParent'] = get_term($term->parent,WPCohort::POST_TYPE);
         
@@ -31,22 +34,38 @@ class User{
     public function renderTeacherCohorts(){
         
         $teacherId = get_current_user_id();
-        $args['cohorts'] = $this->getCohorsByTeacher($teacherId);
+        $args['cohorts'] = $this->getWPCohortsByTeacher($teacherId);
         
         return $args;
     }
     
-    private function getStudentsByCohort($cohortId){
+    private function getCohortMembers($cohortId){
         $auxUsers = array();
         $users = get_objects_in_term( $cohortId, WPCohort::POST_TYPE );
         foreach($users as $u) 
         {
-            array_push($auxUsers,get_user_by('id',$u));
+            $user = get_userdata($u);
+            if($this->isStudent($user)) $auxUsers['students'][] = $user;
+            else if($this->isTeacher($user)) $auxUsers['teachers'][] = $user;
         }
         return $auxUsers;
     }
     
-    private function getCohorsByTeacher($teacherId){
+    private function isStudent($user){
+        foreach(GeeksAcademyOnline::$studentRoles as $role)
+            if(in_array($role, $user->roles)) return true;
+            
+        return false;
+    }
+    
+    private function isTeacher($user){
+        foreach(GeeksAcademyOnline::$teacherRoles as $role)
+            if(in_array($role, $user->roles)) return true;
+            
+        return false;
+    }
+    
+    private function getCohortsByTeacher($teacherId){
         
         $bcId = get_user_meta( get_current_user_id(), 'breathecode_id', true);
         
@@ -56,7 +75,8 @@ class User{
 	    return $cohorts;
         
     }
-    private function getWPCohorsWithByTeacher($teacherId){
+    
+    private function getWPCohortsByTeacher($teacherId){
         $taxonomy = WPCohort::POST_TYPE;
         $args = array(	'taxonomy' => $taxonomy,
       //  				'meta_key' => WPCohort::META_MAIN_TEACHER,

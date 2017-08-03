@@ -6,12 +6,12 @@ use \WPAS\Controller\WPASController;
 
 class GeeksAcademyOnline {
 
-	private $studentRoles = array(
+	public static $studentRoles = array(
 				'premium_full_stack', 
 				'prework_full_stack'
 			);
 
-	private $teacherRoles = array(
+	public static $teacherRoles = array(
 				'teacher_assistant',
 				'main_teacher'
 			);

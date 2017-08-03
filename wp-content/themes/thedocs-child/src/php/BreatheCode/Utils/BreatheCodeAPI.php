@@ -53,6 +53,7 @@ class BreatheCodeAPI{
 		    {
 		    	$error = wp_remote_retrieve_body( $response ); 
 		    	$errorObj = json_decode($error);
+		    	//echo print_r($error); die();
 		    	throw new \Exception($errorObj->msg);
 		    }
 		    throw new \Exception('There was a problem, check your username and password.');
@@ -265,7 +266,6 @@ class BreatheCodeAPI{
         self::validate($params,'email');
         self::validate($params,'wp_id');
         self::validate($params,'type');
-        self::validate($params,'cohorts');
 
         return self::request('post','/user/sync',$params);
     }

@@ -19,12 +19,22 @@ $args = WPAS\Controller\WPASController::getViewData();
         <div class="row">
             <div class="col-sm-6">
                 <div class="well">
-                    <p>Teacher: <?php echo $args['teacher_name']; ?></p>
                     <p>Status: <span class="label label-default"><?php echo (isset($args['termMeta'][WPCohort::META_COHORT_STAGE])) ? $args['termMeta'][WPCohort::META_COHORT_STAGE] : "Not set"; ?></span></p>
                     <div class="input-group">
                       <div class="input-group-addon">Slack</div>
                       <input type="text" class="form-control" id="exampleInputAmount" value="<?php echo $args['termMeta'][WPCohort::META_COHORT_SLACK]; ?>">
                     </div>
+                </div>
+                <div class="well">
+                    <p>Mentors</p>
+                    <ol>
+                    <?php foreach($args['teachers'] as $tea){ ?>
+                      <li>
+                        <?php echo get_user_meta($tea->data->ID,'first_name',true); ?> <?php echo get_user_meta($tea->data->ID,'last_name',true); ?>
+                        <?php if($args['teacher_id']==$tea->data->ID){ ?> (Main) <?php } ?>
+                      </li>
+                    <?php } ?>
+                    </ol>
                 </div>
             </div>
             <div class="col-sm-6">

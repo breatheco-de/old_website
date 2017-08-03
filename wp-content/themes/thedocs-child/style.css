@@ -927,6 +927,19 @@ Text Domain:  thedocs-child
 .browserChecker .browserChecker-close {
   margin-top: 20px; }
 
+.bcnotification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-size: 18px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  z-index: 15; }
+  .bcnotification .inner-message {
+    margin: 0 auto; }
+
 .code-iframe {
   border: 0 solid white;
   width: 100%; }
