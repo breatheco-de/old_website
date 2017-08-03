@@ -8,21 +8,33 @@ export default class MyAssignments{
     init(){
     	let assignmentBtn = document.querySelectorAll(".deliver-assignment");
     	assignmentBtn.forEach(function(btn){
-    	    btn.addEventListener('click',function(e) {
+    	    btn.addEventListener('click',e => {
         	    e.preventDefault();
-                this.send(this.getAttribute('data-assignment'));
+        	    
+        	    let assignmentId = e.target.getAttribute('data-assignment');
+        	    let assignmentTitle = e.target.getAttribute('data-assignment-title');
+        	    document.querySelector('#assignment-title').value=assignmentTitle;
+        	    document.querySelector('#assignment').value=assignmentId;
                 
                 return false;
             });    
-    	})
-    	
+            
+    	});
+
+    	document.querySelector('#modal-deliver_assignment .send-btn').addEventListener("click", btn => {
+            let assignmentId = $('#assignment').val();
+            let github = $('#github').val();
+            
+            this.deliverAssignment(assignmentId,github);
+    	});
     }
     
-    send(assignmentId){
+    deliverAssignment(assignmentId, github_url){
 	    
 		var thedata = {
 		    action: 'deliver_project',
-			assignment: assignmentId
+			assignment: assignmentId,
+			github: github_url
 		};
 		// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
 	 	$.ajax({

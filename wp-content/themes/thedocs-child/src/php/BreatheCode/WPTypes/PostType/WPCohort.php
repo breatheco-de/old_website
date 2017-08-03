@@ -2,12 +2,16 @@
 
 namespace BreatheCode\WPTypes\PostType;
 use BreatheCode\BCThemeOptions;
+use BreatheCode\Utils\BreatheCodeAPI;
+use WPAS\Messaging\WPASAdminNotifier as BCNotification;
 
 class WPCohort{
 
 	const META_MAIN_TEACHER = 'cohort-main-teacher';
 	const META_COHORT_STAGE = 'cohort-stage';
+	const META_BREATHECODE_ID = 'breathecode-id';
 	const META_COHORT_SLACK = 'cohort-slack-url';
+	const META_COHORT_LOCATION = 'cohort-location';
 	const POST_TYPE = 'user_cohort';
 
 	public static $stages = array(
@@ -133,6 +137,24 @@ class WPCohort{
 				<input type="text" name="term_meta[<?php echo self::META_COHORT_SLACK; ?>]" value="<?php if(isset($cohortSlack)) echo $cohortSlack; ?>">
 			</td>
 		</tr>
+		<?php 
+		if(isset($term_meta[self::META_COHORT_LOCATION ]))
+		$cohortLocation = $term_meta[self::META_COHORT_LOCATION]; 
+		$result = new \WP_Query(['post_type' => 'location']);
+		$locations = $result->posts;
+		?>
+		<tr class="form-field">
+		<th scope="row" valign="top"><label for="<?php echo self::META_COHORT_LOCATION; ?>"><?php _e( 'Location', 'breathecode' ); ?></label></th>
+			<td>
+				<select name="term_meta[<?php echo self::META_COHORT_LOCATION; ?>]">
+					<option value="-1">Select a parent location</option>
+				<?php foreach ($locations as $l) { ?>
+					<option value="<?php echo $l->ID; ?>" <?php if(isset($cohortLocation) and $cohortLocation==$l->ID) echo 'selected'; ?>><?php echo $l->post_title; ?></option>
+				<?php } ?>
+				</select>
+				<p class="description"><?php _e( 'The current location for the cohort','breathecode' ); ?></p>
+			</td>
+		</tr>
 	<?php
 
 		$this->printReplitExercises($term);
@@ -204,12 +226,14 @@ class WPCohort{
 	 */
 	function register_bulk_actions( $bulk_actions ) {
 		$bulk_actions['move_cohort_to_next_phase'] = __( 'Move to next phase', 'breatehcode' );
+		$bulk_actions['sync_with_api'] = __( 'Add to API', 'breatehcode' );
 		return $bulk_actions;
 	}
 	
 	function manage_columns($columns){
 		unset( $columns['description'] );
 	    $columns['phase'] = 'Current Phase';
+	    $columns['breathecode_id'] = 'API ID';
 	    return $columns;
 	}
 	
@@ -225,16 +249,22 @@ class WPCohort{
 				}
 				return 'No status';
 			break;
+			case 'breathecode_id':
+				$termMeta = get_option( 'taxonomy_'.$term_id);
+				if(!empty($termMeta[WPCohort::META_BREATHECODE_ID])) echo $termMeta[WPCohort::META_BREATHECODE_ID];
+				else echo 'Not synced';
+			break;
 		}
 	}
 	
 	function my_bulk_action_handler( $redirect_to, $doaction, $term_ids ) {
-	  if ( $doaction !== 'move_cohort_to_next_phase' ) {
+	  if ( $doaction !== 'move_cohort_to_next_phase' && $doaction !== 'sync_with_api') {
 	    return $redirect_to;
 	  }
 	  foreach($term_ids as $termId)
 	  {
-	  	$this->moveCohortToNexPhase($termId);
+	  	if($doaction == 'move_cohort_to_next_phase') $this->moveCohortToNexPhase($termId);
+	  	else if($doaction == 'sync_with_api') $this->sync_with_api($termId);
 	  }
 	  $redirect_to = add_query_arg( 'cohorts', count( $term_ids ), $redirect_to );
 	  return $redirect_to;
@@ -267,5 +297,49 @@ class WPCohort{
 		}
 		
 		return update_option( "taxonomy_".$termId, $termMeta );
+	}
+	
+	function sync_with_api($termId){
+	    $termMeta = get_option( 'taxonomy_'.$termId);
+	    
+		$wpCohort = get_term($termId, self::POST_TYPE);
+		if($wpCohort)
+		{
+			if(!isset($termMeta[self::META_COHORT_LOCATION]) || $termMeta[self::META_COHORT_LOCATION] == '-1')
+			{
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' has an invalid location');
+				return false;
+			}
+	
+			$locationId = $termMeta[self::META_COHORT_LOCATION];
+			$location = get_post($locationId);
+			if(!$location){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' has an invalid location');
+				return false;
+			} 
+			
+			if(!isset($termMeta[self::META_MAIN_TEACHER]) or $termMeta[self::META_MAIN_TEACHER]=='0'){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' needs to have an instructor assigned');
+				return false;
+			}
+			
+			$teacherId = get_user_meta( $termMeta[self::META_MAIN_TEACHER], 'breathecode_id', true);
+			
+			$cohort = BreatheCodeAPI::syncCohort([
+                  "slug" => $wpCohort->slug,
+                  "name" => $wpCohort->name,
+                  "instructor_id" => $teacherId,
+                  "slack-url" => $termMeta[self::META_COHORT_SLACK],
+                  "location_slug" => $location->post_name
+				]);
+
+			if(!$cohort) BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue syncronizing the cohort');
+			else{
+			    $termMeta[WPCohort::META_BREATHECODE_ID] = $cohort->id;
+			    update_option( "taxonomy_".$termId, $termMeta );
+			    BCNotification::addTransientMessage(BCNotification::SUCCESS,'The cohort '.$termId.' was synced successfully with breathecode ID: '.$cohort->id);
+			}
+		}
+		else BCNotification::addTransientMessage(BCNotification::ERROR,'Cohort '.$termId.' not found');
 	}
 }

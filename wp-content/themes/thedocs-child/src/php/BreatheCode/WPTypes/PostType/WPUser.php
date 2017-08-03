@@ -76,11 +76,16 @@ class WPUser
 		$wpUser = get_userdata($userId);
 		if($wpUser)
 		{
+			$studentCohorts = [];
+			$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
+			foreach($terms as $t) $studentCohorts[] = $t->term_id;
+			
 			$type = $this->getUserType($wpUser->roles);
-			$bcUser = BreatheCodeAPI::createCredentials([
+			$bcUser = BreatheCodeAPI::syncUser([
 				"email" => $wpUser->user_email,
 				"password" => $wpUser->user_pass,
 				"wp_id" => $wpUser->ID,
+				"cohorts" => $studentCohorts,
 				"type" => $type
 				]);
 			if($bcUser){
@@ -105,6 +110,8 @@ class WPUser
 		$premium_esp = get_option(BCThemeOptions::PREMIUM_FULLSTACK_OPTION.'-es');
 		if(isset($premium)) $this->giveAccessToParentCourse($studentId,$premium);
 		if(isset($premium_esp)) $this->giveAccessToParentCourse($studentId,$premium_esp);
+		
+		$this->give_access_to_fullstack_prework($studentId);
 	}
 
 	function give_access_to_teacher_course($studentId){

@@ -7,6 +7,7 @@ $args = WPAS\Controller\WPASController::getViewData();
     <div class="container main-content">
         <h1>Cohorts</h1>
         <table class="table table-hover table-no-lines">
+            <?php if(count($args['cohorts'])==0) echo "<p>You don't belong to any cohorts</p>"; ?>
             <?php foreach($args['cohorts'] as $coh){ 
             if($coh->parent==0) continue;
             $term_meta = get_option('taxonomy_'.$coh->term_id);

@@ -211,6 +211,12 @@ class BreatheCodeAPI{
 	    $assignments = self::request('GET','assignments/teacher/'.$args['teacher_id'],$args);
 	    return $assignments;
 	}
+	
+	public static function getTeacherCohorts($args=[],$decode=true){
+	
+	    $cohorts = self::request('GET','cohorts/teacher/'.$args['teacher_id'],$args);
+	    return $cohorts;
+	}
 
 	public static function getAssignmentTemplates($args=[],$decode=true){
 	
@@ -241,4 +247,26 @@ class BreatheCodeAPI{
 	    $template = self::request('POST','atemplate/sync/'.$args['wp_id'],$args);
 	    return $template;
 	}
+	
+	public static function syncLocation($args=[],$decode=true){
+
+	    $template = self::request('POST','location/sync/',$args);
+	    return $template;
+	}
+	
+	public static function syncCohort($args=[],$decode=true){
+
+	    $cohort = self::request('POST','cohort/sync/',$args);
+	    return $cohort;
+	}
+	
+	public static function syncUser($params){
+        
+        self::validate($params,'email');
+        self::validate($params,'wp_id');
+        self::validate($params,'type');
+        self::validate($params,'cohorts');
+
+        return self::request('post','/user/sync',$params);
+    }
 }

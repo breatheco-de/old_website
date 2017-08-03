@@ -4,6 +4,8 @@ namespace BreatheCode\Controller;
 
 use BreatheCode\WPTypes\PostType\WPCohort;
 use BreatheCode\BCThemeOptions;
+use BreatheCode\Utils\BreatheCodeAPI;
+use \Exception;
 
 class User{
     
@@ -29,7 +31,7 @@ class User{
     public function renderTeacherCohorts(){
         
         $teacherId = get_current_user_id();
-        $args['cohorts'] = $this->getCohorsWithByTeacher($teacherId);
+        $args['cohorts'] = $this->getCohorsByTeacher($teacherId);
         
         return $args;
     }
@@ -44,7 +46,17 @@ class User{
         return $auxUsers;
     }
     
-    private function getCohorsWithByTeacher($teacherId){
+    private function getCohorsByTeacher($teacherId){
+        
+        $bcId = get_user_meta( get_current_user_id(), 'breathecode_id', true);
+        
+	    $cohorts = BreatheCodeAPI::getTeacherCohorts([
+	      'teacher_id' => $bcId
+	    ]);
+	    return $cohorts;
+        
+    }
+    private function getWPCohorsWithByTeacher($teacherId){
         $taxonomy = WPCohort::POST_TYPE;
         $args = array(	'taxonomy' => $taxonomy,
       //  				'meta_key' => WPCohort::META_MAIN_TEACHER,
