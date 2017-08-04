@@ -1,6 +1,5 @@
 <?php
 
-use BreatheCode\Controller;
 
 
 if(!defined('ABSPATH')) define('ABSPATH', dirname(__FILE__) . '/');
@@ -10,6 +9,7 @@ if(!defined('VIEWS_PATH')) define('VIEWS_PATH','src/php/view/');
 require ABSPATH . 'vendor/autoload.php';
 
 
+use BreatheCode\Controller;
 use WPAS\Controller\WPASController;
 use WPAS\Messaging\WPASAdminNotifier;
 
@@ -21,40 +21,43 @@ use WPAS\Messaging\WPASAdminNotifier;
   * @param controller fot the controller file (for example User will be the value for User.controller.php)
   * @param aajax_action of the ajax action parameter (you have to pass this like a post parameter in the ajax request)
   */
-
-$controller = new WPASController([
-    'namespace' => 'BreatheCode\\Controller\\'
-]);
-$controller->route([ 'slug' => 'MyTalents', 'controller' => 'TalentTree']);
-
-$controller->route([ 'slug' => 'My-Assignments', 'controller' => 'Assignments']);
-$controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Assignments']);
-$controller->route([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments']);
-
-$controller->route([ 'slug' => 'Category:Course', 'controller' => 'Lessons']);
-$controller->route([ 'slug' => 'lesson', 'controller' => 'Lessons']);
-$controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Lessons']);
-$controller->route([ 'slug' => 'My-Courses', 'controller' => 'Lessons']);
-
-$controller->route([ 'slug' => 'Category:Asset-Technology', 'controller' => 'Assets']);
-$controller->route([ 'slug' => 'Category:Asset-Type', 'controller' => 'Assets']);
-$controller->route([ 'slug' => 'Lesson-Asset', 'controller' => 'Assets']);
-
-$controller->route([ 'slug' => 'Category:User_Cohort', 'controller' => 'User']);
-$controller->route([ 'slug' => 'Teacher-Cohorts', 'controller' => 'User']);
-
-/**
- * Binding Ajax methos with views and controllers
- * @param view
- * @param controller
- * @param method
- */
-$controller->routeAjax([ 'slug' => 'bclogin', 'controller' => 'Credentials:custom_login', 'scope' => 'public']);     
-$controller->routeAjax([ 'slug' => 'My-Assignments', 'controller' => 'Assignments:deliver_project']);    
-$controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:create_new_assignment']);    
-$controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:check_attendancy']);     
-$controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:update_replits']);     
-$controller->routeAjax([ 'slug' => 'mytalents', 'controller' => 'TalentTree:get_badge']);    
+if(class_exists('WPAS\Controller\WPASController')){
+    $controller = new WPASController([
+        'namespace' => 'BreatheCode\\Controller\\'
+    ]);
+    $controller->route([ 'slug' => 'MyTalents', 'controller' => 'TalentTree']);
+    
+    $controller->route([ 'slug' => 'My-Assignments', 'controller' => 'Assignments']);
+    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Assignments']);
+    $controller->route([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments']);
+    
+    $controller->route([ 'slug' => 'Category:Course', 'controller' => 'Lessons']);
+    $controller->route([ 'slug' => 'lesson', 'controller' => 'Lessons']);
+    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Lessons']);
+    $controller->route([ 'slug' => 'My-Courses', 'controller' => 'Lessons']);
+    
+    $controller->route([ 'slug' => 'Category:Asset-Technology', 'controller' => 'Assets']);
+    $controller->route([ 'slug' => 'Category:Asset-Type', 'controller' => 'Assets']);
+    $controller->route([ 'slug' => 'Lesson-Asset', 'controller' => 'Assets']);
+    
+    $controller->route([ 'slug' => 'Category:User_Cohort', 'controller' => 'User']);
+    $controller->route([ 'slug' => 'Teacher-Cohorts', 'controller' => 'User']);
+    $controller->route([ 'slug' => 'Profile', 'controller' => 'User']);
+    
+    /**
+     * Binding Ajax methos with views and controllers
+     * @param view
+     * @param controller
+     * @param method
+     */
+    $controller->routeAjax([ 'slug' => 'bclogin', 'controller' => 'Credentials:custom_login', 'scope' => 'public']);     
+    $controller->routeAjax([ 'slug' => 'My-Assignments', 'controller' => 'Assignments:deliver_project']);    
+    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:create_new_assignment']);    
+    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:check_attendancy']);     
+    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:update_replits']);     
+    $controller->routeAjax([ 'slug' => 'mytalents', 'controller' => 'TalentTree:get_badge']);    
+    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'User:update_profile']);    
+}
 
 try{
     /**
@@ -94,4 +97,4 @@ $BCThemeOptions = new BreatheCode\BCThemeOptions();
 /**
  * Load the notifications
  **/
-WPASAdminNotifier::loadTransientMessages();
+if(class_exists('WPAS\Messaging\WPASAdminNotifier')) WPASAdminNotifier::loadTransientMessages();

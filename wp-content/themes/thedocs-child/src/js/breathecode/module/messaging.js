@@ -1,29 +1,64 @@
-export function BCMessaging(){
+export var BCMessaging = (function(){
     
     var _public = {};
     _public.ERROR = 'danger';
+    var messages = [];
     
-    _public.notify = function(type, message){
-        let template = getTemplate('top');
-        document.querySelector('body').innerHTML += template(type, message);
+    _public.addMessage = function(type, message){
+        
+        if(typeof messages[type] == 'undefined') messages[type] = [];
+        messages[type].push(message);
     }
     
-    function getTemplate(templateName){
-        switch(templateName)
-        {
-            case "top":
-                return (type, message) => `<div class="bcnotification top-notification">
-                            <div>
+    _public.getMessages = function(type){
+        return messages[type];
+    }
+    
+    _public.notify = function(type, message){
+        
+        showNotification('top',{
+            type: type,
+            message: message
+        })
+    }
+    
+    _public.notifyPending = function(type, messagesArray=null){
+        
+        let content = '<ul>';
+        if(!messagesArray) messages[type].forEach(msg => { content += `<li>${msg}</li>`; });
+        else messagesArray.forEach(msg => { content += `<li>${msg}</li>`; });
+        content += '</ul>';
+        
+        showNotification('top',{
+            type: type,
+            message: content
+        })
+    }
+    
+    function showNotification(position, notification){
+        
+        var notifyContent = document.createElement('div');
+        notifyContent.classList.add('bcnotification');
+        notifyContent.classList.add(position+'-notification');
+        notifyContent.innerHTML = getTemplate()(notification.type, notification.message);
+        document.body.appendChild(notifyContent);
+        
+        let classNames = '';
+        notifyContent.classList.forEach(elm => { classNames += '.'+elm; })
+        document.querySelector(classNames+' .close').addEventListener('click',function(){
+            document.body.removeChild(notifyContent);
+        });
+    }
+    
+    function getTemplate(){
+        return (type, message) => `<div>
                                 <div class="inner-message alert alert-${type}">
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                                     ${message}
                                 </div>
-                            </div>
-                        </div>`;
-            break;
-        }
+                            </div>`;
     }
     
     return _public;
     
-}
+})();

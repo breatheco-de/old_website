@@ -1,4 +1,4 @@
-"use strict";
+import {BCMessaging} from '../breathecode/module/messaging';
 /**
 *    Declaration of your module
 *    @params modulename and undefined
@@ -6,6 +6,7 @@
 export default class UserCohort{ 
 
     init(){
+    	
     	document.querySelector('#class_attendancy .send-btn').addEventListener("click", btn => {
             var list = {};  
             var cohort = 0;
@@ -42,7 +43,7 @@ export default class UserCohort{
 	 		url: WPAS_APP.ajax_url,
 	 		data: thedata,
 	 		method: 'POST',
-	 		success: function(response) {
+	 		success: response => {
 			    if(response){
 			        if(response.code=='200')
 			        {
@@ -50,7 +51,7 @@ export default class UserCohort{
 			        }
 			        else
 			        {
-			            alert(response.msg);
+			            BCMessaging.notify(BCMessaging.ERROR,response.msg);
 			        }
 			    }
 	 		}
@@ -70,7 +71,7 @@ export default class UserCohort{
 	 		url: WPAS_APP.ajax_url,
 	 		data: thedata,
 	 		method: 'POST',
-	 		success: function(response) {
+	 		success: response => {
 			    if(response){
 			        if(response.code=='200')
 			        {
@@ -78,7 +79,7 @@ export default class UserCohort{
 			        }
 			        else
 			        {
-			            alert(response.msg);
+			             BCMessaging.notify(BCMessaging.ERROR,response.msg);
 			        }
 			    }
 	 	    }

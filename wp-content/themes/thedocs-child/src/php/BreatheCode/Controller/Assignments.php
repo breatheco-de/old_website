@@ -10,10 +10,12 @@ class Assignments{
     
     public function renderMyAssignments(){
         
-        $bcId = get_user_meta(get_current_user_id(), 'breathecode_id',true);
+        $wpID = get_current_user_id();
+        $bcId = get_user_meta($wpID, 'breathecode_id',true);
+        $type = get_user_meta($wpID, 'type',true);
         
         $args = [];
-        $args['assignments'] = BreatheCodeAPI::getStudentAssignments(['student_id' => $bcId]);
+        if($type=='student') $args['assignments'] = BreatheCodeAPI::getStudentAssignments(['student_id' => $bcId]);
         $args['getStatusTag'] = function($status)
         {
           switch($status)
@@ -30,8 +32,8 @@ class Assignments{
           }
         };
         
-        $args['getAssignmentPermalink'] = function($a)
-        {
+        $args['getAssignmentPermalink'] = function($a){
+          
             return '/lesson-project/'.$a->template->project_slug.'/?sa='.$a->id;
         };
         
@@ -56,7 +58,7 @@ class Assignments{
               'cohort_slug' => $_GET['cohort'],
               'teacher_id' => $bcId
             ]);
-
+            
             $args['cohort_slug'] = $_GET['cohort'];
             $args['templates'] = BreatheCodeAPI::getAssignmentTemplates();
         }
@@ -66,13 +68,15 @@ class Assignments{
     public function deliver_project() {
 
     	// first check if data is being sent and that it is the data we want
-      	if ( isset( $_POST["assignment"] )  ) {
+      	if ( isset( $_POST["assignment"]) && isset($_POST["github"])  ) {
       		// now set our response var equal to that of the POST var (this will need to be sanitized based on what you're doing with with it)
       		$assignmentId = $_POST["assignment"];
+      		$github = $_POST["github"];
       		// send the response back to the front end
       		try{
       		    $bcUser = BreatheCodeAPI::deliverStudentAssignment([
       		      'assignment_id' => $assignmentId,
+      		      'github_url' => $github,
       		      'status' => 'delivered'
       		    ]);
       		}
@@ -83,7 +87,7 @@ class Assignments{
 			    WPASController::ajaxSuccess(get_permalink(get_page_by_path( 'my-assignments' )));
     	  }
     	
-        WPASController::ajaxError('There was an error deliver');
+        WPASController::ajaxError('There was an error');
     }
     
     public function create_new_assignment() {

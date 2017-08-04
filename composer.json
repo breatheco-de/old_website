@@ -15,7 +15,7 @@
         "wpackagist-plugin/email-templates": "*",
         "wpackagist-plugin/nav-menu-roles": "*",
         "wpackagist-plugin/post-types-order": "*",
-        "twig/twig": "~2.0"
+        "respect/validation": "^1.1"
     },
     "autoload": {
         "psr-0" : {

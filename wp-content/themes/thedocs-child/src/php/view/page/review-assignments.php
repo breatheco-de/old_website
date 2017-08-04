@@ -10,7 +10,7 @@ $args = WPAS\Controller\WPASController::getViewData();
 	<h3>The following is a list of all your student's assignments</h3>
 	<ul class='step-text assignments'>
 		<?php if(count($args['assignments'])==0) echo '<p>There are no assignments</p>'; ?>
-		<?php foreach($args['assignments'] as $assignment){ ?>
+		<?php if(isset($args['assignments'])) foreach($args['assignments'] as $assignment){ ?>
                 <li>
                   <div class="row push-right">
                     <div class="col-xs-9 col-md-10">
@@ -22,7 +22,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                     </div>
                     <div class="col-xs-3 col-md-2 assignment-bar">
                       <?php if($assignment->status=='delivered') { ?>
-                        <a href="#" class="btn btn-xs btn-primary"><?php echo pll__( 'Review' ); ?></a>
+                        <a href="<?php echo $assignment->github_url; ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'Review' ); ?></a>
                       <?php } else {?>
                         <?php echo $assignment->status; ?>
                       <?php } ?>

@@ -7,6 +7,8 @@ use BreatheCode\BCThemeOptions;
 use BreatheCode\Utils\BreatheCodeAPI;
 use BreatheCode\GeeksAcademyOnline;
 use \Exception;
+use WPAS\Utils\WPASValidator;
+use WPAS\Controller\WPASController;
 
 class User{
     
@@ -28,6 +30,35 @@ class User{
         
         $args['repls'] = $this->getReplitCoursesOptions($term->term_id);
         
+        return $args;
+    }
+    
+    public function renderProfile(){
+        
+        $user = get_user_by( 'id', get_current_user_id());
+        $args['bcId'] = get_user_meta($user->id, 'breathecode_id', true);
+        $args['user'] = (array) $user;
+        $args['user']['first_name'] = $user->first_name;
+        $args['user']['last_name'] = $user->first_name;
+        $args['user']['email'] = $user->email;
+        $args['user']['description'] = $user->description;
+        $args['user']['user_registered'] = $user->user_registered;
+        $args['user']['github'] = get_user_meta($user->id, 'github', true);
+        $args['user']['phone'] = get_user_meta($user->id, 'phone', true);
+        if($this->isStudent($user))
+        {
+            $args['user_type'] = 'student';
+            $args['specialties'] = BreatheCodeAPI::getAllSpecialtiesByProfile(['profile_id' => 'full-stack-web']);
+            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $args['bcId']]);
+            $args['allBadges'] = BreatheCodeAPI::getAllBadges();
+            $args['getBadge'] = function($allBadges, $slug){
+                foreach($allBadges as $b) if($b->slug == $slug) return $b;
+            };
+        }
+        if($this->isTeacher($user)){
+            $args['user']['type'] = 'teacher';
+        }
+        //print_r($args['user']); die();
         return $args;
     }
     
@@ -124,6 +155,32 @@ class User{
 		}
 		return $replitCourses;
 		
+	}
+	
+	public function update_profile(){
+	    
+	    $newData = [];
+	    $newData['ID'] = get_current_user_id();
+	    $newData['first_name'] = WPASValidator::validate(WPASValidator::NAME,$_POST['firstname'],'First Name');
+	    $newData['last_name'] = WPASValidator::validate(WPASValidator::NAME,$_POST['lastname'],'Last Name');
+	    $newData['description'] = WPASValidator::validate(WPASValidator::DESCRIPTION,$_POST['bio'],'Bio');
+	    
+	    $github = WPASValidator::validate(WPASValidator::USERNAME,$_POST['github'],'Github username');
+	    $phonenumber = WPASValidator::validate(WPASValidator::PHONE,$_POST['phonenumber'],'Phone Number');
+
+	    $errors = WPASValidator::getErrors();
+	    if(count($errors)==0){
+	        
+	        if($github) update_user_meta( $newData['ID'], 'github', $github);
+	        if($phonenumber) update_user_meta( $newData['ID'], 'phone', $phonenumber);
+	        
+            $user_data = wp_update_user( $newData );
+            if ( !is_wp_error( $user_data ) ) WPASController::ajaxSuccess("Ok");
+            else WPASController::ajaxError([$user_data->get_error_message()]);
+	    }
+	    else{
+	        WPASController::ajaxError($errors);
+	    }
 	}
     
 }

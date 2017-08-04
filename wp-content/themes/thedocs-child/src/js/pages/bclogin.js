@@ -69,7 +69,7 @@ export default class bclogin{
 	 	    method: 'post',
 	 	    dataType: "json",
 	 	    data: thedata, 
-	 	    success: function(response) {
+	 	    success: response => {
 			    if(response){
 			        if(response.code=='200')
 			        {

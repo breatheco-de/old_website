@@ -1,3 +1,4 @@
+import {BCMessaging} from '../breathecode/module/messaging';
 /**
 *    Declaration of your module
 *    @params modulename and undefined
@@ -59,7 +60,7 @@ export default class MyTalents{
                         badgeArrray[badgeId] = response.data;
                         $(e.target).popover({content: badgeArrray[badgeId].description}).popover('show');
                     }
-                    else alert(response.msg);
+                    else  BCMessaging.notify(BCMessaging.ERROR,response.msg);
                 }
             });
         }

@@ -29,7 +29,7 @@ $args = WPAS\Controller\WPASController::getViewData();
 		  <div class="row">
           <div class="col-xs-12">
             <ul class='step-text assignments'>
-        <?php foreach ($args['assignments'] as $a) { 
+        <?php if(isset($args['assignments'])) foreach ($args['assignments'] as $a) { 
           $duedate = date('jS \of F', $a->assignment->duedate);
           ?>
                 <li>

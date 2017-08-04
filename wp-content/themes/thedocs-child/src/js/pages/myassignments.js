@@ -1,13 +1,12 @@
-"use strict";
+import validator from 'validator';
+import {BCMessaging} from '../breathecode/module/messaging';
 /**
 *    Declaration of your module
 *    @params modulename and undefined
 **/
 export default class MyAssignments{ 
 
-    init(GLOBALS){
-    	
-    	this.notifier = GLOBALS.notifier;
+    init(){
     	
     	let assignmentBtn = document.querySelectorAll(".deliver-assignment");
     	assignmentBtn.forEach(function(btn){
@@ -28,7 +27,11 @@ export default class MyAssignments{
             let assignmentId = $('#assignment').val();
             let github = $('#github').val();
             
-            this.deliverAssignment(assignmentId,github);
+            if(!validator.isURL(github) || github.length==0) BCMessaging.addMessage(BCMessaging.ERROR,'The github URL must be a valid URL');
+            
+            let messages = BCMessaging.getMessages(BCMessaging.ERROR);
+            if(messages.length>0) BCMessaging.notifyPending(BCMessaging.ERROR);
+            else this.deliverAssignment(assignmentId,github);
     	});
     }
     
@@ -49,17 +52,16 @@ export default class MyAssignments{
 			    if(response){
 			        if(response.code=='200')
 			        {
-			            window.location = response.data;
+			            window.location.reload();
 			        }
 			        else
 			        {
-			        	this.notifier.notify(this.notifier.ERROR,response.msg);
+			        	BCMessaging.notify(BCMessaging.ERROR,response.msg);
 			        }
 			    }
 	 	    }
 	 	});
 	 	
-	 	return false;
     }
     
 }
