@@ -45,6 +45,7 @@ class GeeksAcademyOnline {
 		
 		//custom login page
 		add_filter( 'login_url', [$this,'custom_login_url'], 10, 3 );
+		add_action( 'wp_logout', [$this,'custom_logout_url'], 10, 3 );
     	
     	$this->inicialize();
 	}
@@ -156,6 +157,11 @@ class GeeksAcademyOnline {
 	        $new_login_url = add_query_arg( 'reauth', '1', $new_login_url ) ;
 	    }
 	    return $new_login_url;
+	}
+	
+	function custom_logout_url(){
+	  wp_redirect( home_url( '/bclogin/' ) );
+	  exit();
 	}
 
 	/**

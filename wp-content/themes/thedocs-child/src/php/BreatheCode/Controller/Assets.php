@@ -3,8 +3,35 @@
 namespace BreatheCode\Controller;
 
 use WPAS\Exception\WPASException;
+use \WP_Query;
 
 class Assets{
+    
+    public function renderAssets(){
+        
+        $assets = new WP_Query(['post_type' => 'lesson-asset']);
+        $args['posts_array'] = $assets->posts;
+        $args['getIcon'] = function($type){
+            if(empty($type)) return '';
+            switch($type->slug)
+            {
+                case 'infographics':
+                    return '<i class="fa fa-file-text" aria-hidden="true"></i>';
+                break;
+                case 'config-file':
+                    return '<i class="fa fa-cog" aria-hidden="true"></i>';
+                break;
+                case 'snippet':
+                    return '<i class="fa fa-code" aria-hidden="true"></i>';
+                break;
+                default:
+                    return $type->slug;
+                break;
+            }
+        };
+        
+        return $args;
+    }
     
     public function renderAssetTechnology(){
         

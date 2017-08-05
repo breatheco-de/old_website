@@ -58,6 +58,7 @@ class Lessons{
         $auxTerms = array();
         
         $parentTerms = wp_get_object_terms( $userId, 'course' );
+        //print_r($parentTerms); die();
         foreach($parentTerms as $pTerm)
         {
             //array_push($auxTerms,$pTerm);
@@ -68,6 +69,7 @@ class Lessons{
                 $status = get_term_meta($cTerm,'wpcf-taxonomy-status',true);
                 $currentLang = pll_current_language();
                 $language = pll_get_term_language($cTerm);
+                //echo $currentLang.'=='.$language; die();
                 if($status=='publish' and $currentLang==$language)
                 {
                     $cTerm = get_term_by('id', $cTerm, 'course');

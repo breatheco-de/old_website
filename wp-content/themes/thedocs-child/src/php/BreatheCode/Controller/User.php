@@ -47,10 +47,11 @@ class User{
         $args['user']['phone'] = get_user_meta($user->id, 'phone', true);
         if($this->isStudent($user))
         {
-            $args['user_type'] = 'student';
+            $args['user']['type'] = 'student';
             $args['specialties'] = BreatheCodeAPI::getAllSpecialtiesByProfile(['profile_id' => 'full-stack-web']);
             $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $args['bcId']]);
             $args['allBadges'] = BreatheCodeAPI::getAllBadges();
+            //print_r($args['allBadges']); die();
             $args['getBadge'] = function($allBadges, $slug){
                 foreach($allBadges as $b) if($b->slug == $slug) return $b;
             };

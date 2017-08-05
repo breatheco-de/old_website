@@ -104,11 +104,17 @@ class WPCourse{
 		    echo "<h3>Courses</h3>";
 		 
 		     //list the terms as checkbox, make sure the assigned terms are checked
-		    foreach( $user_cats as $cat ) { ?>
+		    foreach( $user_cats as $cat ) { 
+		    $status = get_term_meta($cat->term_id,'wpcf-taxonomy-status',true);
+		    if(empty($status)) $status = 'not published';
+		    if($status!='publish') $status = ' <span style="background: #ef7c7c; padding: 2px; color: white; font-size: 80%;">'.$status.'</span>';
+		    else $status = '';
+		    
+		    if(!$cat->parent){
+		    ?>
 		        <input type="checkbox" id="<?php echo self::TAX_SLUG.'-'.$cat->term_id ?>" <?php if(in_array( $cat->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="<?php echo self::TAX_SLUG; ?>[]"  value="<?php echo $cat->term_id;?>"/> 
-		        <?php
-		        if($cat->parent) echo '->';
-		    	echo '<label for="'.self::TAX_SLUG.'-'.$cat->term_id.'">'.$cat->name.'</label>';
+		    <?php }
+		    	echo '<label for="'.self::TAX_SLUG.'-'.$cat->term_id.'">'.$cat->name.$status.'</label>';
 		    	echo '<br />';
 		    }
 	 	}

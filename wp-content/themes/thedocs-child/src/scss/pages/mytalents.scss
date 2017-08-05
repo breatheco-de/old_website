@@ -27,33 +27,32 @@ $avater-size: 90px;
     span{
       display: block;
       text-align: center;
-      font-size: 16px;
+      font-size: 12px;
+      margin-top: -10px;
     }
   }
 }
-.avatar-container{
+.badg-img-container{
   position: relative;
   display: inline-block;
-  border-radius: 50%;
   overflow: hidden;
   height: $avater-size;
   width: $avater-size;
   padding: 0;
   margin: 0 1rem;
   border: none;
-  background: $color-back;
   cursor: pointer;
+  background-size: contain;
 
-  .avatar{
+  .badg-img{
     display: block;
-    margin: 10px;
-    border-radius: 50%;
-    width: calc(#{$avater-size} - 20px);
-    height: calc(#{$avater-size} - 20px);
+    margin: 23px 10px 10px 20px;
+    border-radius: 0 0 50% 50%;
+    width: calc(90px - 40px);
+    height: calc(90px - 40px);
     overflow: hidden;
     z-index: 100;
     background-position: center center;
-    background-color: #BDBDBD;
   }
 
   .info{
@@ -80,6 +79,7 @@ $avater-size: 90px;
     }
   }
 }
+.badg-img-container:hover{background-image: url('/public/img/badge-border/32/9.png');}
 
 /**
 * Function to generate procentual progress classes 

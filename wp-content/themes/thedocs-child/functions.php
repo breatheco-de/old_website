@@ -39,6 +39,7 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->route([ 'slug' => 'Category:Asset-Technology', 'controller' => 'Assets']);
     $controller->route([ 'slug' => 'Category:Asset-Type', 'controller' => 'Assets']);
     $controller->route([ 'slug' => 'Lesson-Asset', 'controller' => 'Assets']);
+    $controller->route([ 'slug' => 'Assets', 'controller' => 'Assets']);
     
     $controller->route([ 'slug' => 'Category:User_Cohort', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Teacher-Cohorts', 'controller' => 'User']);
@@ -55,7 +56,7 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:create_new_assignment']);    
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:check_attendancy']);     
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:update_replits']);     
-    $controller->routeAjax([ 'slug' => 'mytalents', 'controller' => 'TalentTree:get_badge']);    
+    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'TalentTree:get_badge']);    
     $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'User:update_profile']);    
 }
 

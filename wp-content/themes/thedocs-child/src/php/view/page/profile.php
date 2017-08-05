@@ -24,11 +24,10 @@ $args = WPAS\Controller\WPASController::getViewData();
                             $fullBadge = $args['getBadge']($args['allBadges'], $badgeSlug);
                         ?>
                             <li data-slug="<?php echo $badgeSlug; ?>" class="single-badge <?php echo $badgeSlug; ?>">
-                                <div class="avatar-container p-<?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>">
-                                    <div alt="" class="avatar"></div>
-                                    <div class="info js-active"><div class="info-inner"><?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>%</div></div>
+                                <div style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/public/img/badge-border/64/<?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>.png')" class="badg-img-container p-<?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>">
+                                    <img src="<?php echo BREATHECODE_API_HOST.$fullBadge->image_url; ?>" alt="" class="badg-img" />
                                 </div>
-                                <span class='badge-name'><?php echo $fullBadge->name; ?></span>
+                                <span class='badge-name'><?php echo $fullBadge->name; ?> <?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>%</span>
                             </li>
                         <?php } ?>
                         </ul>

@@ -1,9 +1,4 @@
 <?php
-/*
- * Template Name Posts: Assets Page
- * Description: A Page Template with a Page Builder design.
- */
- 
 get_template_part(VIEWS_PATH.'header/asset'); 
 $args = WPAS\Controller\WPASController::getViewData();
 ?>

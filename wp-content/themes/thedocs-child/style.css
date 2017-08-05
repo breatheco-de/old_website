@@ -1148,31 +1148,30 @@ li.hidden_label label {
     .talent-badge li span {
       display: block;
       text-align: center;
-      font-size: 16px; }
+      font-size: 12px;
+      margin-top: -10px; }
 
-.avatar-container {
+.badg-img-container {
   position: relative;
   display: inline-block;
-  border-radius: 50%;
   overflow: hidden;
   height: 90px;
   width: 90px;
   padding: 0;
   margin: 0 1rem;
   border: none;
-  background: #efefef;
-  cursor: pointer; }
-  .avatar-container .avatar {
+  cursor: pointer;
+  background-size: contain; }
+  .badg-img-container .badg-img {
     display: block;
-    margin: 10px;
-    border-radius: 50%;
-    width: calc(90px - 20px);
-    height: calc(90px - 20px);
+    margin: 23px 10px 10px 20px;
+    border-radius: 0 0 50% 50%;
+    width: calc(90px - 40px);
+    height: calc(90px - 40px);
     overflow: hidden;
     z-index: 100;
-    background-position: center center;
-    background-color: #BDBDBD; }
-  .avatar-container .info {
+    background-position: center center; }
+  .badg-img-container .info {
     display: none;
     font-weight: bold;
     font-size: 1.4rem;
@@ -1186,12 +1185,15 @@ li.hidden_label label {
     background: rgba(0, 187, 255, 0.2);
     color: white;
     z-index: 1000; }
-    .avatar-container .info.js-active {
+    .badg-img-container .info.js-active {
       display: table; }
-    .avatar-container .info .info-inner {
+    .badg-img-container .info .info-inner {
       display: table-cell;
       text-align: center;
       vertical-align: middle; }
+
+.badg-img-container:hover {
+  background-image: url("/public/img/badge-border/32/9.png"); }
 
 /**
 * Function to generate procentual progress classes 
@@ -1528,3 +1530,35 @@ li.hidden_label label {
 .profile-content .profile-description {
   margin-top: 30px;
   margin-bottom: 30px; }
+
+.search-top-bar {
+  margin-bottom: 50px;
+  margin-top: -30px;
+  background: #254563; }
+  .search-top-bar .search-box {
+    width: calc(100% - 50px);
+    font-size: 50px;
+    border: 0;
+    color: white;
+    background: none;
+    float: right;
+    outline: none; }
+  .search-top-bar .search-box::placeholder {
+    color: white; }
+  .search-top-bar .fa.fa-search {
+    float: left;
+    font-size: 40px;
+    line-height: 70px;
+    color: white; }
+
+.assets-list .preview {
+  height: 100px;
+  background-size: cover; }
+
+.assets-list h5 {
+  min-height: 70px; }
+
+.assets-list article {
+  margin-bottom: 20px; }
+  .assets-list article .meta-data {
+    height: 40px; }
