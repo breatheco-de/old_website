@@ -81,4 +81,6 @@ class Assets{
         
         return $posts;
     }
+    
+    public function whatever(){}
 }

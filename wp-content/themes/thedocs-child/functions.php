@@ -44,6 +44,8 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->route([ 'slug' => 'Category:User_Cohort', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Teacher-Cohorts', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Profile', 'controller' => 'User']);
+    $controller->route([ 'slug' => 'Student', 'controller' => 'User']);
+    $controller->route([ 'slug' => 'Search:search', 'controller' => 'Search']);
     
     /**
      * Binding Ajax methos with views and controllers
@@ -54,10 +56,14 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'bclogin', 'controller' => 'Credentials:custom_login', 'scope' => 'public']);     
     $controller->routeAjax([ 'slug' => 'My-Assignments', 'controller' => 'Assignments:deliver_project']);    
     $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:create_new_assignment']);    
+    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:get_assignment_earnings']);    
+    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:accept_assignment']);    
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:check_attendancy']);     
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:update_replits']);     
     $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'TalentTree:get_badge']);    
     $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'User:update_profile']);    
+    $controller->routeAjax([ 'slug' => 'assets', 'controller' => 'Assets:whatever']); 
+    $controller->routeAjax([ 'slug' => 'Search:search', 'controller' => 'Search:whatever' ]);
 }
 
 try{

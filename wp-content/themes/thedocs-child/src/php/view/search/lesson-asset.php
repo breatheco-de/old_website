@@ -1,12 +1,24 @@
 <?php
 get_template_part(VIEWS_PATH.'header/asset'); 
 $args = WPAS\Controller\WPASController::getViewData();
-
 ?>
     <div class='search-top-bar'>
-        <div class="container">
+        <div class="container search">
             <i class="fa fa-search" aria-hidden="true"></i>
             <input class='search-box' type="text" name="" placeholder="<?php echo pll__( 'Search Assets' ); ?>"/>
+        </div>
+        <div class="container">
+            <span class='search-label'>Search on:</span>
+            <div class="btn-group search-mode" data-toggle="buttons">
+            <!--
+              <label class="btn btn-primary">
+                <input type="radio" name="options" value="lessons" autocomplete="off"> Lessons
+              </label>
+            -->
+              <label class="btn btn-primary">
+                <input type="radio" name="options" value="assets" autocomplete="off"> Assets
+              </label>
+            </div>
         </div>
     </div>
     <main class="container assets-list">

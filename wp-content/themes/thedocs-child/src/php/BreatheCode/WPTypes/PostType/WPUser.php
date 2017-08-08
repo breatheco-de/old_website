@@ -15,7 +15,9 @@ class WPUser
 		'give_access_to_fullstack_prework' => 'Give access to PREWORK Fullstack',
 		'give_access_to_fullstack_all' => 'Give access to ALL of Fullstack',
 		'give_access_to_teacher_course' => 'Give access to Teacher course',
-		'sync_with_api' => 'Sync with API'
+		'sync_teacher_with_api' => 'Sync teacher with API (after location creation)',
+		'sync_teacher_cohorts_with_api' => 'Sync teacher cohorts with API (after cohort creation)',
+		'sync_student_with_api' => 'Sync Student with API (after cohort creation)'
 		);
 
 	function __construct() {
@@ -71,16 +73,77 @@ class WPUser
 		if(isset($prework_esp)) $this->giveAccessToParentCourse($studentId,$prework_esp);
 	}
 	
-	function sync_with_api($userId){
+	function sync_teacher_cohorts_with_api($userId){
 		
 		$wpUser = get_userdata($userId);
 		if($wpUser)
 		{
+			$type = $this->getUserType($wpUser->roles);
+			if($type!='teacher'){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for teachers, user '.$wpUser->user_email.' is not');
+				return;
+			}
+			
 			$studentCohorts = [];
 			$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
 			foreach($terms as $t) $studentCohorts[] = $t->name;
 			
+			$bcUser = BreatheCodeAPI::syncUser([
+				"email" => $wpUser->user_email,
+				"cohorts" => $studentCohorts
+				]);
+			if($bcUser){
+				if($result) BCNotification::addTransientMessage(BCNotification::SUCCESS,'The user was successfully synced with ID '.$bcUser->id);
+			}
+			else BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue obtaining the Breathecode ID');
+		}
+		else BCNotification::addTransientMessage(BCNotification::ERROR,'User '.$userId.' not found');
+	}
+	
+	function sync_teacher_with_api($userId){
+		
+		$wpUser = get_userdata($userId);
+		if($wpUser)
+		{
 			$type = $this->getUserType($wpUser->roles);
+			if($type!='teacher'){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for students, user '.$wpUser->user_email.' is not');
+				return;
+			}
+			
+			$bcUser = BreatheCodeAPI::syncUser([
+				"email" => $wpUser->user_email,
+				"full_name" => $wpUser->display_name,
+				"password" => $wpUser->user_pass,
+				"wp_id" => $wpUser->ID,
+				"type" => $type
+				]);
+			if($bcUser){
+				$result = update_user_meta( $userId, 'breathecode_id', $bcUser->id );
+				update_user_meta($userId, 'type',$type);
+				if($result) BCNotification::addTransientMessage(BCNotification::SUCCESS,'The user was successfully synced with ID '.$bcUser->id);
+			}
+			else BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue obtaining the Breathecode ID');
+		}
+		else BCNotification::addTransientMessage(BCNotification::ERROR,'User '.$userId.' not found');
+	}
+	
+	
+	function sync_student_with_api($userId){
+		
+		$wpUser = get_userdata($userId);
+		if($wpUser)
+		{
+			$type = $this->getUserType($wpUser->roles);
+			if($type!='student'){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for students, user '.$wpUser->user_email.' is not');
+				return;
+			}
+			
+			$studentCohorts = [];
+			$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
+			foreach($terms as $t) $studentCohorts[] = $t->name;
+			
 			$bcUser = BreatheCodeAPI::syncUser([
 				"email" => $wpUser->user_email,
 				"full_name" => $wpUser->display_name,
@@ -91,7 +154,8 @@ class WPUser
 				]);
 			if($bcUser){
 				$result = update_user_meta( $userId, 'breathecode_id', $bcUser->id );
-				if($result) BCNotification::addTransientMessage(BCNotification::SUCCESS,'The user was successfully synced with ID '.$bcUser->id);
+				$result2 = update_user_meta($userId, 'type',$type);
+				if($result && $result2) BCNotification::addTransientMessage(BCNotification::SUCCESS,'The user was successfully synced with ID '.$bcUser->id);
 			}
 			else BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue obtaining the Breathecode ID');
 		}

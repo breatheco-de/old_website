@@ -53,7 +53,7 @@ class BreatheCodeAPI{
 		    {
 		    	$error = wp_remote_retrieve_body( $response ); 
 		    	$errorObj = json_decode($error);
-		    	//echo print_r($error); die();
+		    	echo print_r($error); die();
 		    	throw new \Exception($errorObj->msg);
 		    }
 		    throw new \Exception('There was a problem, check your username and password.');
@@ -179,10 +179,16 @@ class BreatheCodeAPI{
             $allBadges[$badge->slug]['name'] = $badge->name;
             $allBadges[$badge->slug]['points_acumulated'] = $badge->points_acumulated;
             $allBadges[$badge->slug]['is_achived'] = $badge->is_achieved;
-            $allBadges[$badge->slug]['percent'] = ($badge->points_acumulated/$badge->points_acumulated)*100;
+            if($badge->points_acumulated>0) $allBadges[$badge->slug]['percent'] = floor(($badge->points_acumulated/$badge->points_acumulated)*10);
+            else $allBadges[$badge->slug]['percent'] = 0;
 	    }
 	    
 	    return $allBadges;
+	}
+	
+	public static function getStudentBriefing($args=[],$decode=true){
+	
+	    return self::request('GET','briefing/student/'.$args['student_id'],$args,$decode);
 	}
 	
 	public static function getAllSpecialtiesByProfile($args=[],$decode=true){
@@ -231,7 +237,7 @@ class BreatheCodeAPI{
 	    return $assignment;
 	}
 	
-	public static function deliverStudentAssignment($args=[],$decode=true){
+	public static function updateStudentAssignment($args=[],$decode=true){
 
 	    $assignment = self::request('POST','student/assignment/'.$args['assignment_id'],$args);
 	    return $assignment;
@@ -268,5 +274,16 @@ class BreatheCodeAPI{
         self::validate($params,'type');
 
         return self::request('post','/user/sync',$params);
+    }
+	
+	public static function syncAssignment($params){
+        
+        self::validate($params,'template_slug');
+        self::validate($params,'student_id');
+        self::validate($params,'teacher_id');
+        self::validate($params,'duedate');
+        self::validate($params,'status');
+
+        return self::request('post','/assignment/sync/',$params);
     }
 }

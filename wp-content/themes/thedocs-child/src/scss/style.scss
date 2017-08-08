@@ -67,8 +67,7 @@ header.navbar-fullwidth .navbar{max-height: initial;}
 .gform_fields{margin: 0; padding: 0;}
 li.hidden_label label{display: none;}
 .validation_message{color: #a94442;}
-.step-text.assignments h5{margin-top: 0px;}
-.assignment-bar{padding-top: 10px;}
+
 .gfield_description{font-style: italic; font-size: 80%; line-height: 16px; color: grey;}
 .gfield_description.validation_message{font-style: normal; font-size: 100%; line-height: 16px; color: #a94442;}
 .field_description_below .form-control{margin-bottom: 10px;}
@@ -151,3 +150,4 @@ li.hidden_label label{display: none;}
 @import 'pages/usercohort';
 @import 'pages/profile';
 @import 'pages/assets';
+@import 'pages/assignments';

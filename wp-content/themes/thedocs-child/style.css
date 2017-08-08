@@ -1017,12 +1017,6 @@ li.hidden_label label {
 .validation_message {
   color: #a94442; }
 
-.step-text.assignments h5 {
-  margin-top: 0px; }
-
-.assignment-bar {
-  padding-top: 10px; }
-
 .gfield_description {
   font-style: italic;
   font-size: 80%;
@@ -1531,10 +1525,15 @@ li.hidden_label label {
   margin-top: 30px;
   margin-bottom: 30px; }
 
+.student-dashboard .student-name {
+  margin-bottom: 0px; }
+
 .search-top-bar {
   margin-bottom: 50px;
   margin-top: -30px;
   background: #254563; }
+  .search-top-bar .search {
+    padding: 10px 0; }
   .search-top-bar .search-box {
     width: calc(100% - 50px);
     font-size: 50px;
@@ -1544,12 +1543,14 @@ li.hidden_label label {
     float: right;
     outline: none; }
   .search-top-bar .search-box::placeholder {
-    color: white; }
+    color: #a1a0b7; }
   .search-top-bar .fa.fa-search {
     float: left;
     font-size: 40px;
     line-height: 70px;
     color: white; }
+  .search-top-bar .search-label {
+    color: #a1a0b7; }
 
 .assets-list .preview {
   height: 100px;
@@ -1562,3 +1563,17 @@ li.hidden_label label {
   margin-bottom: 20px; }
   .assets-list article .meta-data {
     height: 40px; }
+
+.review-assignments .template .assignments {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap; }
+  .review-assignments .template .assignments li {
+    background: #f0f8ff;
+    height: 90px;
+    width: 300px;
+    padding: 10px 0px;
+    margin: 5px;
+    list-style: none; }
+    .review-assignments .template .assignments li .btn {
+      width: 100%; }

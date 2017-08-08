@@ -27,7 +27,8 @@ export default class MyAssignments{
             let assignmentId = $('#assignment').val();
             let github = $('#github').val();
             
-            if(!validator.isURL(github) || github.length==0) BCMessaging.addMessage(BCMessaging.ERROR,'The github URL must be a valid URL');
+            let isURL = validator.isURL(github);
+            if(!isURL || github.length==0) BCMessaging.addMessage(BCMessaging.ERROR,'The github URL must be a valid URL');
             
             let messages = BCMessaging.getMessages(BCMessaging.ERROR);
             if(messages.length>0) BCMessaging.notifyPending(BCMessaging.ERROR);

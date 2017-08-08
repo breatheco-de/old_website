@@ -1,7 +1,9 @@
 <?php
 namespace BreatheCode\WPTypes\PostType;
 
-use WP_Query;
+use WP_Query, WP_User_Query;
+use BreatheCode\Utils\BreatheCodeAPI;
+use WPAS\Messaging\WPASAdminNotifier as BCNotification;
 
 class WPProjectAssignment
 {
@@ -9,6 +11,10 @@ class WPProjectAssignment
 	//const FORM_ASSIGNMENT_ID = '6';
 	const FORM_ASSIGNMENT_TITLE = 'Assign Project to Class';
 	const FORM_DELIVER_ASSIGNMENT_TITLE = 'Deliver Project Assignment';
+	
+	public static $actions = array(
+		'sync_with_api' => 'Sync with API'
+		);
 	
 	private static $assignmentStatus = array(
 		"due" => "Assignment Delivered",
@@ -25,7 +31,78 @@ class WPProjectAssignment
 	    add_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
 	    add_filter( 'gform_pre_render', array($this,'populate_project_fields') );
 	    add_action( 'gform_after_submission', array($this,'set_post_content'), 10, 2 );
+	    
+		add_filter( 'bulk_actions-edit-'.self::POST_TYPE, array($this,'register_my_bulk_actions' ), 10, 3);
+		add_filter( 'handle_bulk_actions-edit-'.self::POST_TYPE, array($this,'my_bulk_action_handler'), 10, 3 );
 	  }
+	  
+	function register_my_bulk_actions($bulk_actions) {
+		foreach(self::$actions as $key => $value) $bulk_actions[$key] = __( $value, 'breathecode');
+		return $bulk_actions;
+	}
+	
+	function my_bulk_action_handler( $redirect_to, $doaction, $posts ) {
+	  if ( !isset(self::$actions[$doaction]) ) {
+	    return $redirect_to;
+	  }
+
+	  foreach ( $posts as $postId ) {
+	    	call_user_func(array($this,$doaction), $postId);
+	  }
+	  
+	  $redirect_to = add_query_arg( 'affected_ids', count( $posts ), $redirect_to );
+	  return $redirect_to;
+	}
+	
+	public function sync_with_api($assignmentId){
+		$wpAssignment = get_post($assignmentId);
+		if($wpAssignment)
+		{
+			$studentId = get_post_meta( $assignmentId, 'wpcf-student-assigned',true);
+			if(!$studentId) throw new Exception('There was an issue obtaining the student id');
+			$studentBCId = get_user_meta( $studentId, 'breathecode_id', true);
+			if(!$studentBCId) throw new Exception('The student '.$studentId.' has no API id');
+			
+			$teacherId = get_post_meta( $assignmentId, 'wpcf-assignment-teacher',true);
+			if(!$teacherId) throw new Exception('There was an issue obtaining the teacher id');
+			$teacherBCId = get_user_meta( $teacherId, 'breathecode_id', true);
+			if(!$teacherBCId) throw new Exception('The teacher '.$teacherId.' has no API id');
+			
+			$projectId = get_post_meta( $assignmentId, 'wpcf-project-assigned',true);
+			$project = get_post($projectId);
+			if(!$project) throw new Exception('Invalid project assinged id: '.$projectId);
+			$templateSlug = $project->post_name;
+			
+			$duedate = get_post_meta( $assignmentId, 'wpcf-assignment-due-date',true);
+			$status = get_post_meta( $assignmentId, 'wpcf-assignment-status',true);
+			
+			$result = BreatheCodeAPI::syncAssignment([
+				"template_slug" => $templateSlug,
+				"student_id" => $studentBCId,
+				"teacher_id" => $teacherBCId,
+				"duedate" => date('Y/m/d', $duedate),
+				"status" => $this->_translateStatus($status)
+				]);
+			if($result){
+				$result = update_post_meta( $assignmentId, 'breathecode_id', $result->id );
+				if($result) BCNotification::addTransientMessage(BCNotification::SUCCESS,'The assignment was successfully synced with API ID '.$result->id);
+			}
+			else BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue obtaining the Breathecode ID');
+		}
+		else BCNotification::addTransientMessage(BCNotification::ERROR,'Assignment '.$assignmentId.' not found');
+	}
+	
+	private function _translateStatus($status){
+		switch($status)
+		{
+			case "done": return 'reviewed'; break;
+			case "missed": return 'not-delivered'; break;
+			case "due": return 'not-delivered'; break;
+			case "pending": return 'not-delivered'; break;
+		}
+		
+		return null;
+	}
 
 	  /**
 	   * Gets triggered when a new "student-assignment" is created
@@ -57,12 +134,14 @@ class WPProjectAssignment
 	  }
 
 	  function projectPostsColumns( $columns ) {
+	  	
 	    unset( $columns['title'] );
 	    unset( $columns['date'] );
 	    $columns['student'] = 'Student';
 	    $columns['project'] = 'Project';
 	    $columns['duedate'] = 'Due Date';
 	    $columns['assignment-status'] = 'Status';
+	    $columns['api-id'] = 'API ID';
 	    //die(print_r($columns));
 	    return $columns;
 	  }
@@ -95,6 +174,11 @@ class WPProjectAssignment
 	              if ($status and is_string( $status ) ) echo $status;
 	              else echo 'Unable to get the satus';
 	            break;
+	            
+	          case 'api-id' :
+	              $bdId = get_post_meta( $postId, 'breathecode_id', true);
+	              echo ($bdId) ? $bdId : 'not synced';
+	            break;
 
 	      }
 	  }
@@ -104,6 +188,7 @@ class WPProjectAssignment
 	      {
 	        case "Student Assigned": $options = $this->getStudents($options); break;
 	        case "Project Assigned": $options = $this->getProjects($options); break;
+	        case "Teacher Assigned": $options = $this->getTeachers($options); break;
 	      }
 
 	      return $options;
@@ -111,15 +196,23 @@ class WPProjectAssignment
 
 	  function getStudents($optns){
 	      $optns = array();
-	      $users = get_users(array(
-	        'role__in' =>  array(
-	          'subscriber',
-	          'premium_full_stack',
-	          'prework_full_stack')
-	        ) 
-	      );
-	       
-	      foreach ($users as $u) {
+	      
+	      $users = new WP_User_Query( array( 'meta_key' => 'type', 'meta_value' => 'student' ) );
+	      foreach ($users->results as $u) {
+	          $optns[] = array(
+	              '#value' => $u->ID,
+	              '#title' => $u->display_name.' ('.$u->user_email.')'
+	          );
+	      } 
+
+	      return $optns;
+	  }
+
+	  function getTeachers($optns){
+	      $optns = array();
+	      
+	      $users = new WP_User_Query( array( 'meta_key' => 'type', 'meta_value' => 'teacher' ) );
+	      foreach ($users->results as $u) {
 	          $optns[] = array(
 	              '#value' => $u->ID,
 	              '#title' => $u->display_name.' ('.$u->user_email.')'

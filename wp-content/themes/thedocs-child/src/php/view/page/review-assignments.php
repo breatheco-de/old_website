@@ -6,31 +6,35 @@
 get_header('boxed'); 
 $args = WPAS\Controller\WPASController::getViewData();
 ?>
-<main class="container">
+<main class="container review-assignments">
 	<h3>The following is a list of all your student's assignments</h3>
-	<ul class='step-text assignments'>
-		<?php if(count($args['assignments'])==0) echo '<p>There are no assignments</p>'; ?>
-		<?php if(isset($args['assignments'])) foreach($args['assignments'] as $assignment){ ?>
-                <li>
-                  <div class="row push-right">
-                    <div class="col-xs-9 col-md-10">
-                      <h5><?php echo $assignment->template->title; ?></h5>
-                      <p>
-                        <i class="fa fa-user" aria-hidden="true"></i> <?php echo $assignment->student_name; ?>
-                        <i class="fa fa-calendar" aria-hidden="true"></i> <?php echo pll__( 'Due by' ); ?> <?php echo $assignment->duedate; ?>
-                      </p>
-                    </div>
-                    <div class="col-xs-3 col-md-2 assignment-bar">
-                      <?php if($assignment->status=='delivered') { ?>
-                        <a href="<?php echo $assignment->github_url; ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'Review' ); ?></a>
-                      <?php } else {?>
-                        <?php echo $assignment->status; ?>
-                      <?php } ?>
-                    </div>
-                  </div>
-                </li>
-        <?php } ?>
-	</ul>
+	<?php if(isset($args['templates'])) foreach($args['templates'] as $template){ 
+	      //if(count($template->assigntments)==0) continue;
+	?>
+      	<h4><?php echo $template['info']->title; ?></h4>
+      	<div class='template'>
+            	<ul class='assignments'>
+              <?php if(count($template['assignments'])==0) echo '<p>There are no assignments</p>'; ?>
+          	  <?php foreach($template['assignments'] as $assignment){ ?>
+                      <li class='row'>
+                            <div class="col-xs-8">
+                                <strong><?php echo $assignment->student_name; ?></strong> <br />
+                                <i class="fa fa-calendar" aria-hidden="true"></i> 
+                                <?php echo pll__( 'Due by' ); ?> <?php echo $assignment->duedate; ?>
+                            </div>
+                            <div class="col-xs-4">
+                            <?php if($assignment->status=='delivered') { ?>
+                              <a target="_blank" href="<?php echo $assignment->github_url; ?>" class='btn btn-primary'><?php echo pll__( 'View' ); ?></a>
+                              <button data-student='<?php echo $assignment->student_name; ?>' data-assignment='<?php echo $assignment->id; ?>' data-slug='<?php echo $assignment->template->project_slug; ?>' data-toggle="modal" data-target="#modal-accept_assignment" class='btn btn-success'><?php echo pll__( 'Accept' ); ?></button>
+                            <?php } else {?>
+                              <?php echo $assignment->status; ?>
+                            <?php } ?>
+                            </div>
+                      </li>
+              <?php } ?>
+            	</ul>
+	      </div>
+    <?php } ?>
 </main>
 <ul id="material-menu" class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
   <li class="mfb-component__wrap">
@@ -48,5 +52,6 @@ $args = WPAS\Controller\WPASController::getViewData();
   </li>
 </ul>
 <?php include(locate_template(VIEWS_PATH.'_partials/modal-new_assignment.php')); ?>
+<?php include(locate_template(VIEWS_PATH.'_partials/modal-accept_assignment.php')); ?>
 
 <?php get_footer(); ?>

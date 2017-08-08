@@ -1,0 +1,20 @@
+.review-assignments{
+    .template{
+        .assignments{
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            li{
+                background: #f0f8ff;
+                height: 90px;
+                width: 300px;
+                padding: 10px 0px;
+                margin: 5px;
+                list-style: none;
+                .btn{
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

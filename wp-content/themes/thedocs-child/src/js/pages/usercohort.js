@@ -47,7 +47,7 @@ export default class UserCohort{
 			    if(response){
 			        if(response.code=='200')
 			        {
-			            console.log(response);
+			            window.location.reload();
 			        }
 			        else
 			        {
@@ -75,7 +75,7 @@ export default class UserCohort{
 			    if(response){
 			        if(response.code=='200')
 			        {
-			            console.log(response);
+			            window.location.reload();
 			        }
 			        else
 			        {

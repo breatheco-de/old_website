@@ -16,23 +16,17 @@ $args = WPAS\Controller\WPASController::getViewData();
             <?php } ?>
         </p>
         <div id="specialties">
-            <ul class="specialty">
-                <?php if(is_array($args['specialties'])) foreach($args['specialties'] as $specialty) { ?>
-                <li>
-                        <ul class="talent-badge">
-                        <?php foreach($specialty->badges as $badgeSlug) { 
-                            $fullBadge = $args['getBadge']($args['allBadges'], $badgeSlug);
-                        ?>
-                            <li data-slug="<?php echo $badgeSlug; ?>" class="single-badge <?php echo $badgeSlug; ?>">
-                                <div style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/public/img/badge-border/64/<?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>.png')" class="badg-img-container p-<?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>">
-                                    <img src="<?php echo BREATHECODE_API_HOST.$fullBadge->image_url; ?>" alt="" class="badg-img" />
-                                </div>
-                                <span class='badge-name'><?php echo $fullBadge->name; ?> <?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>%</span>
-                            </li>
-                        <?php } ?>
-                        </ul>
+            <ul class="talent-badge">
+            <?php if(is_array($args['allBadges'])) foreach($args['allBadges'] as $fullBadge) {
+                $badgeSlug = $fullBadge->slug;
+            ?>
+                <li data-slug="<?php echo $badgeSlug; ?>" class="single-badge <?php echo $badgeSlug; ?>">
+                    <div style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/public/img/badge-border/64/<?php echo $args['allStudentBadges'][$badgeSlug]['percent']; ?>.png')" class="badg-img-container p-<?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>">
+                        <img src="<?php echo BREATHECODE_API_HOST.$fullBadge->image_url; ?>" alt="" class="badg-img" />
+                    </div>
+                    <span class='badge-name'><?php echo $fullBadge->name; ?> <?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>%</span>
                 </li>
-                <?php } ?>
+            <?php } ?>
             </ul>
         </div>
     </div>

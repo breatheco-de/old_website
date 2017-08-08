@@ -11,6 +11,8 @@ export var BCMessaging = (function(){
     }
     
     _public.getMessages = function(type){
+        
+        if(typeof messages[type] == 'undefined') messages[type] = [];
         return messages[type];
     }
     
@@ -28,6 +30,8 @@ export var BCMessaging = (function(){
         if(!messagesArray) messages[type].forEach(msg => { content += `<li>${msg}</li>`; });
         else messagesArray.forEach(msg => { content += `<li>${msg}</li>`; });
         content += '</ul>';
+        
+        messages[type] = [];
         
         showNotification('top',{
             type: type,
@@ -48,6 +52,10 @@ export var BCMessaging = (function(){
         document.querySelector(classNames+' .close').addEventListener('click',function(){
             document.body.removeChild(notifyContent);
         });
+        
+        setTimeout(function () {
+            document.body.removeChild(notifyContent);
+        }, 3000);
     }
     
     function getTemplate(){
