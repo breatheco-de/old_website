@@ -1,6 +1,7 @@
 <?php
 
 namespace BreatheCode\WPTypes\PostType;
+use WPAS\Messaging\WPASAdminNotifier as BCNotification;
 use BCThemeOptions;
 
 class WPLessonAsset{
