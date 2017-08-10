@@ -187,14 +187,13 @@ class BreatheCodeAPI{
 	    foreach($studentBadges as $badge) 
 	    {
 	        if(!isset($allBadges[$badge->slug])) $allBadges[$badge->slug] = [];
-	        
             $allBadges[$badge->slug]['name'] = $badge->name;
             $allBadges[$badge->slug]['points_acumulated'] = $badge->points_acumulated;
             $allBadges[$badge->slug]['is_achived'] = $badge->is_achieved;
-            if($badge->points_acumulated>0) $allBadges[$badge->slug]['percent'] = floor(($badge->points_acumulated/$badge->points_acumulated)*10);
+            if($badge->points_acumulated>0) $allBadges[$badge->slug]['percent'] = floor(($badge->points_acumulated / $allBadges[$badge->slug]->total_points)*10);
             else $allBadges[$badge->slug]['percent'] = 0;
 	    }
-	    
+	    //print_r($allBadges); die();
 	    return $allBadges;
 	}
 	
