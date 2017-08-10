@@ -22,7 +22,7 @@ class WPLessonAsset{
 	  if (empty(trim($excerpt))) {
 	    if ($data['post_status'] === 'publish') {
 	      //add_filter('redirect_post_location', 'excerpt_error_message_redirect', '99');
-	      Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,'Excerpt is required');
+	      BCNotification::addTransientMessage(BCNotification::ERROR,'Excerpt is required');
 	      
 	    }
 	
