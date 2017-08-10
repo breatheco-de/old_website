@@ -12,6 +12,12 @@ class BreatheCodeAPI{
     private static $attempts = 0;
     private static $host = BREATHECODE_API_HOST;
     
+    private static $scopes = [
+    	"student" => ['read_basic_info', 'read_talent_tree', 'student_assignments' ],
+    	"teacher" => ['read_basic_info', 'read_talent_tree', 'student_assignments', 'teacher_assignments'],
+    	"admin" => ['read_basic_info', 'super_admin']
+    	];
+    
     private static function setToken($token){
     	$result = set_transient("bc_api_token", $token, 86400);//one day
     	if($result)
@@ -41,7 +47,7 @@ class BreatheCodeAPI{
         	self::refreshAccessToken();
         }
         $args['access_token'] = self::getToken();
-        
+
         if($method=='GET') $response = wp_remote_get(self::$host.$resource.'?'.http_build_query($args));
         else if($method=='POST') $response = wp_remote_post(self::$host.$resource,['body'=>$args]);
 		else throw new \Exception('Invalid HTTP request type '.$method);
@@ -53,16 +59,16 @@ class BreatheCodeAPI{
 		    {
 		    	$error = wp_remote_retrieve_body( $response ); 
 		    	$errorObj = json_decode($error);
-		    	echo print_r($error); die();
+		    	//echo print_r($error); die();
 		    	throw new \Exception($errorObj->msg);
 		    }
 		    throw new \Exception('There was a problem, check your username and password.');
 		}
 		else if($http_code==401) 
 		{
-			if(!empty(self::getToken()) and self::$attempts ==0) self::refreshAccessToken();
+			if(!empty(self::getToken()) and self::$attempts == 0) self::refreshAccessToken();
 			
-			throw new \Exception('Unauthorized BreatheCode API request');
+			throw new \Exception('Unauthorized BreatheCode API request for method: '.$resource);
 		}
 		else if($http_code!=200){
 		    $error = wp_remote_retrieve_body( $response );
@@ -118,11 +124,17 @@ class BreatheCodeAPI{
     }
     
     public static function autenticate($username, $password){
+		$wpUser = get_user_by('email',$username);
+		if(!$wpUser) throw new \Exception('The wp_user doest not exist');
+		$type = get_user_meta($wpUser->ID, 'type', true);
+
 		$args = [
     		'grant_type' => "password",
     		'username' => $username,
-    		'password' => $password
+    		'password' => $password,
+    		'scope' => implode (" ", self::$scopes[$type])
 		];
+		
 		// send the response back to the front end
 		$token = self::request('post','token',$args);
 		if(!empty($token->access_token))
@@ -207,8 +219,18 @@ class BreatheCodeAPI{
 	    return self::request('GET','badge/'.$args['badge_id'],$args,$decode);
 	}
 	
+	public static function getStudentActivity($args=[],$decode=true){
+	
+		self::validate($args,'student_id');
+		
+	    $activities = self::request('GET','activity/student/'.$args['student_id']);
+	    return $activities;
+	}
+	
 	public static function getStudentAssignments($args=[],$decode=true){
 	
+		self::validate($args,'student_id');
+		
 	    $assignments = self::request('GET','assignments/student/'.$args['student_id']);
 	    return $assignments;
 	}

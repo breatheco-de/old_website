@@ -59,7 +59,7 @@ class BCThemeOptions {
 				    'label' => 'API Token',
 				    'name' => 'breathecode-api-token',
 					'description' => 'Oauth token for BreatheCode API'
-				],
+				]
 			];
 			
 		

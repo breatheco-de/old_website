@@ -14,7 +14,7 @@
             </div>
 			<select id="atemplate-select" class="form-control">
 				<option selected="selected">Select a Template</option>
-				<?php foreach($args['templates'] as $temp){ ?>
+				<?php foreach($args['all-templates'] as $temp){ ?>
 				<option value="<?php echo $temp->id; ?>"><?php echo $temp->title; ?></option>
 				<?php } ?>
 			</select>

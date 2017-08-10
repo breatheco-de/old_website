@@ -72,15 +72,9 @@ export default class ReviewAssignments{
 	 	    data: thedata, 
 	 	    success: function(response) {
 			    if(response){
-			        if(response.code=='200')
-			        {
-			            window.location = response.data;
-			        }
-			        else
-			        {
-			            alert(response.msg);
-			        }
-			    }
+			        if(response.code=='200') window.location.reload();
+			        else BCMessaging.notify(BCMessaging.ERROR,response.msg);
+			    } else BCMessaging.notify(BCMessaging.ERROR,"The was an unexpected error");
 	 	    }
 	 	});
 	 	
@@ -102,17 +96,10 @@ export default class ReviewAssignments{
 	 	    dataType: "json",
 	 	    data: thedata, 
 	 	    success: function(response) {
-	 	    	console.log(response);
 			    if(response){
-			        if(response.code=='200')
-			        {
-			            window.location = response.data;
-			        }
-			        else
-			        {
-			        	 BCMessaging.notify(BCMessaging.ERROR,response.msg);
-			        }
-			    }
+			        if(response.code=='200')  window.location.reload();
+			        else BCMessaging.notify(BCMessaging.ERROR,response.msg);
+			    }else BCMessaging.notify(BCMessaging.ERROR,"The was an unexpected error");
 	 	    }
 	 	});
 	 	
@@ -135,15 +122,9 @@ export default class ReviewAssignments{
 	 	    success: function(response) {
 	 	    	console.log(response);
 			    if(response){
-			        if(response.code=='200')
-			        {
-			            window.location.reload();
-			        }
-			        else
-			        {
-			        	 BCMessaging.notify(BCMessaging.ERROR,response.msg);
-			        }
-			    }
+			        if(response.code=='200') window.location.reload();
+			        else BCMessaging.notify(BCMessaging.ERROR,response.msg);
+			    } else BCMessaging.notify(BCMessaging.ERROR,"The was an unexpected error");
 	 	    }
 	 	});
 	 	

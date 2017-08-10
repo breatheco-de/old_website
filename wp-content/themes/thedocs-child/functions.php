@@ -44,6 +44,7 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->route([ 'slug' => 'Category:User_Cohort', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Teacher-Cohorts', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Profile', 'controller' => 'User']);
+    $controller->route([ 'slug' => 'Student-Profile', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Student', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Search:search', 'controller' => 'Search']);
     

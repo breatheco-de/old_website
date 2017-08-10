@@ -2,6 +2,7 @@
 use BreatheCode\WPTypes\PostType\WPCohort;
 get_header('boxed'); 
 $args = WPAS\Controller\WPASController::getViewData();
+if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($args); 
 ?>
         <div class="container title-container">
             <div class="row text-white">
@@ -28,7 +29,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                 <div class="well">
                     <p>Mentors</p>
                     <ol>
-                    <?php foreach($args['teachers'] as $tea){ ?>
+                    <?php if(isset($args['teachers'])) foreach($args['teachers'] as $tea){ ?>
                       <li>
                         <?php echo get_user_meta($tea->data->ID,'first_name',true); ?> <?php echo get_user_meta($tea->data->ID,'last_name',true); ?>
                         <?php if($args['teacher_id']==$tea->data->ID){ ?> (Main) <?php } ?>
@@ -47,11 +48,11 @@ $args = WPAS\Controller\WPASController::getViewData();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($args['students'] as $std){ ?>
+                    <?php if(isset($args['students'])) foreach($args['students'] as $std){ ?>
                     <tr>
                         <td>#<?php echo $std->data->ID; ?></td>
                         <td>
-                            <?php echo get_user_meta($std->data->ID,'first_name',true); ?> <?php echo get_user_meta($std->data->ID,'last_name',true); ?><br/>
+                            <a href="<?php echo get_permalink( get_page_by_path( 'student-profile' ) ); ?>?student=<?php echo $std->data->ID; ?>"><?php echo get_user_meta($std->data->ID,'first_name',true); ?> <?php echo get_user_meta($std->data->ID,'last_name',true); ?></a>
                         </td>
                         <td><?php echo $std->data->user_email; ?></td>
                     </tr>

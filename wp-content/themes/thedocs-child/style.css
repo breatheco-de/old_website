@@ -281,7 +281,7 @@ Text Domain:  thedocs-child
   margin: 25px;
   position: fixed;
   white-space: nowrap;
-  z-index: 30;
+  z-index: 13;
   padding-left: 0;
   list-style: none; }
   .mfb-component--tl *, .mfb-component--tr *, .mfb-component--bl *, .mfb-component--br *, .mfb-component--tl *:before, .mfb-component--tr *:before, .mfb-component--bl *:before, .mfb-component--br *:before, .mfb-component--tl *:after, .mfb-component--tr *:after, .mfb-component--bl *:after, .mfb-component--br *:after {
@@ -1088,6 +1088,9 @@ li.hidden_label label {
 .form-create-assignment .input-group {
   margin-bottom: 15px; }
 
+.alert li {
+  list-style: none; }
+
 @media (min-width: 768px) {
   .main-content {
     padding-top: 20px !important; }
@@ -1142,7 +1145,7 @@ li.hidden_label label {
     .talent-badge li span {
       display: block;
       text-align: center;
-      font-size: 12px;
+      font-size: 9px;
       margin-top: -10px; }
 
 .badg-img-container {
@@ -1164,7 +1167,12 @@ li.hidden_label label {
     height: calc(90px - 40px);
     overflow: hidden;
     z-index: 100;
-    background-position: center center; }
+    background-position: center center;
+    opacity: 0.2; }
+  .badg-img-container .badg-img:hover {
+    opacity: 1; }
+  .badg-img-container .p-10 .badg-img {
+    opacity: 1; }
   .badg-img-container .info {
     display: none;
     font-weight: bold;
@@ -1187,7 +1195,7 @@ li.hidden_label label {
       vertical-align: middle; }
 
 .badg-img-container:hover {
-  background-image: url("/public/img/badge-border/32/9.png"); }
+  background-image: url("/public/img/badge-border/64/9.png") !important; }
 
 /**
 * Function to generate procentual progress classes 
@@ -1523,10 +1531,67 @@ li.hidden_label label {
 
 .profile-content .profile-description {
   margin-top: 30px;
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  background: #f1f1f1; }
 
 .student-dashboard .student-name {
   margin-bottom: 0px; }
+
+/**
+
+STUDENT ACTIVITY FEED
+
+*/
+.activity-feed {
+  padding: 15px;
+  list-style: none;
+  text-align: left; }
+  .activity-feed .feed-item {
+    position: relative;
+    padding-bottom: 20px;
+    padding-left: 15px;
+    border-left: 2px solid #e4e8eb; }
+  .activity-feed .feed-item:last-child {
+    border-color: transparent; }
+  .activity-feed .feed-item::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #f37167; }
+  .activity-feed .feed-item .date {
+    display: block;
+    position: relative;
+    top: -8px;
+    color: #8c96a3;
+    text-transform: uppercase;
+    font-size: 13px; }
+  .activity-feed .feed-item .text {
+    position: relative;
+    top: -16px; }
+
+.student-profile-content {
+  margin-top: 50px; }
+  .student-profile-content .assignments {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; }
+    .student-profile-content .assignments li {
+      background: #f0f8ff;
+      width: 100%;
+      padding: 10px 0px;
+      margin: 5px 0px;
+      text-align: left;
+      list-style: none; }
+      .student-profile-content .assignments li .btn {
+        width: 100%; }
+    .student-profile-content .assignments .duedate {
+      font-size: 12px; }
 
 .search-top-bar {
   margin-bottom: 50px;

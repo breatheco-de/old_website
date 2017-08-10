@@ -60,7 +60,7 @@ class Assignments{
             ]));
             
             $args['cohort_slug'] = $_GET['cohort'];
-            //$args['templates'] = BreatheCodeAPI::getAssignmentTemplates();
+            $args['all-templates'] = BreatheCodeAPI::getAssignmentTemplates();
         }
         
         //print_r($args['templates']); die();
@@ -101,11 +101,13 @@ class Assignments{
     		// now set our response var equal to that of the POST var (this will need to be sanitized based on what you're doing with with it)
     		// send the response back to the front end
     		try{
-    		    $bcUser = BreatheCodeAPI::createCohortAssignment([
+    		    $assignemnt = BreatheCodeAPI::createCohortAssignment([
     		      'template_id' => $_POST["template_id"],
     		      'cohort_id' => $_POST["cohort_id"],
     		      'duedate' => $_POST["duedate"]
     		    ]);
+    		    
+    		    WPASController::ajaxSuccess("Assignments created successfully");
     		}
     		catch(Exception $e){
             WPASController::ajaxError($e->getMessage());

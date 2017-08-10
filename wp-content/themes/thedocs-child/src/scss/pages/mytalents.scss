@@ -27,7 +27,7 @@ $avater-size: 90px;
     span{
       display: block;
       text-align: center;
-      font-size: 12px;
+      font-size: 9px;
       margin-top: -10px;
     }
   }
@@ -53,7 +53,10 @@ $avater-size: 90px;
     overflow: hidden;
     z-index: 100;
     background-position: center center;
+    opacity: 0.2;
   }
+  .badg-img:hover{ opacity: 1; }
+  .p-10 .badg-img{ opacity: 1; }
 
   .info{
     display: none;
@@ -79,7 +82,7 @@ $avater-size: 90px;
     }
   }
 }
-.badg-img-container:hover{background-image: url('/public/img/badge-border/32/9.png');}
+.badg-img-container:hover{background-image: url('/public/img/badge-border/64/9.png') !important;}
 
 /**
 * Function to generate procentual progress classes 

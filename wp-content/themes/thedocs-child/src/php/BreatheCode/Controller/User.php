@@ -6,12 +6,15 @@ use BreatheCode\WPTypes\PostType\WPCohort;
 use BreatheCode\BCThemeOptions;
 use BreatheCode\Utils\BreatheCodeAPI;
 use BreatheCode\GeeksAcademyOnline;
-use \Exception;
+use \Exception, \WP_Error;
 use WPAS\Utils\WPASValidator;
 use WPAS\Controller\WPASController;
 
 class User{
     
+    private function isStudent($userId){ return (get_user_meta($userId, 'type', true) == 'student') ? true : false; }
+	private function isTeacher($userId){ return (get_user_meta($userId, 'type', true) == 'teacher') ? true : false; }
+	
     public function renderUserCohort(){
         
         $term = get_queried_object();
@@ -36,28 +39,15 @@ class User{
     public function renderProfile(){
         
         $user = get_user_by( 'id', get_current_user_id());
-        $args['bcId'] = get_user_meta($user->id, 'breathecode_id', true);
-        $args['user'] = (array) $user;
-        $args['user']['first_name'] = $user->first_name;
-        $args['user']['last_name'] = $user->last_name;
-        $args['user']['email'] = $user->email;
-        $args['user']['description'] = $user->description;
-        $args['user']['user_registered'] = $user->user_registered;
-        $args['user']['github'] = get_user_meta($user->id, 'github', true);
-        $args['user']['phone'] = get_user_meta($user->id, 'phone', true);
-        if($this->isStudent($user))
+        $user = $this->_userToArray($user);
+        $args['user'] = $user;
+        if($user['type']=='student')
         {
-            $args['user']['type'] = 'student';
-            //$args['specialties'] = BreatheCodeAPI::getAllSpecialtiesByProfile(['profile_id' => 'full-stack-web']);
-            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $args['bcId']]);
+            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $user['bcId']]);
             $args['allBadges'] = BreatheCodeAPI::getAllBadges();
-            //print_r($args['allBadges']); die();
             $args['getBadge'] = function($allBadges, $slug){
                 foreach($allBadges as $b) if($b->slug == $slug) return $b;
             };
-        }
-        if($this->isTeacher($user)){
-            $args['user']['type'] = 'teacher';
         }
         //print_r($args['allBadges']); die();
         return $args;
@@ -67,15 +57,8 @@ class User{
         
         $user = get_user_by( 'id', get_current_user_id());
         $args['bcId'] = get_user_meta($user->id, 'breathecode_id', true);
-        $args['user'] = (array) $user;
-        $args['user']['first_name'] = $user->first_name;
-        $args['user']['last_name'] = $user->last_name;
-        $args['user']['email'] = $user->email;
-        $args['user']['description'] = $user->description;
-        $args['user']['user_registered'] = $user->user_registered;
-        $args['user']['github'] = get_user_meta($user->id, 'github', true);
-        $args['user']['phone'] = get_user_meta($user->id, 'phone', true);
-        if($this->isStudent($user))
+        $user = $this->_userToArray($user);
+        if($user['type']=='student')
         {
             $args['user']['type'] = 'student';
             $args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['bcId']]);
@@ -84,10 +67,42 @@ class User{
             };
             //print_r($args['briefing']); die();
         }
-        if($this->isTeacher($user)){
-            header('Location: /teacher');
-        }
+        if($user['type']=='teacher') wp_redirect('/teacher');
+
         return $args;
+    }
+    
+    public function renderStudentProfile(){
+        
+        $user = get_user_by( 'id', $_GET['student']);
+        if(!$user) return new WP_Error( 'default', 'The student doest not exists or was not specified' );
+        
+        $user = $this->_userToArray($user);
+        if($user['type']=='student')
+        {
+            $args['user'] = $user;
+            //$args['specialties'] = BreatheCodeAPI::getAllSpecialtiesByProfile(['profile_id' => 'full-stack-web']);
+            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $user['bcId']]);
+            $args['allBadges'] = BreatheCodeAPI::getAllBadges();
+            $args['assignments'] = BreatheCodeAPI::getStudentAssignments(['student_id' => $user['bcId']]);
+            $args['getAssignmentStatus'] = function($status){
+                switch($status){
+                    case "delivered": return '<i class="fa fa-ship text-warning" aria-hidden="true"></i>'; break;
+                    case "not-delivered": return '<i class="fa fa-question text-danger" aria-hidden="true"></i>'; break;
+                    case "reviewed": return '<i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>'; break;
+                }
+            };
+            $args['activity'] = BreatheCodeAPI::getStudentActivity(['student_id' => $user['bcId']]);
+            //$args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['bcId']]);
+            /*$args['getBriefingMessage'] = function() use ($args){
+                return 'You are here to become a '.$args['briefing']->profile->name.', you have acumulated '.$args['briefing']->acumulated_points.' points during '.$args['briefing']->days.' days at the academy!';
+            };*/
+            //print_r($args['briefing']); die();
+            return $args;
+        }
+        
+        return new WP_Error( 'default', 'This is user is not a student, but a '.$user['type'] );
+
     }
     
     public function renderTeacherCohorts(){
@@ -101,27 +116,14 @@ class User{
     private function getCohortMembers($cohortId){
         $auxUsers = array();
         $users = get_objects_in_term( $cohortId, WPCohort::POST_TYPE );
+        
         foreach($users as $u) 
         {
             $user = get_userdata($u);
-            if($this->isStudent($user)) $auxUsers['students'][] = $user;
-            else if($this->isTeacher($user)) $auxUsers['teachers'][] = $user;
+            if($this->isStudent($u)) $auxUsers['students'][] = $user;
+            else if($this->isTeacher($u)) $auxUsers['teachers'][] = $user;
         }
         return $auxUsers;
-    }
-    
-    private function isStudent($user){
-        foreach(GeeksAcademyOnline::$studentRoles as $role)
-            if(in_array($role, $user->roles)) return true;
-            
-        return false;
-    }
-    
-    private function isTeacher($user){
-        foreach(GeeksAcademyOnline::$teacherRoles as $role)
-            if(in_array($role, $user->roles)) return true;
-            
-        return false;
     }
     
     private function getCohortsByTeacher($teacherId){
@@ -209,6 +211,21 @@ class User{
 	    else{
 	        WPASController::ajaxError($errors);
 	    }
+	}
+	
+	private function _userToArray($user){
+        $userArray = (array) $user;
+        $userArray['first_name'] = $user->first_name;
+        $userArray['last_name'] = $user->last_name;
+        $userArray['email'] = $user->email;
+        $userArray['description'] = $user->description;
+        $userArray['user_registered'] = $user->user_registered;
+        $userArray['bcId'] = get_user_meta($user->ID, 'breathecode_id', true);
+        $userArray['github'] = get_user_meta($user->ID, 'github', true);
+        $userArray['phone'] = get_user_meta($user->ID, 'phone', true);
+        $userArray['type'] = get_user_meta($user->ID, 'type', true);
+        
+        return $userArray;
 	}
     
 }
