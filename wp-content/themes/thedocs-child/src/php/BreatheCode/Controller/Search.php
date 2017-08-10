@@ -32,6 +32,15 @@ class Search{
                 case 'snippet':
                     return '<i class="fa fa-code" aria-hidden="true"></i>';
                 break;
+                case 'books':
+                    return '<i class="fa fa-book" aria-hidden="true"></i>';
+                break;
+                case 'youtube-channels':
+                    return '<i class="fa fa-youtube" aria-hidden="true"></i>';
+                break;
+                case 'cheat-sheet':
+                    return '<i class="fa fa-newspaper-o" aria-hidden="true"></i>';
+                break;
                 default:
                     return $type->slug;
                 break;
