@@ -18,7 +18,10 @@ class Search{
         $args['posts_array'] = $query->posts;
         
         $postsByTechnology = $this->getPostsByTerm($_GET['post_type'], 'asset-technology', $_GET['s']);
-        $args['posts_array'] = array_merge($args['posts_array'], $postsByTechnology);
+        foreach($postsByTechnology as $post){
+            if(!in_array($post, $args['posts_array'])) $args['posts_array'][] = $post;
+        }
+            
         
         $args['getIcon'] = function($type){
             if(empty($type)) return '';
