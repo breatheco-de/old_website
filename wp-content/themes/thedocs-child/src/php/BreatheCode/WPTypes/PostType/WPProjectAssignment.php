@@ -1,7 +1,7 @@
 <?php
 namespace BreatheCode\WPTypes\PostType;
 
-use WP_Query, WP_User_Query;
+use WP_Query, WP_User_Query, \Exception;
 use BreatheCode\Utils\BreatheCodeAPI;
 use WPAS\Messaging\WPASAdminNotifier as BCNotification;
 
