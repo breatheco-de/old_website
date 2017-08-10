@@ -13,8 +13,6 @@ class WPLocation{
 	function __construct(){
 		
 		$location = new PostType('location');
-		$location->taxonomy('course');
-		$location->taxonomy('project-technology');
 		
 		add_filter( 'bulk_actions-edit-'.self::POST_TYPE, array($this,'register_bulk_actions' ));
 		add_filter( 'handle_bulk_actions-edit-'.self::POST_TYPE,array($this, 'my_bulk_action_handler'), 10, 3 );

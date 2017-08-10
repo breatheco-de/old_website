@@ -23,8 +23,11 @@ $args = WPAS\Controller\WPASController::getViewData();
     </div>
     <main class="container assets-list">
         <div class="row">
+            <?php if(empty($args['posts_array'])){ ?>
+                <div class="col-xs-12">We have nothing about that, try browsing by technology or by format.</div>
+            <?php } ?>
             <!-- Main content -->
-    		<?php foreach ($args['posts_array'] as $asset) {
+    		<?php if(!empty($args['posts_array'])) foreach ($args['posts_array'] as $asset) {
     			$postId = $asset->ID;
     			$types = wp_get_post_terms($postId,'asset-type');
     			if(!isset($types[0])) $types = '';
