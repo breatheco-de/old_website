@@ -19,7 +19,8 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, './wp-content/themes/thedocs-child/public'),
-    publicPath: '/wp-content/themes/thedocs-child/public/'
+    publicPath: '/wp-content/themes/thedocs-child/public/',
+    sourceMapFilename: '[name].map'
   },
   module: {
     rules: [
