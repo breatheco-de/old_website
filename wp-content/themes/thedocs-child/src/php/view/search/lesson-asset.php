@@ -5,7 +5,7 @@ $args = WPAS\Controller\WPASController::getViewData();
     <div class='search-top-bar'>
         <div class="container search">
             <i class="fa fa-search" aria-hidden="true"></i>
-            <input class='search-box' type="text" name="" placeholder="<?php echo pll__( 'Search Assets' ); ?>"/>
+            <input class='search-box' type="text" name="" value="<?php echo $_REQUEST['s']; ?>" placeholder="<?php echo pll__( 'Search Assets' ); ?>"/>
         </div>
         <div class="container">
             <span class='search-label'>Search on:</span>

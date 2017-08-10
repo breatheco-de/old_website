@@ -50,17 +50,13 @@ $args = WPAS\Controller\WPASController::getViewData();
                       </tbody>
                     </table>
                     <div class="callout callout-info" role="alert">
-                        <h4>
-                            <i class="fa fa-download"></i>
-                            <?php echo pll__( 'Download or view this asset' ); ?>
-                        </h4>
-                        <?php if($assetType=='image') { ?>
+                        <?php if($args['assetType']=='image') { ?>
                             <p><?php echo pll__( 'Click here to download this asset' ); ?>: <a href="<?php echo $args['assetUrl']; ?>" target="_blank" role="button" class="btn btn-lg btn-default"><i class="fa fa-download"></i> <?php echo pll__( 'Download' ); ?></a></p>
                         <?php } ?>
-                        <?php if($assetType=='pdf' || $assetType=='zip') { ?>
+                        <?php if($args['assetType']=='pdf' || $args['assetType']=='zip') { ?>
                             <p><a href="<?php echo $args['assetUrl']; ?>"><?php echo pll__( 'To download this asset right click and "save as..." the this text.' ); ?></a></p>
                         <?php } ?>
-                        <?php if($assetType=='url') { ?>
+                        <?php if($args['assetType']=='url') { ?>
                             <p><a target="_blank" role="button" class="btn btn-lg btn-default" href="<?php echo $args['assetUrl']; ?>"><?php echo pll__( 'Go to website' ); ?></a></p>
                         <?php } ?>
                     </div>
