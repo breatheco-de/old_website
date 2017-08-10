@@ -1,0 +1,20 @@
+.browserChecker{
+    i{font-size: 60px;}
+    .browserChecker-close{margin-top: 20px;}
+}
+
+.bcnotification{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 18px;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	z-index: 15;
+    
+    .inner-message {
+        margin: 0 auto;
+    }
+}

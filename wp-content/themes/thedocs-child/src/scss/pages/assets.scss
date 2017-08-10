@@ -1,0 +1,33 @@
+.search-top-bar{
+    margin-bottom: 50px;
+    margin-top: -30px;
+    background: #254563;
+    .search {padding: 10px 0;}
+    .search-box{
+        width: calc(100% - 50px);
+        font-size: 50px;
+        border: 0;
+        color: white;
+        background: none;
+        float: right;
+        outline: none;
+    }
+    .search-box::placeholder{
+        color: #a1a0b7;
+    }
+    .fa.fa-search{ float: left; font-size: 40px; line-height: 70px; color: white; }
+    .search-label{ color: #a1a0b7; }
+}
+.assets-list{
+    .preview{
+        height: 100px;
+        background-size: cover;
+    }
+    h5{
+        min-height: 70px;
+    }
+    article{
+        margin-bottom: 20px;
+        .meta-data{ height: 40px; }
+    }
+}

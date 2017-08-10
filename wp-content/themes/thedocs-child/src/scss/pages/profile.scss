@@ -1,0 +1,80 @@
+.profile-content{
+    .avatar{
+        width: 200px; height: 200px; background-color: grey; margin: 25px auto;border-radius: 100%;
+        display: inline-table; 
+        a{display: none;font-size: 30px; line-height: 200px; background: black; border-radius: 100%;}
+    }
+    .avatar:hover{
+        a{ display: block; width: 100%; opacity: 0.5;text-align: center; }
+    }
+    h1{margin-bottom: 0px;}
+    .profile-description{margin-top: 30px; margin-bottom: 30px; background: #f1f1f1; }
+}
+
+.student-dashboard{
+    .student-name{margin-bottom: 0px;}
+}
+
+/**
+
+STUDENT ACTIVITY FEED
+
+*/
+.activity-feed{
+    padding: 15px;
+    list-style: none;
+    text-align: left;
+    .feed-item {
+      position: relative;
+      padding-bottom: 20px;
+      padding-left: 15px;
+      border-left: 2px solid #e4e8eb;
+    }
+    .feed-item:last-child {
+      border-color: transparent;
+    }
+    .feed-item::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: -6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 6px;
+      background: #fff;
+      border: 1px solid #f37167;
+    }
+    .feed-item .date {
+      display: block;
+      position: relative;
+      top: -8px;
+      color: #8c96a3;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+    .feed-item .text {
+      position: relative;
+      top: -16px;
+    }
+}
+.student-profile-content{
+    margin-top: 50px;
+    .assignments{
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        li{
+            background: #f0f8ff;
+            width: 100%;
+            padding: 10px 0px;
+            margin: 5px 0px;
+            text-align: left;
+            list-style: none;
+            .btn{
+                width: 100%;
+            }
+        }
+        .duedate{font-size: 12px;}
+    }
+}

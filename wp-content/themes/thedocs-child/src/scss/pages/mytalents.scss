@@ -1,0 +1,113 @@
+$color-back: #efefef;
+$color-bar: #0BF;
+$avater-size: 90px;
+
+*{
+  box-sizing: border-box;
+}
+.specialties-content{
+  h1, h4{text-align: center;}
+}
+.specialties{text-align: left;}
+.specialty{
+  padding: 0;
+  li{
+    font-weight: 900;
+    list-style: none;
+    margin: 10px 0px;
+  }
+}
+.talent-badge{
+  padding: 0;
+  text-align: center;
+  li{
+    list-style: none;
+    display: inline-block;
+    
+    span{
+      display: block;
+      text-align: center;
+      font-size: 9px;
+      margin-top: -10px;
+    }
+  }
+}
+.badg-img-container{
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: $avater-size;
+  width: $avater-size;
+  padding: 0;
+  margin: 0 1rem;
+  border: none;
+  cursor: pointer;
+  background-size: contain;
+
+  .badg-img{
+    display: block;
+    margin: 23px 10px 10px 20px;
+    border-radius: 0 0 50% 50%;
+    width: calc(90px - 40px);
+    height: calc(90px - 40px);
+    overflow: hidden;
+    z-index: 100;
+    background-position: center center;
+    opacity: 0.2;
+  }
+  .badg-img:hover{ opacity: 1; }
+  .p-10 .badg-img{ opacity: 1; }
+
+  .info{
+    display: none;
+    font-weight: bold;
+    font-size: 1.4rem;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    background: rgba($color-bar,.2);
+    color: white;
+    z-index: 1000;
+    
+    &.js-active{
+      display: table;
+    }
+
+    .info-inner{
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+}
+.badg-img-container:hover{background-image: url('/public/img/badge-border/64/9.png') !important;}
+
+/**
+* Function to generate procentual progress classes 
+* .p-1 1% -> p-100 100%
+**/
+$step: 1;
+$loops: round(100 / $step);
+$increment: 360 / $loops;
+$half: round($loops / 2);
+
+@for $i from 1 through $loops {
+
+  .p-#{$i*$step} {
+
+    @if $i < $half {
+      $nextdeg: 90deg +  ( $increment * $i ) ;
+
+      background-image: linear-gradient(90deg, $color-back 50%, transparent 50%, transparent), linear-gradient($nextdeg, $color-bar 50%, $color-back 50%, $color-back);
+
+    } @else {
+      $nextdeg: -90deg + ( $increment * ( $i - $half ) );
+
+      background-image: linear-gradient($nextdeg, $color-bar 50%, transparent 50%, transparent), linear-gradient(270deg, $color-bar 50%, $color-back 50%, $color-back);
+
+    }    
+  }
+
+}
