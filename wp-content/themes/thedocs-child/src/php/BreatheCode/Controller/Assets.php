@@ -66,8 +66,8 @@ class Assets{
         
         $args['post'] = $post;
         $args['assetUrl'] = get_post_meta( $post->ID, 'wpcf-asset_url',true);
-        $args['$assetType'] = get_post_meta( $post->ID, 'wpcf-asset_type',true);
-        $args['$preview'] = get_post_meta( $post->ID, 'wpcf-asset_preview',true);
+        $args['assetType'] = get_post_meta( $post->ID, 'wpcf-asset_type',true);
+        $args['preview'] = get_post_meta( $post->ID, 'wpcf-asset_preview',true);
         $args['types'] = wp_get_post_terms($args['post']->ID,'asset-type');
         $args['technologies'] = wp_get_post_terms($args['post']->ID,'asset-technology');
         return $args;
