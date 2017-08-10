@@ -105,7 +105,7 @@ class GeeksAcademyOnline {
 	    
 	    $data = [];
         $data['ajax_url'] = admin_url( 'admin-ajax.php' );
-        $data['host'] = 'https://talenttree-alesanchezr.c9users.io/';
+        $data['host'] = BREATHECODE_API_HOST;
         
         $ajaxController = WPASController::getAjaxController();
         if($ajaxController) $data['wpas_controller'] = $ajaxController;

@@ -16,6 +16,7 @@
 !webpack.config.js
 !wp-content/themes/thedocs-child/public/
 wp-content/themes/thedocs-child/public/*
+wp-content/themes/thedocs-child/styles.css
 
 # track .editorconfig file (i.e. do NOT ignore it)
 !.editorconfig

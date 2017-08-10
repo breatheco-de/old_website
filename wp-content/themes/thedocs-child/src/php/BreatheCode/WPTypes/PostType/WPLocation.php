@@ -4,12 +4,18 @@ namespace BreatheCode\WPTypes\PostType;
 use BreatheCode\BCThemeOptions;
 use BreatheCode\Utils\BreatheCodeAPI;
 use WPAS\Messaging\WPASAdminNotifier as BCNotification;
+use PostTypes\PostType;
 
 class WPLocation{
 
 	const POST_TYPE = 'location';
 
 	function __construct(){
+		
+		$location = new PostType('location');
+		$location->taxonomy('course');
+		$location->taxonomy('project-technology');
+		
 		add_filter( 'bulk_actions-edit-'.self::POST_TYPE, array($this,'register_bulk_actions' ));
 		add_filter( 'handle_bulk_actions-edit-'.self::POST_TYPE,array($this, 'my_bulk_action_handler'), 10, 3 );
 		
