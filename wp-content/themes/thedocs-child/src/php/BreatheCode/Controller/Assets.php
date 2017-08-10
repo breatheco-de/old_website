@@ -9,7 +9,7 @@ class Assets{
     
     public function renderAssets(){
         
-        $assets = new WP_Query(['post_type' => 'lesson-asset']);
+        $assets = new WP_Query(['post_type' => 'lesson-asset', 'posts_per_page' => -1]);
         $args['posts_array'] = $assets->posts;
         $args['getIcon'] = function($type){
             if(empty($type)) return '';
@@ -23,6 +23,15 @@ class Assets{
                 break;
                 case 'snippet':
                     return '<i class="fa fa-code" aria-hidden="true"></i>';
+                break;
+                case 'book':
+                    return '<i class="fa fa-book" aria-hidden="true"></i>';
+                break;
+                case 'youtube-channels':
+                    return '<i class="fa fa-youtube" aria-hidden="true"></i>';
+                break;
+                case 'cheatsheet':
+                    return '<i class="fa fa-newspaper-o" aria-hidden="true"></i>';
                 break;
                 default:
                     return $type->slug;
