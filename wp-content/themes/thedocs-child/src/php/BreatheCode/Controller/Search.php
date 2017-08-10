@@ -16,7 +16,6 @@ class Search{
         );
         $query = new WP_Query( $query_args );
         $args['posts_array'] = $query->posts;
-        print_r($args['posts_array']); die();
         
         $postsByTechnology = $this->getPostsByTerm($_GET['post_type'], 'asset-technology', $_GET['s']);
         $args['posts_array'] = array_merge($args['posts_array'], $postsByTechnology);
