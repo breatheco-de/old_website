@@ -19,7 +19,13 @@ class BreatheCodeAPI{
     	];
     
     private static function setToken($token){
-    	$result = set_transient("bc_api_token", $token, 86400);//one day
+    	
+    	$wpUserId = get_current_user_id();
+    	$tokens = get_transient( "bc_api_token" );
+    	if(!is_array($tokens)) $tokens = [];
+    	$tokens[$wpUserId] = $token;
+    	
+    	$result = set_transient("bc_api_token", $tokens, 86400);//one day
     	if($result)
     	{
     		self::$accessToken = $token;
@@ -32,8 +38,9 @@ class BreatheCodeAPI{
     	
     	if(!empty(self::$accessToken)) return self::$accessToken;
 
-    	$token = get_transient( "bc_api_token" );
-    	if(!empty($token)) return $token;
+		$wpUserId = get_current_user_id();
+    	$tokens = get_transient( "bc_api_token" );
+    	if(!empty($tokens[$wpUserId])) return $tokens[$wpUserId];
     	else return null;
     }
     

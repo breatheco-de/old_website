@@ -29,7 +29,7 @@ $args = WPAS\Controller\WPASController::getViewData();
             <?php } ?>
             </ul>
         </div>
-    </div>
+    </div><p></p>
 <ul id="material-menu" class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
   <li class="mfb-component__wrap">
     <a href="#" class="mfb-component__button--main">
