@@ -48,7 +48,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                             </td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> 
                     <?php if(in_array($args['assetType'],['image','pdf','url'])) { ?>
                     <div class="callout callout-info" role="alert">
                         <?php if($args['assetType']=='image') { ?>
