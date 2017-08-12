@@ -80,6 +80,10 @@ class GeeksAcademyOnline {
 	    add_theme_support( 'post-formats', array( 'link', 'video', 'image' ) );
 	    // add post-formats to post_type 'lesson-assets'
 	    add_post_type_support( 'lesson-asset', 'post-formats' ); 
+	    
+        if (!current_user_can('administrator') && !is_admin()) {
+	        show_admin_bar(false);
+	    }
 	}
     
 	/*
