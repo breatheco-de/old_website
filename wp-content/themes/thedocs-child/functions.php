@@ -102,6 +102,11 @@ $WPLanguages = new BreatheCode\WPLanguages();
 $BCThemeOptions = new BreatheCode\BCThemeOptions();
 
 
+/**
+ * Managing the user accesss of the platform
+ **/
+use WPAS\Roles\WPASRole;
+use WPAS\Roles\WPASRoleAccessManager;
 $manager = new WPASRoleAccessManager();//instanciate the manager
 $manager->allowDefaultAccess([
     'page'=> ['breathe','respira-codigo','feedback','bclogin','no-access'] //set a default public page (or post)
