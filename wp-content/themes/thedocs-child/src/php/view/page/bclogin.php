@@ -15,7 +15,7 @@ get_header('boxed');
         <div style="display:none;" class="alert alert-danger" role="alert"></div>
         <input id="username" class="form-control" placeholder="Email address" required="required" autofocus="" type="email">
         <input id="password" class="form-control" placeholder="Password" required="required" type="password">
-        <p><a href="#">Forgot your password?</a></p>
+        <p><a href="/wp-login.php?action=lostpassword">Forgot your password?</a></p>
         <button id="login" class="btn btn-lg btn-primary btn-block">Sign in</button>
       </form>
 
