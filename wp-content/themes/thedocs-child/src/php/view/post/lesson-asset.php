@@ -19,7 +19,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                     </a>
                 </div>
                 <div class="col-sm-9">
-                    <?php echo $args['post']->post_content; ?>
+                    <?php echo do_shortcode($args['post']->post_content); ?>
                 </div>
             <?php } else { ?>
                 <div class="col-sm-12">
