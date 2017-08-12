@@ -107,10 +107,12 @@ $BCThemeOptions = new BreatheCode\BCThemeOptions();
  **/
 use WPAS\Roles\WPASRole;
 use WPAS\Roles\WPASRoleAccessManager;
+
 $manager = new WPASRoleAccessManager();//instanciate the manager
 $manager->allowDefaultAccess([
     'page'=> ['breathe','respira-codigo','feedback','bclogin','no-access'] //set a default public page (or post)
 ]);
+/*
 
 $unverifiedRole = new WPASRole('unverified'); 
 $manager->allowAccessFor($unverifiedRole,['page' => ['pending']]);
@@ -122,7 +124,6 @@ $manager->allowAccessFor($subscriber,[
     'tag' => 'all',
     'category' => 'all'
 ]);
-
 $prework = new WPASRole('prework_full_stack'); 
 $manager->allowAccessFor($prework,['parent' => $subscriber]);
 
@@ -133,7 +134,7 @@ $assistant = new WPASRole('teacher_assistant');
 $manager->allowAccessFor($assistant,['parent' => $premium]);
 
 $teacher = new WPASRole('teacher_assistant'); 
-$manager->allowAccessFor($teacher,['parent' => $assistant]);
+$manager->allowAccessFor($teacher,['parent' => $assistant]);*/
 /**
  * Load the notifications
  **/
