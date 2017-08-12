@@ -112,5 +112,4 @@ $args = WPAS\Controller\WPASController::getViewData();
 
 
 </main>
-
 <?php get_footer(); ?>
