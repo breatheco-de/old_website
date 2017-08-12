@@ -23,7 +23,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                 </div>
             <?php } else { ?>
                 <div class="col-sm-12">
-                    <?php echo $args['post']->post_content; ?>
+                    <?php echo do_shortcode($args['post']->post_content); ?>
                 </div>
             <?php } ?>
             </div>
@@ -49,6 +49,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                         </tr>
                       </tbody>
                     </table>
+                    <?php if(in_array($args['assetType'],['image','pdf','url'])) { ?>
                     <div class="callout callout-info" role="alert">
                         <?php if($args['assetType']=='image') { ?>
                             <p><?php echo pll__( 'Click here to download this asset' ); ?>: <a href="<?php echo $args['assetUrl']; ?>" target="_blank" role="button" class="btn btn-lg btn-default"><i class="fa fa-download"></i> <?php echo pll__( 'Download' ); ?></a></p>
@@ -60,6 +61,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                             <p><a target="_blank" role="button" class="btn btn-lg btn-default" href="<?php echo $args['assetUrl']; ?>"><?php echo pll__( 'Go to website' ); ?></a></p>
                         <?php } ?>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </article>
