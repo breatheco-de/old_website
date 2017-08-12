@@ -104,7 +104,6 @@ $BCThemeOptions = new BreatheCode\BCThemeOptions();
 
 /**
  * Managing the user accesss of the platform
- **/
 
 use WPAS\Roles\WPASRole;
 use WPAS\Roles\WPASRoleAccessManager;
@@ -134,6 +133,7 @@ $manager->allowAccessFor($assistant,['parent' => $premium]);
 
 $teacher = new WPASRole('main_teacher'); 
 $manager->allowAccessFor($teacher,['parent' => $assistant]);
+ **/
 
 /**
  * Load the notifications
