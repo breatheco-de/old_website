@@ -7,5 +7,5 @@ if(!get_template_part( VIEWS_PATH.'page/'.$post->post_name)){ ?>
             <?php the_content(); ?>
     <?php } ?>
     </div>
-    <?php get_footer(); ?>
+    <?php wp_footer(); ?>
 <?php } ?>

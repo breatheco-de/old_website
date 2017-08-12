@@ -102,6 +102,33 @@ $WPLanguages = new BreatheCode\WPLanguages();
 $BCThemeOptions = new BreatheCode\BCThemeOptions();
 
 
+$manager = new WPASRoleAccessManager();//instanciate the manager
+$manager->allowDefaultAccess([
+    'page'=> ['breathe','respira-codigo','feedback','bclogin','no-access'] //set a default public page (or post)
+]);
+
+$unverifiedRole = new WPASRole('unverified'); 
+$manager->allowAccessFor($unverifiedRole,['page' => ['pending']]);
+
+$subscriber = new WPASRole('subscriber'); 
+$manager->allowAccessFor($subscriber,[
+    'page' => 'all',
+    'post' => 'all',
+    'tag' => 'all',
+    'category' => 'all'
+]);
+
+$prework = new WPASRole('prework_full_stack'); 
+$manager->allowAccessFor($prework,['parent' => $subscriber]);
+
+$premium = new WPASRole('prework_full_stack'); 
+$manager->allowAccessFor($premium,['parent' => $prework]);
+
+$assistant = new WPASRole('teacher_assistant'); 
+$manager->allowAccessFor($assistant,['parent' => $premium]);
+
+$teacher = new WPASRole('teacher_assistant'); 
+$manager->allowAccessFor($teacher,['parent' => $assistant]);
 /**
  * Load the notifications
  **/
