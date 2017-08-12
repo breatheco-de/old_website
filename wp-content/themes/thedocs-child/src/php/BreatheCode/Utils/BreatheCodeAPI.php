@@ -7,8 +7,9 @@ class BreatheCodeAPI{
     
     private static $clientId = BREATHECODE_CLIENT_ID;
     private static $clientSecret = BREATHECODE_CLIENT_SECRET;
-    private static $accessToken = "";
-    private static $userToken = "";
+    
+    private static $accessToken = [];
+
     private static $attempts = 0;
     private static $host = BREATHECODE_API_HOST;
     
@@ -17,30 +18,66 @@ class BreatheCodeAPI{
     	"teacher" => ['read_basic_info', 'read_talent_tree', 'student_assignments', 'teacher_assignments'],
     	"admin" => ['read_basic_info', 'super_admin']
     	];
+    	
+    private static function getTokenType($request){
+
+    	$specialMethods = [
+    		'credentials/user/',
+    		'atemplate/sync/',
+    		'location/sync/',
+    		'cohort/sync/',
+    		'assignment/sync/',
+    		'user/sync'
+    	];
+    	
+    	if(self::array_contains($request, $specialMethods)) return 'admin';
+    	else return 'user';
+    }
     
-    private static function setToken($token){
+    private static function array_contains($string,$arr){ 
+    	foreach($arr as $item){ 
+    		if (strpos($item, $string) !== false) return true; 
+    	}
+    	return false;
+    }
+    
+    private static function setToken($token, $type='user'){
     	
-    	$wpUserId = get_current_user_id();
-    	$tokens = get_transient( "bc_api_token" );
-    	if(!is_array($tokens)) $tokens = [];
-    	$tokens[$wpUserId] = $token;
+    	$result = false;
+    	if($type=='user')
+    	{
+	    	$wpUserId = get_current_user_id();
+	    	$tokens = get_transient( "bc_api_token" );
+	    	if(!is_array($tokens)) $tokens = [];
+	    	$tokens[$wpUserId] = $token;
+	    	
+	    	$result = set_transient("bc_api_token", $tokens, 86400);//one day
+    	}
+    	else if($type=='admin'){
+    		$result = set_transient("bc_api_token_admin", $token, 86400);//one day
+    	}
     	
-    	$result = set_transient("bc_api_token", $tokens, 86400);//one day
     	if($result)
     	{
-    		self::$accessToken = $token;
-    		return true;
+    		self::$accessToken[$type] = $token;
+    		return $token;
     	}
     	else return false;
     }
     
-    public static function getToken(){
+    public static function getToken($type='user'){
     	
-    	if(!empty(self::$accessToken)) return self::$accessToken;
+    	if(!empty(self::$accessToken[$type])) return self::$accessToken[$type];
 
-		$wpUserId = get_current_user_id();
-    	$tokens = get_transient( "bc_api_token" );
-    	if(!empty($tokens[$wpUserId])) return $tokens[$wpUserId];
+		if($type=='user'){
+			$wpUserId = get_current_user_id();
+	    	$tokens = get_transient( "bc_api_token" );
+	    	if(!empty($tokens[$wpUserId])) return $tokens[$wpUserId];
+		}
+		else if($type=='admin'){
+			$result = get_transient("bc_api_token_admin");//one day
+	    	if(!empty($result)) return $result;
+		}
     	else return null;
     }
     
@@ -49,12 +86,11 @@ class BreatheCodeAPI{
 
 		$args['client_id'] = self::$clientId;
 		$args['client_secret'] = self::$clientSecret;
-        if($resource!='token' and empty(self::getToken()))
-        {
-        	self::refreshAccessToken();
-        }
-        $args['access_token'] = self::getToken();
 
+		$tokenType = self::getTokenType($method);
+        if($method!='token' && empty(self::getToken($tokenType))) self::refreshAccessToken($tokenType);
+        $args['access_token'] = self::getToken($tokenType);
+		
         if($method=='GET') $response = wp_remote_get(self::$host.$resource.'?'.http_build_query($args));
         else if($method=='POST') $response = wp_remote_post(self::$host.$resource,['body'=>$args]);
 		else throw new \Exception('Invalid HTTP request type '.$method);
@@ -66,14 +102,13 @@ class BreatheCodeAPI{
 		    {
 		    	$error = wp_remote_retrieve_body( $response ); 
 		    	$errorObj = json_decode($error);
-		    	//echo print_r($error); die();
 		    	throw new \Exception($errorObj->msg);
 		    }
 		    throw new \Exception('There was a problem, check your username and password.');
 		}
 		else if($http_code==401) 
 		{
-			if(!empty(self::getToken()) and self::$attempts == 0) self::refreshAccessToken();
+			if(!empty(self::getToken($tokenType)) and self::$attempts == 0) self::refreshAccessToken($tokenType);
 			
 			throw new \Exception('Unauthorized BreatheCode API request for method: '.$resource);
 		}
@@ -109,9 +144,9 @@ class BreatheCodeAPI{
 		else return $body;
     }
     
-    private static function refreshAccessToken(){
+    private static function refreshAccessToken($tokenType){
 
-		if(empty(self::getToken())){
+		if(empty(self::getToken($tokenType))){
         	self::setToken(get_option('breathecode-api-token'));
 		}
 		
@@ -142,6 +177,7 @@ class BreatheCodeAPI{
     		'scope' => implode (" ", self::$scopes[$type])
 		];
 		
+		
 		// send the response back to the front end
 		$token = self::request('post','token',$args);
 		if(!empty($token->access_token))
@@ -166,6 +202,14 @@ class BreatheCodeAPI{
         self::validate($params,'type');
 
         return self::request('post','/credentials/user/',$params);
+    }
+    
+    public static function updateCredentials($params){
+        
+        self::validate($params,'user_id');
+        self::validate($params,'password');
+
+        return self::request('post','/credentials/user/'.$params['user_id'],$params);
     }
     
 	public static function getStudentBadges($args=[],$decode=true){

@@ -3,6 +3,7 @@
 namespace BreatheCode;
 
 use \WPAS\Controller\WPASController;
+use \BreatheCode\Utils\BreatheCodeAPI;
 
 class GeeksAcademyOnline {
 
@@ -46,6 +47,8 @@ class GeeksAcademyOnline {
 		//custom login page
 		add_filter( 'login_url', [$this,'custom_login_url'], 10, 3 );
 		add_action( 'wp_logout', [$this,'custom_logout_url'], 10, 3 );
+		
+		add_action( 'password_reset', [$this,'password_reset'], 10, 2 );
     	
     	$this->inicialize();
 	}
@@ -61,6 +64,16 @@ class GeeksAcademyOnline {
 		    update_option( 'page_on_front', $page->ID );
 		    update_option( 'show_on_front', 'page' );
 		}
+    }
+    
+    function password_reset( $user, $new_pass ) {
+        // Do something before password reset.
+        $result = BreatheCodeAPI::updateCredentials([
+        	'user_id' => $user->id,
+        	'password' => $new_pass
+        	]);
+        	
+        if(!$result) throw new Exception('The password reset failed');
     }
     
 	/**
