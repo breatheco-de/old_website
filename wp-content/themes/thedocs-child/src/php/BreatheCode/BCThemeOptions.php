@@ -2,7 +2,7 @@
 
 namespace BreatheCode;
 
-use WPTypes\WPCourse as WPCourse;
+use WPTypes\PostType\WPCourse;
 use \WPAS\Utils\WPASThemeSettingsBuilder;
 
 class BCThemeOptions {
