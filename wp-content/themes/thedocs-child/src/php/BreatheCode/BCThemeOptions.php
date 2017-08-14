@@ -69,7 +69,11 @@ class BCThemeOptions {
 		*/
 		$this->wpts = new WPASThemeSettingsBuilder(
 			array(
-				'general' => array('description' => 'A custom WordPress class for creating theme settings page'),
+				'general' => array(
+					'description' => 'A custom WordPress class for creating theme settings page',
+					'slug' => 'bc_theme_options',
+					'title' => 'BC Theme Settings'
+				),
 				'settingsID' => 'wp_theme_settings',
 				'settingFields' => array('wp_theme_settings_title'), 
 				'tabs' => array(
