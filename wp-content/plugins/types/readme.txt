@@ -6,8 +6,8 @@ Text Domain: wpcf
 Domain Path: /embedded/locale
 License: GPLv2
 Requires at least: 3.7
-Tested up to: 4.7.3
-Stable tag: 2.2.9
+Tested up to: 4.8.1
+Stable tag: 2.2.15.1
 
 The complete and reliable plugin for managing custom post types, custom taxonomies and custom fields.
 
@@ -157,6 +157,32 @@ Additionally, Types is the only plugin that lets you define parent/child relatio
 10. Bulk editing child content using Field Tables
 
 == Changelog ==
+
+= 2.2.15.1 =
+* Fixed a bug that caused WCML to request registration in order to receive updates.
+
+= 2.2.15 =
+* Fixed a bug that caused Types to request registration in order to receive updates.
+
+= 2.2.14 =
+* Improved translations
+* Fixed notice in term listing page when image field URL is not valid
+
+= 2.2.13 =
+* Fixed an issue between the Image field and databases using utf8mb4 character set
+
+= 2.2.12 =
+* Improved the performance of the Image field.
+
+= 2.2.11 =
+* Removed notices, to push users to activate Layouts theme integration plugins based on the current theme
+* Added filter to remove/add automatic notices on demand
+
+= 2.2.10 =
+* Compatibility changes for CRED 1.9
+* Updated Font Awesome to version 4.7.0
+* Fixed broken link in parent relationship table on unpublished posts
+* Fixed a compatibility issue with Soliloquy Slider
 
 = 2.2.9 =
 * Added the feature to display posts and pages in Toolset dashboard by default.

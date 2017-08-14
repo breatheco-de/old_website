@@ -27,9 +27,10 @@ class Credentials{
             else if (!$wpUser) WPASController::ajaxError('Error retrieving the wordpress user');
             		
             wp_clear_auth_cookie();
-    		wp_set_current_user( $wpUser->ID, $wpUser->user_login );
-            wp_set_auth_cookie  ( $wpUser->ID );
-        
+    		$result1 = wp_set_current_user( $wpUser->ID, $wpUser->user_login );
+            $result2 = wp_set_auth_cookie  ( $wpUser->ID, true );
+       		do_action( 'wp_login', $wpUser->user_login );
+			//print_r($result2); die(); 
 			WPASController::ajaxSuccess(get_permalink(get_page_by_path( 'my-courses' )));
     	}
     	

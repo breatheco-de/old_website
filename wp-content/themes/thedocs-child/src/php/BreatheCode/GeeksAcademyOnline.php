@@ -215,11 +215,11 @@ class GeeksAcademyOnline {
 				// redirect them to the default place
 				return $redirect_to;
 			} 
-			else if($this->matchAnyValues( $this->teacherRoles, $user->roles)) {
+			else if($this->matchAnyValues( self::$teacherRoles, $user->roles)) {
 
 				return get_permalink( get_page_by_path( 'teacher-cohorts' ) );
 			} 
-			else if($this->matchAnyValues( $this->studentRoles, $user->roles)) {
+			else if($this->matchAnyValues( self::$studentRoles, $user->roles)) {
 
 				return get_permalink( get_page_by_path( 'my-courses' ) );
 			} 
@@ -241,7 +241,6 @@ class GeeksAcademyOnline {
 
 	private function matchAnyValues($matching, $toArray)
 	{
-		//print_r($toArray);
 		foreach ($matching as $value) {
 			if(in_array( $value, $toArray)) return true;
 		}
