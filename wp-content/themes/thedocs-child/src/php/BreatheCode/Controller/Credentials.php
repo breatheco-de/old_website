@@ -9,7 +9,6 @@ use WPAS\Exception\WPASException;
 class Credentials{
    
     function custom_login() {
-        header('Content-type: application/json');
     	// first check if data is being sent and that it is the data we want
       	if ( isset( $_POST["username"] ) && isset( $_POST["password"] ) ) {
     		// now set our response var equal to that of the POST var (this will need to be sanitized based on what you're doing with with it)

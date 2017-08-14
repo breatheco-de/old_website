@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<?php 
-$redux_demo = get_option('redux_demo'); ?>
-
 <html lang="en" <?php language_attributes(); ?>>
   <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -9,7 +6,7 @@ $redux_demo = get_option('redux_demo'); ?>
     <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
         ?>
     <!-- Favicons-->
-    <link rel="shortcut icon" href="<?php if(isset($redux_demo['favicon']['url'])){?><?php echo esc_url($redux_demo['favicon']['url']); ?><?php }?>" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<?php echo get_template_directory_uri();?>/public/img/logo.png" type="image/x-icon"/>
     <?php }?>
       <?php wp_head();?>
         <!-- Favicons -->
@@ -38,15 +35,8 @@ $redux_demo = get_option('redux_demo'); ?>
             </button>
 
             <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                <?php $redux_demo = get_option('redux_demo'); if(isset($redux_demo['logo']['url'])){?>
-                <?php  if($redux_demo['logo']['url'] != ''){ ?>
-                <img alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" src="<?php echo esc_url($redux_demo['logo']['url']); ?>" class="logo-padding"/>
-                <?php }else{ ?>
-                <img  src="<?php echo get_template_directory_uri();?>/assets/img/logo.png" alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" class="logo-padding" />
-                <?php }}else{?>
-                <img  src="<?php echo get_template_directory_uri();?>/assets/img/logo.png" alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" class="logo-padding" />
-                <?php }?>
-          </a>
+                <img  src="<?php echo get_template_directory_uri();?>/public/img/logo.png" alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" class="logo-padding" />
+            </a>
           </div>
           <!-- END Toggle buttons and brand -->
 
