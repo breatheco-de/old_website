@@ -70,8 +70,7 @@ class BCThemeOptions {
 		$this->wpts = new WPASThemeSettingsBuilder(
 			array(
 				'general' => array(
-					'description' => 'A custom WordPress class for creating theme settings page',
-					'menu_type' => 'options',
+					'description' => 'BreatheCode Theme Options',
 					'menu_slug' => 'bc_theme_options',
 					'menu_title' => 'BC Theme Settings'
 				),

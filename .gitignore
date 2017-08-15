@@ -69,7 +69,6 @@ wp-content/plugins/*
 !wp-content/plugins/gravityformsuserregistration-master/
 !wp-content/plugins/js_composer
 !wp-content/plugins/types
-!wp-content/plugins/redux-framework
 
 !wp-content/themes/
 wp-content/themes/*
