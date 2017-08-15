@@ -6,7 +6,7 @@
     <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
         ?>
     <!-- Favicons-->
-    <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri();?>/public/img/logo.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri();?>/assets/img/logo.png" type="image/x-icon"/>
     <?php }?>
       <?php wp_head();?>
         <!-- Favicons -->
@@ -35,7 +35,7 @@
             </button>
 
             <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                <img  src="<?php echo get_stylesheet_directory_uri();?>/public/img/logo.png" alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" class="logo-padding" />
+                <img  src="<?php echo get_stylesheet_directory_uri();?>/assets/img/logo.png" alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" class="logo-padding" />
             </a>
           </div>
           <!-- END Toggle buttons and brand -->
