@@ -71,6 +71,7 @@ class BCThemeOptions {
 			array(
 				'general' => array(
 					'description' => 'A custom WordPress class for creating theme settings page',
+					'menu_type' => 'options',
 					'slug' => 'bc_theme_options',
 					'title' => 'BC Theme Settings'
 				),
