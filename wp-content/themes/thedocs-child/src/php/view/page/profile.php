@@ -8,6 +8,7 @@ $args = WPAS\Controller\WPASController::getViewData();
         </div>
         <h1><?php echo $args['user']['first_name']; ?> <?php echo $args['user']['last_name']; ?></h1>
         <h4 class='profile-type'>Type: <?php echo $args['user']['type']; ?> - Member since: <?php echo date("M Y", strtotime($args['user']['user_registered'])); ?></h4>
+        <p> Github: <?php echo $args['user']['github']; ?></p>
         <p class='profile-description'>
             <?php if($args['user']['description']){ ?>
                 <?php echo $args['user']['description']; ?>

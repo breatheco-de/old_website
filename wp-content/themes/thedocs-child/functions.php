@@ -116,12 +116,8 @@ $unverifiedRole = new WPASRole('unverified');
 $manager->allowAccessFor($unverifiedRole,['page' => ['pending']]);
 
 $subscriber = new WPASRole('subscriber'); 
-$manager->allowAccessFor($subscriber,[
-    'page' => 'all',
-    'post' => 'all',
-    'tag' => 'all',
-    'category' => 'all'
-]);
+$manager->allowAccessFor($subscriber,'all');
+
 $prework = new WPASRole('prework_full_stack'); 
 $manager->allowAccessFor($prework,['parent' => $subscriber]);
 

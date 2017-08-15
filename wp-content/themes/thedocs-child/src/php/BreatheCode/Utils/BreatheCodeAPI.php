@@ -27,6 +27,7 @@ class BreatheCodeAPI{
     		'location/sync/',
     		'cohort/sync/',
     		'assignment/sync/',
+    		//'token',
     		'user/sync'
     	];
     	
@@ -144,6 +145,72 @@ class BreatheCodeAPI{
 		else return $body;
     }
     
+    public static function request_old($method,$resource,$args=[],$decode=true){
+        $method = strtoupper($method);
+
+		$args['client_id'] = self::$clientId;
+		$args['client_secret'] = self::$clientSecret;
+
+		$tokenType = self::getTokenType($resource);
+        if($resource!='token' && empty(self::getToken($tokenType))) self::refreshAccessToken($tokenType);
+        $args['access_token'] = self::getToken($tokenType);
+
+        if($method=='GET') $response = wp_remote_get(self::$host.$resource.'?'.http_build_query($args));
+        else if($method=='POST') $response = wp_remote_post(self::$host.$resource,['body'=>$args]);
+		else throw new \Exception('Invalid HTTP request type '.$method);
+		if(is_wp_error( $response )) throw new \Exception($return->get_error_message());
+		$http_code = wp_remote_retrieve_response_code( $response );
+		if($http_code==500) 
+		{
+		    if(WP_DEBUG) 
+		    {
+		    	$error = wp_remote_retrieve_body( $response ); 
+		    	$errorObj = json_decode($error);
+		    	throw new \Exception($errorObj->msg);
+		    }
+		    throw new \Exception('There was a problem, check your username and password.');
+		}
+		else if($http_code==401) 
+		{
+			if(!empty(self::getToken($tokenType)) and self::$attempts == 0) self::refreshAccessToken($tokenType);
+			//$error = wp_remote_retrieve_body( $response );
+			//$errorObj = json_decode($error);
+			//print_r($response); die();
+			throw new \Exception('Unauthorized BreatheCode API request for method: '.$resource);
+			//throw new \Exception($errorObj->msg);
+		}
+		else if($http_code!=200){
+		    $error = wp_remote_retrieve_body( $response );
+		    throw new \Exception('Code: '.$http_code.', '.$resource.$error);
+		}
+		
+		$bodyJson = wp_remote_retrieve_body( $response );
+		if(!$decode) return $bodyJson;
+
+		
+		$body = json_decode($bodyJson);
+		if(!$body)
+		{
+			$message = 'Error decoding API result: ';
+			if(WP_DEBUG) 
+			{
+				$message .= json_last_error_msg();
+				$message .= $bodyJson;
+			}
+			throw new \Exception($message);
+		}
+		
+		if(isset($body->code))
+		{
+    		if($body->code!='200') {
+    		    if(WP_DEBUG) throw new \Exception($body->msg);
+    		    else throw new \Exception('There was a problem in the request');
+    		}
+    		return $body->data;
+		}
+		else return $body;
+    }
+    
     private static function refreshAccessToken($tokenType){
 
 		if(empty(self::getToken($tokenType))){
@@ -208,6 +275,8 @@ class BreatheCodeAPI{
         
         self::validate($params,'user_id');
         self::validate($params,'password');
+        
+        $params['password'] = wp_hash_password($params['password']);
 
         return self::request('post','/credentials/user/'.$params['user_id'],$params);
     }
