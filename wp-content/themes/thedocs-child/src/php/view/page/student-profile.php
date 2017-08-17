@@ -21,7 +21,7 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
                     <?php if($args['user']['description']){ ?>
                         <?php echo $args['user']['description']; ?>
                     <?php }else{ ?>
-                        You don't have a description yet, click here to set it.
+                        The student does not have a description yet.
                     <?php } ?>
                 </p>
             </div>

@@ -3,17 +3,18 @@ get_header('boxed');
 $args = WPAS\Controller\WPASController::getViewData();
 ?>
     <div class="container main-content text-center profile-content">
-        <div class='avatar' style="background-image: url('https://www.gravatar.com/avatar/<?php echo md5($args['user']['email']); ?>');">
+        <div class='avatar' style="background-image: url('https://www.gravatar.com/avatar/<?php echo md5(strtolower(trim($args['user']['email']))); ?>');">
             <a target="_blank" href="https://gravatar.com/site/signup/"><i class="fa fa-pencil"></i></a>
         </div>
         <h1><?php echo $args['user']['first_name']; ?> <?php echo $args['user']['last_name']; ?></h1>
+        <p> <?php echo $args['user']['email']; ?></p>
         <h4 class='profile-type'>Type: <?php echo $args['user']['type']; ?> - Member since: <?php echo date("M Y", strtotime($args['user']['user_registered'])); ?></h4>
         <p> Github: <?php echo $args['user']['github']; ?></p>
         <p class='profile-description'>
             <?php if($args['user']['description']){ ?>
                 <?php echo $args['user']['description']; ?>
             <?php }else{ ?>
-                You don't have a description yet, click here to set it.
+                You don't have a description yet, <a data-toggle="modal" data-target="#modal-update_profile" href="#">click here to set it</a>.
             <?php } ?>
         </p>
         <div id="specialties">

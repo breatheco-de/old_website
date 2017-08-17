@@ -1,7 +1,9 @@
 .profile-content{
     .avatar{
-        width: 200px; height: 200px; background-color: grey; margin: 25px auto;border-radius: 100%;
-        display: inline-table; 
+        width: 200px; height: 200px; margin: 25px auto;border-radius: 100%;
+        display: inline-table;     
+        background-position: center;
+        background-size: contain;
         a{display: none;font-size: 30px; line-height: 200px; background: black; border-radius: 100%;}
     }
     .avatar:hover{

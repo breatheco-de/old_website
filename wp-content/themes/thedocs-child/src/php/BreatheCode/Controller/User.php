@@ -217,7 +217,7 @@ class User{
         $userArray = (array) $user;
         $userArray['first_name'] = $user->first_name;
         $userArray['last_name'] = $user->last_name;
-        $userArray['email'] = $user->email;
+        $userArray['email'] = $user->user_email;
         $userArray['description'] = $user->description;
         $userArray['user_registered'] = $user->user_registered;
         $userArray['bcId'] = get_user_meta($user->ID, 'breathecode_id', true);
