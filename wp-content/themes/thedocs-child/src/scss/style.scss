@@ -127,7 +127,6 @@ li.hidden_label label{display: none;}
 	.sidebar-boxed.toggled~footer, 
 	.sidebar-boxed.toggled~header,.sidebar-boxed.toggled~main{
 		padding-left: 0;
-		overflow: hidden;
 	}
 	.sidebar-boxed.toggled .sidebar-brand, .sidebar-boxed.toggled .sidenav{
 		visibility: hidden;

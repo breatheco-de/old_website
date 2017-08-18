@@ -1,7 +1,7 @@
 <div class="modal fade" id="modal-update_profile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class='container'>
     	<h2>Update Profile Information</h2>
-    	<p class="modal-description">asd</p>
+    	<p class="modal-description">Here you can update all your student information</p>
 		<form class="form-create-assignment" role="form">
 			<input id="assignment" type="hidden">
             <div class="input-group">
