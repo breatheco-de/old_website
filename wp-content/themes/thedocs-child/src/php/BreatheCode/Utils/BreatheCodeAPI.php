@@ -27,7 +27,7 @@ class BreatheCodeAPI{
     		'location/sync/',
     		'cohort/sync/',
     		'assignment/sync/',
-    		//'token',
+    		'token',
     		'user/sync'
     	];
     	
