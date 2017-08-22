@@ -80,7 +80,7 @@ class WPUser
 		{
 			$type = $this->getUserType($userId, $wpUser->roles);
 			if($type!='teacher'){
-				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for teachers, user '.$wpUser->user_email.' is not');
+				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for teachers, user '.$wpUser->user_email.' is a: '.$type);
 				return;
 			}
 			
@@ -91,6 +91,7 @@ class WPUser
 			$bcUser = BreatheCodeAPI::syncUser([
 				"email" => $wpUser->user_email,
 				"wp_id" => $userId,
+				"type" => $type,
 				"cohorts" => $studentCohorts
 				]);
 			if($bcUser){
@@ -165,7 +166,7 @@ class WPUser
 	
 	function getUserType($userId, $roles){
 		
-		$useType = get_user_meta($userId, 'type');
+		$useType = get_user_meta($userId, 'type',true);
 		if($useType) return $useType;
 		else{
 			if(in_array('administrator',$roles)){
