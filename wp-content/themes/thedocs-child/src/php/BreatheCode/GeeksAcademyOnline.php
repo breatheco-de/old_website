@@ -70,7 +70,7 @@ class GeeksAcademyOnline {
         // Do something before password reset.
         $result = BreatheCodeAPI::updateCredentials([
         	'user_id' => $user->id,
-        	'password' => wp_hash_password($new_pass)
+        	'password' => $new_pass
         	]);
         	
         if(!$result) throw new Exception('The password reset failed');
