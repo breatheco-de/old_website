@@ -78,7 +78,7 @@ class WPUser
 		$wpUser = get_userdata($userId);
 		if($wpUser)
 		{
-			$type = $this->getUserType($wpUser->roles);
+			$type = $this->getUserType($userId, $wpUser->roles);
 			if($type!='teacher'){
 				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for teachers, user '.$wpUser->user_email.' is not');
 				return;
@@ -90,6 +90,7 @@ class WPUser
 			
 			$bcUser = BreatheCodeAPI::syncUser([
 				"email" => $wpUser->user_email,
+				"wp_id" => $userId,
 				"cohorts" => $studentCohorts
 				]);
 			if($bcUser){
@@ -105,7 +106,7 @@ class WPUser
 		$wpUser = get_userdata($userId);
 		if($wpUser)
 		{
-			$type = $this->getUserType($wpUser->roles);
+			$type = $this->getUserType($userId, $wpUser->roles);
 			if($type!='teacher'){
 				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for students, user '.$wpUser->user_email.' is not');
 				return;
@@ -134,7 +135,7 @@ class WPUser
 		$wpUser = get_userdata($userId);
 		if($wpUser)
 		{
-			$type = $this->getUserType($wpUser->roles);
+			$type = $this->getUserType($userId, $wpUser->roles);
 			if($type!='student'){
 				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for students, user '.$wpUser->user_email.' is not');
 				return;
@@ -162,11 +163,24 @@ class WPUser
 		else BCNotification::addTransientMessage(BCNotification::ERROR,'User '.$userId.' not found');
 	}
 	
-	function getUserType($roles){
+	function getUserType($userId, $roles){
 		
-		if(in_array('administrator',$roles)) return 'admin';
-		else if(in_array('teacher_assistant',$roles) || in_array('main_teacher',$roles)) return 'teacher';
-		else return 'student';
+		$useType = get_user_meta($userId, 'type');
+		if($useType) return $useType;
+		else{
+			if(in_array('administrator',$roles)){
+				update_user_meta($userId, 'type','admin');
+				return 'admin';
+			} 
+			else if(in_array('teacher_assistant',$roles) || in_array('main_teacher',$roles)){
+				update_user_meta($userId, 'type','teacher');
+				return 'teacher';
+			}
+			else{
+				update_user_meta($userId, 'type','student');
+				return 'student';
+			} 
+		}
 	}
 	
 	function give_access_to_fullstack_all($studentId){
