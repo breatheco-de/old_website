@@ -126,9 +126,10 @@ class BreatheCodeAPI{
 		$body = json_decode($bodyJson);
 		if(!$body)
 		{
-			$message = 'Error decoding API result: ';
+			$message = 'Error decoding API result';
 			if(WP_DEBUG) 
 			{
+				$message .= ': ';
 				$message .= json_last_error_msg();
 				$message .= $bodyJson;
 			}
