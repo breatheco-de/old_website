@@ -69,13 +69,15 @@ class GeeksAcademyOnline {
     function password_reset( $user, $new_pass ) {
         // Do something before password reset.
         $bcId = get_user_meta($user->ID, 'breathecode_id', true);
-        
-        $result = BreatheCodeAPI::updateCredentials([
-        	'user_id' => $bcId,
-        	'password' => $new_pass
-        	]);
-        	
-        if(!$result) throw new Exception('The password reset failed');
+        if($bcId)
+        {
+	        $result = BreatheCodeAPI::updateCredentials([
+	        	'user_id' => $bcId,
+	        	'password' => $new_pass
+	        	]);
+	        	
+	        if(!$result) throw new Exception('The password reset failed');
+        }
     }
     
 	/**
