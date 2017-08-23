@@ -21,7 +21,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                 <?php if($args['lesson']['replit']){ ?>
                 <a class="btn btn-warning btn-lg" href="<?php echo $args['lesson']['replit']; ?>">Access Replit's</a>
                 <?php } ?>
-                <?php if($args['lesson']['quiz']){ ?>
+                <?php if($args['lesson']['quiz'] && $args['lesson']['quiz']!=0){ ?>
                 <a class="confirm btn btn-success btn-lg" href="<?php echo $args['lesson']['quiz']; ?>"
                 data-text="You can only take this quiz once, <br/>are you sure you are ready to take it?"
                 data-confirm-button="Yes, I'm sure!"
