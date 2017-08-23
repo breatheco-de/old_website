@@ -17,7 +17,7 @@ class GeeksAcademyOnline {
 				'main_teacher'
 			);
 	
-	private $prependversion = 0.03;
+	private $prependversion = 0.04;
 
 	function __construct() {
 		
@@ -122,7 +122,7 @@ class GeeksAcademyOnline {
 	    wp_register_script( 'vendor', get_stylesheet_directory_uri().'/public/vendor.js' ,[], $this->prependversion, true );
 	    wp_enqueue_script( 'vendor' );
 	    
-	    wp_register_script( 'appjs', get_stylesheet_directory_uri().'/public/app.js' , ['vendor'], '0.1' );
+	    wp_register_script( 'appjs', get_stylesheet_directory_uri().'/public/app.js' , ['vendor'], $this->prependversion );
 	    
 	    $data = [];
         $data['ajax_url'] = admin_url( 'admin-ajax.php' );
