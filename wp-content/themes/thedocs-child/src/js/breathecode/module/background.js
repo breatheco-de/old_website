@@ -1,3 +1,5 @@
+import {TweenMax, Power2, TimelineLite} from "gsap";
+
 export var BackgroundManager = (function() {
 
     var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
@@ -22,7 +24,7 @@ export var BackgroundManager = (function() {
         target = {x: width/2, y: height/2};
 
         largeHeader = document.getElementById(_headerId);
-        largeHeader.style.height = height+'px';
+        //largeHeader.style.height = height+'px';
 
         canvas = document.getElementById(_canvasId);
         canvas.width = width;
@@ -87,7 +89,7 @@ export var BackgroundManager = (function() {
     }
 
     function mouseMove(e) {
-        var posx = posy = 0;
+        var posx = 0, posy = 0;
         if (e.pageX || e.pageY) {
             posx = e.pageX;
             posy = e.pageY;
@@ -190,5 +192,7 @@ export var BackgroundManager = (function() {
     function getDistance(p1, p2) {
         return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
     }
+    
+    return publicScope;
     
 })();

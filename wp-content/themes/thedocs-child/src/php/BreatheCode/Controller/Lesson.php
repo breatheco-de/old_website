@@ -5,7 +5,7 @@ use WPAS\Controller\WPASController;
 use WPAS\Exception\WPASException;
 use BreatheCode\Utils\BreatheCodeAPI;
 
-class Lessons{
+class Lesson{
     
     public function renderCourse(){
 
@@ -197,6 +197,10 @@ class Lessons{
         
         if(isset($lessonMeta['next-lesson']) && $lessonMeta['next-lesson']!=0) $lesson["next-lesson"] = get_permalink($lessonMeta['next-lesson']);
         else $lesson["next-lesson"] = null;
+
+        $backgroundURL = get_post_meta($lessonId, 'wpcf-lesson-background', true);
+        if($backgroundURL) $lesson["background"] = $backgroundURL;
+        else $lesson["background"] = get_stylesheet_directory_uri().'/assets/img/lesson-bg.jpg';
 
         $readingTime = get_post_meta($lessonId, 'wpcf-reading-time', true);
         if($readingTime) $lesson["reading-time"] = $readingTime .' minutes';

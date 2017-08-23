@@ -22,13 +22,15 @@ jQuery(document).ready(function(){
     });
     
     $(".confirm").confirm();
-
+    
     if(typeof browserChecker!== 'undefined')
     {
        browserChecker.init({ 
        		browsers: ['chrome']
     	});
     }
+    
+    console.log(WPAS_APP.wpas_controller);
     
     if(typeof(WPAS_APP) !== 'undefined' && WPAS_APP.wpas_controller)
     {
