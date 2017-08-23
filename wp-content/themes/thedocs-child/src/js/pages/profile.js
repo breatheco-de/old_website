@@ -1,4 +1,5 @@
 import {BCMessaging} from '../breathecode/module/messaging';
+import {BadgesManager} from '../breathecode/module/badges';
 /**
 *    Declaration of your module
 *    @params modulename and undefined
@@ -7,8 +8,6 @@ export default class UserCohort{
 
     init(){
     	
-    	this.badges = [];
-    	 
     	document.querySelector('#modal-update_profile .send-btn').addEventListener("click", btn => {
             let firstname = $('#firstname').val();
             let lastname = $('#lastname').val();
@@ -32,10 +31,7 @@ export default class UserCohort{
 		    });
     	});
     	
-        document.querySelectorAll('.badg-img').forEach(elm => {
-            elm.addEventListener("mouseenter",evt => this.getPopoverContent(evt));
-            //elm.addEventListener("mouseout",evt => this.hidePopover(evt));
-        });
+        BadgesManager.init('.badg-img');
     }
     
 
@@ -79,75 +75,6 @@ export default class UserCohort{
             });
         });
         
-    }
-    
-    hidePopover(e){
-        if (e.target.classList.contains('single-badge')) $(e.target).popover('hide');
-    }
-    
-    getPopoverContent(e){
-        //console.log(e);
-        
-        var badgeArrray = this.badges;
-        let badgeId = $(e.target).data('slug');
-        if(typeof badgeId === 'undefined') return;
-        
-        if(typeof badgeArrray[badgeId] !== 'undefined'){
-        
-            document.querySelectorAll('.badg-img').forEach(elm => { 
-                if(elm == e.target){
-                    $(e.target.parentNode).popover('show');
-                } 
-                else $(elm.parentNode).popover('hide'); 
-            });
-            return badgeArrray[badgeId];
-        }
-        else{
-            badgeArrray[badgeId] = { description: 'Loading...' };
-            
-            $(e.target.parentNode).popover({ 
-                placement: function (context, source) {
-                    var position = $(e.target.parentNode).position();
-            
-                    if (position.left > 515) {
-                        return "left";
-                    }
-            
-                    if (position.left < 515) {
-                        return "right";
-                    }
-            
-                    if (position.top < 110){
-                        return "bottom";
-                    }
-            
-                    return "top";
-                },
-                content: function(){ 
-                    return badgeArrray[badgeId].description;
-                }
-            }).popover('show');
-            
-            
-            $.ajax({
-                url: WPAS_APP.ajax_url, 
-                method: 'GET',
-                data: { action: 'get_badge', badge: badgeId}, 
-                success: function(response) {
-                    
-                    if(response.code==200){
-                        badgeArrray[badgeId] = response.data;
-                        document.querySelectorAll('.badg-img').forEach(elm => { 
-                            if(elm == e.target){
-                                $(e.target.parentNode).popover('show');
-                            }
-                            else $(elm.parentNode).popover('hide'); 
-                        });
-                    }
-                    else  BCMessaging.notify(BCMessaging.ERROR,response.msg);
-                }
-            });
-        }
     }
     
 }

@@ -8,10 +8,15 @@ use BreatheCode\Utils\BreatheCodeAPI;
 class Lessons{
     
     public function renderCourse(){
-        
+
         $args['course'] = get_queried_object();
         $args['menu_name'] = types_render_termmeta('course-sidebar-id',["term_id" => $args['course']->term_id]);
         $args['createCourseHierarchy'] = [$this,'createCourseHierarchy'];
+        
+        $termIndex = get_term_meta($args['course']->term_id,'wpcf-index-lesson',true);
+        if($termIndex) $args['index-lesson'] = get_permalink($termIndex);
+        else $args['index-lesson'] = null;
+        
         $args['getCourseSubheading'] = [$this,'getCourseSubheading'];
         return $args;
 
@@ -19,14 +24,21 @@ class Lessons{
     
     public function renderLesson(){
 
-    	$terms = wp_get_post_terms(get_the_ID(),'course');
+        $lessonId = get_the_ID();
+    	$terms = wp_get_post_terms($lessonId,'course');
     	$totalTerms = count($terms);
     	if($totalTerms!=1) throw new WPASException('This lesson needs to be asigned to one course and is assigned to '.$totalTerms);
 
+        $cohorts = wp_get_object_terms(get_current_user_id(),'user_cohort',array('orderby'=>'term_order'));
+        if(count($cohorts)==0) throw new WPASException('You need to belong to one cohort in order to access any lessons');
+        
     	$args['course'] = $terms[0];
         $args['menu_name'] = types_render_termmeta('course-sidebar-id',["term_id" => $args['course']->term_id]);
         $args['createCourseHierarchy'] = [$this,'createCourseHierarchy'];
         $args['getLessonAssets'] = [$this,'getLessonAssets'];
+        
+        $args['lesson'] = $this->getLesson($lessonId, $cohorts[0]->term_id);
+        //print_r($terms); die();
         return $args;
 
     }
@@ -154,5 +166,46 @@ class Lessons{
 
 		return $menuParents;
     }
+    
+    private function getLesson($lessonId, $termId){
+        
+        $lessonObj = get_post($lessonId);
+        $lessonMeta = get_post_meta($lessonId, 'meta_'.$lessonObj->post_type, true);
+        
+        $lesson = [];
+        $lesson["title"] = $lessonObj->post_title;
+        $lesson["excerpt"] = $lessonObj->post_excerpt;
+        
+        if(isset($lessonMeta['quiz'])) $lesson["quiz"] = get_permalink( get_page_by_path( 'quiz' ) ) .'?qslug='. $lessonMeta['quiz'];
+        else $lesson["quiz"] = null;
+        
+        if(isset($lessonMeta['replit'])){
+            $term_meta = get_option( "taxonomy_".$termId );
+            if($term_meta)
+            {
+                $exercisestringkey = $lessonMeta['replit'];
+                if(isset($term_meta['replit_'.$exercisestringkey])) $lesson["replit"] = $term_meta['replit_'.$exercisestringkey];
+                else $lesson["replit"] = null;
+                
+            }
+            else $lesson["replit"] = null;
+        }
+        else $lesson["replit"] = null;
+        
+        if(isset($lessonMeta['previous-lesson']) && $lessonMeta['previous-lesson']!=0) $lesson["previous-lesson"] = get_permalink($lessonMeta['previous-lesson']);
+        else $lesson["previous-lesson"] = null;
+        
+        if(isset($lessonMeta['next-lesson']) && $lessonMeta['next-lesson']!=0) $lesson["next-lesson"] = get_permalink($lessonMeta['next-lesson']);
+        else $lesson["next-lesson"] = null;
+
+        $readingTime = get_post_meta($lessonId, 'wpcf-reading-time', true);
+        if($readingTime) $lesson["reading-time"] = $readingTime .' minutes';
+        else $lesson["reading-time"] = 'Not defined.';
+        
+        return $lesson;
+        
+    }
+    
+    function whatever(){}
 
 }

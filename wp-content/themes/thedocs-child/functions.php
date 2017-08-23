@@ -48,6 +48,8 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->route([ 'slug' => 'Student', 'controller' => 'User']);
     $controller->route([ 'slug' => 'Search:search', 'controller' => 'Search']);
     
+    $controller->route([ 'slug' => 'Quiz', 'controller' => 'Quiz']);
+    
     /**
      * Binding Ajax methos with views and controllers
      * @param view
@@ -65,6 +67,8 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'User:update_profile']);    
     $controller->routeAjax([ 'slug' => 'assets', 'controller' => 'Assets:whatever']); 
     $controller->routeAjax([ 'slug' => 'Search:search', 'controller' => 'Search:whatever' ]);
+    $controller->routeAjax([ 'slug' => 'Quiz', 'controller' => 'Quiz:save_attempt' ]);
+    $controller->routeAjax([ 'slug' => 'Lessons', 'controller' => 'Lessons:whatever' ]);
 }
 
 try{

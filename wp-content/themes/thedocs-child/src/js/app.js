@@ -1,6 +1,11 @@
+window.$ = window.jQuery = require('jquery');
+
+require('bootstrap');
+
 require('./vendor/mfb');
 //Require the styles of the app
 require('../scss/style.scss')
+import {JSDialog} from 'myclabs.jquery.confirm';
 
 jQuery(document).ready(function(){
     
@@ -9,6 +14,14 @@ jQuery(document).ready(function(){
         e.preventDefault();
         $(".sidebar-boxed").toggleClass("toggled");
     });
+    
+    $('.affixed-topbar').affix({
+        offset: {
+            top: 300
+          }
+    });
+    
+    $(".confirm").confirm();
 
     if(typeof browserChecker!== 'undefined')
     {

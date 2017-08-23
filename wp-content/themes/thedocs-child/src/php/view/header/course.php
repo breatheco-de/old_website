@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php 
-$redux_demo = get_option('redux_demo'); ?>
+$args = WPAS\Controller\WPASController::getViewData();
+?>
 <html lang="en">
   <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -8,7 +9,7 @@ $redux_demo = get_option('redux_demo'); ?>
     <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
         ?>
     <!-- Favicons-->
-    <link rel="shortcut icon" href="<?php if(isset($redux_demo['favicon']['url'])){?><?php echo esc_url($redux_demo['favicon']['url']); ?><?php }?>" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri();?>/assets/img/logo.png" type="image/x-icon"/>
     <?php }?>
       <?php wp_head();?>
       <!-- Favicons -->
@@ -16,10 +17,6 @@ $redux_demo = get_option('redux_demo'); ?>
     </head>
 
   <body>
-
-    <!-- Sidebar -->
-    <?php include(locate_template(VIEWS_PATH.'_partials/template-course-sidebar.php')); ?>
-    <!-- END Sidebar -->
 
 <header class="site-header navbar-transparent">
 
@@ -73,10 +70,11 @@ $redux_demo = get_option('redux_demo'); ?>
       <!-- END Top navbar & branding -->
 
       <!-- Banner -->
-      <div class="banner auto-size" style="background-color: #5cc7b2">
+      <div class="course-banner banner auto-size" style="background-color: #5cc7b2">
         <div class="container-fluid text-white">
           <h1><?php echo $args['course']->name; ?></h1>
           <h5><?php echo $args['getCourseSubheading'](); ?></h5>
+          <a class='btn btn-success btn-lg' href="<?php echo $args['index-lesson']; ?>">Start Course</a>
         </div>
       </div>
       <!-- END Banner -->

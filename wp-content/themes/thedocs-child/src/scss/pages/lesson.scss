@@ -1,0 +1,50 @@
+.lesson-header{
+    
+    .affix-top{ opacity: 0;}
+    .affix{ opacity: 1; }
+    #lesson-navbar{
+        background: $darkGray;
+        z-index: 1;
+        width: 100%;
+        top: 0;
+        .active a{ text-transform: capitalize;  max-width: 300px;}
+        .navbar-nav {
+          display: inline-block;
+          float: none;
+          vertical-align: top;
+          li{min-width: 130px;}
+        }
+        
+        .container {
+          text-align: center;
+        }
+        
+    }
+}
+
+.lesson-introduction{
+    border-bottom: 1px solid black;
+    padding-bottom: 40px;
+    margin-top: -70px;
+    padding-top: 40px;
+    color: white;
+    h1,h2,h3,h4{color: white};
+}
+.lesson-navegation{
+    background: $darkGray;
+    text-align: center;
+    .nav.nav-pills{
+        display: inline-table;
+        //width: 280px;
+        li{min-width: 130px; text-align: center;}
+        a{color: white; font-size: 16px;}
+        a:hover, a:active{background: $darkGray;}
+    }
+}
+
+/* Header */
+#large-header {
+	background: #333;
+	background-size: cover;
+	background-position: center center;
+}

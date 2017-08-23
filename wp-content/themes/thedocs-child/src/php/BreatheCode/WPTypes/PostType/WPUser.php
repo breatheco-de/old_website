@@ -404,6 +404,18 @@ class WPUser
 	   			 ?></select>
 	   		 </td>
 	   	 </tr>
+	   	 <tr>
+	   		 <th><label for="phone">Phone Number</label></th>
+	   		 <td>
+	   		 	<input type="text" name="phone" value="<?php echo get_user_meta( $user->ID, 'phone', true); ?>" />
+	   		 </td>
+	   	 </tr>
+	   	 <tr>
+	   		 <th><label for="github">Github</label></th>
+	   		 <td>
+	   		 	<input type="text" name="github" value="<?php echo get_user_meta( $user->ID, 'github', true); ?>" />
+	   		 </td>
+	   	 </tr>
 	   	 <?php
 
 	    $this->show_user_redirect_field($user);
@@ -467,6 +479,8 @@ class WPUser
 		    if (!empty($_POST['prompt_page_on_login'])) update_user_meta( $user_id, 'prompt_page_on_login', $_POST['prompt_page_on_login'] );
 		    else update_user_meta( $user_id, 'prompt_page_on_login', '' );
 
+		    if (!empty($_POST['github'])) update_user_meta( $user_id, 'github', $_POST['github'] );
+		    if (!empty($_POST['phone'])) update_user_meta( $user_id, 'phone', $_POST['phone'] );
 		    //also save the cohort field
 		    $this->save_user_cohort($user_id);
 	 	}

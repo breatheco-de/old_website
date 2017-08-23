@@ -22,5 +22,5 @@ $redux_demo = get_option('redux_demo'); ?>
     <!-- END Sidebar -->
 
     <!-- Top navbar & branding -->
-    <?php include(locate_template(VIEWS_PATH.'_partials/template-top-bar.php')); ?>
+    <?php include(locate_template(VIEWS_PATH.'_partials/lesson-top-bar.php')); ?>
     <!-- END Top navbar & branding -->
