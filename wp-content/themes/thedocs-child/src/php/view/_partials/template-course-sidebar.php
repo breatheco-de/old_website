@@ -7,7 +7,7 @@ $currentURL = strtok(strtok($_SERVER["REQUEST_URI"],'?'),'#');
 
 
 $logo_url = types_render_termmeta('course-logo',array( "term_id" => $course->term_id, "url"=>true, "size"=>'thumbnail', 'proportional'=>true));
-if(!$logo_url or $logo_url=='') $logo_url = '<?php echo get_stylesheet_directory_uri();?>/assets/img/logo.png';
+if(!$logo_url or $logo_url=='') $logo_url = get_stylesheet_directory_uri().'/assets/img/logo.png';
 
 ?>
 
