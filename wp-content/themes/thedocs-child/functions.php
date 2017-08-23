@@ -31,10 +31,10 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Assignments']);
     $controller->route([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments']);
     
-    $controller->route([ 'slug' => 'Category:Course', 'controller' => 'Lessons']);
-    $controller->route([ 'slug' => 'lesson', 'controller' => 'Lessons']);
-    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Lessons']);
-    $controller->route([ 'slug' => 'My-Courses', 'controller' => 'Lessons']);
+    $controller->route([ 'slug' => 'Category:Course', 'controller' => 'Lesson']);
+    $controller->route([ 'slug' => 'lesson', 'controller' => 'Lesson']);
+    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Lesson']);
+    $controller->route([ 'slug' => 'My-Courses', 'controller' => 'Lesson']);
     
     $controller->route([ 'slug' => 'Category:Asset-Technology', 'controller' => 'Assets']);
     $controller->route([ 'slug' => 'Category:Asset-Type', 'controller' => 'Assets']);
@@ -68,7 +68,7 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'assets', 'controller' => 'Assets:whatever']); 
     $controller->routeAjax([ 'slug' => 'Search:search', 'controller' => 'Search:whatever' ]);
     $controller->routeAjax([ 'slug' => 'Quiz', 'controller' => 'Quiz:save_attempt' ]);
-    $controller->routeAjax([ 'slug' => 'Lessons', 'controller' => 'Lessons:whatever' ]);
+    $controller->routeAjax([ 'slug' => 'Lesson', 'controller' => 'Lesson:whatever' ]);
 }
 
 try{

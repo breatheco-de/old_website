@@ -6,8 +6,9 @@
 get_template_part(VIEWS_PATH.'header/lessonsidebar');
 $args = WPAS\Controller\WPASController::getViewData();
 ?>
-    <main class="container-fluid">
-      <div id="large-header" class="lesson-introduction" style="margin-left: 0px; background-image: url('https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/img/demo-1-bg.jpg');">
+    <main class="container-fluid">\
+      <canvas id="demo-canvas"></canvas>
+      <div id="large-header" class="lesson-introduction" style="margin-left: 0px; background-image: url('<?php echo $args['lesson']["background"];  ?>');">
         <div class="container">
           <div class="col-sm-6">
             <div class="row">
@@ -38,7 +39,7 @@ $args = WPAS\Controller\WPASController::getViewData();
       </div>
       <div class="lesson-navegation">
         <ul class="nav nav-pills">
-          <li><a href="#"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a></li>
+          <li><a class="down-lesson-icon" href="#"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a></li>
           <!--
               <li>
               <?php if($args['lesson']['previous-lesson']){ ?>

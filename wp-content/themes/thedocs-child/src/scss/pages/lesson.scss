@@ -12,7 +12,11 @@
           display: inline-block;
           float: none;
           vertical-align: top;
-          li{min-width: 130px;}
+          li{min-width: 130px; display: table-cell;
+            vertical-align: middle;
+            float: none !important;
+          }
+          li.active{background: #62a8ea;}
         }
         
         .container {
@@ -24,9 +28,9 @@
 
 .lesson-introduction{
     border-bottom: 1px solid black;
-    padding-bottom: 40px;
-    margin-top: -70px;
-    padding-top: 40px;
+    padding-bottom: 30vh;
+    margin-top: -90px;
+    padding-top: 30vh;
     color: white;
     h1,h2,h3,h4{color: white};
 }
@@ -47,4 +51,9 @@
 	background: #333;
 	background-size: cover;
 	background-position: center center;
+}
+#demo-canvas{
+    position: absolute;
+    width: 100%;
+    top: -70px;
 }
