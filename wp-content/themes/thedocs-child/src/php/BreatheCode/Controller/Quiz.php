@@ -35,10 +35,7 @@ class Quiz{
                     $badge['points'] = $b->points;
                     $args['badges'][] = $badge;
                 }
-                catch(Exception $e)
-                {
-                    $args['badges'][] = null;
-                }
+                catch(Exception $e){}
             }
         }
         
