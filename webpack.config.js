@@ -36,8 +36,17 @@ module.exports = {
       { test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/, use: ['file-loader'] } //for fonts
     ]
   },
+  resolve: {
+    alias: {
+        'jquery': require.resolve('jquery'),
+    }
+  },
   plugins: [
     extractMainStyles,
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
     new ModernizrWebpackPlugin(),
     new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "vendor.js" })
   ]

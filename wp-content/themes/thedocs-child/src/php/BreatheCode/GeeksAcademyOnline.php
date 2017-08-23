@@ -116,10 +116,10 @@ class GeeksAcademyOnline {
 
 	function add_scripts(){
 	    
-	    wp_register_script( 'bootstrap', get_stylesheet_directory_uri().'/public/bootstrap.min.js' ,['jquery'], $this->prependversion, true );
-	    wp_enqueue_script( 'bootstrap' );
+	    //wp_register_script( 'bootstrap', get_stylesheet_directory_uri().'/public/bootstrap.min.js' ,[], $this->prependversion, true );
+	    //wp_enqueue_script( 'bootstrap' );
 	    
-	    wp_register_script( 'vendor', get_stylesheet_directory_uri().'/public/vendor.js' ,['jquery','bootstrap'], $this->prependversion, true );
+	    wp_register_script( 'vendor', get_stylesheet_directory_uri().'/public/vendor.js' ,[], $this->prependversion, true );
 	    wp_enqueue_script( 'vendor' );
 	    
 	    wp_register_script( 'appjs', get_stylesheet_directory_uri().'/public/app.js' , ['vendor'], '0.1' );
