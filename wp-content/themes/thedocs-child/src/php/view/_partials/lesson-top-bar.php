@@ -6,7 +6,7 @@ $args = WPAS\Controller\WPASController::getViewData();
       <nav id="main-nav-bar" class="navbar navbar-default">
         <div class="container">
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#">Back to courses</a></li>
+            <li class="active"><a href="<?php echo get_permalink( get_page_by_path( 'my-courses' ) ); ?>">Back to courses</a></li>
           </ul>
         </div>
       </nav>
