@@ -19,6 +19,8 @@ $args = WPAS\Controller\WPASController::getViewData();
             </div>
             <div class="row">
               <div class="col-xs-12">
+                <a class="down-lesson-icon btn btn-primary btn-lg" href="#">Read Lesson</a>
+                
                 <?php if(!empty($args['lesson']['replit'])){ ?>
                 <a class="btn btn-warning btn-lg" href="<?php echo $args['lesson']['replit']; ?>">Access Replit's</a>
                 <?php } ?>

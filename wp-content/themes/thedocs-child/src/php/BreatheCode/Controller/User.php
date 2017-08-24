@@ -56,18 +56,18 @@ class User{
     public function renderStudent(){
         
         $user = get_user_by( 'id', get_current_user_id());
+        $args['user'] = $this->_userToArray($user);
         $args['bcId'] = get_user_meta($user->id, 'breathecode_id', true);
-        $user = $this->_userToArray($user);
-        if($user['type']=='student')
+        
+        if($args['user']['type']=='student')
         {
-            $args['user']['type'] = 'student';
             $args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['bcId']]);
             $args['getBriefingMessage'] = function() use ($args){
                 return 'You are here to become a '.$args['briefing']->profile->name.', you have acumulated '.$args['briefing']->acumulated_points.' points during '.$args['briefing']->days.' days at the academy!';
             };
             //print_r($args['briefing']); die();
         }
-        if($user['type']=='teacher') wp_redirect('/teacher');
+        if($args['user']['type']=='teacher') wp_redirect('/teacher');
 
         return $args;
     }
@@ -92,6 +92,9 @@ class User{
                     case "reviewed": return '<i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>'; break;
                 }
             };
+            
+            $args['blocked-quizzes'] = $this->_getStudentBlockedQuizes($args['user']['id']);
+            
             $args['activity'] = BreatheCodeAPI::getStudentActivity(['student_id' => $user['bcId']]);
             //$args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['bcId']]);
             /*$args['getBriefingMessage'] = function() use ($args){
@@ -213,10 +216,93 @@ class User{
 	    }
 	}
 	
+	public function enable_quiz(){
+	    
+	    $newData = [];
+	    $studentId = $_POST['student'];
+	    $quizSlug = WPASValidator::validate(WPASValidator::SLUG,$_POST['quiz'],'Slug');
+	    
+	    $errors = WPASValidator::getErrors();
+	    if(count($errors)==0){
+	        
+	        $attempts = get_user_meta( $studentId, 'quiz_attempts', true);
+	        
+	        if(!isset($attempts[$quizSlug])) WPASController::ajaxError('There was a problem re-enabling the quiz.');
+	        
+	        unset($attempts[$quizSlug]);
+	        update_user_meta( $studentId, 'quiz_attempts', $attempts);
+
+            WPASController::ajaxSuccess("Ok");
+	    }
+	    else{
+	        WPASController::ajaxError($errors);
+	    }
+	}
+	
+	public function get_all_badges(){
+	    
+		try{
+		    $badges = BreatheCodeAPI::getAllBadges([]);
+		    
+		    WPASController::ajaxSuccess($badges);
+		}
+		catch(\Exception $e){
+            WPASController::ajaxError($e->getMessage());
+		}
+	}
+	
+	public function give_points(){
+	    
+		try{
+		    
+		    $teacher = get_user_by( 'id', get_current_user_id());
+		    
+    	    $wordpressId = WPASValidator::validate(WPASValidator::INTEGER,$_POST['student'],'Slug');
+    	    $args['student_id'] = $this->_getBreathecodeId($wordpressId);
+    	    $args['badge_slug'] = WPASValidator::validate(WPASValidator::SLUG,$_POST['badge'],'Badge Slug');
+    	    $args['points_earned'] = WPASValidator::validate(WPASValidator::INTEGER,$_POST['points'],'Points Earned');
+    	    $args['type'] = 'teacher_reward';
+    	    $args['name'] = "Earned a some points for ".$args['badge_slug']." during the class";
+    	    $args['description'] = "The teacher ".$teacher->first_name." gave this points for ".$args['badge_slug']." during the class";
+
+		    $result = BreatheCodeAPI::addStudentActivity($args);
+		    
+		    WPASController::ajaxSuccess($result);
+		}
+		catch(\Exception $e){
+            WPASController::ajaxError([$e->getMessage()]);
+		}
+	}
+	
+	public function save_slack_url(){
+	    
+		try{
+		    
+		    $slackURL = WPASValidator::validate(WPASValidator::URL,$_POST['slack'],'Slack URL');
+		    $cohortId = WPASValidator::validate(WPASValidator::INTEGER,$_POST['cohort_id'],'Cohort Id');
+		    
+    	    $errors = WPASValidator::getErrors();
+    	    if(count($errors)==0){
+    		    $termMeta = get_option( 'taxonomy_'.$cohortId);
+    		    if(!$termMeta) throw new Exception('Could not find cohort data');
+    		    $termMeta[WPCohort::META_COHORT_SLACK] = $slackURL;
+    		    update_option( "taxonomy_".$cohortId, $termMeta );
+    	        
+    	        WPASController::ajaxSuccess("Ok");
+    	    }
+    	    else WPASController::ajaxError($errors); 
+		}
+		catch(\Exception $e){
+            WPASController::ajaxError([$e->getMessage()]);
+		}
+	}
+	
 	private function _userToArray($user){
         $userArray = (array) $user;
-        $userArray['first_name'] = $user->first_name;
-        $userArray['last_name'] = $user->last_name;
+        $userArray['id'] = $user->ID;
+        if($user->first_name) $userArray['first_name'] = $user->first_name;
+        if($user->last_name) $userArray['last_name'] = $user->last_name;
+        if($user->display_name) $userArray['display_name'] = $user->display_name;
         $userArray['email'] = $user->user_email;
         $userArray['description'] = $user->description;
         $userArray['user_registered'] = $user->user_registered;
@@ -225,7 +311,22 @@ class User{
         $userArray['phone'] = get_user_meta($user->ID, 'phone', true);
         $userArray['type'] = get_user_meta($user->ID, 'type', true);
         
+        
         return $userArray;
+	}
+	
+	private function _getStudentBlockedQuizes($studentId){
+        $attempts = get_user_meta( $studentId, 'quiz_attempts', true);
+        if(!$attempts) return [];
+        
+        $quizzes = [];
+        foreach($attempts as $key => $val) $quizzes[] = $key;
+        return $quizzes;
+	}
+	
+	private function _getBreathecodeId($id){
+	    
+        return get_user_meta( $id, 'breathecode_id', true);
 	}
     
 }

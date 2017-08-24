@@ -69,6 +69,11 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'Search:search', 'controller' => 'Search:whatever' ]);
     $controller->routeAjax([ 'slug' => 'Quiz', 'controller' => 'Quiz:save_attempt' ]);
     $controller->routeAjax([ 'slug' => 'Lesson', 'controller' => 'Lesson:whatever' ]);
+    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'User:enable_quiz' ]);
+    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'User:get_all_badges' ]);
+    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'User:give_points' ]);
+    
+    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'User:save_slack_url']);   
 }
 
 try{

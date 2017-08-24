@@ -30,16 +30,16 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
             <div class='col-sm-4'>
                 <h4>Lastest Activity</h4>
                 <ol class="activity-feed">
-                        <li class="feed-item">
-                            <time class="date" datetime="<?php echo date('m-d',strtotime($args['user']['user_registered'])); ?>"><?php echo date('M d, Y',strtotime($args['user']['user_registered'])); ?></time>
-                            <span class="text">The student registered into the academy.</span>
-                        </li>
                     <?php foreach($args['activity'] as $act){ ?>
                         <li class="feed-item">
                             <time class="date" datetime="<?php echo date('m-d',strtotime($act->created_at)); ?>"><?php echo date('M d, Y',strtotime($act->created_at)); ?></time>
                             <span class="text"><?php echo $act->name; ?></span>
                         </li>
                     <?php } ?>
+                        <li class="feed-item">
+                            <time class="date" datetime="<?php echo date('m-d',strtotime($args['user']['user_registered'])); ?>"><?php echo date('M d, Y',strtotime($args['user']['user_registered'])); ?></time>
+                            <span class="text">The student registered into the academy.</span>
+                        </li>
                 </ol>
             </div>
             <div class='col-sm-4'>
@@ -87,12 +87,18 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
     </a>
     <ul class="mfb-component__list">
       <li>
-        <a id="update-profile" data-toggle="modal" data-target="#modal-update_profile" href="#" data-mfb-label="Update profile info" class="mfb-component__button--child">
-          <i class="mfb-component__child-icon fa fa-pencil"></i>
+        <a id="enable-quiz" data-toggle="modal" data-target="#modal-enable_quiz" href="#" data-mfb-label="Re-enable Blocked Quiz" class="mfb-component__button--child">
+          <i class="mfb-component__child-icon fa fa-question-circle"></i>
+        </a>
+      </li>
+      <li>
+        <a id="give-points" data-toggle="modal" data-target="#modal-give_badge_points" href="#" data-mfb-label="Give Points" class="mfb-component__button--child">
+          <i class="mfb-component__child-icon fa fa-certificate"></i>
         </a>
       </li>
     </ul>
   </li>
 </ul>
-<?php include(locate_template(VIEWS_PATH.'_partials/modal-update_profile.php')); ?>
+<?php include(locate_template(VIEWS_PATH.'_partials/modal-give_badge_points.php')); ?>
+<?php include(locate_template(VIEWS_PATH.'_partials/modal-enable_quiz.php')); ?>
 <?php get_footer(); ?>

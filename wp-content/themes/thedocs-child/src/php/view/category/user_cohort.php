@@ -23,7 +23,7 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
                     <p>Status: <span class="label label-default"><?php echo (isset($args['termMeta'][WPCohort::META_COHORT_STAGE])) ? $args['termMeta'][WPCohort::META_COHORT_STAGE] : "Not set"; ?></span></p>
                     <div class="input-group">
                       <div class="input-group-addon">Slack</div>
-                      <input type="text" class="form-control" id="exampleInputAmount" value="<?php echo $args['termMeta'][WPCohort::META_COHORT_SLACK]; ?>">
+                      <input data-cohort="<?php echo $args['term']->term_id; ?>" type="text" class="form-control" id="slack-url" value="<?php echo $args['termMeta'][WPCohort::META_COHORT_SLACK]; ?>">
                     </div>
                 </div>
                 <div class="well">

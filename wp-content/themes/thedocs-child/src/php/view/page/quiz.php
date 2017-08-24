@@ -11,6 +11,9 @@ $args = WPAS\Controller\WPASController::getViewData();
             <div class="col-sm-6">
                 <h5>If you score 75% or more of the questions, you will get the following points:</h5>
                 <ul class="talent-badge">
+                    <?php if(count($args['badges'])==0){ ?> 
+                        <li>Nothing, just the reward of knowing that you did it :)</li>
+                    <?php } ?>
                 <?php foreach($args['badges'] as $fullBadge) {
                     $badgeSlug = $fullBadge['slug'];
                 ?>
