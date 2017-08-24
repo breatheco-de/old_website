@@ -86,6 +86,7 @@ li.hidden_label label{display: none;}
 	}
 	.modal-boy {background-color:tomato!important}
 	.modal-description{text-align: center; font-size: 20px;}
+	.send-btn{margin: 10px 0px;}
 }
 
 
@@ -117,6 +118,13 @@ li.hidden_label label{display: none;}
 }
 
 .alert li{list-style: none;}
+
+.glyphicon.inside{
+	top: 10px;
+    right: 10px;
+    z-index: 10;
+    position: absolute;
+}
 
 @media (min-width:768px){
 	.main-content {
@@ -154,6 +162,7 @@ li.hidden_label label{display: none;}
 @import 'pages/lesson';
 @import 'pages/usercohort';
 @import 'pages/profile';
+@import 'pages/studentprofile';
 @import 'pages/assets';
 @import 'pages/assignments';
 @import 'pages/quiz';

@@ -313,7 +313,11 @@ class BreatheCodeAPI{
             $allBadges[$badge->slug]['name'] = $badge->name;
             $allBadges[$badge->slug]['points_acumulated'] = $badge->points_acumulated;
             $allBadges[$badge->slug]['is_achived'] = $badge->is_achieved;
-            if($badge->points_acumulated>0) $allBadges[$badge->slug]['percent'] = floor(($badge->points_acumulated / $allBadges[$badge->slug]->total_points)*10);
+            if($badge->points_acumulated>0){
+            	if($allBadges[$badge->slug]->total_points && $allBadges[$badge->slug]->total_points>0) 
+            		$allBadges[$badge->slug]['percent'] = floor(($badge->points_acumulated / $allBadges[$badge->slug]->total_points)*10);
+            	else $allBadges[$badge->slug]['percent'] = 0;
+            } 
             else $allBadges[$badge->slug]['percent'] = 0;
 	    }
 	    //print_r($allBadges); die();
@@ -347,6 +351,19 @@ class BreatheCodeAPI{
 		
 	    $activities = self::request('GET','activity/student/'.$args['student_id']);
 	    return $activities;
+	}
+	
+	public static function addStudentActivity($args=[],$decode=true){
+	
+		self::validate($args,'student_id');
+		self::validate($args,'type');
+		self::validate($args,'name');
+		self::validate($args,'description');
+		self::validate($args,'badge_slug');
+		self::validate($args,'points_earned');
+		
+	    $result = self::request('POST','activity/student/'.$args['student_id'], $args);
+	    return $result;
 	}
 	
 	public static function getStudentAssignments($args=[],$decode=true){
