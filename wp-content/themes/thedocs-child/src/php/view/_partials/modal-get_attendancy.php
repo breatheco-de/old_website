@@ -4,14 +4,16 @@
 			<div style="display:none;" class="alert alert-danger" role="alert"></div>
 			<?php if(!isset($args['students']) || !is_array($args['students'])){ ?>
 		       <p>There are no students</p>
-			<?php } else foreach($args['students'] as $s) { ?>
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <input data-cohort="<?php echo $args['term']->term_id; ?>" class='attendants' type="checkbox" name="attendants[]" value="<?php echo $s->ID ?>">
-                </span>
-			    <input id="student<?php echo $s->ID ?>" class="form-control" name="names[]" value="<?php echo $s->display_name; ?>" readonly="readonly" type="text">
-            </div>
+			<?php } else { 
+			    foreach($args['students'] as $s) { ?>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input data-cohort="<?php echo $args['term']->term_id; ?>" class='attendants' type="checkbox" name="attendants[]" value="<?php echo $s->ID ?>">
+                    </span>
+    			    <input id="student<?php echo $s->ID ?>" class="form-control" name="names[]" value="<?php echo $s->display_name; ?>" readonly="readonly" type="text">
+                </div>
+                <?php } ?>
+			    <button class="send-btn btn btn-lg btn-primary btn-block">Send Attendancy Report</button>
             <?php } ?>
-			<button class="send-btn btn btn-lg btn-primary btn-block">Send Attendancy Report</button>
     </div>
 </div>

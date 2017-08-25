@@ -26,7 +26,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                     <div style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/badge-border/64/<?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>.png')" class="badg-img-container p-<?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>">
                         <img data-slug="<?php echo $badgeSlug; ?>" src="<?php echo BREATHECODE_API_HOST.$fullBadge->image_url; ?>" alt="" class="badg-img" />
                     </div>
-                    <span class='badge-name'><?php echo htmlentities($fullBadge->name); ?> <?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>%</span>
+                    <span class='badge-name'><?php echo htmlentities($fullBadge->name); ?> <strong><?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>%</strong></span>
                 </li>
             <?php } ?>
             </ul>

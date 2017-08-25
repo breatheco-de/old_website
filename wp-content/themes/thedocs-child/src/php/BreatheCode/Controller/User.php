@@ -49,7 +49,7 @@ class User{
                 foreach($allBadges as $b) if($b->slug == $slug) return $b;
             };
         }
-        //print_r($args['allBadges']); die();
+//        print_r($args['allStudentBadges']); die();
         return $args;
     }
     
@@ -57,15 +57,27 @@ class User{
         
         $user = get_user_by( 'id', get_current_user_id());
         $args['user'] = $this->_userToArray($user);
-        $args['bcId'] = get_user_meta($user->id, 'breathecode_id', true);
+        $args['user']['bcId'] = get_user_meta($user->id, 'breathecode_id', true);
         
         if($args['user']['type']=='student')
         {
-            $args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['bcId']]);
+            $args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['user']['bcId']]);
             $args['getBriefingMessage'] = function() use ($args){
                 return 'You are here to become a '.$args['briefing']->profile->name.', you have acumulated '.$args['briefing']->acumulated_points.' points during '.$args['briefing']->days.' days at the academy!';
             };
-            //print_r($args['briefing']); die();
+            
+            $cohorts = wp_get_object_terms($args['user']["id"],'user_cohort',array('orderby'=>'term_order'));
+            if(count($cohorts)==0) throw new WPASException('You need to belong to one cohort in order to access any lessons');
+            
+        	$args['cohort'] = $cohorts[0];
+            //print_r($args['cohort']); die();
+            $termMeta = get_option( 'taxonomy_'.$args['cohort']->term_id);
+    		if(!$termMeta) throw new Exception('Could not find cohort data');
+    	    $args['slack-url'] = $termMeta[WPCohort::META_COHORT_SLACK];
+    	    
+    	    $args['activity'] = BreatheCodeAPI::getStudentActivity(['student_id' => $args['user']['bcId']]);
+    	    
+    	    
         }
         if($args['user']['type']=='teacher') wp_redirect('/teacher');
 
@@ -257,13 +269,13 @@ class User{
 		    
 		    $teacher = get_user_by( 'id', get_current_user_id());
 		    
-    	    $wordpressId = WPASValidator::validate(WPASValidator::INTEGER,$_POST['student'],'Slug');
+    	    $wordpressId = WPASValidator::validate(WPASValidator::INTEGER,$_POST['student'],'Student Id');
     	    $args['student_id'] = $this->_getBreathecodeId($wordpressId);
     	    $args['badge_slug'] = WPASValidator::validate(WPASValidator::SLUG,$_POST['badge'],'Badge Slug');
     	    $args['points_earned'] = WPASValidator::validate(WPASValidator::INTEGER,$_POST['points'],'Points Earned');
     	    $args['type'] = 'teacher_reward';
-    	    $args['name'] = "Earned a some points for ".$args['badge_slug']." during the class";
-    	    $args['description'] = "The teacher ".$teacher->first_name." gave this points for ".$args['badge_slug']." during the class";
+    	    $args['name'] = "You earned a some points for <kbd>".$args['badge_slug']."</kbd> during the class";
+    	    $args['description'] = "The teacher ".$teacher->first_name." gave you ".$args['points_earned']." this points for the badge ".$args['badge_slug']." during the class, keep it up!";
 
 		    $result = BreatheCodeAPI::addStudentActivity($args);
 		    

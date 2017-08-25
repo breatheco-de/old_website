@@ -314,8 +314,9 @@ class BreatheCodeAPI{
             $allBadges[$badge->slug]['points_acumulated'] = $badge->points_acumulated;
             $allBadges[$badge->slug]['is_achived'] = $badge->is_achieved;
             if($badge->points_acumulated>0){
-            	if($allBadges[$badge->slug]->total_points && $allBadges[$badge->slug]->total_points>0) 
-            		$allBadges[$badge->slug]['percent'] = floor(($badge->points_acumulated / $allBadges[$badge->slug]->total_points)*10);
+            	//print_r($badge); die();
+            	if($badge->points_to_achieve && $badge->points_to_achieve>0) 
+            		$allBadges[$badge->slug]['percent'] = round(($badge->points_acumulated / $badge->points_to_achieve)*10,2);
             	else $allBadges[$badge->slug]['percent'] = 0;
             } 
             else $allBadges[$badge->slug]['percent'] = 0;
