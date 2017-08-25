@@ -1,5 +1,8 @@
 <?php
 
+$userType = get_user_meta(get_current_user_id(), 'type', true);
+if($userType) wp_redirect(get_permalink( get_page_by_path( $userType ) ));
+
 /*
  * Template Name: Page My Courses
  * Description: A Page Template with a Page Builder design.
