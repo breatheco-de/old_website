@@ -38,7 +38,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                         <?php } ?>
                             <li class="feed-item">
                                 <time class="date" datetime="<?php echo date('m-d',strtotime($args['user']['user_registered'])); ?>"><?php echo date('M d, Y',strtotime($args['user']['user_registered'])); ?></time>
-                                <span class="text">The student registered into the academy.</span>
+                                <span class="text">You started your amazing jurney at the academy.</span>
                             </li>
                     </ol>
                 </div>

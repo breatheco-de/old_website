@@ -41,10 +41,12 @@ class User{
         $user = get_user_by( 'id', get_current_user_id());
         $user = $this->_userToArray($user);
         $args['user'] = $user;
-        if($user['type']=='student')
+        if($args['user']['type']=='student')
         {
-            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $user['bcId']]);
+            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $args['user']['bcId']]);
             $args['allBadges'] = BreatheCodeAPI::getAllBadges();
+            $args['settings'] = BreatheCodeAPI::getUserSettings(['user_id' => $args['user']['bcId']]);
+            //print_r($args['user']); die();
             $args['getBadge'] = function($allBadges, $slug){
                 foreach($allBadges as $b) if($b->slug == $slug) return $b;
             };
@@ -222,6 +224,34 @@ class User{
             $user_data = wp_update_user( $newData );
             if ( !is_wp_error( $user_data ) ) WPASController::ajaxSuccess("Ok");
             else WPASController::ajaxError([$user_data->get_error_message()]);
+	    }
+	    else{
+	        WPASController::ajaxError($errors);
+	    }
+	}
+	
+	public function update_settings(){
+	    
+	    $errors = [];
+	    
+	    $settings = null;
+	    if(!is_array($_POST['settings'])) $errors[] = "Invalid settings";
+	    else $settings = $_POST['settings'];
+
+	    if(count($errors)==0){
+	        
+    		try{
+    		    
+    		    $args["user_id"] = $this->_getBreathecodeId(get_current_user_id());
+    		    $args["settings"] = $settings;
+    		    //print_r($args); die();
+    		    $result = BreatheCodeAPI::updateUserSettings($args);
+    		    
+    		    WPASController::ajaxSuccess($result);
+    		}
+    		catch(\Exception $e){
+                WPASController::ajaxError([$e->getMessage()]);
+    		}
 	    }
 	    else{
 	        WPASController::ajaxError($errors);
