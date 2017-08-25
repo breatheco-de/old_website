@@ -39,6 +39,13 @@ $args = WPAS\Controller\WPASController::getViewData();
       <i class="mfb-component__main-icon--active fa fa-times"></i>
     </a>
     <ul class="mfb-component__list">
+        <!--
+      <li>
+        <a id="update-settings" data-toggle="modal" data-target="#modal-update_settings" href="#" data-mfb-label="Your settings" class="mfb-component__button--child">
+          <i class="mfb-component__child-icon fa fa-cog"></i>
+        </a>
+      </li>
+      -->
       <li>
         <a id="update-profile" data-toggle="modal" data-target="#modal-update_profile" href="#" data-mfb-label="Update profile info" class="mfb-component__button--child">
           <i class="mfb-component__child-icon fa fa-pencil"></i>
@@ -48,4 +55,5 @@ $args = WPAS\Controller\WPASController::getViewData();
   </li>
 </ul>
 <?php include(locate_template(VIEWS_PATH.'_partials/modal-update_profile.php')); ?>
+<?php include(locate_template(VIEWS_PATH.'_partials/modal-update_settings.php')); ?>
 <?php get_footer(); ?>

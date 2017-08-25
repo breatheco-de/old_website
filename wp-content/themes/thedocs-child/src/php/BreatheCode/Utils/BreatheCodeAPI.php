@@ -14,8 +14,8 @@ class BreatheCodeAPI{
     private static $host = BREATHECODE_API_HOST;
     
     private static $scopes = [
-    	"student" => ['read_basic_info', 'read_talent_tree', 'student_assignments' ],
-    	"teacher" => ['read_basic_info', 'read_talent_tree', 'student_assignments', 'teacher_assignments'],
+    	"student" => ['read_basic_info', 'read_talent_tree', 'student_assignments', 'user_profile' ],
+    	"teacher" => ['read_basic_info', 'read_talent_tree', 'student_assignments', 'teacher_assignments', 'user_profile'],
     	"admin" => ['read_basic_info', 'super_admin']
     	];
     	
@@ -282,6 +282,21 @@ class BreatheCodeAPI{
         $params['password'] = wp_hash_password($params['password']);
 
         return self::request('post','/credentials/user/'.$params['user_id'],$params);
+    }
+    
+    public static function updateUserSettings($params){
+        
+        self::validate($params,'user_id');
+        self::validate($params,'settings');
+        
+        return self::request('post','/settings/user/'.$params['user_id'],$params['settings']);
+    }
+    
+    public static function getUserSettings($params){
+        
+        self::validate($params,'user_id');
+        
+        return (array) self::request('get','/settings/user/'.$params['user_id']);
     }
     
 	public static function getStudentBadges($args=[],$decode=true){

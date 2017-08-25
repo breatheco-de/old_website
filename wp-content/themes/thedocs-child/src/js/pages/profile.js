@@ -21,7 +21,7 @@ export default class UserCohort{
             if(messages.length>0) BCMessaging.notifyPending(BCMessaging.ERROR);
             else this.deliverAssignment(assignmentId,github);
             */
-            this.updateProfile({
+            this.sendForm({
     		    action: 'update_profile',
     			firstname: firstname,
     			lastname: lastname,
@@ -30,14 +30,34 @@ export default class UserCohort{
     			bio: bio
 		    });
     	});
+    	document.querySelector('#modal-update_settings .send-btn').addEventListener("click", btn => {
+            let formElements = document.querySelectorAll('#modal-update_settings form .settings');
+            
+            var settings = {};
+            for(var i = 0; i<formElements.length; i++)
+            {
+                settings[formElements[i].name] = formElements[i].checked;
+            }
+            console.log(settings);
+            /*
+            if(!validator.isURL(github) || github.length==0) BCMessaging.addMessage(BCMessaging.ERROR,'The github URL must be a valid URL');
+            
+            let messages = BCMessaging.getMessages(BCMessaging.ERROR);
+            if(messages.length>0) BCMessaging.notifyPending(BCMessaging.ERROR);
+            else this.deliverAssignment(assignmentId,github);
+            */
+            this.sendForm({
+    		    action: 'update_settings',
+    			settings: settings
+		    });
+    	});
     	
         BadgesManager.init('.badg-img');
     }
     
 
-    updateProfile(thedata){
+    sendForm(thedata){
 	    
-		// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
 	 	$.ajax({
 	 	    url: WPAS_APP.ajax_url,
 	 	    method: 'post',

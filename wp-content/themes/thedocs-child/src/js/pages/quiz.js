@@ -25,7 +25,15 @@ export default class quiz{
                         this.save_attempt();
                     }else{
                         var percentage = Math.floor((event.data.passedQuestions/event.data.totalQuestions) * 100);
-                        console.log(percentage); 
+                        if(percentage>75)
+                        {
+                            this.sendForm({
+                    		    action: 'give_points',
+                    			badge: badgeId,
+                    			student: studentId,
+                    			points: points
+                		    });
+                        }
                     }
                     // The data sent with postMessage is stored in event.data 
                 } else { 
@@ -54,5 +62,29 @@ export default class quiz{
                     else  BCMessaging.notify(BCMessaging.ERROR,response.msg);
                 }
             });
+    }
+    
+    sendForm(thedata){
+	    
+		// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
+	 	$.ajax({
+	 	    url: WPAS_APP.ajax_url,
+	 	    method: 'post',
+	 	    dataType: "json",
+	 	    data: thedata, 
+	 	    success: response => {
+			    if(response){
+			        if(response.code=='200')
+			        {
+			            window.location.reload();
+			        }
+			        else
+			        {
+			        	BCMessaging.notifyPending(BCMessaging.ERROR,response.msg);
+			        }
+			    }
+	 	    }
+	 	});
+	 	
     }
 }
