@@ -2,7 +2,9 @@
     <div class='container'>
     	<h2>Class Attendancy for <?php echo date("Y-m-d"); ?></h2>
 			<div style="display:none;" class="alert alert-danger" role="alert"></div>
-			<?php foreach($args['students'] as $s) { ?>
+			<?php if(!isset($args['students']) || !is_array($args['students'])){ ?>
+		       <p>There are no students</p>
+			<?php } else foreach($args['students'] as $s) { ?>
             <div class="input-group">
                 <span class="input-group-addon">
                     <input data-cohort="<?php echo $args['term']->term_id; ?>" class='attendants' type="checkbox" name="attendants[]" value="<?php echo $s->ID ?>">

@@ -277,7 +277,6 @@ class User{
 	public function save_slack_url(){
 	    
 		try{
-		    
 		    $slackURL = WPASValidator::validate(WPASValidator::URL,$_POST['slack'],'Slack URL');
 		    $cohortId = WPASValidator::validate(WPASValidator::INTEGER,$_POST['cohort_id'],'Cohort Id');
 		    
