@@ -9,6 +9,7 @@ use BreatheCode\GeeksAcademyOnline;
 use \Exception, \WP_Error;
 use WPAS\Utils\WPASValidator;
 use WPAS\Controller\WPASController;
+use BreatheCode\WPLanguages;
 
 class User{
     
@@ -304,8 +305,14 @@ class User{
     	    $args['badge_slug'] = WPASValidator::validate(WPASValidator::SLUG,$_POST['badge'],'Badge Slug');
     	    $args['points_earned'] = WPASValidator::validate(WPASValidator::INTEGER,$_POST['points'],'Points Earned');
     	    $args['type'] = 'teacher_reward';
-    	    $args['name'] = "You earned a some points for <kbd>".$args['badge_slug']."</kbd> during the class";
-    	    $args['description'] = "The teacher ".$teacher->first_name." gave you ".$args['points_earned']." this points for the badge ".$args['badge_slug']." during the class, keep it up!";
+    	    
+    	    $template = WPLanguages::getActivityTemplate('teacher-points-earned',[
+    	        'badge_slug' => $args['badge_slug'],
+    	        'points' => $args['points_earned'],
+    	        'first_name' => $teacher->first_name
+    	        ]);
+    	    $args['name'] = $template['title'];
+    	    $args['description'] = $template['description'];
 
 		    $result = BreatheCodeAPI::addStudentActivity($args);
 		    

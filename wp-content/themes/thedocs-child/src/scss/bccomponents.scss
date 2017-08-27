@@ -17,6 +17,10 @@
     .inner-message {
         margin: 0 auto;
     }
+    .single-notification.about-to-close{
+        transition: all 0.5s ease-in-out;
+        opacity: 0;
+    }
 }
 
 .confirmation-modal.modal{

@@ -2,6 +2,10 @@ export var BCMessaging = (function(){
     
     var _public = {};
     _public.ERROR = 'danger';
+    _public.WARNING = 'warning';
+    _public.SUCCESS = 'success';
+    var notificationContainer = null;
+    
     var messages = [];
     
     _public.addMessage = function(type, message){
@@ -40,31 +44,61 @@ export var BCMessaging = (function(){
     }
     
     function showNotification(position, notification){
+        if(!notificationContainer) createNotificationContainer(position);
         
-        var notifyContent = document.createElement('div');
-        notifyContent.classList.add('bcnotification');
-        notifyContent.classList.add(position+'-notification');
-        notifyContent.innerHTML = getTemplate()(notification.type, notification.message);
-        document.body.appendChild(notifyContent);
+        appendNotification(notification);
+    }
+    
+    function appendNotification(notification){
         
-        let classNames = '';
-        notifyContent.classList.forEach(elm => { classNames += '.'+elm; })
-        document.querySelector(classNames+' .close').addEventListener('click',function(){
-            document.body.removeChild(notifyContent);
-        });
+        var singleNotification = document.createElement('div');
+        singleNotification.classList.add('single-notification');
+        singleNotification.innerHTML = getTemplate()(notification.type, notification.message);
+        
+        notificationContainer.appendChild(singleNotification);
+        
+        var nodeChilds = singleNotification.childNodes;
+        for (var i = 0; i < nodeChilds.length; i++) {
+            if (nodeChilds[i].className == "close") {
+                nodeChilds[i].addEventListener('click',function(){
+                    notificationContainer.removeChild(singleNotification);
+                });
+              break;
+            }        
+        }
         
         setTimeout(function () {
-            document.body.removeChild(notifyContent);
+            singleNotification.classList.add('about-to-close');
+            setTimeout(function () {
+                notificationContainer.removeChild(singleNotification);
+                if(notificationContainer.childNodes.length==0) deleteNotificationContainer();
+            }, 500);
+                
         }, 3000);
     }
     
+    function createNotificationContainer(position){
+        
+        notificationContainer = document.createElement('div');
+        notificationContainer.classList.add('bcnotification');
+        notificationContainer.classList.add(position+'-notification');
+        document.body.appendChild(notificationContainer);
+        
+    }
+    
+    function deleteNotificationContainer(){
+        if(notificationContainer)
+        {
+            notificationContainer.parentNode.removeChild(notificationContainer);
+            notificationContainer = null;
+        }
+    }
+    
     function getTemplate(){
-        return (type, message) => `<div>
-                                <div class="inner-message alert alert-${type}">
+        return (type, message) => `<div class="inner-message alert alert-${type}">
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                                     ${message}
-                                </div>
-                            </div>`;
+                                </div>`;
     }
     
     return _public;

@@ -15,12 +15,6 @@ jQuery(document).ready(function(){
         $(".sidebar-boxed").toggleClass("toggled");
     });
     
-    $('.affixed-topbar').affix({
-        offset: {
-            top: 300
-          }
-    });
-    
     $(".confirm").confirm();
     
     if(typeof browserChecker!== 'undefined')

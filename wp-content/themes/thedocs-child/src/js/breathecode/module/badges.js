@@ -6,6 +6,8 @@ export var BadgesManager = (function(){
     var _badges = [];
     var _badgesClass = '';
     var _cancelHide = false;
+    var _cancelShow = false;
+    var _loading = false;
     
     publicScope.init = function(badgesClass){
         
@@ -19,6 +21,7 @@ export var BadgesManager = (function(){
     
     function hidePopover(e){
         _cancelHide = false;
+        if(_loading) _cancelShow = true;
         document.querySelectorAll(_badgesClass).forEach(elm => { 
             if(!_cancelHide) $(elm.parentNode).popover('hide'); 
         });
@@ -43,10 +46,11 @@ export var BadgesManager = (function(){
         }
         else{
             badgeArrray[badgeId] = { description: 'Loading...' };
+            _loading = true;
             
             $(e.target.parentNode).popover({ 
                 placement: function (context, source) {
-                    var position = $(e.target.parentNode).position();
+                    var position = cumulativeOffset(e.target);
             
                     if (position.left > 515) {
                         return "left";
@@ -73,12 +77,14 @@ export var BadgesManager = (function(){
                 method: 'GET',
                 data: { action: 'get_badge', badge: badgeId}, 
                 success: function(response) {
+                    _loading = false;
                     
                     if(response.code==200){
                         badgeArrray[badgeId] = response.data;
                         document.querySelectorAll(_badgesClass).forEach(elm => { 
                             if(elm == e.target){
-                                $(e.target.parentNode).popover('show');
+                                if(_cancelShow) _cancelShow = false;
+                                else $(e.target.parentNode).popover('show');
                             }
                             else $(elm.parentNode).popover('hide'); 
                         });
@@ -88,6 +94,20 @@ export var BadgesManager = (function(){
             });
         }
     }
+    
+    function cumulativeOffset(element) {
+        var top = 0, left = 0;
+        do {
+            top += element.offsetTop  || 0;
+            left += element.offsetLeft || 0;
+            element = element.offsetParent;
+        } while(element);
+    
+        return {
+            top: top,
+            left: left
+        };
+    };
     
     return publicScope;
     

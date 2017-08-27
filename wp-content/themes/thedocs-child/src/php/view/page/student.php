@@ -36,9 +36,14 @@ $args = WPAS\Controller\WPASController::getViewData();
                                 <span class="text"><?php echo $act->name; ?></span>
                             </li>
                         <?php } ?>
+                    <?php if(count($args['activity'])==10){ ?>
+                        <li class="feed-item">
+                            <time class="date" style="text-transform: lowercase;" datetime="">... only last 10 activities are shown ...</time>
+                        </li>
+                    <?php } ?>
                             <li class="feed-item">
                                 <time class="date" datetime="<?php echo date('m-d',strtotime($args['user']['user_registered'])); ?>"><?php echo date('M d, Y',strtotime($args['user']['user_registered'])); ?></time>
-                                <span class="text">You started your amazing jurney at the academy.</span>
+                                <span class="text">You started your journey at 4Geeks Academy!</span>
                             </li>
                     </ol>
                 </div>

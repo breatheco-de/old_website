@@ -17,7 +17,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                 <?php foreach($args['badges'] as $fullBadge) {
                     $badgeSlug = $fullBadge['slug'];
                 ?>
-                    <li data-slug="<?php echo $badgeSlug; ?>" class="single-badge <?php echo $badgeSlug; ?>">
+                    <li data-points="<?php echo $fullBadge['points']; ?>" data-slug="<?php echo $badgeSlug; ?>" class="single-badge <?php echo $badgeSlug; ?>">
                         <div class="badg-img-container" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/badge-border/64/9.png')">
                             <img data-slug="<?php echo $badgeSlug; ?>" src="<?php echo BREATHECODE_API_HOST.$fullBadge['image_url']; ?>" alt="" class="badg-img" />
                         </div>

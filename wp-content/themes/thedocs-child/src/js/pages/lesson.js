@@ -10,9 +10,15 @@ export default class lesson{
         //any properties here using this.propertyName
         BackgroundManager.init('large-header','demo-canvas');
         
-        $(".down-lesson-icon").click(function() {
+        $('.affixed-topbar').affix({
+            offset: {
+                top: 300
+              }
+        });
+        
+        $(".start-lesson-icon").click(function() {
             $('html,body').animate({
-                scrollTop: $(this).offset().top
+                scrollTop: $('.lesson-navegation').offset().top
                 
             },'slow');
         });

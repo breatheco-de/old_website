@@ -10,7 +10,7 @@
 			    <input id="assignment-title" class="form-control" readonly="readonly" required="required" type="text">
             </div>
             <div class="input-group">
-                <span class="input-group-addon">Github URL:</span>
+                <span class="input-group-addon">GitHub URL:</span>
 			    <input id="github" class="form-control" placeholder="http://" required="required" type="text">
             </div>
 			<button id="login" type="button" class="btn btn-lg btn-primary btn-block send-btn">Deliver Assignment</button>

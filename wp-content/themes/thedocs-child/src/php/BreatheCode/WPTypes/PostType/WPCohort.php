@@ -161,8 +161,7 @@ class WPCohort{
 
 	}
 
-	private function printReplitExercises($term)
-	{
+	private function printReplitExercises($term){
 		$term_meta = get_option( "taxonomy_".$term->term_id );
 		
 		$replitTemplateKeys = get_option( BCThemeOptions::THEME_OPTIONS_KEY.'replit-courses' );
@@ -213,8 +212,7 @@ class WPCohort{
 		}
 	}  
 
-	private function getTeachers()
-	{
+	private function getTeachers(){
 		$args = array(
 			'role'         => 'main_teacher'
 		);
@@ -236,7 +234,6 @@ class WPCohort{
 	    $columns['breathecode_id'] = 'API ID';
 	    return $columns;
 	}
-	
 
 	function custom_columns($c, $column_name, $term_id) {
 		switch ( $column_name ) {

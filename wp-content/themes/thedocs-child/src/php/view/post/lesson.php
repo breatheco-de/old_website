@@ -19,7 +19,7 @@ $args = WPAS\Controller\WPASController::getViewData();
             </div>
             <div class="row">
               <div class="col-xs-12">
-                <a class="down-lesson-icon btn btn-primary btn-lg" href="#">Read Lesson</a>
+                <a class="start-lesson-icon btn btn-primary btn-lg" href="#">Read Lesson</a>
                 
                 <?php if(!empty($args['lesson']['replit'])){ ?>
                 <a class="btn btn-warning btn-lg" href="<?php echo $args['lesson']['replit']; ?>">Access Replit's</a>
@@ -42,7 +42,7 @@ $args = WPAS\Controller\WPASController::getViewData();
       </div>
       <div class="lesson-navegation">
         <ul class="nav nav-pills">
-          <li><a class="down-lesson-icon" href="#"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a></li>
+          <li><a class="start-lesson-icon" href="#"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a></li>
           <!--
               <li>
               <?php if($args['lesson']['previous-lesson']){ ?>

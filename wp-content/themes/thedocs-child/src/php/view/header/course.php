@@ -74,7 +74,7 @@ $args = WPAS\Controller\WPASController::getViewData();
         <div class="container-fluid text-white">
           <h1><?php echo $args['course']->name; ?></h1>
           <h5><?php echo $args['getCourseSubheading'](); ?></h5>
-          <a class='btn btn-success btn-lg' href="<?php echo $args['index-lesson']; ?>">Start Course</a>
+          <a class='btn btn-success btn-lg' href="<?php echo $args['index-lesson']; ?>"><?php echo pll__('Start Course'); ?></a>
         </div>
       </div>
       <!-- END Banner -->
