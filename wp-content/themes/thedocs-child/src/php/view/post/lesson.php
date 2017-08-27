@@ -27,9 +27,9 @@ $args = WPAS\Controller\WPASController::getViewData();
                 
                 <?php if(!empty($args['lesson']['quiz'])){ ?>
                 <a class="confirm btn btn-success btn-lg" href="<?php echo $args['lesson']['quiz']; ?>"
-                data-text="<h5>Are you sure?</h5>You can only take this quiz once, you should take it after you have finished reading and the replits (if they exists)."
+                data-text="<h5>Are you sure?</h5>You can take this quiz only once, maybe after you finish reading the lesson and have done all the replit's (if they exists)."
                 data-confirm-button="Yes, I'm sure!"
-                data-cancel-button="No, I will wait">Take Quiz</a>
+                data-cancel-button="No, I better wait">Take Quiz</a>
                 <?php } ?>
               </div>
             </div>
