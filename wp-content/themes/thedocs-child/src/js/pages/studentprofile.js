@@ -43,6 +43,9 @@ export default class StudentProfile{
         			badge: badgeId,
         			student: studentId,
         			points: points
+    		    }, function(){
+    		    	BCMessaging.notify(BCMessaging.SUCCESS,"Poins for "+badgeId+" given successfully."); 
+					window.location.reload();
     		    });
             }
     	});
@@ -58,7 +61,7 @@ export default class StudentProfile{
     }
     
 
-    sendForm(thedata){
+    sendForm(thedata, success=null){
 	    
 		// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
 	 	$.ajax({
@@ -70,13 +73,17 @@ export default class StudentProfile{
 			    if(response){
 			        if(response.code=='200')
 			        {
-			            window.location.reload();
+			            if(success) success();
+			            else window.location.reload();
 			        }
 			        else
 			        {
-			        	BCMessaging.notifyPending(BCMessaging.ERROR,response.msg);
+			        	BCMessaging.notify(BCMessaging.ERROR,response.msg);
 			        }
 			    }
+	 	    },
+	 	    error: function(){
+			    BCMessaging.notify(BCMessaging.ERROR,"There was an error processing the request");
 	 	    }
 	 	});
 	 	

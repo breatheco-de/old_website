@@ -10,13 +10,14 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
                     <a target="_blank" href="https://gravatar.com/site/signup/"><i class="fa fa-pencil"></i></a>
                 </div>
                 <h1><?php echo $args['user']['first_name']; ?> <?php echo $args['user']['last_name']; ?></h1>
-                <h4 class='profile-type'>Type: <?php echo $args['user']['type']; ?> - Member since: <?php echo date("M Y", strtotime($args['user']['user_registered'])); ?></h4>
+                <h5 class='profile-type'><?php echo ucfirst($args['user']['type']); ?> since: <?php echo date("M Y", strtotime($args['user']['user_registered'])); ?>
                 <?php if(!empty($args['user']['github'])){ ?>
-                    <p> Github: <?php echo $args['user']['github']; ?></p>
+                    - <a target="_blank" href="http://www.github.com/<?php echo $args['user']['github']; ?>"><i class="fa fa-github" aria-hidden="true"></i> <?php echo $args['user']['github']; ?></a>
                 <?php } ?>
                 <?php if(!empty($args['user']['phone'])){ ?>
-                    <p> <?php echo $args['user']['phone']; ?></p>
+                    - <i class="fa fa-mobile" aria-hidden="true"></i> <?php echo $args['user']['phone']; ?>
                 <?php } ?>
+                </h5>
                 <p class='profile-description'>
                     <?php if($args['user']['description']){ ?>
                         <?php echo $args['user']['description']; ?>
@@ -36,9 +37,14 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
                             <span class="text"><?php echo $act->name; ?></span>
                         </li>
                     <?php } ?>
+                    <?php if(count($args['activity'])==10){ ?>
+                        <li class="feed-item">
+                            <time class="date" style="text-transform: lowercase;" datetime="">... only last 10 activities are shown ...</time>
+                        </li>
+                    <?php } ?>
                         <li class="feed-item">
                             <time class="date" datetime="<?php echo date('m-d',strtotime($args['user']['user_registered'])); ?>"><?php echo date('M d, Y',strtotime($args['user']['user_registered'])); ?></time>
-                            <span class="text">The student registered into the academy.</span>
+                            <span class="text">You started your journey at 4Geeks Academy!</span>
                         </li>
                 </ol>
             </div>
@@ -68,7 +74,7 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
                         $badgeSlug = $fullBadge->slug;
                     ?>
                         <li data-slug="<?php echo $badgeSlug; ?>" class="single-badge <?php echo $badgeSlug; ?>">
-                            <div style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/badge-border/64/<?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>.png')" class="badg-img-container p-<?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>">
+                            <div style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/badge-border/64/<?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['background-class'] : "0"; ?>.png')" class="badg-img-container p-<?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['background-class'] : "0"; ?>">
                                 <img data-slug="<?php echo $badgeSlug; ?>" src="<?php echo BREATHECODE_API_HOST.$fullBadge->image_url; ?>" alt="" class="badg-img" />
                             </div>
                             <span class='badge-name'><?php echo htmlentities($fullBadge->name); ?> <?php echo $args['allStudentBadges'][$badgeSlug] ? $args['allStudentBadges'][$badgeSlug]['percent'] : "0"; ?>%</span>

@@ -20,6 +20,7 @@ export default class UserCohort{
 			
 			this.sendForm(thedata, obj => {
 				$(evt.target).closest('.input-group').append('<span class="glyphicon glyphicon-ok inside" style="color:green;"></span>');
+				BCMessaging.notify(BCMessaging.SUCCESS,"The Slack URL was updated sucessfully.");
 				setTimeout(function(){
 					
 					var validCheck = document.querySelector('.input-group .glyphicon.inside'); 

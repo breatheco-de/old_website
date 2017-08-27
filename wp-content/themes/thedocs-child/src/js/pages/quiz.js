@@ -19,20 +19,35 @@ export default class quiz{
                 // IMPORTANT: Check the origin of the data! 
                 if (~event.origin.indexOf('https://assets.breatheco.de')) { 
                     // The data has been sent from your site 
-                    console.log(event.data); 
+                    var studentId = document.querySelector('#student').value;
+                    var quizId = document.querySelector('#quiz').value;
+                    var badges = document.querySelectorAll('.single-badge');
                     
                     if(event.data.started){
-                        this.save_attempt();
+                        this.sendForm({ action: 'save_attempt', student: studentId, quiz: quizId },function(){
+                            window.location.reload();
+                        });
                     }else{
                         var percentage = Math.floor((event.data.passedQuestions/event.data.totalQuestions) * 100);
                         if(percentage>75)
                         {
-                            this.sendForm({
-                    		    action: 'give_points',
-                    			badge: badgeId,
-                    			student: studentId,
-                    			points: points
-                		    });
+                            badges.forEach(function(badgeElm){
+                                
+                                var badgeId = badgeElm.getAttribute("data-slug");
+                                var points = badgeElm.getAttribute("data-points");
+                                
+                                this.sendForm({
+                        		    action: 'give_points',
+                        			badge: badgeId,
+                        			student: studentId,
+                        			points: points
+                		        }, function(){ 
+                		            
+                		            BCMessaging.notify(BCMessaging.SUCCESS,"Poins for "+badgeId+" given successfully."); 
+                		            
+                		        });
+                            });
+                            
                         }
                     }
                     // The data sent with postMessage is stored in event.data 
@@ -46,25 +61,7 @@ export default class quiz{
         
     }
     
-    save_attempt(){
-        
-        var studentId = document.querySelector('#student').value;
-        var quizId = document.querySelector('#quiz').value;
-        
-        $.ajax({
-                url: WPAS_APP.ajax_url, 
-                method: 'POST',
-                data: { action: 'save_attempt', student: studentId, quiz: quizId}, 
-                success: function(response) {
-                    
-                    if(response.code==200){
-                    }
-                    else  BCMessaging.notify(BCMessaging.ERROR,response.msg);
-                }
-            });
-    }
-    
-    sendForm(thedata){
+    sendForm(thedata, success=null){
 	    
 		// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
 	 	$.ajax({
@@ -76,7 +73,7 @@ export default class quiz{
 			    if(response){
 			        if(response.code=='200')
 			        {
-			            window.location.reload();
+			            if(success) success();
 			        }
 			        else
 			        {

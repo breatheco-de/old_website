@@ -3,17 +3,16 @@
 
 
 if(!defined('ABSPATH')) define('ABSPATH', dirname(__FILE__) . '/');
-if(!defined('LANGUAGES_PATH')) define('LANGUAGES_PATH',ABSPATH.'wp-content/themes/thedocs-child/src/languages/');
 if(!defined('VIEWS_PATH')) define('VIEWS_PATH','src/php/view/');
 
 require ABSPATH . 'vendor/autoload.php';
 
 
 use BreatheCode\Controller;
+use BreatheCode\WPLanguages;
 use WPAS\Controller\WPASController;
 use WPAS\Messaging\WPASAdminNotifier;
 
-    
 /**
  * Simple routs for binding controller phpes with Views and AJAX
  * Binding render methods with views and controllers
