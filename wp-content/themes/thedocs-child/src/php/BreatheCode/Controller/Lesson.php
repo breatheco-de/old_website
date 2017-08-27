@@ -176,10 +176,10 @@ class Lesson{
         $lesson["title"] = $lessonObj->post_title;
         $lesson["excerpt"] = $lessonObj->post_excerpt;
         
-        if(isset($lessonMeta['quiz'])) $lesson["quiz"] = get_permalink( get_page_by_path( 'quiz' ) ) .'?qslug='. $lessonMeta['quiz'];
+        if(!empty($lessonMeta['quiz'])) $lesson["quiz"] = get_permalink( get_page_by_path( 'quiz' ) ) .'?qslug='. $lessonMeta['quiz'];
         else $lesson["quiz"] = null;
         
-        if(isset($lessonMeta['replit'])){
+        if(!empty($lessonMeta['replit'])){
             $term_meta = get_option( "taxonomy_".$termId );
             if($term_meta)
             {
@@ -192,10 +192,10 @@ class Lesson{
         }
         else $lesson["replit"] = null;
         
-        if(isset($lessonMeta['previous-lesson']) && $lessonMeta['previous-lesson']!=0) $lesson["previous-lesson"] = get_permalink($lessonMeta['previous-lesson']);
+        if(!empty($lessonMeta['previous-lesson'])) $lesson["previous-lesson"] = get_permalink($lessonMeta['previous-lesson']);
         else $lesson["previous-lesson"] = null;
         
-        if(isset($lessonMeta['next-lesson']) && $lessonMeta['next-lesson']!=0) $lesson["next-lesson"] = get_permalink($lessonMeta['next-lesson']);
+        if(!empty($lessonMeta['next-lesson'])) $lesson["next-lesson"] = get_permalink($lessonMeta['next-lesson']);
         else $lesson["next-lesson"] = null;
 
         $backgroundURL = get_post_meta($lessonId, 'wpcf-lesson-background', true);
