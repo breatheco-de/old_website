@@ -14,7 +14,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                     <?php if(count($args['badges'])==0){ ?> 
                         <li>Nothing, just the reward of knowing that you did it :)</li>
                     <?php } ?>
-                <?php foreach($args['badges'] as $fullBadge) {
+                <?php if(is_array($args['badges'])) foreach($args['badges'] as $fullBadge) {
                     $badgeSlug = $fullBadge['slug'];
                 ?>
                     <li data-points="<?php echo $fullBadge['points']; ?>" data-slug="<?php echo $badgeSlug; ?>" class="single-badge <?php echo $badgeSlug; ?>">
