@@ -29,6 +29,9 @@ return array(
     	"Your teacher has not uploaded this exercises in the platform yet" => "Your teacher has not uploaded this exercises in the platform yet",
     	"You don't seem to have access to any courses" => "You don't seem to have access to any courses"
     ],
+    "student" => [
+        'student-greeting' => 'You are here to become a %(profile)s, you have acumulated %(acumulated_points)s points during %(days)s days at the academy!'
+    ],
     "activities" => [
         "teacher-points-earned" => [
             'title' => 'You earned %(points)s points for <kbd>%(badge_slug)s</kbd> during the class.',

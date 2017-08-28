@@ -35,4 +35,16 @@ class WPLanguages{
 			"title" => HelperStringFormat::sprintf($activities[$key]['title'], $args)
 		];
 	}
+	
+	public static function getStudentTemplate($key, $args){
+		
+		if(!self::$currentLanguage) throw new Exception("Could not find the languages file");
+		
+		$studentTemplate = self::$currentLanguage['student'];
+		if(!isset($studentTemplate[$key])) throw new Exception("Invalid student template string key");
+		
+		//print_r($args); die();
+		
+		return HelperStringFormat::sprintf($studentTemplate[$key], $args);
+	}
 }
