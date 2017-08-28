@@ -4,9 +4,18 @@ $args = WPAS\Controller\WPASController::getViewData();
 ?>
     <div class="container main-content student-dashboard">
         <div class='row'>
+            <div class='col-xs-12'>
+                <div class="well">
+                    <h3 class='student-name'>Hello <?php echo $args['user']['display_name']; ?></h3>
+                    <?php echo $args['getBriefingMessage'](); ?>
+                </div>
+            </div>
+        </div>
+        <div class='row'>
             <div class='col-sm-4'>
                 <div class="direct-access-links">
                     <h5>What to do now?</h5>
+                    <p>You main goal is to collect all the badges available, for that you will have to read the courses, complete your assignments and take some quizzes.</p>
                     <ul class="nav nav-pills nav-stacked">
                         <li role="presentation">
                             <a href="<?php echo get_permalink( get_page_by_path( 'my-courses' ) ); ?>"><i class="fa fa-book" aria-hidden="true"></i> Access the courses and start learning.</a>
@@ -23,10 +32,6 @@ $args = WPAS\Controller\WPASController::getViewData();
                 </div>
             </div>
             <div class='col-sm-8'>
-                <div class="well">
-                    <h3 class='student-name'><?php echo $args['user']['display_name']; ?></h3>
-                    <?php echo $args['getBriefingMessage'](); ?>
-                </div>
                 <div>
                     <h5>Your latest activity at the academy...</h5>
                     <ol class="activity-feed">

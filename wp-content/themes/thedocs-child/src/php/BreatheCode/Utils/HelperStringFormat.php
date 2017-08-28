@@ -1,6 +1,8 @@
 <?php
 namespace BreatheCode\Utils;
 
+use \Exception;
+
 class HelperStringFormat {
 
     public static function sprintf($format, array $args = array()) {
@@ -12,8 +14,7 @@ class HelperStringFormat {
             $arg_key = $match[1][0];
 
             if (! array_key_exists($arg_key, $arg_nums)) {
-                user_error("sprintfn(): Missing argument '${arg_key}'", E_USER_WARNING);
-                return false;
+                throw new Exception("sprintfn(): Missing argument '${arg_key}'");
             }
             $format = substr_replace($format, $replace = $arg_nums[$arg_key] . '$', $arg_pos, $arg_len);
             $pos = $arg_pos + strlen($replace); // skip to end of replacement for next iteration

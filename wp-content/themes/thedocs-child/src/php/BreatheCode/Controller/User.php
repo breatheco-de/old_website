@@ -66,7 +66,13 @@ class User{
         {
             $args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['user']['bcId']]);
             $args['getBriefingMessage'] = function() use ($args){
-                return 'You are here to become a '.$args['briefing']->profile->name.', you have acumulated '.$args['briefing']->acumulated_points.' points during '.$args['briefing']->days.' days at the academy!';
+                $temp = WPLanguages::getStudentTemplate('student-greeting',[
+    	        'profile' => $args['briefing']->profile->name,
+    	        'acumulated_points' => $args['briefing']->acumulated_points,
+    	        'days' => $args['briefing']->days
+    	        ]);
+    	        //print_r($temp); die();
+    	        return $temp;
             };
             
             $cohorts = wp_get_object_terms($args['user']["id"],'user_cohort',array('orderby'=>'term_order'));
