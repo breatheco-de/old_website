@@ -25,7 +25,7 @@ export default class quiz{
                     
                     if(event.data.started){
                         this.sendForm({ action: 'save_attempt', student: studentId, quiz: quizId },function(){
-                            window.location.reload();
+                            console.log('Quiz attempt successfully saved.');
                         });
                     }else{
                         var percentage = Math.floor((event.data.passedQuestions/event.data.totalQuestions) * 100);
@@ -44,6 +44,7 @@ export default class quiz{
                 		        }, function(){ 
                 		            
                 		            BCMessaging.notify(BCMessaging.SUCCESS,"Poins for "+badgeId+" given successfully."); 
+                		            window.location.reload();
                 		            
                 		        });
                             });
