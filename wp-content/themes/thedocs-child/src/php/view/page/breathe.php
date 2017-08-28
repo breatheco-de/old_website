@@ -21,14 +21,6 @@ $args = WPAS\Controller\WPASController::getViewData();
         </article>
       </div>
     <?php } ?>
-  		<div class="row">
-  		  <div class="col-xs-12 col-sm-4">
-  		    
-  		  </div>
-  		  <div class="col-xs-12 col-sm-8">
-  		  </div>
-      </div>
-      <p>&nbsp;</p>
 </main>
 
 <?php get_footer(); ?>
