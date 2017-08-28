@@ -2,11 +2,11 @@
     <div class='container'>
     	<h2>Win all badges and to become The Master Geek!</h2>
 	    <p>
-	    There are 4 ways to earn points: Doing Quizes, Delivering Projects, Completing Challenges or Classroom Rewards.
+    	There are 4 ways to earn points: Taking Quizzes, Delivering Projects, Completing Challenges or Classroom Rewards.
 	    </p>
 	    <p>
-	    You need to accumulate 100 points of a particular skill in order to win a certain badge.
+		You need to accumulate 100 points any particular badge in order to win it!
 	    </p>
-	    <a href="<?php echo get_permalink( get_page_by_path( 'profile' ) ); ?>" type="button" class="btn btn-lg btn-primary btn-block">Check your badges</a>
+	    <a class='talent-tree-btn' href="<?php echo get_permalink( get_page_by_path( 'profile' ) ); ?>" type="button" class="btn btn-lg btn-primary">Check your badges</a>
     </div>
 </div>
