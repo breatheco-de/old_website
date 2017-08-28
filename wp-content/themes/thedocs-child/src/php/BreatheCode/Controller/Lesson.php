@@ -37,7 +37,8 @@ class Lesson{
         $args['createCourseHierarchy'] = [$this,'createCourseHierarchy'];
         $args['getLessonAssets'] = [$this,'getLessonAssets'];
         
-        $args['lesson'] = $this->getLesson($lessonId, $cohorts[0]->term_id);
+        if(!empty($cohorts[0])) $args['lesson'] = $this->getLesson($lessonId, $cohorts[0]->term_id);
+        else $args['lesson'] = $this->getLesson($lessonId, null);
         //print_r($terms); die();
         return $args;
 
@@ -179,7 +180,7 @@ class Lesson{
         if(!empty($lessonMeta['quiz'])) $lesson["quiz"] = get_permalink( get_page_by_path( 'quiz' ) ) .'?qslug='. $lessonMeta['quiz'];
         else $lesson["quiz"] = null;
         
-        if(!empty($lessonMeta['replit'])){
+        if(!empty($lessonMeta['replit']) && !empty($termId)){
             $term_meta = get_option( "taxonomy_".$termId );
             if($term_meta)
             {
