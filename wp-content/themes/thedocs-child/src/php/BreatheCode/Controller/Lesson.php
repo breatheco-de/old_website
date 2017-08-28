@@ -29,15 +29,14 @@ class Lesson{
     	$totalTerms = count($terms);
     	if($totalTerms!=1) throw new WPASException('This lesson needs to be asigned to one course and is assigned to '.$totalTerms);
 
-        $cohorts = wp_get_object_terms(get_current_user_id(),'user_cohort',array('orderby'=>'term_order'));
-        if(count($cohorts)==0) throw new WPASException('You need to belong to one cohort in order to access any lessons');
         
     	$args['course'] = $terms[0];
         $args['menu_name'] = types_render_termmeta('course-sidebar-id',["term_id" => $args['course']->term_id]);
         $args['createCourseHierarchy'] = [$this,'createCourseHierarchy'];
         $args['getLessonAssets'] = [$this,'getLessonAssets'];
         
-        if(!empty($cohorts[0])) $args['lesson'] = $this->getLesson($lessonId, $cohorts[0]->term_id);
+        $cohorts = wp_get_object_terms(get_current_user_id(),'user_cohort',array('orderby'=>'term_order'));
+        if(!count($cohorts)==0) $args['lesson'] = $this->getLesson($lessonId, $cohorts[0]->term_id);
         else $args['lesson'] = $this->getLesson($lessonId, null);
         //print_r($terms); die();
         return $args;
