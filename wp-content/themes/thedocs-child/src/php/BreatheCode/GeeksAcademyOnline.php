@@ -18,6 +18,7 @@ class GeeksAcademyOnline {
 			);
 	
 	private $prependversion = 0.04;
+	private $defaultViews = ["private" => 'breathe',"login" => 'bclogin', 'student' => 'student', 'teacher' => 'my-cohorts', 'pending' => 'pending'];
 
 	function __construct() {
 		
@@ -55,12 +56,12 @@ class GeeksAcademyOnline {
 	
     function inicialize(){
 		if( is_user_logged_in() ) {
-		    $page = get_page_by_path( 'my-courses' );
+		    $page = get_page_by_path( $this->defaultViews['private'] );
 		    update_option( 'page_on_front', $page->ID );
 		    update_option( 'show_on_front', 'page' );
 		}
 		else{
-		    $page = get_page_by_path( 'breathe' );
+		    $page = get_page_by_path( $this->defaultViews['login'] );
 		    update_option( 'page_on_front', $page->ID );
 		    update_option( 'show_on_front', 'page' );
 		}
@@ -170,7 +171,7 @@ class GeeksAcademyOnline {
 	 * @link https://developer.wordpress.org/reference/hooks/login_url/
 	 */
 	function custom_login_url( $url, $redirect, $force_reauth ){
-	    $new_login_url = home_url( '/bclogin/' );
+	    $new_login_url = home_url( '/'.$this->defaultViews['login'].'/' );
 	    if ( !empty($redirect) ){
 	        $new_login_url = add_query_arg( 'redirect_to', urlencode( $redirect ), $new_login_url );
 	    }
@@ -181,7 +182,7 @@ class GeeksAcademyOnline {
 	}
 	
 	function custom_logout_url(){
-	  wp_redirect( home_url( '/bclogin/' ) );
+	  wp_redirect( home_url( '/'.$this->defaultViews['login'].'/' ) );
 	  exit();
 	}
 
@@ -221,20 +222,20 @@ class GeeksAcademyOnline {
 			} 
 			else if($this->matchAnyValues( self::$teacherRoles, $user->roles)) {
 
-				return get_permalink( get_page_by_path( 'teacher-cohorts' ) );
+				return get_permalink( get_page_by_path( $this->defaultViews['teacher'] ) );
 			} 
 			else if($this->matchAnyValues( self::$studentRoles, $user->roles)) {
 
-				return get_permalink( get_page_by_path( 'my-courses' ) );
+				return get_permalink( get_page_by_path( $this->defaultViews['student'] ) );
 			} 
 			else if(in_array( 'unverified',$user->roles)) 
 			{
-				$perma = get_permalink( get_page_by_path( 'pending' ) );
+				$perma = get_permalink( get_page_by_path( $this->defaultViews['pending'] ) );
 
 				return $perma;
 
 			} else {
-				return get_permalink( get_page_by_path( 'pending' ) );
+				return get_permalink( get_page_by_path( $this->defaultViews['pending'] ) );
 			}
 
 		} else {
