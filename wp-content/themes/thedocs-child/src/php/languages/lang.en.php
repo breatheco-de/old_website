@@ -30,7 +30,7 @@ return array(
     	"You don't seem to have access to any courses" => "You don't seem to have access to any courses"
     ],
     "student" => [
-        'student-greeting' => 'You are here to become a %(profile)s, you have acumulated %(acumulated_points)s points during %(days)s days at the academy!'
+        'student-greeting' => 'You are here to become a %(profile)s, you have accumulated %(acumulated_points)s points during %(days)s days at the academy!'
     ],
     "activities" => [
         "teacher-points-earned" => [
