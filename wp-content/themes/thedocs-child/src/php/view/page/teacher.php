@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: Page My Courses
+ * Template Name: Teacher Dashboard
  * Description: A Page Template with a Page Builder design.
  */
 get_header('boxed'); 

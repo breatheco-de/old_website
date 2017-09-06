@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Template Name: Teacher Dashboard
+ * Template Name: Review Assignments
  */
 get_header('boxed'); 
 $args = WPAS\Controller\WPASController::getViewData();
