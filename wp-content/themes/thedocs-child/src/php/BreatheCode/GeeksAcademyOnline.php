@@ -17,7 +17,7 @@ class GeeksAcademyOnline {
 				'main_teacher'
 			);
 	
-	private $prependversion = 0.06;
+	private $prependversion = 0.07;
 	private $defaultViews = ["private" => 'breathe',"login" => 'bclogin', 'student' => 'student', 'teacher' => 'my-cohorts', 'pending' => 'pending'];
 
 	function __construct() {
