@@ -5,6 +5,9 @@
 # ignore all files starting with .
 .*
 
+#error logs
+php_errorlog
+
 # track this file .gitignore (i.e. do NOT ignore it)
 !.gitignore
 
