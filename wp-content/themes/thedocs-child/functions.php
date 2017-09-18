@@ -24,6 +24,8 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller = new WPASController([
         'namespace' => 'BreatheCode\\Controller\\'
     ]);
+    $controller->route([ 'slug' => 'Project', 'controller' => 'Project']);
+    
     $controller->route([ 'slug' => 'MyTalents', 'controller' => 'TalentTree']);
     
     $controller->route([ 'slug' => 'My-Assignments', 'controller' => 'Assignments']);
@@ -74,6 +76,7 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'User:give_points' ]);
     
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'User:save_slack_url']);   
+    $controller->routeAjax([ 'slug' => 'Project', 'controller' => 'Project:whatever']);   
 }
 
 try{

@@ -45,7 +45,7 @@ class Lesson{
     
     public function renderMyCourses(){
         $userId = get_current_user_id();
-        
+        //echo 'hello'; die();
         $args = [];
         if(!empty($userId)) $args['courses'] = $this->getCourses($userId);
         return $args;

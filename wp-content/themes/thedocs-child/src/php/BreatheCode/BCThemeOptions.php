@@ -3,7 +3,7 @@
 namespace BreatheCode;
 
 use WPTypes\PostType\WPCourse;
-use \WPAS\Utils\WPASThemeSettingsBuilder;
+use \WPAS\Settings\WPASThemeSettingsBuilder;
 
 class BCThemeOptions {
 	
@@ -93,7 +93,7 @@ class BCThemeOptions {
 	function render_courses($tab){
 		
 		$courses = get_terms(array(
-				'taxonomy' => WPCourse::TAX_SLUG,
+				'taxonomy' => BreatheCode\WPTypes\PostType\WPCourse::TAX_SLUG,
 		        'hide_empty'=>false
 			));
 		$auxCourses = array();

@@ -11,6 +11,7 @@ class WPCohort{
 	const META_COHORT_STAGE = 'cohort-stage';
 	const META_BREATHECODE_ID = 'breathecode-id';
 	const META_COHORT_SLACK = 'cohort-slack-url';
+	const KICKOFF_DATE = 'cohort-kickoff-date';
 	const META_COHORT_LOCATION = 'cohort-location';
 	const POST_TYPE = 'user_cohort';
 
@@ -57,6 +58,15 @@ class WPCohort{
 	function user_cohort_add_new_meta_field() {
 		
 		$teachers = $this->getTeachers();
+		?>
+		
+		<div class="form-field">
+			<label for="<?php echo self::KICKOFF_DATE; ?>"><?php _e( 'Kickoff Date', 'breathecode' ); ?></label>
+			<input type="date" name="term_meta[<?php echo self::KICKOFF_DATE; ?>]">
+			<p class="description"><?php _e( 'The exact date when the date starts','breathecode' ); ?></p>
+		</div>
+		
+		<?php
 		// the main teacher for the cohort
 		?>
 		<div class="form-field">
@@ -69,6 +79,8 @@ class WPCohort{
 			</select>
 			<p class="description"><?php _e( 'Who is going to be teaching the cohort','breathecode' ); ?></p>
 		</div>
+		?>
+
 	<?php
 
 		// the stage of the cohort
@@ -100,8 +112,20 @@ class WPCohort{
 		$teachers = $this->getTeachers();
 	 
 		// retrieve the existing value(s) for this meta field. This returns an array
+		if(isset($term_meta[self::KICKOFF_DATE]))
+		$kickoffDate = $term_meta[self::KICKOFF_DATE]; ?>
+		<tr class="form-field">
+		<th scope="row" valign="top"><label for="<?php echo self::KICKOFF_DATE; ?>"><?php _e( 'Kickoff Date', 'breathecode' ); ?></label></th>
+			<td>
+				<input type="date" name="term_meta[<?php echo self::KICKOFF_DATE; ?>]" value="<?php if(isset($kickoffDate)) echo $kickoffDate; ?>">
+			</td>
+		</tr>
+		
+	 	<?php
+		// retrieve the existing value(s) for this meta field. This returns an array
 		if(isset($term_meta[self::META_MAIN_TEACHER]))
 		$mainTeacher = $term_meta[self::META_MAIN_TEACHER]; ?>
+		
 		<tr class="form-field">
 		<th scope="row" valign="top"><label for="<?php echo self::META_MAIN_TEACHER; ?>"><?php _e( 'Main Teacher', 'breathecode' ); ?></label></th>
 			<td>
@@ -114,7 +138,10 @@ class WPCohort{
 				<p class="description"><?php _e( 'Who is going to be teaching the cohort','breathecode' ); ?></p>
 			</td>
 		</tr>
+
+		?>
 		<?php 
+		
 		if(isset($term_meta[self::META_COHORT_STAGE ]))
 		$cohortStage = $term_meta[self::META_COHORT_STAGE ]; ?>
 		<tr class="form-field">
@@ -224,7 +251,7 @@ class WPCohort{
 	 */
 	function register_bulk_actions( $bulk_actions ) {
 		$bulk_actions['move_cohort_to_next_phase'] = __( 'Move to next phase', 'breatehcode' );
-		$bulk_actions['sync_with_api'] = __( 'Add to API', 'breatehcode' );
+		$bulk_actions['sync_with_api'] = __( 'Sync with API', 'breatehcode' );
 		return $bulk_actions;
 	}
 	
@@ -298,35 +325,48 @@ class WPCohort{
 	
 	function sync_with_api($termId){
 	    $termMeta = get_option( 'taxonomy_'.$termId);
-	    
 		$wpCohort = get_term($termId, self::POST_TYPE);
+	    
 		if($wpCohort)
 		{
-			if(!isset($termMeta[self::META_COHORT_LOCATION]) || $termMeta[self::META_COHORT_LOCATION] == '-1')
+			if(empty($termMeta[self::META_COHORT_STAGE]) || $termMeta[self::META_COHORT_STAGE] == '-1')
 			{
-				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' has an invalid location');
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') has an invalid stage');
 				return false;
 			}
 	
 			$locationId = $termMeta[self::META_COHORT_LOCATION];
 			$location = get_post($locationId);
 			if(!$location){
-				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' has an invalid location');
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') has an invalid location');
 				return false;
 			} 
 			
 			if(!isset($termMeta[self::META_MAIN_TEACHER]) or $termMeta[self::META_MAIN_TEACHER]=='0'){
-				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' needs to have an instructor assigned');
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') needs to have an instructor assigned');
+				return false;
+			}
+			
+			$termLanguage = pll_get_term_language( $termId);
+			if(empty($termLanguage)){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') needs to have main language');
+				return false;
+			}
+			
+			if(empty($termMeta[self::KICKOFF_DATE]) or $termMeta[self::KICKOFF_DATE]=='0'){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') needs to have a kickoff date');
 				return false;
 			}
 			
 			$teacherId = get_user_meta( $termMeta[self::META_MAIN_TEACHER], 'breathecode_id', true);
-			
 			$cohort = BreatheCodeAPI::syncCohort([
                   "slug" => $wpCohort->slug,
                   "name" => $wpCohort->name,
                   "instructor_id" => $teacherId,
                   "slack-url" => $termMeta[self::META_COHORT_SLACK],
+                  "stage" => $termMeta[self::META_COHORT_STAGE],
+                  "language" => $termLanguage,
+                  "kickoff-date" => $termMeta[self::KICKOFF_DATE],
                   "location_slug" => $location->post_name
 				]);
 
@@ -334,7 +374,7 @@ class WPCohort{
 			else{
 			    $termMeta[WPCohort::META_BREATHECODE_ID] = $cohort->id;
 			    update_option( "taxonomy_".$termId, $termMeta );
-			    BCNotification::addTransientMessage(BCNotification::SUCCESS,'The cohort '.$termId.' was synced successfully with breathecode ID: '.$cohort->id);
+			    BCNotification::addTransientMessage(BCNotification::SUCCESS,'The cohort '.$termId.' ('.$wpCohort->slug.') was synced successfully with breathecode ID: '.$cohort->id);
 			}
 		}
 		else BCNotification::addTransientMessage(BCNotification::ERROR,'Cohort '.$termId.' not found');
