@@ -24,11 +24,11 @@ jQuery(document).ready(function(){
     	});
     }
     
-    console.log(WPAS_APP.wpas_controller);
+    console.log(WPAS_APP.controller);
     
-    if(typeof(WPAS_APP) !== 'undefined' && WPAS_APP.wpas_controller)
+    if(typeof(WPAS_APP) !== 'undefined' && WPAS_APP.controller)
     {
-        System.import('./pages/' + WPAS_APP.wpas_controller.toLowerCase()).then(Controller => {
+        System.import('./pages/' + WPAS_APP.controller.toLowerCase()).then(Controller => {
             var c = new Controller.default();
             c.init();
         }, function(error) {

@@ -30,7 +30,7 @@ class Credentials{
     		$result1 = wp_set_current_user( $wpUser->ID, $wpUser->user_login );
             $result2 = wp_set_auth_cookie  ( $wpUser->ID, true );
        		do_action( 'wp_login', $wpUser->user_login );
-			//print_r($result2); die(); 
+			//print_r($wpUser); die(); 
 			WPASController::ajaxSuccess(get_permalink(get_page_by_path( 'my-courses' )));
     	}
     	
