@@ -359,16 +359,20 @@ class WPCohort{
 			}
 			
 			$teacherId = get_user_meta( $termMeta[self::META_MAIN_TEACHER], 'breathecode_id', true);
-			$cohort = BreatheCodeAPI::syncCohort([
+			$slackUrl = $termMeta[self::META_COHORT_SLACK];
+			
+			$params = [
                   "slug" => $wpCohort->slug,
                   "name" => $wpCohort->name,
                   "instructor_id" => $teacherId,
-                  "slack-url" => $termMeta[self::META_COHORT_SLACK],
                   "stage" => $termMeta[self::META_COHORT_STAGE],
                   "language" => $termLanguage,
                   "kickoff-date" => $termMeta[self::KICKOFF_DATE],
                   "location_slug" => $location->post_name
-				]);
+				];
+				
+			if(!empty($slackUrl)) $params['slack-url'] = $slackUrl;
+			$cohort = BreatheCodeAPI::syncCohort($params);
 
 			if(!$cohort) BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue syncronizing the cohort');
 			else{
