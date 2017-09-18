@@ -3,6 +3,7 @@
 namespace BreatheCode\VCComposer;
 
 use BreatheCode\VCComposer\Component as VCComponent;
+use WPAS\Messaging\WPASAdminNotifier;
 
 class VisualComposerSettings {
 
@@ -48,7 +49,7 @@ class VisualComposerSettings {
 		}
 		catch(\Exception $e)
 		{
-			Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,$e->getMessage());
+			WPASAdminNotifier::addTransientMessage(WPASAdminNotifier::ERROR,$e->getMessage());
 		}
 	}
 

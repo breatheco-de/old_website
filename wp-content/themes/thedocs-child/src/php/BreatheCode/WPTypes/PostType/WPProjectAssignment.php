@@ -104,144 +104,144 @@ class WPProjectAssignment
 		return null;
 	}
 
-	  /**
-	   * Gets triggered when a new "student-assignment" is created
-	   */
-	  function post_published_notification($new_status, $old_status )
+	/**
+	* Gets triggered when a new "student-assignment" is created
+	*/
+	function post_published_notification($new_status, $old_status ){
+		
+	  if(isset($_POST['post_type']) and $_POST['post_type']==self::POST_TYPE)
 	  {
-	  	if(isset($_POST['post_type']) and $_POST['post_type']==self::POST_TYPE)
-	  	{
-		  	if ( $old_status != 'publish'  &&  $new_status == 'publish' ) {
-		  		$assignmentId = get_the_ID();
-		  		$assignmentSlug = get_post_field( 'post_name', $assignmentId );
-				$studentId = get_post_meta( $assignmentId, 'wpcf-student-assigned',true);
-	            $user = get_user_by('id',$studentId);
-	            if ($user)
-	            {
-	            	$projectId = get_post_meta( $assignmentId, 'wpcf-project-assigned',true);
-	            	$duedate = get_post_meta( $assignmentId, 'wpcf-assignment-due-date',true);
-	            	$project = array(
-	            		"title" => get_the_title($projectId),
-	            		"assignment" => $assignmentSlug,
-	            		"duedate" => date('jS \of F: hA', $duedate),
-	            		"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true),
-	            		"excerpt" => get_post_meta( $projectId, 'wpcf-project-excerpt',true)
-	            		);
-					$this->notifyNewProjectToUser($user,$project);
-	            }
-		  	}
+	  	if ( $old_status != 'publish'  &&  $new_status == 'publish' ) {
+	  		$assignmentId = get_the_ID();
+	  		$assignmentSlug = get_post_field( 'post_name', $assignmentId );
+			$studentId = get_post_meta( $assignmentId, 'wpcf-student-assigned',true);
+	        $user = get_user_by('id',$studentId);
+	        if ($user)
+	        {
+	        	$projectId = get_post_meta( $assignmentId, 'wpcf-project-assigned',true);
+	        	$duedate = get_post_meta( $assignmentId, 'wpcf-assignment-due-date',true);
+	        	$project = array(
+	        		"title" => get_the_title($projectId),
+	        		"assignment" => $assignmentSlug,
+	        		"duedate" => date('jS \of F: hA', $duedate),
+	        		"duration" => get_post_meta( $projectId, 'wpcf-project-hour-duration',true),
+	        		"excerpt" => get_post_meta( $projectId, 'wpcf-project-excerpt',true)
+	        		);
+				$this->notifyNewProjectToUser($user,$project);
+	        }
 	  	}
 	  }
+	}
 
-	  function projectPostsColumns( $columns ) {
-	  	
-	    unset( $columns['title'] );
-	    unset( $columns['date'] );
-	    $columns['student'] = 'Student';
-	    $columns['project'] = 'Project';
-	    $columns['duedate'] = 'Due Date';
-	    $columns['assignment-status'] = 'Status';
-	    $columns['api-id'] = 'API ID';
-	    //die(print_r($columns));
-	    return $columns;
+	function projectPostsColumns( $columns ) {
+	  
+		unset( $columns['title'] );
+		unset( $columns['date'] );
+		$columns['student'] = 'Student';
+		$columns['project'] = 'Project';
+		$columns['duedate'] = 'Due Date';
+		$columns['assignment-status'] = 'Status';
+		$columns['api-id'] = 'API ID';
+		//die(print_r($columns));
+		return $columns;
+	}
+	
+	function customProjectSolumn( $column, $postId ) {
+	  switch ( $column ) {
+	
+	      case 'student' :
+	          $studentId = get_post_meta( $postId, 'wpcf-student-assigned',true);
+	          $user = get_user_by('id',$studentId);
+	          if ($user) echo $user->data->display_name.' ('.$user->data->user_email.')';
+	          else echo 'Unable to get user';
+	        break;
+	
+	      case 'project' :
+	          $projectId = get_post_meta( $postId, 'wpcf-project-assigned',true);
+	          $projectTitle = get_the_title($projectId);
+	          if ( is_string( $projectTitle ) ) echo $projectTitle;
+	          else echo 'Unable to get project title';
+	        break;
+	
+	      case 'duedate' :
+	          $duedate = get_post_meta( $postId, 'wpcf-assignment-due-date',true);
+	          if ( is_string( $duedate ) ) echo  date('l jS \of F', $duedate);
+	          else echo 'Unable to get due date';
+	        break;
+	
+	      case 'assignment-status' :
+	          $status = get_post_meta( $postId, 'wpcf-assignment-status',true);
+	          if ($status and is_string( $status ) ) echo $status;
+	          else echo 'Unable to get the satus';
+	        break;
+	        
+	      case 'api-id' :
+	          $bdId = get_post_meta( $postId, 'breathecode_id', true);
+	          echo ($bdId) ? $bdId : 'not synced';
+	        break;
+	
 	  }
-
-	  function customProjectSolumn( $column, $postId ) {
-	      switch ( $column ) {
-
-	          case 'student' :
-	              $studentId = get_post_meta( $postId, 'wpcf-student-assigned',true);
-	              $user = get_user_by('id',$studentId);
-	              if ($user) echo $user->data->display_name.' ('.$user->data->user_email.')';
-	              else echo 'Unable to get user';
-	            break;
-
-	          case 'project' :
-	              $projectId = get_post_meta( $postId, 'wpcf-project-assigned',true);
-	              $projectTitle = get_the_title($projectId);
-	              if ( is_string( $projectTitle ) ) echo $projectTitle;
-	              else echo 'Unable to get project title';
-	            break;
-
-	          case 'duedate' :
-	              $duedate = get_post_meta( $postId, 'wpcf-assignment-due-date',true);
-	              if ( is_string( $duedate ) ) echo  date('l jS \of F', $duedate);
-	              else echo 'Unable to get due date';
-	            break;
-
-	          case 'assignment-status' :
-	              $status = get_post_meta( $postId, 'wpcf-assignment-status',true);
-	              if ($status and is_string( $status ) ) echo $status;
-	              else echo 'Unable to get the satus';
-	            break;
-	            
-	          case 'api-id' :
-	              $bdId = get_post_meta( $postId, 'breathecode_id', true);
-	              echo ($bdId) ? $bdId : 'not synced';
-	            break;
-
-	      }
+	}
+	
+	function fill_select( $options, $title, $type ) {
+	  switch($title)  
+	  {
+	    case "Student Assigned": $options = $this->getStudents($options); break;
+	    case "Project Assigned": $options = $this->getProjects($options); break;
+	    case "Teacher Assigned": $options = $this->getTeachers($options); break;
 	  }
-
-	  function fill_select( $options, $title, $type ) {
-	      switch($title)  
-	      {
-	        case "Student Assigned": $options = $this->getStudents($options); break;
-	        case "Project Assigned": $options = $this->getProjects($options); break;
-	        case "Teacher Assigned": $options = $this->getTeachers($options); break;
-	      }
-
-	      return $options;
-	  }
-
-	  function getStudents($optns){
-	      $optns = array();
-	      
-	      $users = new WP_User_Query( array( 'meta_key' => 'type', 'meta_value' => 'student' ) );
-	      foreach ($users->results as $u) {
-	          $optns[] = array(
-	              '#value' => $u->ID,
-	              '#title' => $u->display_name.' ('.$u->user_email.')'
-	          );
-	      } 
-
-	      return $optns;
-	  }
-
-	  function getTeachers($optns){
-	      $optns = array();
-	      
-	      $users = new WP_User_Query( array( 'meta_key' => 'type', 'meta_value' => 'teacher' ) );
-	      foreach ($users->results as $u) {
-	          $optns[] = array(
-	              '#value' => $u->ID,
-	              '#title' => $u->display_name.' ('.$u->user_email.')'
-	          );
-	      } 
-
-	      return $optns;
-	  }
-
-	  function getProjects($optns){
-	      $optns = array();
-	      $args = array( 'post_type' => 'lesson-project', 'posts_per_page' => -1 );
-		  
-		  global $post;
-	      $this->setup_admin_postdata($post);
-	      $loop = new WP_Query( $args );
-	      while ( $loop->have_posts() ) { $loop->the_post();
-	          $id = get_the_ID();
-	          $title = get_the_title();
-	          $optns[] = array(
-	              '#value' => $id,
-	              '#title' => $title
-	          );
-	      }
-	      wp_reset_postdata();
-	      $this->wp_reset_admin_postdata();
-
-	      return $optns;
-	  }
+	
+	  return $options;
+	}
+	
+	function getStudents($optns){
+	  $optns = array();
+	  
+	  $users = new WP_User_Query( array( 'meta_key' => 'type', 'meta_value' => 'student' ) );
+	  foreach ($users->results as $u) {
+	      $optns[] = array(
+	          '#value' => $u->ID,
+	          '#title' => $u->display_name.' ('.$u->user_email.')'
+	      );
+	  } 
+	
+	  return $optns;
+	}
+	
+	function getTeachers($optns){
+	  $optns = array();
+	  
+	  $users = new WP_User_Query( array( 'meta_key' => 'type', 'meta_value' => 'teacher' ) );
+	  foreach ($users->results as $u) {
+	      $optns[] = array(
+	          '#value' => $u->ID,
+	          '#title' => $u->display_name.' ('.$u->user_email.')'
+	      );
+	  } 
+	
+	  return $optns;
+	}
+	
+	function getProjects($optns){
+			      $optns = array();
+			      $args = array( 'post_type' => 'lesson-project', 'posts_per_page' => -1 );
+				  
+				  global $post;
+			      $this->setup_admin_postdata($post);
+			      $loop = new WP_Query( $args );
+			      while ( $loop->have_posts() ) { $loop->the_post();
+			          $id = get_the_ID();
+			          $title = get_the_title();
+			          $optns[] = array(
+			              '#value' => $id,
+			              '#title' => $title
+			          );
+			      }
+			      wp_reset_postdata();
+			      $this->wp_reset_admin_postdata();
+		
+			      return $optns;
+			  }
 
 	function populate_project_fields($form){
 
@@ -353,8 +353,8 @@ class WPProjectAssignment
 	    add_action( 'save_post_'.self::POST_TYPE, array($this,'slug_save_post_callback'), 10, 3 );
 	}
 
-	function notifyNewProjectToUser($user,$project)
-	{
+	function notifyNewProjectToUser($user,$project){
+		
 		$userNickname = '';
 		if($user->first_name and $user->first_name!='') $userNickname = $user->first_name;
 		else if($user->display_name and $user->display_name!='') $userNickname = $user->display_name;
@@ -388,17 +388,17 @@ class WPProjectAssignment
 		$status = wp_mail($user->user_email, $subject, $content);
 		remove_filter( 'wp_mail_content_type', array($this,'set_html_content_type' ));
 	}
+	
 	function set_html_content_type() {return 'text/html';}
 	
-	private function createDeliverAssignmentFromStudent($entry, $form)
-	{
+	private function createDeliverAssignmentFromStudent($entry, $form){
+		
 		$curerntUser = get_current_user_id();
 		$assignmentId = rgar( $entry, '2' );
 		$assignment = update_post_meta($assignmentId, 'wpcf-assignment-status', 'done');
 	}
 
-	private function createNewClassAssignment($entry, $form)
-	{
+	private function createNewClassAssignment($entry, $form){
 		//getting post
 		$post = get_post( $entry['post_id'] );
 

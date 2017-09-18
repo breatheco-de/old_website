@@ -3,16 +3,21 @@
         {
             "type": "composer",
             "url": "https://wpackagist.org"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/alesanchezr/wpas-wordpress-dash"
         }
     ],
     "require": {
-        "alesanchezr/wpas-wordpress-dash": "*",
+        "alesanchezr/wpas-wordpress-dash": "dev-master",
         "wpackagist-plugin/polylang": "*",
         "wpackagist-plugin/email-templates": "*",
         "wpackagist-plugin/nav-menu-roles": "*",
         "wpackagist-plugin/post-types-order": "*",
         "respect/validation": "^1.1",
-        "jjgrainger/posttypes": "^1.1"
+        "jjgrainger/posttypes": "^1.1",
+        "erusev/parsedown": "^1.6"
     },
     "autoload": {
         "psr-0" : {

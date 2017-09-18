@@ -106,7 +106,7 @@ class BreatheCodeAPI{
 		    	$errorObj = json_decode($error);
 		    	throw new \Exception($errorObj->msg);
 		    }
-		    throw new \Exception('There was a problem, check your username and password.');
+		    throw new \Exception('There was a problem connecting with the BreatheCode Platform.');
 		}
 		else if($http_code==401) 
 		{
@@ -359,6 +359,8 @@ class BreatheCodeAPI{
 	}
 	
 	public static function getBadge($args=[],$decode=true){
+		
+		self::validate($args,'badge_id');
 	
 	    return self::request('GET','badge/'.$args['badge_id'],$args,$decode);
 	}
