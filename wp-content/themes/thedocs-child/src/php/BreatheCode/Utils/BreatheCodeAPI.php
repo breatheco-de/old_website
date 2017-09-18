@@ -112,7 +112,7 @@ class BreatheCodeAPI{
 		{
 			if(!empty(self::getToken($tokenType)) and self::$attempts == 0) self::refreshAccessToken($tokenType);
 			
-			if(WP_DEBUG) throw new \Exception('Unauthorized BreatheCode API request for method: '.$resource);
+			if(WP_DEBUG) throw new \Exception('Unauthorized BreatheCode API request for method: '.$resource.' | type: '.$tokenType.' | host: '.BREATHECODE_API_HOST);
 			else throw new \Exception('Unauthorized credentials');
 		}
 		else if($http_code!=200){

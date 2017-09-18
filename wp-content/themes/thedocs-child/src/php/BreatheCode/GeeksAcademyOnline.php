@@ -51,7 +51,7 @@ class GeeksAcademyOnline {
 		
 		add_action( 'password_reset', [$this,'password_reset'], 10, 2 );
     	
-    	$this->inicialize();
+    	//$this->inicialize();
 	}
 	
     function inicialize(){
@@ -124,15 +124,6 @@ class GeeksAcademyOnline {
 	    wp_enqueue_script( 'vendor' );
 	    
 	    wp_register_script( 'appjs', get_stylesheet_directory_uri().'/public/app.js' , ['vendor'], $this->prependversion );
-	    
-	    $data = [];
-        $data['ajax_url'] = admin_url( 'admin-ajax.php' );
-        $data['host'] = BREATHECODE_API_HOST;
-        
-        $ajaxController = WPASController::getAjaxController();
-        if($ajaxController) $data['wpas_controller'] = $ajaxController;
-	    
-	    wp_localize_script( 'appjs', 'WPAS_APP', $data);
 	    wp_enqueue_script( 'appjs' );
 	    
 	}
