@@ -5,13 +5,14 @@ namespace BreatheCode\Controller;
 use BreatheCode\WPTypes\PostType\WPCohort;
 use BreatheCode\BCThemeOptions;
 use BreatheCode\Utils\BreatheCodeAPI;
+use BreatheCode\Model\User;
 use BreatheCode\GeeksAcademyOnline;
 use \Exception, \WP_Error;
 use WPAS\Utils\WPASValidator;
 use WPAS\Controller\WPASController;
 use BreatheCode\WPLanguages;
 
-class User{
+class UserController{
     
     private function isStudent($userId){ return (get_user_meta($userId, 'type', true) == 'student') ? true : false; }
 	private function isTeacher($userId){ return (get_user_meta($userId, 'type', true) == 'teacher') ? true : false; }
@@ -171,12 +172,9 @@ class User{
           				'hide_empty' => false,
           				'number' => 0
         			);
-        $user_meta = get_user_by('id',$teacherId);
-        $user_roles = $user_meta->roles; //array of roles the user is part of.
         $terms = get_terms($args); // Get all terms of a taxonomy
-        
         $resultingCohorts = array();
-        if (!in_array( 'administrator', $user_roles ) )
+        if (!User::isAdmin($teacherId))
         {
             foreach($terms as $term){
                 $meta = get_option('taxonomy_'.$term->term_id);

@@ -25,32 +25,32 @@ if(class_exists('WPAS\Controller\WPASController')){
         'namespace' => 'BreatheCode\\Controller\\',
         'data' => [ 'host' => BREATHECODE_API_HOST ]
     ]);
-    $controller->route([ 'slug' => 'Project', 'controller' => 'Project']);
+    $controller->route([ 'slug' => 'Project', 'controller' => 'ProjectController']);
     
-    $controller->route([ 'slug' => 'MyTalents', 'controller' => 'TalentTree']);
+    $controller->route([ 'slug' => 'MyTalents', 'controller' => 'TalentTreeController']);
     
-    $controller->route([ 'slug' => 'My-Assignments', 'controller' => 'Assignments']);
-    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Assignments']);
-    $controller->route([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments']);
+    $controller->route([ 'slug' => 'My-Assignments', 'controller' => 'AssignmentsController']);
+    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'AssignmentsController']);
+    $controller->route([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController']);
     
-    $controller->route([ 'slug' => 'Category:Course', 'controller' => 'Lesson']);
-    $controller->route([ 'slug' => 'lesson', 'controller' => 'Lesson']);
-    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'Lesson']);
-    $controller->route([ 'slug' => 'My-Courses', 'controller' => 'Lesson']);
+    $controller->route([ 'slug' => 'Category:Course', 'controller' => 'LessonController']);
+    $controller->route([ 'slug' => 'lesson', 'controller' => 'LessonController']);
+    $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'LessonController']);
+    $controller->route([ 'slug' => 'My-Courses', 'controller' => 'LessonController']);
     
-    $controller->route([ 'slug' => 'Category:Asset-Technology', 'controller' => 'Assets']);
-    $controller->route([ 'slug' => 'Category:Asset-Type', 'controller' => 'Assets']);
-    $controller->route([ 'slug' => 'Lesson-Asset', 'controller' => 'Assets']);
-    $controller->route([ 'slug' => 'Assets', 'controller' => 'Assets']);
+    $controller->route([ 'slug' => 'Category:Asset-Technology', 'controller' => 'AssetsController']);
+    $controller->route([ 'slug' => 'Category:Asset-Type', 'controller' => 'AssetsController']);
+    $controller->route([ 'slug' => 'Lesson-Asset', 'controller' => 'AssetsController']);
+    $controller->route([ 'slug' => 'Assets', 'controller' => 'AssetsController']);
     
-    $controller->route([ 'slug' => 'Category:User_Cohort', 'controller' => 'User']);
-    $controller->route([ 'slug' => 'Teacher-Cohorts', 'controller' => 'User']);
-    $controller->route([ 'slug' => 'Profile', 'controller' => 'User']);
-    $controller->route([ 'slug' => 'Student-Profile', 'controller' => 'User']);
-    $controller->route([ 'slug' => 'Student', 'controller' => 'User']);
-    $controller->route([ 'slug' => 'Search:search', 'controller' => 'Search']);
+    $controller->route([ 'slug' => 'Category:User_Cohort', 'controller' => 'UserController']);
+    $controller->route([ 'slug' => 'Teacher-Cohorts', 'controller' => 'UserController']);
+    $controller->route([ 'slug' => 'Profile', 'controller' => 'UserController']);
+    $controller->route([ 'slug' => 'Student-Profile', 'controller' => 'UserController']);
+    $controller->route([ 'slug' => 'Student', 'controller' => 'UserController']);
+    $controller->route([ 'slug' => 'Search:search', 'controller' => 'SearchController']);
     
-    $controller->route([ 'slug' => 'Quiz', 'controller' => 'Quiz']);
+    $controller->route([ 'slug' => 'Quiz', 'controller' => 'QuizController']);
     
     /**
      * Binding Ajax methos with views and controllers
@@ -58,26 +58,26 @@ if(class_exists('WPAS\Controller\WPASController')){
      * @param controller
      * @param method
      */
-    $controller->routeAjax([ 'slug' => 'bclogin', 'controller' => 'Credentials:custom_login', 'scope' => 'public']);     
-    $controller->routeAjax([ 'slug' => 'My-Assignments', 'controller' => 'Assignments:deliver_project']);    
-    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:create_new_assignment']);    
-    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:get_assignment_earnings']);    
-    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'Assignments:accept_assignment']);    
-    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:check_attendancy']);     
-    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'Teacher:update_replits']);     
-    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'TalentTree:get_badge']);    
-    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'User:update_profile']);    
-    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'User:update_settings']);    
-    $controller->routeAjax([ 'slug' => 'assets', 'controller' => 'Assets:whatever']); 
-    $controller->routeAjax([ 'slug' => 'Search:search', 'controller' => 'Search:whatever' ]);
-    $controller->routeAjax([ 'slug' => 'Quiz', 'controller' => 'Quiz:save_attempt' ]);
-    $controller->routeAjax([ 'slug' => 'Lesson', 'controller' => 'Lesson:whatever' ]);
-    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'User:enable_quiz' ]);
-    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'User:get_all_badges' ]);
-    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'User:give_points' ]);
+    $controller->routeAjax([ 'slug' => 'bclogin', 'controller' => 'CredentialsController:custom_login', 'scope' => 'public']);     
+    $controller->routeAjax([ 'slug' => 'My-Assignments', 'controller' => 'AssignmentsController:deliver_project']);    
+    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController:create_new_assignment']);    
+    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController:get_assignment_earnings']);    
+    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController:accept_assignment']);    
+    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'TeacherController:check_attendancy']);     
+    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'TeacherController:update_replits']);     
+    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'TalentTreeController:get_badge']);    
+    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'UserController:update_profile']);    
+    $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'UserController:update_settings']);    
+    $controller->routeAjax([ 'slug' => 'assets', 'controller' => 'AssetsController:whatever']); 
+    $controller->routeAjax([ 'slug' => 'Search:search', 'controller' => 'SearchController:whatever' ]);
+    $controller->routeAjax([ 'slug' => 'Quiz', 'controller' => 'QuizController:save_attempt' ]);
+    $controller->routeAjax([ 'slug' => 'Lesson', 'controller' => 'LessonController:whatever' ]);
+    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'UserController:enable_quiz' ]);
+    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'UserController:get_all_badges' ]);
+    $controller->routeAjax([ 'slug' => 'Student-Profile', 'controller' => 'UserController:give_points' ]);
     
-    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'User:save_slack_url']);   
-    $controller->routeAjax([ 'slug' => 'Project', 'controller' => 'Project:whatever']);   
+    $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'UserController:save_slack_url']);   
+    $controller->routeAjax([ 'slug' => 'Project', 'controller' => 'ProjectController:whatever']);   
 }
 
 try{

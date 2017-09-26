@@ -69,7 +69,7 @@ jQuery( document ).ready(function() {
     jQuery( '#footer-thankyou' ).html('Thank you for creating with <a href="https://git.io/vi1Gr" target="_new">WPTS</a>');
   }
 
-  jQuery( '.wpts_color_field' ).wpColorPicker();
+  //jQuery( '.wpts_color_field' ).wpColorPicker();
   jQuery( '.wpts_fa_field' ).wptsFa();
 
   var formfield;
@@ -96,7 +96,7 @@ jQuery( document ).ready(function() {
     }
   };
 
-jQuery('.add-new-option').click(function(e){
+  jQuery('.add-new-option').click(function(e){
     
     var inputValue = jQuery(this).siblings('input').val();
     jQuery.ajax({
@@ -105,8 +105,15 @@ jQuery('.add-new-option').click(function(e){
       dataType: 'json',
       data: {action:"ajax_theme_option", target: jQuery(this).data("target"), value: inputValue, function: "add"},
       success: function(data){
-        if(data.code==200) location.reload();
-        else alert('Something went wrong: '+data.message);
+        if(data){
+          if(data.hasOwnProperty('code')){
+            if(data.code==200) location.reload();
+            else alert('Something went wrong: '+data.message);
+          }
+          else{
+            alert('Invalid AJAX answer, check that you are not printing anything in your closure');
+          }
+        }
       },
       error: function(p1,p2,p3){
         console.log(p3);
@@ -123,8 +130,41 @@ jQuery('.add-new-option').click(function(e){
       dataType: 'json',
       data: {action:"ajax_theme_option", target: jQuery(this).data("target"), value: jQuery(this).data("key"), function: "delete"},
       success: function(data){
-        if(data.code==200) location.reload();
-        else alert('Something went wrong: '+data.message);
+        if(data){
+          if(data.hasOwnProperty('code')){
+            if(data.code==200) location.reload();
+            else alert('Something went wrong: '+data.message);
+          }
+          else{
+            alert('Invalid AJAX answer, check that you are not printing anything in your closure');
+          }
+        }
+      },
+      error: function(p1,p2,p3){
+        console.log(p3);
+      }
+    });
+    e.preventDefault();
+  });
+  
+    jQuery('.wpas-settings-button').click(function(e){
+    
+    var hookName = jQuery(this).data('hook');
+    jQuery.ajax({
+      url: 'admin-ajax.php',
+      method: "post",
+      dataType: 'json',
+      data: {action:"ajax_theme_option", hook: hookName, function: "wpas_do_action"},
+      success: function(data){
+        if(data){
+          if(data.hasOwnProperty('code')){
+            if(data.code==200) location.reload();
+            else alert('Something went wrong: '+data.message);
+          }
+          else{
+            alert('Invalid AJAX answer, check that you are not printing anything in your closure');
+          }
+        }
       },
       error: function(p1,p2,p3){
         console.log(p3);

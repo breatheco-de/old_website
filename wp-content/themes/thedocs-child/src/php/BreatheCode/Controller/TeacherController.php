@@ -5,7 +5,7 @@ namespace BreatheCode\Controller;
 use WPAS\Controller\WPASController;
 use BreatheCode\Utils\BreatheCodeAPI;
 
-class Teacher{
+class TeacherController{
     
     public function check_attendancy(){
         
@@ -55,5 +55,6 @@ class Teacher{
 		
 		return $status;
     }
+    
     function set_html_content_type() {return 'text/html';}
 }

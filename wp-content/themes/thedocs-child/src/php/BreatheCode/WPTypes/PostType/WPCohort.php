@@ -4,6 +4,7 @@ namespace BreatheCode\WPTypes\PostType;
 use BreatheCode\BCThemeOptions;
 use BreatheCode\Utils\BreatheCodeAPI;
 use WPAS\Messaging\WPASAdminNotifier as BCNotification;
+use WPAS\Settings\WPASThemeSettingsBuilder;
 
 class WPCohort{
 
@@ -139,7 +140,6 @@ class WPCohort{
 			</td>
 		</tr>
 
-		?>
 		<?php 
 		
 		if(isset($term_meta[self::META_COHORT_STAGE ]))
@@ -167,19 +167,18 @@ class WPCohort{
 		<?php 
 		if(isset($term_meta[self::META_COHORT_LOCATION ]))
 		$cohortLocation = $term_meta[self::META_COHORT_LOCATION]; 
-		$result = new \WP_Query(['post_type' => 'location']);
-		$locations = $result->posts;
+		$locations = WPASThemeSettingsBuilder::getThemeOption('sync-bc-locations-api');
 		?>
 		<tr class="form-field">
 		<th scope="row" valign="top"><label for="<?php echo self::META_COHORT_LOCATION; ?>"><?php _e( 'Location', 'breathecode' ); ?></label></th>
 			<td>
 				<select name="term_meta[<?php echo self::META_COHORT_LOCATION; ?>]">
-					<option value="-1">Select a parent location</option>
+					<option value="-1">Select a cohort location</option>
 				<?php foreach ($locations as $l) { ?>
-					<option value="<?php echo $l->ID; ?>" <?php if(isset($cohortLocation) and $cohortLocation==$l->ID) echo 'selected'; ?>><?php echo $l->post_title; ?></option>
+					<option value="<?php echo $l['slug']; ?>" <?php if(isset($cohortLocation) and $cohortLocation==$l['slug']) echo 'selected'; ?>><?php echo $l['name']; ?></option>
 				<?php } ?>
 				</select>
-				<p class="description"><?php _e( 'The current location for the cohort','breathecode' ); ?></p>
+				<p class="description"><?php _e( 'The current Breathecode API location for the cohort','breathecode' ); ?></p>
 			</td>
 		</tr>
 	<?php
@@ -336,9 +335,8 @@ class WPCohort{
 			}
 	
 			$locationId = $termMeta[self::META_COHORT_LOCATION];
-			$location = get_post($locationId);
-			if(!$location){
-				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') has an invalid location');
+			if(!$this->isValidLocationId($locationId)){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') has an invalid location: '.$locationId);
 				return false;
 			} 
 			
@@ -368,7 +366,7 @@ class WPCohort{
                   "stage" => $termMeta[self::META_COHORT_STAGE],
                   "language" => $termLanguage,
                   "kickoff-date" => $termMeta[self::KICKOFF_DATE],
-                  "location_slug" => $location->post_name
+                  "location_slug" => $locationId
 				];
 				
 			if(!empty($slackUrl)) $params['slack-url'] = $slackUrl;
@@ -382,5 +380,12 @@ class WPCohort{
 			}
 		}
 		else BCNotification::addTransientMessage(BCNotification::ERROR,'Cohort '.$termId.' not found');
+	}
+	
+	private function isValidLocationId($locationId){
+		$locations = WPASThemeSettingsBuilder::getThemeOption('sync-bc-locations-api');
+		foreach($locations as $l) if($locationId == $l['slug']) return true;
+		
+		return false;
 	}
 }
