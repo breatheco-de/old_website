@@ -6,7 +6,7 @@ use WPAS\Controller\WPASController;
 use \Exception;
 use BreatheCode\Utils\BreatheCodeAPI;
 
-class Assignments{
+class AssignmentsController{
     
     public function renderMyAssignments(){
         

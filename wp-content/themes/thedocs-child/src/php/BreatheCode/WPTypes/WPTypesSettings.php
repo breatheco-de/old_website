@@ -16,7 +16,6 @@ class WPTypesSettings {
       $lessonAsset = new PostType\WPLessonAsset();
       $lesson = new PostType\WPLesson();
       $lessonProject = new PostType\WPLessonProject();
-      $location = new PostType\WPLocation();
     }
     catch(\Exception $e)
 		{

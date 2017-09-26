@@ -5,7 +5,7 @@ use WPAS\Controller\WPASController;
 use WPAS\Exception\WPASException;
 use BreatheCode\Utils\BreatheCodeAPI;
 
-class Lesson{
+class LessonController{
     
     public function renderCourse(){
 

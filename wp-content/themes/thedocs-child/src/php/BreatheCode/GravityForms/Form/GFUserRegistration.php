@@ -4,6 +4,7 @@ namespace BreatheCode\GravityForms\Form;
 use WPAS\Messaging\WPASAdminNotifier as BCNotification;
 use BreatheCode\WPTypes\PostType\WPCohort;
 use BreatheCode\Utils\BreatheCodeAPI;
+use WPAS\Settings\WPASThemeSettingsBuilder;
 
 class GFUserRegistration{
     
@@ -33,6 +34,13 @@ class GFUserRegistration{
 				foreach($terms as $term) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
 			   	$field->choices = $choices;
 			   	$field->placeholder = 'Select a course';
+			}
+			else if ( $field->type == 'select' and strpos( $field->cssClass,'breathecode-location' )!==false ) {
+			   	$locations = WPASThemeSettingsBuilder::getThemeOption('sync-bc-locations-api');
+				$choices = [];
+				foreach($locations as $loc) $choices[] = array( 'text' => $loc['name'], 'value' => $loc['slug'] );
+			   	$field->choices = $choices;
+			   	$field->placeholder = 'Select a location';
 			}
 		}
 		return $form;

@@ -6,7 +6,7 @@ use WPAS\Exception\WPASException;
 use BreatheCode\Utils\BreatheCodeAPI;
 use WP_Error;
 
-class Project{
+class ProjectController{
     
     public function renderProject(){
 

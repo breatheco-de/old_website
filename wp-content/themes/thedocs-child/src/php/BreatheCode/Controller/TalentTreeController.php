@@ -5,7 +5,7 @@ namespace BreatheCode\Controller;
 use WPAS\Controller\WPASController;
 use BreatheCode\Utils\BreatheCodeAPI;
 
-class TalentTree{
+class TalentTreeController{
     
     public function renderMyTalents(){
         

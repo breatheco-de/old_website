@@ -5,7 +5,7 @@ namespace BreatheCode\Controller;
 use WPAS\Exception\WPASException;
 use \WP_Query;
 
-class Search{
+class SearchController{
     
     public function renderSearch(){
         

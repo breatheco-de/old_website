@@ -2,7 +2,7 @@
 
 use BreatheCode\WPTypes\PostType\WPCohort;
 get_header('boxed'); 
-$args = WPAS\Controller\WPASController::getViewData();
+$args = wpas_get_view_data();
 ?>
     <div class="container main-content">
         <h1>Cohorts</h1>

@@ -6,7 +6,7 @@ use BreatheCode\Utils\BreatheCodeAPI;
 use WPAS\Controller\WPASController;
 use WPAS\Exception\WPASException;
 
-class Credentials{
+class CredentialsController{
    
     function custom_login() {
     	// first check if data is being sent and that it is the data we want

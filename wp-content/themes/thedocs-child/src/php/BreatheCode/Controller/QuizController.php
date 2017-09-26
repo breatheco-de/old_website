@@ -8,7 +8,7 @@ use \WP_Query, \Exception;
 use BreatheCode\Utils\BreatheCodeAPI;
 use WPAS\Controller\WPASController;
 
-class Quiz{
+class QuizController{
     
     public function renderQuiz(){
         
