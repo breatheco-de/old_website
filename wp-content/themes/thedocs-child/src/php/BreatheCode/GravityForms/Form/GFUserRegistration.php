@@ -22,7 +22,7 @@ class GFUserRegistration{
 		foreach ( $form['fields'] as $field )
 		{
 			if ( $field->type == 'select' and strpos( $field->cssClass,'student-cohorts' )!==false ) {
-			   	$terms = get_terms(array('taxonomy' => 'user_cohort','hide_empty' => 0));
+			   	$terms = get_terms(array('taxonomy' => 'user_cohort', 'lang' => 'en,es', 'hide_empty' => 0));
 			   	$choices = array();
 				foreach($terms as $term) if($term->parent!=0) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
 			   	$field->choices = $choices;
