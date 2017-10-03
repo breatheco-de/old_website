@@ -169,6 +169,7 @@ class UserController{
     //    				'meta_value' => $teacherId,
     //    				'orderby' => 'meta_value',
      //   				'order' => 'DESC',
+                        'lang' => 'en,es',
           				'hide_empty' => false,
           				'number' => 0
         			);

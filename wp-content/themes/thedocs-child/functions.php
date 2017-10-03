@@ -86,10 +86,6 @@ try{
      * */
     $GeeksAcademyOnline = new BreatheCode\GeeksAcademyOnline();
     /**
-     * Everything related to the visual composer settings and components.
-     * */
-    $VisualComposerSettings = new BreatheCode\VCComposer\VisualComposerSettings();
-    /**
      * Everything related to te gravityforms integration
      * */
     $GravityFormOptions = new BreatheCode\GravityForms\GravityFormSettings();
