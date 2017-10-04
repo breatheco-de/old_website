@@ -216,7 +216,6 @@ class GeeksAcademyOnline {
 				return get_permalink( get_page_by_path( $this->defaultViews['teacher'] ) );
 			} 
 			else if($this->matchAnyValues( self::$studentRoles, $user->roles)) {
-
 				return get_permalink( get_page_by_path( $this->defaultViews['student'] ) );
 			} 
 			else if(in_array( 'unverified',$user->roles)) 
