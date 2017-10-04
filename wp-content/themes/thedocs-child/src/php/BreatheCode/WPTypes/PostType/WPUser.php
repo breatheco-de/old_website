@@ -130,7 +130,6 @@ class WPUser
 		else BCNotification::addTransientMessage(BCNotification::ERROR,'User '.$userId.' not found');
 	}
 	
-	
 	function sync_student_with_api($userId){
 		
 		$wpUser = get_userdata($userId);
@@ -423,8 +422,8 @@ class WPUser
 	    $this->show_user_cohort($user);
 	}
 
-	private function show_user_redirect_field($user)
-	{
+	private function show_user_redirect_field($user){
+		
 	 	//Only the admin
 	 	$currentUser = $this->getUser();
 	 	if(in_array( 'administrator', $currentUser->roles ))

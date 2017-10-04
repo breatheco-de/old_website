@@ -80,7 +80,6 @@ class WPCohort{
 			</select>
 			<p class="description"><?php _e( 'Who is going to be teaching the cohort','breathecode' ); ?></p>
 		</div>
-		?>
 
 	<?php
 

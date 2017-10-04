@@ -36,7 +36,9 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->route([ 'slug' => 'Category:Course', 'controller' => 'LessonController']);
     $controller->route([ 'slug' => 'lesson', 'controller' => 'LessonController']);
     $controller->route([ 'slug' => 'Lesson-Project', 'controller' => 'LessonController']);
+    
     $controller->route([ 'slug' => 'My-Courses', 'controller' => 'LessonController']);
+    $controller->route([ 'slug' => 'Mis-Cursos', 'controller' => 'LessonController:renderMyCourses']);
     
     $controller->route([ 'slug' => 'Category:Asset-Technology', 'controller' => 'AssetsController']);
     $controller->route([ 'slug' => 'Category:Asset-Type', 'controller' => 'AssetsController']);
