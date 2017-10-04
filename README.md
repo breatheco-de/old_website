@@ -26,15 +26,31 @@ $ wp core download
 $ wp core config --dbname={yourdatabase} --dbuser={yourusername} --dbpass={YOUR DATABASE PASSWORD}
 ```
 
-4) **Create database for your installation**
+4) Include these new variables into your configuration file:
+
+```php
+
+$_SERVER["HTTP_HOST"] = $_SERVER["SERVER_NAME"];
+
+define('ASSETS_URL', 'https://assets.breatheco.de/');
+define('PROJECTS_URL', 'https://projects.breatheco.de/');
+define('BREATHECODE_API_HOST', 'https://talenttree-alesanchezr.c9users.io/');
+define('BREATHECODE_CLIENT_ID', '');
+define('BREATHECODE_CLIENT_SECRET', '');
+
+```
+
+5) **Create database for your installation**
 ```sh
 $ wp db create
 ```
+Note: first check if MySQL is up an running ([here is how to start mysql and phpmyadmin](https://community.c9.io/t/setting-up-phpmyadmin/1723) if you are using c9)
 
-5) **Install wordpress**
+6) **Install wordpress**
 ```sh
 $ wp core install --url={domain.com} --title="First Attempt" --admin_user={yourusername} --admin_password={yourpassword} --admin_email={your@email.com}
 ```
+Note: If you prefer to follow the wordpress wizard, access your website URL to follow it, and can skip this step.
 
 6) **Test your wordpress instalation (login) by going to /wp-admin**
 
@@ -45,19 +61,17 @@ $ wp core install --url={domain.com} --title="First Attempt" --admin_user={youru
 $ composer install
 ```
 
-9) **Install npm and webpack**
+9) **Install node_modules and dependencies**
 ```sh
-$ npm init
-
-$ npm install --save-dev webpack
-
-$ npm install style-loader css-loader sass-loader node-sass file-loader url-loader raw-loader --save
+$ npm install
 ```
+
+Note: Make sure you have npm installed.
 
 10) **Run webpack every time you want to generate a new bundle**
 
 ```sh
-$ webpack
+$ npm run build-dev
 ```
     
 ## The Application Uses the following plugins

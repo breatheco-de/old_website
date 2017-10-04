@@ -6,8 +6,8 @@ class WPCourse{
     const TAX_SLUG = 'course';
     private $user;
 
-    function __construct()
-    {
+    function __construct(){
+    	
         // hook it up to 11 so that it overrides the original register_taxonomy function
         add_action( 'init', array($this,'wpse_modify_taxonomy'), 11 );
         add_filter( 'parent_file', array($this,'filter_user_taxonomy_admin_page_parent_file'));
