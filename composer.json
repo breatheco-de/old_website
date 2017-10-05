@@ -15,6 +15,7 @@
         "wpackagist-plugin/email-templates": "*",
         "wpackagist-plugin/nav-menu-roles": "*",
         "wpackagist-plugin/post-types-order": "*",
+        "wpackagist-plugin/duplicator": "*",
         "respect/validation": "^1.1",
         "jjgrainger/posttypes": "^1.1",
         "erusev/parsedown": "^1.6"
