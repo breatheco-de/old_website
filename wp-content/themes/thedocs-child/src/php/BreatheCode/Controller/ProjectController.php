@@ -55,5 +55,11 @@ class ProjectController{
     }
     
     function whatever(){}
+    
+    function get_projects(){
+        
+        $templates = BreatheCodeAPI::getAssignmentTemplates();
+        WPASController::ajaxSuccess($templates);
+    }
 
 }

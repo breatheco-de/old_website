@@ -11,54 +11,30 @@ $args = WPAS\Controller\WPASController::getViewData();
 <?php } else { ?>
     <main class="container-fluid project-profile">
     <div class="row">
-        <div class="col-xs-12 project-description">
-            <h1><?php echo $args['project']['title']; ?></h1>
+        <div class="col-sm-4 col-md-3 project-navegation">
+            <h3 class="project-title"><?php echo $args['project']['title']; ?></h3>
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active"><a data-toggle="pill" href="#general"><label for="tab1">General</label></a></li>
+                
+              <li><a data-toggle="pill" href="#readme"><label for="tab2">Readme</label></a></li>
+              <?php if(!empty($args['project']['video-id'])){ ?>
+                  <li><a data-toggle="pill" href="#video"><label for="tab3">Video</label></a></li>
+              <?php } ?>
+              <li><a href="/projects">Back to projects</a></li>
+            </ul>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="tabcontainer container">
-                <input class='github-tabs' for="content1" id="tab1" type="radio" name="tabs" checked>
-                <label for="tab1">Information</label>
-
-                <input class='github-tabs' for="content2" id="tab2" type="radio" name="tabs">
-                <label for="tab2">Readme</label>
-                
-                <?php if(!empty($args['project']['video-id'])){ ?>
-                <input class='github-tabs' for="content3" id="tab3" type="radio" name="tabs">
-                <label for="tab3">Video</label>
-                <?php } ?>
-                
-                <input class='github-tabs' for="content4" id="tab4" type="radio" name="tabs">
-                <label for="tab4">Badges</label>
-                
-            </div>
-                
-            <section id="content1">
-                <div class="row container project-info">
-                    <div class="col-xs-12">
-                        <img class="img-responsive pull-left" alt="" src="http://placehold.it/300x300">
-                        <ul class="list-group">
-                            <li class="list-group-item"><?php echo $args['project']['description']; ?></li>
-                            <li class="list-group-item">Duration: <?php echo $args['project']['duration']; ?> hrs</li>
-                            <li class="list-group-item">Main technology: <?php echo $args['project']['technology']; ?></li>
-                            <li class="list-group-item">Difficulty: <?php echo $args['project']['difficulty']; ?></li>
-                            <li class="list-group-item">Category: <?php echo $args['project']['category']; ?></li>
-                        </ul>
-                    </div>
+        <div class="col-sm-8 col-md-9 tab-content">
+            <section id="general" class="tab-pane fade in active">
+                <p class="project-description"><?php echo $args['project']['description']; ?></p>
+                <div class="project-info">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Duration: <?php echo $args['project']['duration']; ?> hrs</li>
+                        <li class="list-group-item">Main technology: <?php echo $args['project']['technology']; ?></li>
+                        <li class="list-group-item">Difficulty: <?php echo $args['project']['difficulty']; ?></li>
+                        <li class="list-group-item">Category: <?php echo $args['project']['category']; ?></li>
+                    </ul>
                 </div>
-            </section>
-            <section id="content2">
-                <div class="markdown-body container"><?php echo $args['readme']; ?></div>
-            </section>
-            
-            <?php if(!empty($args['project']['video-id'])){ ?>
-            <section id="content3">
-                <iframe style="height: 90vh;" id="the-demo" width="100%" height="100%" frameborder="0" src="https://projects.breatheco.de/?vtutorial=../p/css/beginner/other/postcard/video.json"></iframe>
-            </section>
-            <?php } ?>
-            
-            <section id="content4">
+                <div>
                 <h5>If you deliver your project you could be getting the following points:</h5>
                 <ul class="talent-badge">
                     <?php if(count($args['badges'])==0){ ?> 
@@ -75,8 +51,20 @@ $args = WPAS\Controller\WPASController::getViewData();
                     </li>
                 <?php } ?>
                 </ul>
+                </div>
+                
+            </section>
+            <section id="readme" class="tab-pane fade in">
+                <div class="markdown-body text-left"><?php echo $args['readme']; ?></div>
             </section>
             
+            <?php if(!empty($args['project']['video-id'])){ ?>
+            <section id="video" class="tab-pane fade in">
+                <iframe style="height: 90vh;" id="the-demo" width="100%" height="100%" frameborder="0" src="https://projects.breatheco.de/?vtutorial=../p/css/beginner/other/postcard/video.json"></iframe>
+            </section>
+            <?php } ?>
+            
+            </div>
         </div>
     </div>
 </main>
