@@ -80,6 +80,8 @@ if(class_exists('WPAS\Controller\WPASController')){
     
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'UserController:save_slack_url']);   
     $controller->routeAjax([ 'slug' => 'Project', 'controller' => 'ProjectController:whatever']);   
+    
+    $controller->routeAjax([ 'slug' => 'projects', 'controller' => 'ProjectController:get_projects']);   
 }
 
 try{
