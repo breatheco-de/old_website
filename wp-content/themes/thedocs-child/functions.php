@@ -104,7 +104,7 @@ try{
 }
 catch(\Exception $e)
 {
-	WPASAdminNotifier::addTransientMessage(Utils\WPASAdminNotifier::ERROR,$e->getMessage());
+	WPASAdminNotifier::addTransientMessage(WPASAdminNotifier::ERROR,$e->getMessage());
 }
 
 /**
