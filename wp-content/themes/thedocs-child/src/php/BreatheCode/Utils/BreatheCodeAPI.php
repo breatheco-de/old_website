@@ -101,7 +101,7 @@ class BreatheCodeAPI{
 		{
 		    if(WP_DEBUG) 
 		    {
-		    	//print_r($response); die();
+		    //	print_r($response); die();
 		    	$error = wp_remote_retrieve_body( $response ); 
 		    	$errorObj = json_decode($error);
 		    	throw new \Exception($errorObj->msg);
