@@ -63,7 +63,7 @@ export default class projects{
                     <strong>Takes ${project.duration} hours, focused in ${this.getLabels(project.technologies)}</strong>
                 </div>
                 <div class="col-xs-3 col-md-2 assignment-bar">
-                    <a href="/project?slug=${project.project_slug}" class="btn btn-xs btn-primary">view</a>
+                    <a href="/project?slug=${project.project_slug}" class="btn btn-primary">view</a>
                 </div>
             </div>
         </li>`;
