@@ -1,1 +1,156 @@
-!function(t){function e(n){if(r[n])return r[n].exports;var o=r[n]={i:n,l:!1,exports:{}};return t[n].call(o.exports,o,o.exports,e),o.l=!0,o.exports}var n=window.webpackJsonp;window.webpackJsonp=function(r,c,i){for(var u,a,f,l=0,s=[];l<r.length;l++)a=r[l],o[a]&&s.push(o[a][0]),o[a]=0;for(u in c)Object.prototype.hasOwnProperty.call(c,u)&&(t[u]=c[u]);for(n&&n(r,c,i);s.length;)s.shift()();if(i)for(l=0;l<i.length;l++)f=e(e.s=i[l]);return f};var r={},o={14:0};e.e=function(t){function n(){u.onerror=u.onload=null,clearTimeout(a);var e=o[t];0!==e&&(e&&e[1](new Error("Loading chunk "+t+" failed.")),o[t]=void 0)}var r=o[t];if(0===r)return new Promise(function(t){t()});if(r)return r[2];var c=new Promise(function(e,n){r=o[t]=[e,n]});r[2]=c;var i=document.getElementsByTagName("head")[0],u=document.createElement("script");u.type="text/javascript",u.charset="utf-8",u.async=!0,u.timeout=12e4,e.nc&&u.setAttribute("nonce",e.nc),u.src=e.p+""+t+".js";var a=setTimeout(n,12e4);return u.onerror=u.onload=n,i.appendChild(u),c},e.m=t,e.c=r,e.d=function(t,n,r){e.o(t,n)||Object.defineProperty(t,n,{configurable:!1,enumerable:!0,get:r})},e.n=function(t){var n=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(n,"a",n),n},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="/wp-content/themes/thedocs-child/public/",e.oe=function(t){throw console.error(t),t},e(e.s=32)}({1:function(t,e,n){"use strict";!function(t,e){function n(t){return e.querySelectorAll("["+l+'="'+t+'"]')}function r(t){for(u=t.target;u&&!u.getAttribute(l);)if(!(u=u.parentNode))return;a=u.getAttribute(s)===p?d:p,u.setAttribute(s,a)}var o,c,i,u,a,f="click",l="data-mfb-toggle",s="data-mfb-state",p="open",d="closed",h="mfb-component__button--main";t.Modernizr&&Modernizr.touch&&(c=n("hover"),function(t){for(var e=0,n=t.length;n>e;e++)t[e].setAttribute(l,f),t[e].setAttribute(s,d)}(c)),o=n(f),function(t,e){for(var n=0,o=t.length;o>n;n++)i=t[n].querySelector("."+h),i.addEventListener(e,r,!1)}(o,"click")}(window,document)},32:function(t,e,n){t.exports=n(1)}});
+/******/(function(t){// webpackBootstrap
+/******/
+// install a JSONP callback for chunk loading
+/******/
+var e=window["webpackJsonp"];/******/
+window["webpackJsonp"]=function r(i,u,c){/******/
+// add "moreModules" to the modules object,
+/******/
+// then flag all "chunkIds" as loaded and fire callback
+/******/
+var a,f,s=0,l=[],d;/******/
+for(;s<i.length;s++){/******/
+f=i[s];/******/
+if(n[f]){/******/
+l.push(n[f][0])}/******/
+n[f]=0}/******/
+for(a in u){/******/
+if(Object.prototype.hasOwnProperty.call(u,a)){/******/
+t[a]=u[a]}}/******/
+if(e)e(i,u,c);/******/
+while(l.length){/******/
+l.shift()()}/******/
+if(c){/******/
+for(s=0;s<c.length;s++){/******/
+d=o(o.s=c[s])}}/******/
+return d};/******/
+/******/
+// The module cache
+/******/
+var r={};/******/
+/******/
+// objects to store loaded and loading chunks
+/******/
+var n={/******/
+14:0};/******/
+/******/
+// The require function
+/******/
+function o(e){/******/
+/******/
+// Check if module is in cache
+/******/
+if(r[e]){/******/
+return r[e].exports}/******/
+// Create a new module (and put it into the cache)
+/******/
+var n=r[e]={/******/
+i:e,/******/
+l:false,/******/
+exports:{}};/******/
+/******/
+// Execute the module function
+/******/
+t[e].call(n.exports,n,n.exports,o);/******/
+/******/
+// Flag the module as loaded
+/******/
+n.l=true;/******/
+/******/
+// Return the exports of the module
+/******/
+return n.exports}/******/
+/******/
+// This file contains only the entry chunk.
+/******/
+// The chunk loading function for additional chunks
+/******/
+o.e=function t(e){/******/
+var r=n[e];/******/
+if(r===0){/******/
+return new Promise(function(t){t()})}/******/
+/******/
+// a Promise means "currently loading".
+/******/
+if(r){/******/
+return r[2]}/******/
+/******/
+// setup Promise in chunk cache
+/******/
+var i=new Promise(function(t,o){/******/
+r=n[e]=[t,o]});/******/
+r[2]=i;/******/
+/******/
+// start chunk loading
+/******/
+var u=document.getElementsByTagName("head")[0];/******/
+var c=document.createElement("script");/******/
+c.type="text/javascript";/******/
+c.charset="utf-8";/******/
+c.async=true;/******/
+c.timeout=12e4;/******/
+/******/
+if(o.nc){/******/
+c.setAttribute("nonce",o.nc)}/******/
+c.src=o.p+""+e+".js";/******/
+var a=setTimeout(f,12e4);/******/
+c.onerror=c.onload=f;/******/
+function f(){/******/
+// avoid mem leaks in IE.
+/******/
+c.onerror=c.onload=null;/******/
+clearTimeout(a);/******/
+var t=n[e];/******/
+if(t!==0){/******/
+if(t){/******/
+t[1](new Error("Loading chunk "+e+" failed."))}/******/
+n[e]=undefined}}/******/
+u.appendChild(c);/******/
+/******/
+return i};/******/
+/******/
+// expose the modules object (__webpack_modules__)
+/******/
+o.m=t;/******/
+/******/
+// expose the module cache
+/******/
+o.c=r;/******/
+/******/
+// define getter function for harmony exports
+/******/
+o.d=function(t,e,r){/******/
+if(!o.o(t,e)){/******/
+Object.defineProperty(t,e,{/******/
+configurable:false,/******/
+enumerable:true,/******/
+get:r})}};/******/
+/******/
+// getDefaultExport function for compatibility with non-harmony modules
+/******/
+o.n=function(t){/******/
+var e=t&&t.__esModule?/******/
+function e(){return t["default"]}:/******/
+function e(){return t};/******/
+o.d(e,"a",e);/******/
+return e};/******/
+/******/
+// Object.prototype.hasOwnProperty.call
+/******/
+o.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)};/******/
+/******/
+// __webpack_public_path__
+/******/
+o.p="/wp-content/themes/thedocs-child/public/";/******/
+/******/
+// on error function for async loading
+/******/
+o.oe=function(t){console.error(t);throw t};/******/
+/******/
+// Load entry module and return exports
+/******/
+return o(o.s=32)})({/***/
+1:/***/
+function(t,e,r){"use strict";!function(t,e){"use strict";function r(t,e){for(var r=0,n=t.length;n>r;r++){a=t[r].querySelector("."+v),a.addEventListener(e,i,!1)}}function n(t){for(var e=0,r=t.length;r>e;e++){t[e].setAttribute(p,l),t[e].setAttribute(h,b)}}function o(t){return e.querySelectorAll("["+p+'="'+t+'"]')}function i(t){for(f=t.target;f&&!f.getAttribute(p);){if(f=f.parentNode,!f)return}s=f.getAttribute(h)===m?b:m,f.setAttribute(h,s)}var u,c,a,f,s,l="click",d="hover",p="data-mfb-toggle",h="data-mfb-state",m="open",b="closed",v="mfb-component__button--main";t.Modernizr&&Modernizr.touch&&(c=o(d),n(c)),u=o(l),r(u,"click")}(window,document)},/***/
+32:/***/
+function(t,e,r){t.exports=r(1)}});

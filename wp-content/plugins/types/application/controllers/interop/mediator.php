@@ -136,8 +136,9 @@ class Types_Interop_Mediator {
 	private function get_theme_slug( ){
 		$theme = wp_get_theme();
 		if( is_child_theme() ){
-            return 'thedocs';
-			$theme_name = $theme->parent()->get('Name');
+			$parent = $theme->parent();
+			if($parent) $theme_name = $theme->parent()->get('Name');
+			else $theme_name = 'thedocs';
 		} else {
 			$theme_name = $theme->get('Name');
 		}

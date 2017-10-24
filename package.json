@@ -22,8 +22,8 @@
     "webpack": "^3.5.2"
   },
   "scripts": {
-    "build-dev": "webpack",
-    "build-prod": "webpack -p"
+    "build-dev": "webpack --config webpack.config.js",
+    "build-prod": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
