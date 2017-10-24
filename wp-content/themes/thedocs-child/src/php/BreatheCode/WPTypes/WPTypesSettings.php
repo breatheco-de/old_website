@@ -8,7 +8,7 @@ class WPTypesSettings {
 
   function __construct() {
 
-    if(!is_plugin_active('types/wpcf.php')) throw new \Exception('The plugin WP_Types is required, please install it. https://wp-types.com/');
+    if(!function_exists('types_render_field')) throw new \Exception('The plugin WP_Types is required, please install it. https://wp-types.com/');
     
     try{
       $projectAssignment = new PostType\WPProjectAssignment();

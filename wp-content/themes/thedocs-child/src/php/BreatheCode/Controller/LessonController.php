@@ -2,7 +2,7 @@
 namespace BreatheCode\Controller;
 
 use WPAS\Controller\WPASController;
-use WPAS\Exception\WPASException;
+use WPAS\Utils\WPASException;
 use BreatheCode\Utils\BreatheCodeAPI;
 
 class LessonController{

@@ -1,5 +1,4 @@
 <?php 
-    
 global $post;
 $result = file_exists(get_template_directory().'-child/src/php/view/page/'.$post->post_name.'.php');
 $translationIds = PLL()->model->post->get_translations($post->ID);
