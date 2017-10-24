@@ -4,6 +4,7 @@ namespace BreatheCode;
 
 use \BreatheCode\WPTypes\PostType\WPCourse;
 use \WPAS\Settings\WPASThemeSettingsBuilder;
+use WPAS\Messaging\WPASAdminNotifier;
 
 class BCThemeOptions {
 	

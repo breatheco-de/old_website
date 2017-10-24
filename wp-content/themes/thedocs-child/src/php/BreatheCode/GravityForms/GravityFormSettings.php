@@ -2,11 +2,15 @@
 
 namespace BreatheCode\GravityForms;
 
+use WPAS\Messaging\WPASAdminNotifier;
+
 class GravityFormSettings {
 
   function __construct() {
     
-    if(!is_plugin_active('gravityforms/gravityforms.php')) throw new \Exception('The plugin GravityForms is required, please install it.');
+    if(is_admin()){
+      if(!is_plugin_active('gravityforms/gravityforms.php')) WPASAdminNotifier::addTransientMessage(WPASAdminNotifier::ERROR,'The plugin GravityForms is required, please install it.');
+    }
     
     add_filter( 'gform_enable_field_label_visibility_settings', '__return_true' );
     add_filter("gform_form_settings", array($this,"pbc_gf_add_class_to_button_ui"), 10, 2);

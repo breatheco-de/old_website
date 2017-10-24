@@ -2,6 +2,8 @@
 
 namespace BreatheCode\WPTypes;
 
+use WPAS\Messaging\WPASAdminNotifier;
+
 class WPTypesSettings {
 
   function __construct() {
@@ -19,7 +21,7 @@ class WPTypesSettings {
     }
     catch(\Exception $e)
 		{
-			Utils\BCNotification::addTransientMessage(Utils\BCNotification::ERROR,$e->getMessage());
+			WPASAdminNotifier::addTransientMessage(WPASAdminNotifier::ERROR,$e->getMessage());
 		}
   }
 
