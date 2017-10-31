@@ -339,14 +339,34 @@ class WPUser
 		    echo "<h3>User Cohort</h3>";
 		 
 		     //list the terms as checkbox, make sure the assigned terms are checked
+		    echo '<table class="widefat fixed"  cellspacing="0">';
+		    $className = 'class="alternate"';
 		    foreach( $user_cats as $cat ) {
-		        if($cat->parent) { ?>
-		        <input type="checkbox" id="user-cohort-<?php echo $cat->term_id ?>" <?php if(in_array( $cat->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cat->slug;?>"/> 
-				<?php }
-		    	echo '<label for="user-cohort-'.$cat->term_id.'">'.$cat->name.'</label>';
-		    	echo '<br />';
-		    }
-	 	}
+		        if(!$cat->parent) { 
+					echo '<tr '.$className.'><td><h5>'.$cat->name.' ('.$cat->term_id.')</h5></td>';
+		        	if($className) $className = null; 
+		        	else $className = 'class="alternate"';
+					$args3 = array(
+						'child_of' => $cat->term_id,
+						'orderby'  => 'id',
+						'hide_empty'=>false,
+						'order'    => 'DESC'
+					);
+					$childTerms = get_terms('user_cohort', $args3);
+		        	echo '<td>';
+		    		foreach( $childTerms as $cterm ) {
+		        ?>
+				        <input type="checkbox" id="user-cohort-<?php echo $cterm->term_id ?>" <?php if(in_array( $cterm->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cterm->slug;?>"/> 
+				    <?php
+				    	echo '<label for="user-cohort-'.$cterm->term_id.'">'.$cterm->name.' ('.$cterm->slug.')</label>';
+				    	echo '<br />';
+					}
+					echo '</td>';
+	    		}
+				echo '</tr>';
+	    	}
+	    	echo '</table>';
+ 		}
 	}
 
 	private function save_user_cohort( $user_id ) {

@@ -327,6 +327,10 @@ class WPCohort{
 	    
 		if($wpCohort)
 		{
+			if(!$wpCohort->parent) { 
+				BCNotification::addTransientMessage(BCNotification::ERROR,'You cannot sync a parent cohort with the API, only its childs');
+				return false;
+			}
 			if(empty($termMeta[self::META_COHORT_STAGE]) || $termMeta[self::META_COHORT_STAGE] == '-1')
 			{
 				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') has an invalid stage');
