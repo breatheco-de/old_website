@@ -356,7 +356,7 @@ class WPUser
 		        	echo '<td>';
 		    		foreach( $childTerms as $cterm ) {
 		        ?>
-				        <input type="checkbox" id="user-cohort-<?php echo $cterm->term_id ?>" <?php if(in_array( $cterm->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cterm->slug;?>"/> 
+				        <input type="checkbox" id="user-cohort-<?php echo $cterm->term_id ?>" <?php if(in_array( $cterm->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cterm->term_id;?>"/> 
 				    <?php
 				    	echo '<label for="user-cohort-'.$cterm->term_id.'">'.$cterm->name.' ('.$cterm->slug.')</label>';
 				    	echo '<br />';
@@ -385,6 +385,7 @@ class WPUser
 
 	private function addUserToTaxonomies($user_id, $taxonomies, $taxonomyType){
 		$terms = array_unique( array_map( 'intval', $taxonomies ) );
+		//print_r($terms);die();
 		wp_set_object_terms( $user_id, $terms, $taxonomyType, false );
 	 
 		//make sure you clear the term cache
