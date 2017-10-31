@@ -343,7 +343,7 @@ class WPUser
 		        if($cat->parent) { ?>
 		        <input type="checkbox" id="user-cohort-<?php echo $cat->term_id ?>" <?php if(in_array( $cat->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="user_cohort[]"  value="<?php echo $cat->term_id;?>"/> 
 				<?php }
-		    	echo '<label for="user-cohort-'.$cat->term_id.'">'.$cat->name.'</label>';
+		    	echo '<label for="user-cohort-'.$cat->slug.'">'.$cat->name.'</label>';
 		    	echo '<br />';
 		    }
 	 	}
