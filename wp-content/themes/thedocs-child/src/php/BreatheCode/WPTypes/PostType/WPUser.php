@@ -145,6 +145,10 @@ class WPUser
 			$studentCohorts = [];
 			$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
 			foreach($terms as $t) $studentCohorts[] = $t->slug;
+			if(count($studentCohorts)==0){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The user needs to belong at least to one cohort');
+				return;
+			}
 			
 			$bcUser = BreatheCodeAPI::syncUser([
 				"email" => $wpUser->user_email,
@@ -184,8 +188,7 @@ class WPUser
 		}
 	}
 	
-	function set_user_role( $user_id, $role, $old_roles ) 
-	{
+	function set_user_role( $user_id, $role, $old_roles ) {
 	    $this->getUserType($user_id, [$role], true);
 	}
 	
