@@ -186,11 +186,7 @@ class WPUser
 	
 	function set_user_role( $user_id, $role, $old_roles ) 
 	{
-	    update_user_meta($user_id, 'type', null);
-	}
-	
-	function refreshUserRole(){
-		
+	    $this->getUserType($user_id, [$role], true);
 	}
 	
 	function give_access_to_fullstack_all($studentId){
