@@ -25,7 +25,7 @@ class GFUserRegistration{
 			   	$terms = get_terms(array('taxonomy' => 'user_cohort', 'lang' => 'en,es', 'hide_empty' => 0));
 			   	//print_r($terms); die();
 			   	$choices = array();
-				foreach($terms as $term) if($term->parent!=0) $choices[] = array( 'text' => $term->name, 'value' => $term->slug );
+				foreach($terms as $term) if($term->parent!=0) $choices[] = array( 'text' => $term->name, 'value' => $term->term_id );
 			   	$field->choices = $choices;
 			   	$field->placeholder = 'Select a cohort';
 			}
