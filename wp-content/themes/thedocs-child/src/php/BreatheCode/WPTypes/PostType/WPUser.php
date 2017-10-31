@@ -144,7 +144,7 @@ class WPUser
 			
 			$studentCohorts = [];
 			$terms = wp_get_post_terms($userId,WPCohort::POST_TYPE);
-			foreach($terms as $t) $studentCohorts[] = $t->name;
+			foreach($terms as $t) $studentCohorts[] = $t->slug;
 			
 			$bcUser = BreatheCodeAPI::syncUser([
 				"email" => $wpUser->user_email,
