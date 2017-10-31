@@ -25,6 +25,7 @@ class WPUser
 		add_action( 'admin_menu', array($this, 'add_user_cohort_menu' ));
 		add_action( 'show_user_profile', array($this, 'tm_additional_profile_fields' ));
 		add_action( 'edit_user_profile', array($this, 'tm_additional_profile_fields' ));
+		add_action( 'set_user_role', array($this, 'set_user_role'), 10, 3 );
 		add_action( 'personal_options_update', array($this, 'tm_save_profile_fields' ));
 		add_action( 'edit_user_profile_update', array($this, 'tm_save_profile_fields' ));
 	    
@@ -137,7 +138,7 @@ class WPUser
 		{
 			$type = $this->getUserType($userId, $wpUser->roles);
 			if($type!='student'){
-				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for students, user '.$wpUser->user_email.' is not');
+				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for students, user '.$wpUser->user_email.' is: '.$type);
 				return;
 			}
 			
@@ -163,10 +164,10 @@ class WPUser
 		else BCNotification::addTransientMessage(BCNotification::ERROR,'User '.$userId.' not found');
 	}
 	
-	function getUserType($userId, $roles){
+	function getUserType($userId, $roles, $force=false){
 		
 		$useType = get_user_meta($userId, 'type',true);
-		if($useType) return $useType;
+		if($useType && !$force) return $useType;
 		else{
 			if(in_array('administrator',$roles)){
 				update_user_meta($userId, 'type','admin');
@@ -181,6 +182,15 @@ class WPUser
 				return 'student';
 			} 
 		}
+	}
+	
+	function set_user_role( $user_id, $role, $old_roles ) 
+	{
+	    update_user_meta($user_id, 'type', null);
+	}
+	
+	function refreshUserRole(){
+		
 	}
 	
 	function give_access_to_fullstack_all($studentId){
