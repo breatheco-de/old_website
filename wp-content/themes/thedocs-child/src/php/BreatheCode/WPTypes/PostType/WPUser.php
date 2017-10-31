@@ -139,7 +139,7 @@ class WPUser
 			$type = $this->getUserType($userId, $wpUser->roles);
 			if($type!='student'){
 				BCNotification::addTransientMessage(BCNotification::ERROR,'This method can only be called for students, user '.$wpUser->user_email.' is: '.$type);
-				return;
+				return false;
 			}
 			
 			$studentCohorts = [];
@@ -147,7 +147,7 @@ class WPUser
 			foreach($terms as $t) $studentCohorts[] = $t->slug;
 			if(count($studentCohorts)==0){
 				BCNotification::addTransientMessage(BCNotification::ERROR,'The user needs to belong at least to one cohort');
-				return;
+				return false;
 			}
 			
 			$bcUser = BreatheCodeAPI::syncUser([
