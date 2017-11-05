@@ -23,6 +23,9 @@ class AssignmentsController{
             case "delivered":
               return '<span class="label label-success label-outline">'.$status.'</span>';
               break;
+            case "rejected":
+              return '<span class="label label-danger label-outline">'.$status.'</span>';
+              break;
             case "not-delivered":
               return '<span class="label label-warning label-outline">'.$status.'</span>';
               break;
@@ -34,7 +37,8 @@ class AssignmentsController{
         
         $args['getAssignmentPermalink'] = function($a){
           
-            return 'http://projects.breatheco.de/d/'.$a->template->project_slug.'#readme';
+            return get_permalink( get_page_by_path( 'project' ) ).'?slug='.$a->template->project_slug;
+            //return 'http://projects.breatheco.de/d/'.$a->template->project_slug.'#readme';
         };
         
         return $args;
@@ -136,15 +140,37 @@ class AssignmentsController{
     		}
     }
     
+    public function reject_assignment() {
+      
+    	// first check if data is being sent and that it is the data we want
+      	if(!isset( $_POST["assignment_id"] )) WPASController::ajaxError('Missing assignment_id');
+      	if(!isset( $_POST["reject_reason"] )) WPASController::ajaxError('Missing reject_reason');
+    		// now set our response var equal to that of the POST var (this will need to be sanitized based on what you're doing with with it)
+    		// send the response back to the front end
+    		try{
+    		  
+    		    $result = BreatheCodeAPI::updateStudentAssignment([
+    		      'assignment_id' => $_POST["assignment_id"],
+    		      'status' => 'rejected',
+    		      'reject_reason' => $_POST["reject_reason"]
+    		    ]);
+
+    		    WPASController::ajaxSuccess($result);
+    		}
+    		catch(Exception $e){
+            WPASController::ajaxError($e->getMessage());
+    		}
+    }
+    
     public function get_assignment_earnings(){
       
       $assignmentSlug = $_REQUEST['slug'];
-      $assignmentSlug = 'instagram-feed';
+      //$assignmentSlug = 'instagram-feed';
       
       $content = file_get_contents(PROJECTS_URL.'projects.php?slug='.$assignmentSlug);
       $project = json_decode($content);
       
-      if(empty($project)) WPASController::ajaxError($project);
+      if(empty($project)) WPASController::ajaxError("The project information was imposible to retrieve");
       else WPASController::ajaxSuccess($project);
     }
     

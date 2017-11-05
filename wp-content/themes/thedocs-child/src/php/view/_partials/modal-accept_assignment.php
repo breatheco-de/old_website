@@ -15,7 +15,7 @@
             </div>
             <h4>Choose earnings on each badge:</h4>
             <div class='project-earnings'></div>
-			<button id="login" type="button" class="btn btn-lg btn-primary btn-block send-btn">Accept</button>
+			<button id="login" type="button" class="btn btn-lg btn-primary btn-block send-btn hidden">Accept</button>
 		</form>
     </div>
 </div>

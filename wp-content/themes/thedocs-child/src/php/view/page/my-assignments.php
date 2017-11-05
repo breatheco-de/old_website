@@ -47,8 +47,10 @@ $args = WPAS\Controller\WPASController::getViewData();
                     <div class="col-xs-3 col-md-2 assignment-bar">
                       <?php if(!in_array($a->status,['reviewed','delivered'])){ ?>
                       <a data-assignment="<?php echo $a->id; ?>" data-assignment-title="<?php echo $a->template->title; ?>" href="#" data-toggle="modal" data-target="#modal-deliver_assignment" class="btn btn-xs btn-success deliver-assignment"><?php echo pll__( 'Deliver' ); ?></a>
+                      <?php } else { ?>
+                      <a href="<?php echo $a->github_url; ?>" class="btn btn-xs btn-default deliver-assignment"><?php echo pll__( 'View repository' ); ?></a>
                       <?php } ?>
-                      <a target="_blank" href="<?php echo $args['getAssignmentPermalink']($a); ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'View' ); ?></a>
+                      <a target="_blank" href="<?php echo $args['getAssignmentPermalink']($a); ?>" class="btn btn-xs btn-primary"><?php echo pll__( 'Details' ); ?></a>
                     </div>
                   </div>
                 </li>

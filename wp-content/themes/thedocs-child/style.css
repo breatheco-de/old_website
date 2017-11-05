@@ -993,6 +993,11 @@ ul, ol {
   margin-bottom: 0px !important;
   margin-top: 0px !important; }
 
+.loading {
+  text-align: center; }
+  .loading svg {
+    height: 80px; }
+
 #main-nav-bar {
   top: 0px !important;
   z-index: 1; }
@@ -1794,10 +1799,6 @@ STUDENT ACTIVITY FEED
   padding-top: 20px; }
   .project-list .projects h5 {
     margin-top: 2px; }
-  .project-list .projects .loading {
-    text-align: center; }
-    .project-list .projects .loading svg {
-      height: 80px; }
 
 .markdown-body {
   -ms-text-size-adjust: 100%;
@@ -2277,3 +2278,13 @@ STUDENT ACTIVITY FEED
 @media screen and (max-width: 750px) {
   .project-navegation, .project-filters {
     height: auto !important; } }
+
+.studentsToAssign li {
+  padding: 5px;
+  margin-bottom: 5px;
+  list-style: none;
+  background: #e9e9e9; }
+
+.studentsToAssign li.selected {
+  border: 1px solid;
+  border-color: darkblue; }

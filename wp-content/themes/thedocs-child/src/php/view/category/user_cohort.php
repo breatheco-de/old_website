@@ -1,7 +1,7 @@
 <?php
 use BreatheCode\WPTypes\PostType\WPCohort;
 get_header('boxed'); 
-$args = WPAS\Controller\WPASController::getViewData();
+$args = wpas_get_view_data();
 if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($args); 
 ?>
         <div class="container title-container">
@@ -93,6 +93,11 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
           <li>
             <a href="#" data-mfb-label="Edit Repls" class="mfb-component__button--child" data-target="#update_repls" data-toggle="modal">
               <i class="mfb-component__child-icon fa fa-code"></i>
+            </a>
+          </li>
+          <li>
+            <a href="<?php echo get_permalink( get_page_by_path( 'bulk-badges' ) ); ?>?cohort=<?php echo $args['term']->term_id; ?>" data-mfb-label="Give bulk badges" class="mfb-component__button--child">
+              <i class="mfb-component__child-icon fa fa-certificate"></i>
             </a>
           </li>
         </ul>

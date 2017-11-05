@@ -5,24 +5,23 @@ namespace BreatheCode\Controller;
 use BreatheCode\WPTypes\PostType\WPCohort;
 use BreatheCode\BCThemeOptions;
 use BreatheCode\Utils\BreatheCodeAPI;
-use BreatheCode\Model\User;
 use BreatheCode\GeeksAcademyOnline;
 use \Exception, \WP_Error;
 use WPAS\Utils\WPASValidator;
 use WPAS\Controller\WPASController;
 use BreatheCode\WPLanguages;
 
+use BreatheCode\Model\User;
+use BreatheCode\Model\Cohort;
+
 class UserController{
     
-    private function isStudent($userId){ return (get_user_meta($userId, 'type', true) == 'student') ? true : false; }
-	private function isTeacher($userId){ return (get_user_meta($userId, 'type', true) == 'teacher') ? true : false; }
-	
     public function renderUserCohort(){
         
         $term = get_queried_object();
         $args['term'] = $term;
         
-        $members = $this->getCohortMembers($term->term_id);
+        $members = Cohort::wp_getMembers($term->term_id);
         $args['students'] = $members['students'];
         $args['teachers'] = $members['teachers'];
         
@@ -115,7 +114,7 @@ class UserController{
                 }
             };
             
-            $args['blocked-quizzes'] = $this->_getStudentBlockedQuizes($args['user']['id']);
+            $args['blocked-quizzes'] = User::getBlockedQuizes($args['user']['id']);
             
             $args['activity'] = BreatheCodeAPI::getStudentActivity(['student_id' => $user['bcId']]);
             //$args['briefing'] = BreatheCodeAPI::getStudentBriefing(['student_id' => $args['bcId']]);
@@ -133,22 +132,9 @@ class UserController{
     public function renderTeacherCohorts(){
         
         $teacherId = get_current_user_id();
-        $args['cohorts'] = $this->getWPCohortsByTeacher($teacherId);
+        $args['cohorts'] = Cohort::wp_getByTeacher($teacherId);
         
         return $args;
-    }
-    
-    private function getCohortMembers($cohortId){
-        $auxUsers = array();
-        $users = get_objects_in_term( $cohortId, WPCohort::POST_TYPE );
-        
-        foreach($users as $u) 
-        {
-            $user = get_userdata($u);
-            if($this->isStudent($u)) $auxUsers['students'][] = $user;
-            else if($this->isTeacher($u)) $auxUsers['teachers'][] = $user;
-        }
-        return $auxUsers;
     }
     
     private function getCohortsByTeacher($teacherId){
@@ -160,32 +146,6 @@ class UserController{
 	    ]);
 	    return $cohorts;
         
-    }
-    
-    private function getWPCohortsByTeacher($teacherId){
-        $taxonomy = WPCohort::POST_TYPE;
-        $args = array(	'taxonomy' => $taxonomy,
-      //  				'meta_key' => WPCohort::META_MAIN_TEACHER,
-    //    				'meta_value' => $teacherId,
-    //    				'orderby' => 'meta_value',
-     //   				'order' => 'DESC',
-                        'lang' => 'en,es',
-          				'hide_empty' => false,
-          				'number' => 0
-        			);
-        $terms = get_terms($args); // Get all terms of a taxonomy
-        $resultingCohorts = array();
-        if (!User::isAdmin($teacherId))
-        {
-            foreach($terms as $term){
-                $meta = get_option('taxonomy_'.$term->term_id);
-                if($meta[WPCohort::META_MAIN_TEACHER]==$teacherId)
-                    array_push($resultingCohorts, $term);
-            }
-            
-            return $resultingCohorts;
-        }
-        else return $terms;
     }
     
     private function printRoles($roles){
@@ -248,7 +208,7 @@ class UserController{
 	        
     		try{
     		    
-    		    $args["user_id"] = $this->_getBreathecodeId(get_current_user_id());
+    		    $args["user_id"] = User::getBreathecodeId(get_current_user_id());
     		    $args["settings"] = $settings;
     		    //print_r($args); die();
     		    $result = BreatheCodeAPI::updateUserSettings($args);
@@ -306,7 +266,7 @@ class UserController{
 		    $teacher = get_user_by( 'id', get_current_user_id());
 		    
     	    $wordpressId = WPASValidator::validate(WPASValidator::INTEGER,$_POST['student'],'Student Id');
-    	    $args['student_id'] = $this->_getBreathecodeId($wordpressId);
+    	    $args['student_id'] = User::getBreathecodeId($wordpressId);
     	    $args['badge_slug'] = WPASValidator::validate(WPASValidator::SLUG,$_POST['badge'],'Badge Slug');
     	    $args['points_earned'] = WPASValidator::validate(WPASValidator::INTEGER,$_POST['points'],'Points Earned');
     	    $args['type'] = 'teacher_reward';
@@ -368,18 +328,4 @@ class UserController{
         return $userArray;
 	}
 	
-	private function _getStudentBlockedQuizes($studentId){
-        $attempts = get_user_meta( $studentId, 'quiz_attempts', true);
-        if(!$attempts) return [];
-        
-        $quizzes = [];
-        foreach($attempts as $key => $val) $quizzes[] = $key;
-        return $quizzes;
-	}
-	
-	private function _getBreathecodeId($id){
-	    
-        return get_user_meta( $id, 'breathecode_id', true);
-	}
-    
 }

@@ -37,6 +37,10 @@ ul, ol {
 	margin-bottom: 0px !important;
 	margin-top: 0px !important;
 }
+.loading{
+  text-align: center;
+  svg{height: 80px};
+}
 #main-nav-bar{top: 0px !important;  z-index: 1;}
 ul.navbar-nav li:hover{
 	background: #75b9f9;
@@ -171,3 +175,4 @@ li.hidden_label label{display: none;}
 @import 'pages/assignments';
 @import 'pages/quiz';
 @import 'pages/project';
+@import 'pages/bulkbadges';

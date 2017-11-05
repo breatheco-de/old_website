@@ -72,7 +72,7 @@ $args = WPAS\Controller\WPASController::getViewData();
       <!-- Banner -->
       <div class="course-banner banner auto-size" style="background-color: #5cc7b2">
         <div class="container-fluid text-white">
-          <h1><?php echo $args['wp-query']->name; ?></h1>
+          <h1><?php echo $args['course']->name; ?></h1>
           <h5><?php echo $args['getCourseSubheading'](); ?></h5>
           <a class='btn btn-success btn-lg' href="<?php echo $args['index-lesson']; ?>"><?php echo pll__('Start Course'); ?></a>
         </div>

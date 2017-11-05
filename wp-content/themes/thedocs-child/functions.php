@@ -54,6 +54,8 @@ if(class_exists('WPAS\Controller\WPASController')){
     
     $controller->route([ 'slug' => 'Quiz', 'controller' => 'QuizController']);
     
+    $controller->route([ 'slug' => 'bulk-badges', 'controller' => 'TeacherController:renderBulkBadges']);
+    
     /**
      * Binding Ajax methos with views and controllers
      * @param view
@@ -65,6 +67,7 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController:create_new_assignment']);    
     $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController:get_assignment_earnings']);    
     $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController:accept_assignment']);    
+    $controller->routeAjax([ 'slug' => 'Review-Assignments', 'controller' => 'AssignmentsController:reject_assignment']);    
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'TeacherController:check_attendancy']);     
     $controller->routeAjax([ 'slug' => 'Category:User_Cohort', 'controller' => 'TeacherController:update_replits']);     
     $controller->routeAjax([ 'slug' => 'profile', 'controller' => 'TalentTreeController:get_badge']);    
@@ -82,6 +85,8 @@ if(class_exists('WPAS\Controller\WPASController')){
     $controller->routeAjax([ 'slug' => 'Project', 'controller' => 'ProjectController:whatever']);   
     
     $controller->routeAjax([ 'slug' => 'projects', 'controller' => 'ProjectController:get_projects']);   
+    
+    $controller->routeAjax([ 'slug' => 'bulk-badges', 'controller' => 'TeacherController:add_bulk_badges']);   
 }
 
 try{

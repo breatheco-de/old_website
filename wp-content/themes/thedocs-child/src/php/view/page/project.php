@@ -14,11 +14,11 @@ $args = WPAS\Controller\WPASController::getViewData();
         <div class="col-sm-4 col-md-3 project-navegation">
             <h3 class="project-title"><?php echo $args['project']['title']; ?></h3>
             <ul class="nav nav-pills nav-stacked">
-              <li class="active"><a data-toggle="pill" href="#general"><label for="tab1">General</label></a></li>
+              <li class="active"><a data-toggle="pill" href="#general"><label for="tab1">General Info</label></a></li>
                 
-              <li><a data-toggle="pill" href="#readme"><label for="tab2">Readme</label></a></li>
+              <li><a data-toggle="pill" href="#readme"><label for="tab2">Readme File</label></a></li>
               <?php if(!empty($args['project']['video-id'])){ ?>
-                  <li><a data-toggle="pill" href="#video"><label for="tab3">Video</label></a></li>
+                  <li><a data-toggle="pill" href="#video"><label for="tab3">Video Tutorial</label></a></li>
               <?php } ?>
               <li><a href="/projects">Back to projects</a></li>
             </ul>

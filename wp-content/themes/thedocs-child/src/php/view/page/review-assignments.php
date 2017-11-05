@@ -21,11 +21,14 @@ $args = WPAS\Controller\WPASController::getViewData();
                                 <strong><?php echo $assignment->student_name; ?></strong> <br />
                                 <i class="fa fa-calendar" aria-hidden="true"></i> 
                                 <?php echo pll__( 'Due by' ); ?> <?php echo $assignment->duedate; ?>
+                                <?php if($assignment->status=='delivered') { ?>
+                                <a target="_blank" href="<?php echo $assignment->github_url; ?>" style="padding-top: 2px; padding-bottom: 2px;" class='btn btn-primary'><?php echo pll__( 'Review' ); ?></a>
+                                <?php } ?>
                             </div>
                             <div class="col-xs-4">
                             <?php if($assignment->status=='delivered') { ?>
-                              <a target="_blank" href="<?php echo $assignment->github_url; ?>" class='btn btn-primary'><?php echo pll__( 'View' ); ?></a>
                               <button data-student='<?php echo $assignment->student_name; ?>' data-assignment='<?php echo $assignment->id; ?>' data-slug='<?php echo $assignment->template->project_slug; ?>' data-toggle="modal" data-target="#modal-accept_assignment" class='btn btn-success'><?php echo pll__( 'Accept' ); ?></button>
+                              <button data-student='<?php echo $assignment->student_name; ?>' data-assignment='<?php echo $assignment->id; ?>' data-slug='<?php echo $assignment->template->project_slug; ?>' data-toggle="modal" data-target="#modal-reject_assignment" class='btn btn-danger'><?php echo pll__( 'Reject' ); ?></button>
                             <?php } else {?>
                               <?php echo $assignment->status; ?>
                             <?php } ?>
@@ -53,5 +56,6 @@ $args = WPAS\Controller\WPASController::getViewData();
 </ul>
 <?php include(locate_template(VIEWS_PATH.'_partials/modal-new_assignment.php')); ?>
 <?php include(locate_template(VIEWS_PATH.'_partials/modal-accept_assignment.php')); ?>
+<?php include(locate_template(VIEWS_PATH.'_partials/modal-reject_assignment.php')); ?>
 
 <?php get_footer(); ?>

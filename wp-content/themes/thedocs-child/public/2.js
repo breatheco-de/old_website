@@ -1,6 +1,6 @@
 webpackJsonp([2],{/***/
-101:/***/
-function(t,e,i){"use strict";Object.defineProperty(e,"__esModule",{value:true});e.BackgroundManager=undefined;var s=i(102);var r=e.BackgroundManager=function(){var t,e,i,s,r,n,a,l=true;var o="large-header";var f="demo-canvas";var h={};
+102:/***/
+function(t,e,i){"use strict";Object.defineProperty(e,"__esModule",{value:true});e.BackgroundManager=undefined;var s=i(103);var r=e.BackgroundManager=function(){var t,e,i,s,r,n,a,l=true;var o="large-header";var f="demo-canvas";var h={};
 // Main
 h.init=function(t,e){o=t;f=e;u();m();_()};function u(){t=window.innerWidth;e=window.innerHeight;a={x:t/2,y:e/2};i=document.getElementById(o);
 //largeHeader.style.height = height+'px';
@@ -23,7 +23,7 @@ function y(t){if(!t.active)return;for(var e in t.closest){r.beginPath();r.moveTo
 (function(){s.pos=t||null;s.radius=e||null;s.color=i||null})();this.draw=function(){if(!s.active)return;r.beginPath();r.arc(s.pos.x,s.pos.y,s.radius,0,2*Math.PI,false);r.fillStyle="rgba(156,217,249,"+s.active+")";r.fill()}}
 // Util
 function T(t,e){return Math.pow(t.x-e.x,2)+Math.pow(t.y-e.y,2)}return h}()},/***/
-102:/***/
+103:/***/
 function(t,e,i){/* WEBPACK VAR INJECTION */
 (function(i){var s,r;/*!
  * VERSION: 1.20.2
@@ -1033,8 +1033,8 @@ while(i){l=i._next;r=n;while(r&&r.pr>i.pr){r=r._next}if(i._prev=r?r._prev:a){i._
 //provides a more concise way to define plugins that have no dependencies besides TweenPlugin and TweenLite, wrapping common boilerplate stuff into one function (added in 1.9.0). You don't NEED to use this to define a plugin - the old way still works and can be useful in certain (rare) situations.
 x.plugin=function(t){if(!t||!t.propName||!t.init||!t.API){throw"illegal plugin definition."}var e=t.propName,i=t.priority||0,s=t.overwriteProps,r={init:"_onInitTween",set:"setRatio",kill:"_kill",round:"_mod",mod:"_mod",initAll:"_onInitAllProps"},n=b("plugins."+e.charAt(0).toUpperCase()+e.substr(1)+"Plugin",function(){at.call(this,e,i);this._overwriteProps=s||[]},t.global===true),a=n.prototype=new at(e),l;a.constructor=n;n.API=t.API;for(l in r){if(typeof t[l]==="function"){a[r[l]]=t[l]}}n.version=t.version;at.activate([n]);return n};
 //now run through all the dependencies discovered and if any are missing, log that to the console as a warning. This is why it's best to have TweenLite load last - it can check all the dependencies for you.
-d=i._gsQueue;if(d){for(m=0;m<d.length;m++){d[m]()}for(g in w){if(!w[g].func){i.console.log("GSAP encountered missing dependency: "+g)}}}y=false})(typeof t!=="undefined"&&t.exports&&typeof i!=="undefined"?i:this||window,"TweenMax")}).call(e,i(103))},/***/
-103:/***/
+d=i._gsQueue;if(d){for(m=0;m<d.length;m++){d[m]()}for(g in w){if(!w[g].func){i.console.log("GSAP encountered missing dependency: "+g)}}}y=false})(typeof t!=="undefined"&&t.exports&&typeof i!=="undefined"?i:this||window,"TweenMax")}).call(e,i(104))},/***/
+104:/***/
 function(t,e){var i;
 // This works in non-strict mode
 i=function(){return this}();try{
@@ -1046,11 +1046,11 @@ if(typeof window==="object")i=window}
 // We return undefined, instead of nothing here, so it's
 // easier to handle this case. if(!global) { ...}
 t.exports=i},/***/
-34:/***/
+35:/***/
 function(t,e,i){"use strict";Object.defineProperty(e,"__esModule",{value:true});var s=e.BCMessaging=function(){var t={};t.ERROR="danger";t.WARNING="warning";t.SUCCESS="success";var e=null;var i=[];t.addMessage=function(t,e){if(typeof i[t]=="undefined")i[t]=[];i[t].push(e)};t.getMessages=function(t){if(typeof i[t]=="undefined")i[t]=[];return i[t]};t.notify=function(t,e){s("top",{type:t,message:e})};t.notifyPending=function(t){var e=arguments.length>1&&arguments[1]!==undefined?arguments[1]:null;var r="<ul>";if(!e)i[t].forEach(function(t){r+="<li>"+t+"</li>"});else e.forEach(function(t){r+="<li>"+t+"</li>"});r+="</ul>";i[t]=[];s("top",{type:t,message:r})};function s(t,i){if(!e)n(t);r(i)}function r(t){var i=document.createElement("div");i.classList.add("single-notification");i.innerHTML=l()(t.type,t.message);e.appendChild(i);var s=i.childNodes;for(var r=0;r<s.length;r++){if(s[r].className=="close"){s[r].addEventListener("click",function(){e.removeChild(i)});break}}setTimeout(function(){i.classList.add("about-to-close");setTimeout(function(){e.removeChild(i);if(e.childNodes.length==0)a()},500)},3e3)}function n(t){e=document.createElement("div");e.classList.add("bcnotification");e.classList.add(t+"-notification");document.body.appendChild(e)}function a(){if(e){e.parentNode.removeChild(e);e=null}}function l(){return function(t,e){return'<div class="inner-message alert alert-'+t+'">\n                                    <button type="button" class="close" data-dismiss="alert">&times;</button>\n                                    '+e+"\n                                </div>"}}return t}()},/***/
-5:/***/
+7:/***/
 function(t,e,i){"use strict";/* WEBPACK VAR INJECTION */
-(function(t){Object.defineProperty(e,"__esModule",{value:true});var s=function(){function t(t,e){for(var i=0;i<e.length;i++){var s=e[i];s.enumerable=s.enumerable||false;s.configurable=true;if("value"in s)s.writable=true;Object.defineProperty(t,s.key,s)}}return function(e,i,s){if(i)t(e.prototype,i);if(s)t(e,s);return e}}();var r=i(34);var n=i(101);function a(t,e){if(!(t instanceof e)){throw new TypeError("Cannot call a class as a function")}}/**
+(function(t){Object.defineProperty(e,"__esModule",{value:true});var s=function(){function t(t,e){for(var i=0;i<e.length;i++){var s=e[i];s.enumerable=s.enumerable||false;s.configurable=true;if("value"in s)s.writable=true;Object.defineProperty(t,s.key,s)}}return function(e,i,s){if(i)t(e.prototype,i);if(s)t(e,s);return e}}();var r=i(35);var n=i(102);function a(t,e){if(!(t instanceof e)){throw new TypeError("Cannot call a class as a function")}}/**
 *    Declaration of your module
 *    @params modulename and undefined
 **/

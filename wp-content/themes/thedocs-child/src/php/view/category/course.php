@@ -4,7 +4,7 @@
  * Description: A Page Template with a Page Builder design.
  */
 get_template_part(VIEWS_PATH.'header/course'); 
-$args = WPAS\Controller\WPASController::getViewData();
+$args = wpas_get_view_data();
 $menuParents = $args['createCourseHierarchy']($args['menu_name']);
 ?>
     <main class="container-fluid course-index">
