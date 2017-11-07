@@ -74,7 +74,7 @@ if(is_a($args, 'WP_Error')) echo WPAS\Controller\WPASController::printError($arg
         </a>
         <ul class="mfb-component__list">
           <li>
-            <a href="<?php echo get_permalink( get_page_by_path( 'review-assignments' ) ); ?>?teacher=<?php echo $args['teacher_id']; ?>&cohort=<?php echo $args['term']->name; ?>" data-mfb-label="Review Cohort Assignments" class="mfb-component__button--child">
+            <a href="<?php echo get_permalink( get_page_by_path( 'review-assignments' ) ); ?>?teacher=<?php echo $args['teacher_id']; ?>&cohort=<?php echo $args['term']->slug; ?>" data-mfb-label="Review Cohort Assignments" class="mfb-component__button--child">
               <i class="mfb-component__child-icon fa fa-file-code-o"></i>
             </a>
           </li>
