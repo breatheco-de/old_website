@@ -444,7 +444,12 @@ class BreatheCodeAPI{
 	
 	public static function syncCohort($args=[],$decode=true){
 
-	    $cohort = self::request('POST','cohort/sync/',$args);
+		try{
+	    	$cohort = self::request('POST','cohort/sync/',$args);
+		}
+		catch(Exception $e){
+			throw new Exception($e->getMessage());
+		}
 	    return $cohort;
 	}
 	

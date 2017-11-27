@@ -63,14 +63,28 @@ class BCThemeOptions {
 				],
 				[
 				    'type' => 'button', 
-				    'label' => 'Sync Locations with API',
+				    'label' => 'Sync Locations from API',
 				    'id' => 'sync-bc-locations-api',
 				    'name' => 'sync-bc-locations-api',
 					'description' => function(){
 					    
 					    $locations = WPASThemeSettingsBuilder::getThemeOption('sync-bc-locations-api');
-					    if(empty($locations)) echo 'No locations sync';
+					    if(empty($locations)) echo 'No locations downloaded';
 					    else $this->printTableFromArray($locations,function($loca){
+					        return $loca['name'].' ('.$loca['slug'].')';
+					    });
+					}
+				],
+				[
+				    'type' => 'button', 
+				    'label' => 'Sync Profiles from API',
+				    'id' => 'sync-bc-profiles-api',
+				    'name' => 'sync-bc-profiles-api',
+					'description' => function(){
+					    
+					    $profiles = WPASThemeSettingsBuilder::getThemeOption('sync-bc-profiles-api');
+					    if(empty($profiles)) echo 'No profiles downloaded';
+					    else $this->printTableFromArray($profiles,function($loca){
 					        return $loca['name'].' ('.$loca['slug'].')';
 					    });
 					}
@@ -111,7 +125,7 @@ class BCThemeOptions {
 	    switch($inputId)
 	    {
             case 'sync-bc-locations-api': $this->syncLocations($inputId); break;
-            //case 'sync-bc-profiles-api': $this->syncProfiles($inputId); break;
+            case 'sync-bc-profiles-api': $this->syncProfiles($inputId); break;
 	    }
 	}
 	
@@ -129,6 +143,25 @@ class BCThemeOptions {
             else
             {
             	throw new Exception('Error requesting locations');
+            }
+            
+        }
+	}
+	
+	private function syncProfiles($inputId){
+	    $profilesJSON = file_get_contents(BREATHECODE_API_HOST.'/profiles/');
+        if($profilesJSON)
+        {
+            $profiles = json_decode($profilesJSON);
+            //print_r($profiles); die();
+        	$result = [];
+            if($profiles && $profiles->code==200){
+            	foreach($profiles->data as $prof) $result[] = (array) $prof;
+            	WPASThemeSettingsBuilder::setThemeOption($inputId,$result);
+            }
+            else
+            {
+            	throw new Exception('Error requesting profiles');
             }
             
         }

@@ -10,6 +10,7 @@ class WPCohort{
 
 	const META_MAIN_TEACHER = 'cohort-main-teacher';
 	const META_COHORT_STAGE = 'cohort-stage';
+	const META_COHORT_PROFILE = 'cohort-profile';
 	const META_BREATHECODE_ID = 'breathecode-id';
 	const META_COHORT_SLACK = 'cohort-slack-url';
 	const KICKOFF_DATE = 'cohort-kickoff-date';
@@ -22,6 +23,9 @@ class WPCohort{
 		"post-prework" => "Post Prework",
 		"final-project" => "Doing Final Project",
 		"finished" => "Finished"
+	);
+
+	public static $profiles = array(
 	);
 
 	private $excerciseClasses = array(
@@ -83,26 +87,6 @@ class WPCohort{
 
 	<?php
 
-		// the stage of the cohort
-		?>
-		<div class="form-field">
-			<label for="<?php echo self::META_COHORT_STAGE; ?>"><?php _e( 'Cohort Status', 'breathecode' ); ?></label>
-			<select name="term_meta[<?php echo self::META_COHORT_STAGE; ?>]">
-				<?php foreach (self::$stages as $key => $val) { ?>
-					<option value=term_meta["<?php echo $key; ?>]"><?php echo $val; ?></option>
-				<?php } ?>
-			</select>
-			<p class="description"><?php _e( 'The current stage of the cohort','breathecode' ); ?></p>
-		</div>
-		<?php
-
-		// the stage of the cohort
-		?>
-		<div class="form-field">
-			<label for="<?php echo self::META_COHORT_SLACK; ?>"><?php _e( 'Slack Team URL', 'breathecode' ); ?></label>
-			<input type="text" name="term_meta[<?php echo self::META_COHORT_SLACK; ?>]">
-		</div>
-		<?php
 	}
 
 	// Edit term page
@@ -178,6 +162,23 @@ class WPCohort{
 				<?php } ?>
 				</select>
 				<p class="description"><?php _e( 'The current Breathecode API location for the cohort','breathecode' ); ?></p>
+			</td>
+		</tr>
+		<?php 
+		if(isset($term_meta[self::META_COHORT_PROFILE ]))
+		$cohortProfile = $term_meta[self::META_COHORT_PROFILE]; 
+		$profiles = WPASThemeSettingsBuilder::getThemeOption('sync-bc-profiles-api');
+		?>
+		<tr class="form-field">
+		<th scope="row" valign="top"><label for="<?php echo self::META_COHORT_PROFILE; ?>"><?php _e( 'Profile', 'breathecode' ); ?></label></th>
+			<td>
+				<select name="term_meta[<?php echo self::META_COHORT_PROFILE; ?>]">
+					<option value="-1">Select a cohort target profile</option>
+				<?php foreach ($profiles as $l) { ?>
+					<option value="<?php echo $l['slug']; ?>" <?php if(isset($cohortProfile) and $cohortProfile==$l['slug']) echo 'selected'; ?>><?php echo $l['name']; ?></option>
+				<?php } ?>
+				</select>
+				<p class="description"><?php _e( 'The current Breathecode API profile for the cohort','breathecode' ); ?></p>
 			</td>
 		</tr>
 	<?php
@@ -338,8 +339,14 @@ class WPCohort{
 			}
 	
 			$locationId = $termMeta[self::META_COHORT_LOCATION];
-			if(!$this->isValidLocationId($locationId)){
+			if(!$this->isValidOptionFromAPI($locationId, 'sync-bc-locations-api')){
 				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') has an invalid location: '.$locationId);
+				return false;
+			} 
+	
+			$profileId = $termMeta[self::META_COHORT_PROFILE];
+			if(!$this->isValidOptionFromAPI($profileId, 'sync-bc-profiles-api')){
+				BCNotification::addTransientMessage(BCNotification::ERROR,'The cohort '.$termId.' ('.$wpCohort->slug.') has an invalid profile: '.$profileId);
 				return false;
 			} 
 			
@@ -369,11 +376,17 @@ class WPCohort{
                   "stage" => $termMeta[self::META_COHORT_STAGE],
                   "language" => $termLanguage,
                   "kickoff-date" => $termMeta[self::KICKOFF_DATE],
-                  "location_slug" => $locationId
+                  "location_slug" => $locationId,
+                  "profile_slug" => $profileId
 				];
 				
 			if(!empty($slackUrl)) $params['slack-url'] = $slackUrl;
-			$cohort = BreatheCodeAPI::syncCohort($params);
+			try{
+				$cohort = BreatheCodeAPI::syncCohort($params);
+			}
+			catch(\Exception $e){
+				BCNotification::addTransientMessage(BCNotification::ERROR,$e->getMessage());
+			}
 
 			if(!$cohort) BCNotification::addTransientMessage(BCNotification::ERROR,'There was an issue syncronizing the cohort');
 			else{
@@ -385,10 +398,12 @@ class WPCohort{
 		else BCNotification::addTransientMessage(BCNotification::ERROR,'Cohort '.$termId.' not found');
 	}
 	
-	private function isValidLocationId($locationId){
-		$locations = WPASThemeSettingsBuilder::getThemeOption('sync-bc-locations-api');
-		foreach($locations as $l) if($locationId == $l['slug']) return true;
+	private function isValidOptionFromAPI($value, $field){
+		
+		$values = WPASThemeSettingsBuilder::getThemeOption($field);
+		foreach($values as $v) if($value == $v['slug']) return true;
 		
 		return false;
 	}
+	
 }
