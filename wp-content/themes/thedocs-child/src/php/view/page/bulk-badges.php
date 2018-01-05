@@ -10,7 +10,7 @@ $args = wpas_get_view_data();
         </div>
         <div class="inside-content">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <select class="form-control" id="cohort-id">
                         <option>Select a cohort</option>
                         <?php foreach($args['cohorts'] as $c){ ?>
@@ -18,7 +18,7 @@ $args = wpas_get_view_data();
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <select class="form-control" id="badge-slug">
                         <option>Select a badge</option>
                         <?php foreach($args['badges'] as $b){ ?>
@@ -26,17 +26,38 @@ $args = wpas_get_view_data();
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm-4 form-inline">
-                    <input type="number" id="points" value="5" class="form-control" placeHolder="Points" />
-                    <button id="givebadges" class='btn btn-success form-control hidden'>Apply</button>
+                <div class="col-sm-3">
+                    <div class="tooltip">
+                            <div class="tooltip-inner">
+                                Tooltip!
+                            </div>
+                            <div class="tooltip-arrow"></div>
+                        </div>
+                    <div class="input-group">
+                        
+                        <span class="input-group-addon">+</span><input type="number" id="points" class="form-control" placeHolder="Points to all (optional)" />
+                        
+                    </div>
                 </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <button id="givebadges" class='btn btn-success form-control hidden'>Apply</button>
+                    </div>
+                </div>        
             </div>
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="studentsToAssign">
                         <?php if(count($args['students'])){ ?>
                             <?php foreach($args['students'] as $c){ ?>
-                                <li data-id="<?php echo $c->data->ID; ?>"><?php echo $c->data->display_name; ?></li>
+                                <li data-id="<?php echo $c->data->ID; ?>" class="row">
+                                    <div class="col-xs-9">
+                                        <span><?php echo $c->data->display_name; ?></span>
+                                    </div>
+                                    <div class="col-xs-3 studentPoints">
+                                        +<input type="text" placeholder="0" size="2"> points
+                                    </div>
+                                </li>
                             <?php } ?>
                         <?php } else {?>
                             <?php if(isset($_GET['cohort'])){ ?>
