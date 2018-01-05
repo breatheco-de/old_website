@@ -25,11 +25,16 @@ export default class bulkbadges{
     	let students = document.querySelectorAll('.studentsToAssign li');
     	if(students && students.length>0) Array.from(students).forEach(stud => {
     		stud.addEventListener('click',e => {
-    			let currentStudent = e.target;
-    			if(currentStudent.classList.contains('selected')) currentStudent.classList.remove('selected');
-    			else currentStudent.classList.add('selected');
+    			
+    			let currentStudent = e.currentTarget;
+    			
+    			if(currentStudent.classList.contains('selected')){ 
+    				if(e.target.tagName !== "INPUT") currentStudent.classList.remove('selected');
+    			}else currentStudent.classList.add('selected');
     		});		
     	});
+    	
+    	$('#points').tooltip({title: "If a number is entered, the system will ignore the points in the list below."});
     	
 		$("#givebadges").confirm({
 		    text: "Are you sure you want to give the badges?",
@@ -51,16 +56,24 @@ export default class bulkbadges{
     
     givebadges(){
         var list = [];  
+        var arrayOfPoints = [];
         var cohort = 0;
 	    $(".studentsToAssign li.selected").each(function(){
             list.push($(this).data('id'));
+            arrayOfPoints.push($(this).children('.studentPoints').children().val());
         });
+        
+        var points = $('#points').val();//points: $('#points').val()//send array
+        
+        if(points === ""){
+        	points = arrayOfPoints;
+        }
         
         let thedata = {
         	action: 'add_bulk_badges',
         	badge: $('#badge-slug').val(),
         	students: list,
-        	points: $('#points').val()
+        	points: points
         }
         console.log(thedata);
         

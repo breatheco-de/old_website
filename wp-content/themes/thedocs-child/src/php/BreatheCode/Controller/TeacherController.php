@@ -88,7 +88,9 @@ class TeacherController{
         try{
             $students = $_POST['students'];
     	    $badgeSlug = WPASValidator::validate(WPASValidator::SLUG,$_POST['badge'],'Badge Slug');
-    	    $points = WPASValidator::validate(WPASValidator::INTEGER,$_POST['points'],'Points Earned');
+    	    //$points = WPASValidator::validate(WPASValidator::INTEGER,$_POST['points'],'Points Earned'); //Now an array
+    	    $points = $_POST['points'];
+    	    if(!is_array($points)) $points = WPASValidator::validate(WPASValidator::INTEGER,$points,'Points Earned');
     	    $template = WPLanguages::getActivityTemplate('teacher-points-earned',[
         	        'badge_slug' => $badgeSlug,
         	        'points' => $points,
@@ -96,14 +98,14 @@ class TeacherController{
         	        ]);
             
             $activities = [];
-            foreach($students as $std)
+            foreach($students as $index => $std)
             {
         	    $wordpressId = WPASValidator::validate(WPASValidator::INTEGER,$std,'Student Id');
                 $activities[] = [
                     'student_id'    => User::getBreathecodeId($wordpressId),
                     'badge_slug'    => $badgeSlug,
                     'type'    => 'teacher_reward',
-                    'points_earned'    => $points,
+                    'points_earned'    => is_array($points) ? $points[$index] : $points,//Index of points array
             	    'name'          => $template['title'],
             	    'description'   => $template['description']
                 ];

@@ -1,12 +1,166 @@
-webpackJsonp([10],{/***/
-10:/***/
-function(n,e,t){"use strict";/* WEBPACK VAR INJECTION */
-(function(n){Object.defineProperty(e,"__esModule",{value:true});var i=function(){function n(n,e){for(var t=0;t<e.length;t++){var i=e[t];i.enumerable=i.enumerable||false;i.configurable=true;if("value"in i)i.writable=true;Object.defineProperty(n,i.key,i)}}return function(e,t,i){if(t)n(e.prototype,t);if(i)n(e,i);return e}}();var o=t(35);function s(n,e){if(!(n instanceof e)){throw new TypeError("Cannot call a class as a function")}}/**
+webpackJsonp([10],{
+
+/***/ 10:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _messaging = __webpack_require__(35);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
 *    Declaration of your module
 *    @params modulename and undefined
 **/
-var a=function(){function e(){s(this,e);
-//any properties here using this.propertyName
-n("#content1").css("display","block");n(".github-tabs").click(function(){n(this).parent().siblings().css("display","none");n(this).parent().siblings("#"+n(this).attr("for")).css("display","block")})}i(e,[{key:"init",value:function n(){}}]);return e}();e.default=a}).call(e,t(0))},/***/
-35:/***/
-function(n,e,t){"use strict";Object.defineProperty(e,"__esModule",{value:true});var i=e.BCMessaging=function(){var n={};n.ERROR="danger";n.WARNING="warning";n.SUCCESS="success";var e=null;var t=[];n.addMessage=function(n,e){if(typeof t[n]=="undefined")t[n]=[];t[n].push(e)};n.getMessages=function(n){if(typeof t[n]=="undefined")t[n]=[];return t[n]};n.notify=function(n,e){i("top",{type:n,message:e})};n.notifyPending=function(n){var e=arguments.length>1&&arguments[1]!==undefined?arguments[1]:null;var o="<ul>";if(!e)t[n].forEach(function(n){o+="<li>"+n+"</li>"});else e.forEach(function(n){o+="<li>"+n+"</li>"});o+="</ul>";t[n]=[];i("top",{type:n,message:o})};function i(n,t){if(!e)s(n);o(t)}function o(n){var t=document.createElement("div");t.classList.add("single-notification");t.innerHTML=c()(n.type,n.message);e.appendChild(t);var i=t.childNodes;for(var o=0;o<i.length;o++){if(i[o].className=="close"){i[o].addEventListener("click",function(){e.removeChild(t)});break}}setTimeout(function(){t.classList.add("about-to-close");setTimeout(function(){e.removeChild(t);if(e.childNodes.length==0)a()},500)},3e3)}function s(n){e=document.createElement("div");e.classList.add("bcnotification");e.classList.add(n+"-notification");document.body.appendChild(e)}function a(){if(e){e.parentNode.removeChild(e);e=null}}function c(){return function(n,e){return'<div class="inner-message alert alert-'+n+'">\n                                    <button type="button" class="close" data-dismiss="alert">&times;</button>\n                                    '+e+"\n                                </div>"}}return n}()}});
+var project = function () {
+    function project() {
+        _classCallCheck(this, project);
+
+        //any properties here using this.propertyName
+        $('#content1').css('display', 'block');
+        $(".github-tabs").click(function () {
+            $(this).parent().siblings().css('display', 'none');
+            $(this).parent().siblings('#' + $(this).attr('for')).css("display", "block");
+        });
+    }
+
+    _createClass(project, [{
+        key: 'init',
+        value: function init() {}
+    }]);
+
+    return project;
+}();
+
+exports.default = project;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var BCMessaging = exports.BCMessaging = function () {
+
+    var _public = {};
+    _public.ERROR = 'danger';
+    _public.WARNING = 'warning';
+    _public.SUCCESS = 'success';
+    var notificationContainer = null;
+
+    var messages = [];
+
+    _public.addMessage = function (type, message) {
+
+        if (typeof messages[type] == 'undefined') messages[type] = [];
+        messages[type].push(message);
+    };
+
+    _public.getMessages = function (type) {
+
+        if (typeof messages[type] == 'undefined') messages[type] = [];
+        return messages[type];
+    };
+
+    _public.notify = function (type, message) {
+
+        showNotification('top', {
+            type: type,
+            message: message
+        });
+    };
+
+    _public.notifyPending = function (type) {
+        var messagesArray = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+
+        var content = '<ul>';
+        if (!messagesArray) messages[type].forEach(function (msg) {
+            content += '<li>' + msg + '</li>';
+        });else messagesArray.forEach(function (msg) {
+            content += '<li>' + msg + '</li>';
+        });
+        content += '</ul>';
+
+        messages[type] = [];
+
+        showNotification('top', {
+            type: type,
+            message: content
+        });
+    };
+
+    function showNotification(position, notification) {
+        if (!notificationContainer) createNotificationContainer(position);
+
+        appendNotification(notification);
+    }
+
+    function appendNotification(notification) {
+
+        var singleNotification = document.createElement('div');
+        singleNotification.classList.add('single-notification');
+        singleNotification.innerHTML = getTemplate()(notification.type, notification.message);
+
+        notificationContainer.appendChild(singleNotification);
+
+        var nodeChilds = singleNotification.childNodes;
+        for (var i = 0; i < nodeChilds.length; i++) {
+            if (nodeChilds[i].className == "close") {
+                nodeChilds[i].addEventListener('click', function () {
+                    notificationContainer.removeChild(singleNotification);
+                });
+                break;
+            }
+        }
+
+        setTimeout(function () {
+            singleNotification.classList.add('about-to-close');
+            setTimeout(function () {
+                notificationContainer.removeChild(singleNotification);
+                if (notificationContainer.childNodes.length == 0) deleteNotificationContainer();
+            }, 500);
+        }, 3000);
+    }
+
+    function createNotificationContainer(position) {
+
+        notificationContainer = document.createElement('div');
+        notificationContainer.classList.add('bcnotification');
+        notificationContainer.classList.add(position + '-notification');
+        document.body.appendChild(notificationContainer);
+    }
+
+    function deleteNotificationContainer() {
+        if (notificationContainer) {
+            notificationContainer.parentNode.removeChild(notificationContainer);
+            notificationContainer = null;
+        }
+    }
+
+    function getTemplate() {
+        return function (type, message) {
+            return '<div class="inner-message alert alert-' + type + '">\n                                    <button type="button" class="close" data-dismiss="alert">&times;</button>\n                                    ' + message + '\n                                </div>';
+        };
+    }
+
+    return _public;
+}();
+
+/***/ })
+
+});
