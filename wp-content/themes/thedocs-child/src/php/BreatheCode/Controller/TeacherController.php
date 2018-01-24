@@ -100,15 +100,18 @@ class TeacherController{
             $activities = [];
             foreach($students as $index => $std)
             {
-        	    $wordpressId = WPASValidator::validate(WPASValidator::INTEGER,$std,'Student Id');
-                $activities[] = [
-                    'student_id'    => User::getBreathecodeId($wordpressId),
-                    'badge_slug'    => $badgeSlug,
-                    'type'    => 'teacher_reward',
-                    'points_earned'    => is_array($points) ? $points[$index] : $points,//Index of points array
-            	    'name'          => $template['title'],
-            	    'description'   => $template['description']
-                ];
+                $pointsEarned = is_array($points) ? $points[$index] : $points;
+                if($pointsEarned > 0){
+            	    $wordpressId = WPASValidator::validate(WPASValidator::INTEGER,$std,'Student Id');
+                    $activities[] = [
+                        'student_id'    => User::getBreathecodeId($wordpressId),
+                        'badge_slug'    => $badgeSlug,
+                        'type'    => 'teacher_reward',
+                        'points_earned'    => $pointsEarned,//Index of points array
+                	    'name'          => $template['title'],
+                	    'description'   => $template['description']
+                    ];
+                }
             }
 		}
 		catch(\Exception $e){

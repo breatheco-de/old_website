@@ -42,6 +42,7 @@ ul, ol {
   svg{height: 80px};
 }
 #main-nav-bar{top: 0px !important;  z-index: 1;}
+//.code-window .window-bar .languages .btn{&:first-child, &:last-child{display: none;}}
 ul.navbar-nav li:hover{
 	background: #75b9f9;
 	cursor: pointer;

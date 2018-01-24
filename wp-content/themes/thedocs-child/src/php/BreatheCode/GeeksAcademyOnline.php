@@ -109,7 +109,7 @@ class GeeksAcademyOnline {
 	*/
 	function add_styles(){
 	 
-	    wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css', array('theDocs.all.min.css'));
+	    wp_enqueue_style( 'style-skin', get_template_directory_uri().'/assets/css/skin-blue.css', array('theDocs.all.min.css'), $this->prependversion);
 	    
 	    //if(is_page('mytalents')) wp_enqueue_style( 'mytalents', get_stylesheet_directory_uri().'/public/css/pages/mytalents.css', array(),$this->prependversion);
 	    
