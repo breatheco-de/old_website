@@ -34,6 +34,18 @@ export default class bulkbadges{
     		});		
     	});
     	
+    	let studentsInputs = document.querySelectorAll('.studentsToAssign li input');
+    	if(studentsInputs && studentsInputs.length>0) Array.from(studentsInputs).forEach(inputs => {
+    		inputs.addEventListener('input',e => {
+    			let currentStudent = e.currentTarget.parentNode.parentNode;
+    			if(parseInt(e.currentTarget.value) > 0 ){
+	    			if(!currentStudent.classList.contains('selected')) currentStudent.classList.add('selected');
+    			}else{
+    				if(currentStudent.classList.contains('selected'))currentStudent.classList.remove('selected');
+    			}
+    		});		
+    	});
+    	
     	$('#points').tooltip({title: "If a number is entered, the system will ignore the points in the list below."});
     	
 		$("#givebadges").confirm({

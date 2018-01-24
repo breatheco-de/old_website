@@ -57,8 +57,8 @@ $args = WPAS\Controller\WPASController::getViewData();
           -->
         </ul>
       </div>
-    <article class="main-content" role="main">
-      <div class="row" style="margin-left: 0px;">
+      <article class="main-content wpb-js-composer" role="main">
+        <div class="row" style="margin-left: 0px;">
   
       <?php if (have_posts()){ 
             the_post();
@@ -90,7 +90,7 @@ $args = WPAS\Controller\WPASController::getViewData();
       echo 'Page Canvas For Page Builder'; 
     }?>
     </div>
-  </article>
+      </article>
 
 
 <?php get_footer('box-sidebar'); ?>

@@ -59,8 +59,15 @@ class VCCodeHighlighter{
 	            "param_name" => "content",
 	            "value" => __( "Write the code here", "code-highliter" ),
 	            "description" => __( "Write you code lines.", "code-highliter" )
-	            )
-	        )
+	        ),
+	         array(
+	            "type" => "checkbox",
+	            "heading" => __( "Is it active on the REPL?", "code-highliter" ),
+	            "param_name" => "active",
+	            "value" => array('on'   => 'true' ),
+	            "description" => __( "If it's inside a Code REPL and you want it shown by default", "code-highliter" )
+	         )
+	      )
 	   ) );
     }
     

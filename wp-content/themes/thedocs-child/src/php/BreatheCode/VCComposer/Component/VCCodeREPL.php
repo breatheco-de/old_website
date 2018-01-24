@@ -16,7 +16,8 @@ class VCCodeREPL{
 	   vc_map( array(
 	      "name" => __( "Code REPL", "code-repl" ),
 	      "base" => "coderepl",
-	      "as_parent" => array('only' => 'codepreview, codehighliter'),
+	      "as_parent" => array('only' => 'codepreview,codehighliter'),
+	      "js_view" => "VcColumnView",
 	      "content_element" => true,
 	      "category" => __( "BreatheCode", "breathecode"),
 	      "show_settings_on_create" => true,
@@ -31,7 +32,6 @@ class VCCodeREPL{
 	            "description" => __( "Select the language for codeview", "code-repl" )
 	            )
 	        ),
-	      "js_view" => "VcColumnView"
 	    ));
     }
     
