@@ -151,6 +151,7 @@ $assistant = new WPASRole('teacher_assistant');
 
 $teacher = new WPASRole('main_teacher'); 
 //$manager->allowAccessFor($teacher,['parent' => $assistant]);
+$disabled = new WPASRole('disabled'); 
 
 /**
  * Load the notifications

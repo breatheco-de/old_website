@@ -12,10 +12,13 @@ class WPUser
 	
 	private $user;
 	public static $actions = array(
-		'remove_access_to_all_courses' => 'Remove access to all courses',
+		'empty_bulk_action1' => '---- ACCESS TO BREATHECODE & COURSES -----',
+		'disable_access_to_breathecode' => 'Disable all breathecode access',
 		'give_access_to_fullstack_prework' => 'Give access to PREWORK Fullstack',
 		'give_access_to_fullstack_all' => 'Give access to ALL of Fullstack',
 		'give_access_to_teacher_course' => 'Give access to Teacher course',
+		'remove_access_to_all_courses' => 'Remove access to all courses',
+		'empty_bulk_action3' => '---- API SYNC -----',
 		'sync_teacher_with_api' => 'Sync teacher with API (after location creation)',
 		'sync_teacher_cohorts_with_api' => 'Sync teacher cohorts with API (after cohort creation)',
 		'sync_student_with_api' => 'Sync Student with API (after cohort creation)'
@@ -53,7 +56,6 @@ class WPUser
 		foreach(self::$actions as $key => $value) $bulk_actions[$key] = __( $value, 'breathecode');
 		return $bulk_actions;
 	}
-
 	 
 	function my_bulk_action_handler( $redirect_to, $doaction, $users ) {
 	  if ( !isset(self::$actions[$doaction]) ) {
@@ -76,11 +78,21 @@ class WPUser
 		clean_object_term_cache($studentId, WPCourse::TAX_SLUG);
 	}
 	
+	function disable_access_to_breathecode($studentId){
+
+		$user = get_user_by('id', $studentId);
+		foreach($user->roles as $roleName) $user->remove_role( $roleName );
+		$user->add_role( 'disabled' );
+	}
+	
 	function give_access_to_fullstack_prework($studentId){
 		$prework = get_option(BCThemeOptions::PREWORK_FULLSTACK_OPTION);
 		$prework_esp = get_option(BCThemeOptions::PREWORK_FULLSTACK_OPTION.'-es');
 		if(isset($prework)) $this->giveAccessToParentCourse($studentId,$prework);
 		if(isset($prework_esp)) $this->giveAccessToParentCourse($studentId,$prework_esp);
+		$user = get_user_by('id', $studentId); 
+		$user->remove_role( 'disabled' ); 
+		if(!$user->has_role('premium_full_stack')) $user->add_role( 'prework_full_stack' );
 	}
 	
 	function sync_teacher_cohorts_with_api($userId){
@@ -208,6 +220,10 @@ class WPUser
 		if(isset($premium)) $this->giveAccessToParentCourse($studentId,$premium);
 		if(isset($premium_esp)) $this->giveAccessToParentCourse($studentId,$premium_esp);
 		
+		$user = get_user_by('id', $studentId); $user->remove_role( 'disabled' );
+		if($user->has_role('prework_full_stack')) $user->remove_role( 'prework_full_stack' );
+		$user->add_role( 'premium_full_stack' );
+		
 		$this->give_access_to_fullstack_prework($studentId);
 	}
 
@@ -217,6 +233,10 @@ class WPUser
 		//$breathecode_esp = get_option(BCThemeOptions::BREATHECODE_OPTION.'-es');
 		if(isset($breathecode)) $this->giveAccessToParentCourse($studentId,$breathecode);
 		//if(isset($breathecode_esp)) $this->giveAccessToParentCourse($studentId,$breathecode_esp);
+	}
+	
+	function empty_bulk_action($studentId){
+		//empty action, just for estetics
 	}
 	
 	private function giveAccessToParentCourse($studentId,$courseId){
@@ -234,6 +254,7 @@ class WPUser
 
 	function userColumns( $columns ) {
 		unset( $columns['level'] );
+		unset( $columns['posts'] );
 		$columns[WPCohort::POST_TYPE] = 'Cohort';
 		$columns['breathecode_id'] = 'API ID';
 		//die(print_r($columns));
