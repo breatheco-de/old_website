@@ -75,6 +75,7 @@ class VCCodeHighlighter{
 	   extract( shortcode_atts( array(
 	      'linenumbers' => 'false',
 	      'newcodeexample' => 'false',
+	      'active' => '',
 	      'codelanguage' => 'markup'
 	   ), $atts ) );
 
@@ -89,6 +90,6 @@ class VCCodeHighlighter{
 	   if(!$linenumbers or $linenumbers!='true') $numerstring = '';
 	   else $numerstring = 'line-numbers';
 	  
-	   return '<pre class="'.$numerstring.'"><code class="language-'.$codelanguage.'">'.$content.'</code></pre>';
+	   return '<pre class="'.$numerstring.' '.($active ? 'active':'').'"><code class="language-'.$codelanguage.'">'.$content.'</code></pre>';
 	}
 }

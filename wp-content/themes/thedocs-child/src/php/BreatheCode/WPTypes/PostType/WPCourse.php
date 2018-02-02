@@ -98,25 +98,48 @@ class WPCourse{
 		 
 		    //get all the terms we have
 		    $user_cats = get_terms( self::TAX_SLUG, array(
-		        'hide_empty'=>false
+		        'hide_empty'=>false,
+		        'lang' => 'en,es'
 		        ));
 		 
-		    echo "<h3>Courses</h3>";
-		 
+		    echo "<h3>Course Access</h3><p>Only child courses are shown to the students, they have to be published.</p>";
+			echo '<table class="widefat fixed"  cellspacing="0">';
+			$className = 'class="alternate"';
 		     //list the terms as checkbox, make sure the assigned terms are checked
 		    foreach( $user_cats as $cat ) { 
-		    $status = get_term_meta($cat->term_id,'wpcf-taxonomy-status',true);
-		    if(empty($status)) $status = 'not published';
-		    if($status!='publish') $status = ' <span style="background: #ef7c7c; padding: 2px; color: white; font-size: 80%;">'.$status.'</span>';
-		    else $status = '';
+		    	//get the category status (published or draft)
+			    $status = get_term_meta($cat->term_id,'wpcf-taxonomy-status',true);
+			    if(empty($status)) $status = 'not published';
+			    if($status!='publish') $status = ' <span style="background: #ef7c7c; padding: 2px; color: white; font-size: 80%;">'.$status.'</span>';
+			    else $status = '';
 		    
-		    if(!$cat->parent){
-		    ?>
-		        <input type="checkbox" id="<?php echo self::TAX_SLUG.'-'.$cat->term_id ?>" <?php if(in_array( $cat->term_id, $assigned_term_ids )) echo 'checked=checked';?> name="<?php echo self::TAX_SLUG; ?>[]"  value="<?php echo $cat->term_id;?>"/> 
-		    <?php }
-		    	echo '<label for="'.self::TAX_SLUG.'-'.$cat->term_id.'">'.$cat->name.$status.'</label>';
-		    	echo '<br />';
-		    }
+		        if(!$cat->parent) { 
+					echo '<tr '.$className.'><td>';
+						echo '<input type="checkbox" id="'.self::TAX_SLUG.'-'.$cat->term_id.'" '.(in_array( $cat->term_id, $assigned_term_ids ) ? 'checked=checked' : '').' name="'.self::TAX_SLUG.'[]"  value="'.$cat->term_id.'"/>';
+			    		echo '<label for="'.self::TAX_SLUG.'-'.$cat->term_id.'">'.$cat->name.$status.'</label>';
+					echo '</td>';
+		        	if($className) $className = null; 
+		        	else $className = 'class="alternate"';
+					$args3 = array(
+						'child_of' => $cat->term_id,
+						'orderby'  => 'id',
+						'lang' => 'en,es',
+						'hide_empty'=>false,
+						'order'    => 'DESC'
+					);
+					$childTerms = get_terms(self::TAX_SLUG, $args3);
+		        	echo '<td>';
+		    		foreach( $childTerms as $cterm ) {
+				    	echo '<label for="course-'.$cterm->term_id.'">- '.$cterm->name.' ('.$cterm->slug.')</label>';
+					    $status = get_term_meta($cterm->term_id,'wpcf-taxonomy-status',true);
+					    if(empty($status) || $status!='publish') echo ' <span style="background: #ef7c7c; padding: 2px; color: white; font-size: 80%;">'.(empty($status) ? 'not published' : $status).'</span>';
+				    	echo '<br />';
+					}
+					echo '</td>';
+	    		}
+				echo '</tr>';
+	    	}
+	    	echo '</table>';
 	 	}
 	}
 	
