@@ -12,6 +12,7 @@ class WPUser
 	
 	private $user;
 	public static $actions = array(
+		'remove_access_to_all_courses' => 'Remove access to all courses',
 		'give_access_to_fullstack_prework' => 'Give access to PREWORK Fullstack',
 		'give_access_to_fullstack_all' => 'Give access to ALL of Fullstack',
 		'give_access_to_teacher_course' => 'Give access to Teacher course',
@@ -65,6 +66,14 @@ class WPUser
 	  
 	  $redirect_to = add_query_arg( 'affected_ids', count( $users ), $redirect_to );
 	  return $redirect_to;
+	}
+	
+	function remove_access_to_all_courses($studentId){
+		//print_r($terms);die();
+		wp_set_object_terms( $studentId, null, WPCourse::TAX_SLUG, false );
+	 
+		//make sure you clear the term cache
+		clean_object_term_cache($studentId, WPCourse::TAX_SLUG);
 	}
 	
 	function give_access_to_fullstack_prework($studentId){
