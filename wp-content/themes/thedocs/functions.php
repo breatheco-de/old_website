@@ -24,14 +24,14 @@ function thedocs_theme_scripts_styles() {
 	
 	$protocol = is_ssl() ? 'https' : 'http';
     wp_enqueue_style( 'thedocs-fonts', thedocs_fonts_url(), array(), '1.0.0' );
-    wp_enqueue_style( 'theDocs.all.min.css', get_template_directory_uri().'/assets/css/theDocs.all.min.css');
+    wp_enqueue_style( 'theDocs.all.min.css', get_template_directory_uri().'/assets/css/theDocs.all.min.css',array(),'1.0.0');
     wp_enqueue_style( 'custom.css', get_template_directory_uri().'/assets/css/custom.css');
     wp_enqueue_style( 'style-skin', get_template_directory_uri().'');
 
     wp_enqueue_style( 'style', get_stylesheet_uri(), array(), time() );
 
 
-	wp_enqueue_script("theDocs.all.min.js", get_template_directory_uri()."/assets/js/theDocs.all.min.js",array(),false,true);
+	wp_enqueue_script("theDocs.all.min.js", get_template_directory_uri()."/assets/js/theDocs.all.min.js",array(),'1.0.0',true);
 	wp_enqueue_script("custom.js", get_template_directory_uri()."/assets/js/custom.js",array(),false,true);
 
 }

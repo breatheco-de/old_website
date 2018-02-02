@@ -93,7 +93,7 @@ interface IToolset_Relationship_Definition {
 
 
 	/**
-	 * Get a relationship entity type.
+	 * Get a type of elements that can take a role in the relationship.
 	 *
 	 * @param string|IToolset_Relationship_Role $element_role
 	 *
@@ -101,6 +101,20 @@ interface IToolset_Relationship_Definition {
 	 * @since m2m
 	 */
 	public function get_element_type( $element_role );
+
+
+	/**
+	 * Set a type of elements that can take a role in the relationship.
+	 *
+	 * Use with caution. Without further adjustments, this can cause a database inconsistency.
+	 *
+	 * @param Toolset_Relationship_Element_Type $element_type
+	 * @param IToolset_Relationship_Role_Parent_Child|string $role
+	 *
+	 * @return void
+	 * @since 2.5.6
+	 */
+	public function set_element_type( $role, Toolset_Relationship_Element_Type $element_type );
 
 
 	/**
