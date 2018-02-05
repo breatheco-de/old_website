@@ -2,7 +2,11 @@
 
 if (is_user_logged_in())
 {
-	wp_redirect( get_permalink(get_page_by_path( 'my-courses' )) );
+  $user = wp_get_current_user();
+  if ( in_array( 'prework_full_stack', (array) $user->roles ) || in_array( 'premium_full_stack', (array) $user->roles ) ) {
+	    wp_redirect( get_permalink(get_page_by_path( 'student' )) );
+  }
+  else wp_redirect( get_permalink(get_page_by_path( 'profile' )) );
 	exit;
 }
 

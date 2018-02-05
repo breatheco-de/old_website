@@ -24,7 +24,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                             <a data-toggle="modal" data-target="#modal-talent_tree_explanation" href="#"><i class="fa fa-certificate" aria-hidden="true"></i> Earn badges to graduate.</a>
                         </li>
                         <li role="presentation">
-                            <a href="<?php echo get_permalink( get_page_by_path( 'my-assignments' ) ); ?>"><i class="fa fa-certificate" aria-hidden="true"></i> Complete your assignments</a>
+                            <a href="<?php echo get_permalink( get_page_by_path( 'my-assignments' ) ); ?>"><i class="fa fa-check-circle" aria-hidden="true"></i> Complete your assignments</a>
                         </li>
                         <?php if(!empty($args['slack-url'])){ ?>
                         <li role="presentation">
