@@ -60,7 +60,7 @@ $args = WPAS\Controller\WPASController::getViewData();
             
             <?php if(!empty($args['project']['video-id'])){ ?>
             <section id="video" class="tab-pane fade in">
-                <iframe style="height: 90vh;" id="the-demo" width="100%" height="100%" frameborder="0" src="https://projects.breatheco.de/?vtutorial=../p/css/beginner/other/postcard/video.json"></iframe>
+                <iframe style="height: 90vh;" id="the-demo" width="100%" height="100%" frameborder="0" src="https://projects.breatheco.de/?vtutorial=<?php echo $args['project']['url']; ?>video.json"></iframe>
             </section>
             <?php } ?>
             

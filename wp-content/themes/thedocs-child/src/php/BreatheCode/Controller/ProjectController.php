@@ -40,6 +40,7 @@ class ProjectController{
         $args['readme'] = $Parsedown->text($readme);
         
         $args['badges'] = [];
+        /*
         foreach($args['project']['talents'] as $b){
 
             try{
@@ -48,7 +49,7 @@ class ProjectController{
                 $args['badges'][] = $badge;
             }
             catch(Exception $e){}
-        }
+        }*/
         
         return $args;
 
