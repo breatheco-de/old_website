@@ -73,7 +73,7 @@ class Cohort extends BasePostType{
         }else return null;
     }
     
-    public static function all(){
+    public static function all($args = [], $hook = NULL){
         $terms = get_terms( array(
             'taxonomy' => 'user_cohort',
             'hide_empty' => false,
