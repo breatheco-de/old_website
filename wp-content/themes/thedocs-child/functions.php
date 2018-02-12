@@ -153,6 +153,12 @@ $teacher = new WPASRole('main_teacher');
 //$manager->allowAccessFor($teacher,['parent' => $assistant]);
 $disabled = new WPASRole('disabled'); 
 
+
+/**
+ * Start defining all the custom post types that are going to be use in the project
+ */
+$lesson = new BreatheCode\Model\Lesson('lesson');
+
 /**
  * Load the notifications
  **/

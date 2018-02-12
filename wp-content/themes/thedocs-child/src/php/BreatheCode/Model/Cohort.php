@@ -6,7 +6,11 @@ use BreatheCode\WPTypes\PostType\WPCohort;
 use BreatheCode\Utils\BreatheCodeAPI;
 use BreatheCode\Model\User;
 
-class Cohort{
+use WPAS\Types\BasePostType;
+use WPAS\Utils\WPASException;
+use \WP_Query;
+
+class Cohort extends BasePostType{
 
     public static function getByTeacher($teacherId){
         
@@ -56,5 +60,24 @@ class Cohort{
             else if(User::isTeacher($u)) $auxUsers['teachers'][] = $user;
         }
         return $auxUsers;
+    }
+    
+    public static function getBySlug($slug){
+        
+        if(empty(self::$postType)) throw new WPASException('Please instanciete the class '.get_called_class().' at least one time before using it');
+        if(!is_string($slug)) throw new WPASException('getBySlug must receive a string as parameter $slug');
+
+        $term = get_term_by('slug',$slug,'user_cohort');
+        if(!empty($term)){
+            return $term;
+        }else return null;
+    }
+    
+    public static function all(){
+        $terms = get_terms( array(
+            'taxonomy' => 'user_cohort',
+            'hide_empty' => false,
+        ) );
+        return $terms;
     }
 }

@@ -50,6 +50,8 @@ class GeeksAcademyOnline {
 		add_action( 'wp_logout', [$this,'custom_logout_url'], 10, 3 );
 		
 		add_action( 'password_reset', [$this,'password_reset'], 10, 2 );
+		
+		add_action("template_redirect", [$this,'replit_redirects']);
     	
     	//$this->inicialize();
 	}
@@ -253,5 +255,47 @@ class GeeksAcademyOnline {
 	   }
 	   return $items;
 	}
+	
+    function replit_redirects() {
+
+        $dpath = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ;
+        if (strpos($dpath,'/replit/') !== false){    
+                
+                if(empty($_GET['r'])){ echo "Please spacify the replit class slug with variable 'r'"; die(); }
+                if(empty($_GET['c'])){ 
+                    
+                    $content = "<h2>Pick your cohort</h2>";
+                    $content .= "<ul>";
+                    $cohorts = \BreatheCode\Model\Cohort::all();
+                    foreach($cohorts as $c)
+                    {
+                        $content .="<li><a href='/replit/?r=".$_GET['r']."&c=".$c->slug."'>".$c->name."</a></li>";
+                    }
+                    $content .= "</ul>";
+                    echo $content; die();
+                }
+                
+                $cohort_slug = $_GET['c'];
+                $cohort = \BreatheCode\Model\Cohort::getBySlug($cohort_slug);
+                if(empty($cohort)){
+                    echo "The cohort ".$cohort_slug." does not seem to exist.";
+                    die();
+                } 
+                
+                $replit_slug = $_GET['r'];
+                $replit_url = \BreatheCode\Model\Lesson::getReplit($replit_slug, $cohort->term_id);
+                
+                if(empty($replit_url)){
+                    echo 'This replit class ('.$replit_slug.') has not been configured for this cohort yet ('.$cohort_slug.') please talk to your teacher to have it fixed.';
+                    die();
+                }
+                else if (filter_var($replit_url, FILTER_VALIDATE_URL) === FALSE) {
+                    echo 'The following URL looks invalid: '.$replit_url;
+                }
+                
+                wp_redirect($replit_url);
+                exit;               
+            }
+    }
 
 }
