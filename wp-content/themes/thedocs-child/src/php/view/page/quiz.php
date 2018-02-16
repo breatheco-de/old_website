@@ -30,7 +30,7 @@ $args = WPAS\Controller\WPASController::getViewData();
         <?php if(isset($args['quiz']) && $args['blocked']==false){ ?>
             <input type="hidden" id="student" value="<?php echo $args['student_id']; ?>" />
             <input type="hidden" id="quiz" value="<?php echo $args['quiz']->info->slug; ?>" />
-            <iframe class="bcquiz" src="<?php echo ASSETS_URL; ?>quiz/app/?slug=<?php echo $args['quiz']->info->slug; ?>" width="100%" height="600" frameBorder="0">Browser not compatible.</iframe>
+            <iframe class="bcquiz" src="<?php echo ASSETS_URL; ?>apps/quizzes/?slug=<?php echo $args['quiz']->info->slug; ?>" width="100%" height="600" frameBorder="0">Browser not compatible.</iframe>
         <?php } else if($args['blocked']==true){ ?>
             <div class="alert alert-danger">
               <strong>Oops!</strong> It seems you have already tried this quiz.

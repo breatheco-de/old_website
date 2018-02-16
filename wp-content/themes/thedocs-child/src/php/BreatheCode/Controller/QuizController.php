@@ -16,12 +16,11 @@ class QuizController{
         if(!isset($_GET['qslug'])) return $args;
         $args['student_id'] = get_current_user_id();
         
-        $quizesContent = file_get_contents(ASSETS_URL.'quiz/quizzes.php?slug='.$_GET['qslug']);
+        $quizesContent = file_get_contents(ASSETS_URL.'apis/quiz_api/quiz/'.$_GET['qslug']);
         $quiz = json_decode($quizesContent);
-        if($quiz && count($quiz)==1)
+        if($quiz && is_object($quiz))
         {
-            
-            $args['quiz'] = $quiz[0];
+            $args['quiz'] = $quiz;
 
             $attempts = get_user_meta( $args['student_id'], 'quiz_attempts', true);
             if(isset($attempts[$args['quiz']->info->slug]) and $attempts[$args['quiz']->info->slug]>0){
@@ -29,7 +28,7 @@ class QuizController{
             }else $args['blocked'] = false;
             
             $args['badges'] = [];
-            foreach($quiz[0]->info->badges as $b){
+            foreach($args['quiz']->info->badges as $b){
                 try{
                     $badge = (array) BreatheCodeAPI::getBadge(['badge_id' => $b->slug]);
                     $badge['points'] = $b->points;

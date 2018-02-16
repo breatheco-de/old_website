@@ -264,7 +264,8 @@ class GeeksAcademyOnline {
                 if(empty($_GET['r'])){ echo "Please spacify the replit class slug with variable 'r'"; die(); }
                 if(empty($_GET['c'])){ 
                     
-                    $content = "<h2>Pick your cohort</h2>";
+                    $content = "You are trying to access the replit class ".$_GET['r']." but you have not specified any particular cohort (classes can vary depending on the cohort).";
+                    $content .= "<h2>Please specify the cohort to access the invitation link:</h2>";
                     $content .= "<ul>";
                     $cohorts = \BreatheCode\Model\Cohort::all();
                     foreach($cohorts as $c)

@@ -96,14 +96,17 @@ class UserController{
     public function renderStudentProfile(){
         
         $user = get_user_by( 'id', $_GET['student']);
+        
+        $profileId = 1;
+        if(isset($_GET['profile'])) $profileId = $_GET['profile'];
+        
         if(!$user) return new WP_Error( 'default', 'The student doest not exists or was not specified' );
         
         $user = $this->_userToArray($user);
         if($user['type']=='student')
         {
             $args['user'] = $user;
-            //$args['specialties'] = BreatheCodeAPI::getAllSpecialtiesByProfile(['profile_id' => 'full-stack-web']);
-            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $user['bcId']]);
+            $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $user['bcId'], 'profile_id' => $profileId ]);
             $args['allBadges'] = BreatheCodeAPI::getAllBadges();
             $args['assignments'] = BreatheCodeAPI::getStudentAssignments(['student_id' => $user['bcId']]);
             $args['getAssignmentStatus'] = function($status){

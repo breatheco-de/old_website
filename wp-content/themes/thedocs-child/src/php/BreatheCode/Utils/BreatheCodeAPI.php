@@ -301,8 +301,11 @@ class BreatheCodeAPI{
     
 	public static function getStudentBadges($args=[],$decode=true){
 	
+	    self::validate($args,'student_id');
+	    self::validate($args,'profile_id');
+	    
 	    $allBadges = [];
-	    $allSpecialties = self::getAllSpecialtiesByProfile(['profile_id' => 1]);
+	    $allSpecialties = self::getAllSpecialtiesByProfile(['profile_id' => $args['profile_id']]);
         if($allSpecialties and count($allSpecialties)>0)
         {
             foreach($allSpecialties as $specialty) 
