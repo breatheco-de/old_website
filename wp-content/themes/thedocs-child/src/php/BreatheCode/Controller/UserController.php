@@ -44,6 +44,8 @@ class UserController{
         $args['user'] = $user;
         if($args['user']['type']=='student')
         {
+            $profileId = 1;
+            if(isset($_GET['profile'])) $profileId = $_GET['profile'];
             $args['allStudentBadges'] = BreatheCodeAPI::getStudentBadges(['student_id' => $args['user']['bcId']]);
             $args['allBadges'] = BreatheCodeAPI::getAllBadges();
             $args['settings'] = BreatheCodeAPI::getUserSettings(['user_id' => $args['user']['bcId']]);
