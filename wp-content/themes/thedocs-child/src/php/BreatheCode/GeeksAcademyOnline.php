@@ -52,8 +52,12 @@ class GeeksAcademyOnline {
 		add_action( 'password_reset', [$this,'password_reset'], 10, 2 );
 		
 		add_action("template_redirect", [$this,'replit_redirects']);
-    	
+		
     	//$this->inicialize();
+	}
+	
+	function init_theme(){
+		$this->addAPISupport(['lesson']);
 	}
 	
     function inicialize(){
@@ -298,5 +302,26 @@ class GeeksAcademyOnline {
                 exit;               
             }
     }
+    
+	function my_awesome_func( WP_REST_Request $request ) {
+	  // You can access parameters via direct array access on the object:
+	  $param = $request['some_param'];
+	 
+	  // Or via the helper method:
+	  $param = $request->get_param( 'some_param' );
+	 
+	  // You can get the combined, merged set of parameters:
+	  $parameters = $request->get_params();
+	 
+	  // The individual sets of parameters are also available, if needed:
+	  $parameters = $request->get_url_params();
+	  $parameters = $request->get_query_params();
+	  $parameters = $request->get_body_params();
+	  $parameters = $request->get_json_params();
+	  $parameters = $request->get_default_params();
+	 
+	  // Uploads aren't merged in, but can be accessed separately:
+	  $parameters = $request->get_file_params();
+	}
 
 }

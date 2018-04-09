@@ -1,7 +1,5 @@
 <?php
 
-
-
 if(!defined('ABSPATH')) define('ABSPATH', dirname(__FILE__) . '/');
 if(!defined('VIEWS_PATH')) define('VIEWS_PATH','src/php/view/');
 
@@ -158,6 +156,18 @@ $disabled = new WPASRole('disabled');
  * Start defining all the custom post types that are going to be use in the project
  */
 $lesson = new BreatheCode\Model\Lesson('lesson');
+
+$api = new WPAS\REST\WPASRestAPI(['extended_posts' => ['lesson','lesson-asset']]);
+$api->get('/course/(?P<id>\d+)',function(WP_REST_Request $request){
+  // You can access parameters via direct array access on the object:
+  $courseId = $request->get_param('id');
+});
+$api->get('/courses',function(WP_REST_Request $request){
+  // You can access parameters via direct array access on the object:
+    $userId = $request->get_param('user');
+    if(!empty($userId)) return BreatheCode\Model\User::getCourses($userId, 'en');
+    else return BreatheCode\Model\User::getAllCourses('en');
+});
 
 /**
  * Load the notifications

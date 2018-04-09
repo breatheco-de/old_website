@@ -5,6 +5,8 @@ use WPAS\Controller\WPASController;
 use WPAS\Utils\WPASException;
 use BreatheCode\Utils\BreatheCodeAPI;
 
+use BreatheCode\Model\User;
+
 class LessonController{
     
     public function renderCourse(){
@@ -47,7 +49,7 @@ class LessonController{
         $userId = get_current_user_id();
 
         $args = [];
-        if(!empty($userId)) $args['courses'] = $this->getCourses($userId);
+        if(!empty($userId)) $args['courses'] = User::getCourses($userId);
         return $args;
     }
     
@@ -64,33 +66,6 @@ class LessonController{
         $args['dificulty'] = get_post_meta( $post->ID, 'wpcf-project-difficulty',true);
         $args['technologies'] = wp_get_post_terms($post->ID,'project-technology');
         return $args;
-    }
-    
-    public function getCourses($userId){
-        $auxTerms = array();
-        
-        $parentTerms = wp_get_object_terms( $userId, 'course' );
-        //print_r($parentTerms); die();
-        foreach($parentTerms as $pTerm)
-        {
-            //array_push($auxTerms,$pTerm);
-            $childrens = get_term_children( $pTerm->term_id, 'course' );
-            //taxonomy-status
-            //die(print_r($childrens));
-            foreach($childrens as $cTerm){
-                $status = get_term_meta($cTerm,'wpcf-taxonomy-status',true);
-                $currentLang = pll_current_language();
-                $language = pll_get_term_language($cTerm);
-                //echo $currentLang.'=='.$language; die();
-                if($status=='publish' and $currentLang==$language)
-                {
-                    $cTerm = get_term_by('id', $cTerm, 'course');
-                    array_push($auxTerms,$cTerm);
-                }
-            }
-        }
-        
-        return $auxTerms;
     }
     
     public function getLessonAssets($postId){

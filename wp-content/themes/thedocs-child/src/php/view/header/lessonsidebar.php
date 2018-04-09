@@ -16,7 +16,7 @@ $redux_demo = get_option('redux_demo'); ?>
     </head>
 
   <body>
-
+  <?php if(!isset($_GET['plain'])) { ?>
     <!-- Sidebar -->
     <?php include(locate_template(VIEWS_PATH.'_partials/template-course-sidebar.php')); ?>
     <!-- END Sidebar -->
@@ -24,3 +24,4 @@ $redux_demo = get_option('redux_demo'); ?>
     <!-- Top navbar & branding -->
     <?php include(locate_template(VIEWS_PATH.'_partials/lesson-top-bar.php')); ?>
     <!-- END Top navbar & branding -->
+  <?php } ?>

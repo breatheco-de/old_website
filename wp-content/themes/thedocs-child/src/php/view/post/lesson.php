@@ -6,7 +6,7 @@
 get_template_part(VIEWS_PATH.'header/lessonsidebar');
 $args = WPAS\Controller\WPASController::getViewData();
 ?>
-    <main class="container-fluid">\
+    <main class="container-fluid" style="padding: 0;">
       <canvas id="demo-canvas"></canvas>
       <div id="large-header" class="lesson-introduction" style="margin-left: 0px; background-image: url('<?php echo $args['lesson']["background"];  ?>');">
         <div class="container">
@@ -17,6 +17,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                 <h1><?php echo $args['lesson']['title']; ?></h1>
               </div>
             </div>
+            <?php if(!isset($_GET['plain'])) { ?>
             <div class="row">
               <div class="col-xs-12">
                 <a class="start-lesson-icon btn btn-primary btn-lg" href="#">Read Lesson</a>
@@ -33,6 +34,7 @@ $args = WPAS\Controller\WPASController::getViewData();
                 <?php } ?>
               </div>
             </div>
+            <?php } ?>
           </div>
           <div class="col-sm-6">
             <p>&nbsp;</p>
