@@ -1,4 +1,7 @@
-<?php get_header('boxed'); ?>
+<?php 
+if(!isset($_GET['plain'])) get_header('boxed'); 
+else get_template_part(VIEWS_PATH.'header/plain');
+?>
     <div class="container-fluid project-list">
         <div class="row">
             <div class="col-sm-4 col-md-3 project-filters">

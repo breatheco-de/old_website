@@ -1,5 +1,10 @@
 <?php
-get_header('boxed');
+$withplain = '';
+if(!isset($_GET['plain'])) get_header('boxed');
+else{
+    $withplain = '?plain';
+    get_template_part(VIEWS_PATH.'header/plain');
+} 
 $args = WPAS\Controller\WPASController::getViewData();
 ?>
 
@@ -20,7 +25,7 @@ $args = WPAS\Controller\WPASController::getViewData();
               <?php if(!empty($args['project']['video-id'])){ ?>
                   <li><a data-toggle="pill" href="#video"><label for="tab3">Video Tutorial</label></a></li>
               <?php } ?>
-              <li><a href="/projects">Back to projects</a></li>
+              <li><a href="/projects<?php echo $withplain; ?>">Back to projects</a></li>
             </ul>
         </div>
         <div class="col-sm-8 col-md-9 tab-content">
