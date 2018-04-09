@@ -16,7 +16,7 @@ class QuizController{
         if(!isset($_GET['qslug'])) return $args;
         $args['student_id'] = get_current_user_id();
         
-        $quizesContent = file_get_contents(ASSETS_URL.'apis/quiz_api/quiz/'.$_GET['qslug']);
+        $quizesContent = file_get_contents(ASSETS_URL.'apis/quiz/'.$_GET['qslug']);
         $quiz = json_decode($quizesContent);
         if($quiz && is_object($quiz))
         {
