@@ -264,7 +264,7 @@ class GeeksAcademyOnline {
 
         $dpath = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ;
         if (strpos($dpath,'/replit/') !== false){    
-                $cohort = new \BreatheCode\Model\Cohort();
+                $cohort = new \BreatheCode\Model\Cohort('cohort');
                 if(empty($_GET['r'])){ echo "Please spacify the replit class slug with variable 'r'"; die(); }
                 if(empty($_GET['c'])){ 
                     
