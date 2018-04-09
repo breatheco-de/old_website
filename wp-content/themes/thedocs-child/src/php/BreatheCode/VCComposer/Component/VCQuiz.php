@@ -58,7 +58,7 @@ class VCQuiz{
 	function getQuizzesOptions(){
 	   if(defined('ASSETS_URL')) 
 	   {
-		   $quizzesJSON = @file_get_contents(ASSETS_URL.'apis/quiz_api/quizzes');
+		   $quizzesJSON = @file_get_contents(ASSETS_URL.'apis/quiz/all');
 		   if($quizzesJSON)
 		   {
 		       $quizzes = json_decode($quizzesJSON);
@@ -69,7 +69,7 @@ class VCQuiz{
 		       }
 		       
 		   }
-		   else throw new \Exception('It was imposible to retrieve the quizzes from '.ASSETS_URL.'apis/quiz_api/quizzes');
+		   else throw new \Exception('It was imposible to retrieve the quizzes from '.ASSETS_URL.'apis/quiz/all');
 	   }
 	   
 	   return;
