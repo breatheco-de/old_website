@@ -68,7 +68,7 @@ class QuizController{
             $term_meta = get_option( "taxonomy_".$c->term_id );
             if($term_meta)
             {
-                $replits[$c->term_name] = $term_meta;
+                $replits[$c->slug] = $term_meta;
             }
         }
         return $replits;
