@@ -60,4 +60,18 @@ class QuizController{
         
     }
     
+    function getReplits(){
+        $cohorts = \BreatheCode\Model\Cohort::all();
+        $replits = [];
+        foreach($cohorts as $c)
+        {
+            $term_meta = get_option( "taxonomy_".$c->term_id );
+            if($term_meta)
+            {
+                $replits[$c->term_name] = $term_meta;
+            }
+        }
+        return $replits;
+    }
+    
 }

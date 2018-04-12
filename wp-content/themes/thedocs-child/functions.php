@@ -152,22 +152,13 @@ $teacher = new WPASRole('main_teacher');
 $disabled = new WPASRole('disabled'); 
 
 
-// /**
-// * Start defining all the custom post types that are going to be use in the project
-// */
-// $lesson = new BreatheCode\Model\Lesson('lesson');
-
-// $api = new WPAS\REST\WPASRestAPI(['extended_posts' => ['lesson','lesson-asset']]);
-// $api->get('/course/(?P<id>\d+)',function(WP_REST_Request $request){
-//   // You can access parameters via direct array access on the object:
-//   $courseId = $request->get_param('id');
-// });
-// $api->get('/courses',function(WP_REST_Request $request){
-//   // You can access parameters via direct array access on the object:
-//     $userId = $request->get_param('user');
-//     if(!empty($userId)) return BreatheCode\Model\User::getCourses($userId, 'en');
-//     else return BreatheCode\Model\User::getAllCourses('en');
-// });
+$api = new \WPAS\Controller\WPASAPIController([
+        'application_name' => 'bc',
+        'version' => 1
+    ]);
+    
+//you can use a function as controller instead of a whole class
+$api->get(['path' => '/replits', 'controller' => 'BreatheCode\Controller\QuizController:getReplits']);
 
 /**
  * Load the notifications
