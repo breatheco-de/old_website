@@ -51,6 +51,8 @@ class GeeksAcademyOnline {
 		
 		add_action( 'password_reset', [$this,'password_reset'], 10, 2 );
 		
+		add_action("template_redirect", [$this,'replit_redirects']);
+		
     	//$this->inicialize();
 	}
 	
@@ -258,6 +260,49 @@ class GeeksAcademyOnline {
 	   return $items;
 	}
 	
+    function replit_redirects() {
+
+        $dpath = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ;
+        if (strpos($dpath,'/replit/') !== false){    
+                $cohort = new \BreatheCode\Model\Cohort('cohort');
+                if(empty($_GET['r'])){ echo "Please spacify the replit class slug with variable 'r'"; die(); }
+                if(empty($_GET['c'])){ 
+                    
+                    $content = "You are trying to access the replit class ".$_GET['r']." but you have not specified any particular cohort (classes can vary depending on the cohort).";
+                    $content .= "<h2>Please specify the cohort to access the invitation link:</h2>";
+                    $content .= "<ul>";
+                    $cohorts = \BreatheCode\Model\Cohort::all();
+                    foreach($cohorts as $c)
+                    {
+                        $content .="<li><a href='/replit/?r=".$_GET['r']."&c=".$c->slug."'>".$c->name."</a></li>";
+                    }
+                    $content .= "</ul>";
+                    echo $content; die();
+                }
+                
+                $cohort_slug = $_GET['c'];
+                $cohort = \BreatheCode\Model\Cohort::getBySlug($cohort_slug);
+                if(empty($cohort)){
+                    echo "The cohort ".$cohort_slug." does not seem to exist.";
+                    die();
+                } 
+                
+                $replit_slug = $_GET['r'];
+                $replit_url = \BreatheCode\Model\Lesson::getReplit($replit_slug, $cohort->term_id);
+                
+                if(empty($replit_url)){
+                    echo 'This replit class ('.$replit_slug.') has not been configured for this cohort yet ('.$cohort_slug.') please talk to your teacher to have it fixed.';
+                    die();
+                }
+                else if (filter_var($replit_url, FILTER_VALIDATE_URL) === FALSE) {
+                    echo 'The following URL looks invalid: '.$replit_url;
+                }
+                
+                wp_redirect($replit_url);
+                exit;               
+            }
+    }
+    
 	function my_awesome_func( WP_REST_Request $request ) {
 	  // You can access parameters via direct array access on the object:
 	  $param = $request['some_param'];
