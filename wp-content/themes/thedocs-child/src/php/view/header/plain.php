@@ -1,3 +1,4 @@
+<?php do_action( 'get_header'); ?>
 <!DOCTYPE html>
 <?php 
 $redux_demo = get_option('redux_demo'); ?>

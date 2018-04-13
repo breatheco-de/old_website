@@ -1,3 +1,4 @@
+<?php do_action( 'get_header'); ?>
 <!DOCTYPE html>
 <html lang="en" <?php language_attributes(); ?>>
   <head>
