@@ -16,6 +16,7 @@ $topBarMenu = get_post_meta( $postId, 'wpcf-top_bar_menu',true);
 
 <html lang="en">
   <head>
+    <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-head.php')); ?>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
     <link rel="shortcut icon" href="<?php if(isset($companyFavicon)) {?><?php echo esc_url($companyFavicon); ?><?php }?>" type="image/x-icon"/>
@@ -27,6 +28,7 @@ $topBarMenu = get_post_meta( $postId, 'wpcf-top_bar_menu',true);
     </head>
 
   <body <?php body_class(); ?>>
+    <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-body.php')); ?>
 
     <header class="site-header sticky navbar-fullwidth navbar-transparent">
 

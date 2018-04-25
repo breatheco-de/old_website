@@ -1,31 +1,30 @@
-<?php do_action( 'get_header'); ?>
 <!DOCTYPE html>
 <?php 
-$args = WPAS\Controller\WPASController::getViewData();
-?>
+$redux_demo = get_option('redux_demo'); ?>
+
 <html lang="en">
   <head>
-    <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-head.php')); ?>
+     <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-head.php')); ?>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
     <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
         ?>
     <!-- Favicons-->
-    <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri();?>/assets/img/logo.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<?php if(isset($redux_demo['favicon']['url'])){?><?php echo esc_url($redux_demo['favicon']['url']); ?><?php }?>" type="image/x-icon"/>
     <?php }?>
       <?php wp_head();?>
       <!-- Favicons -->
     
     </head>
 
-  <body>
+  <body <?php body_class(); ?>>
     <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-body.php')); ?>
 
-<header class="site-header navbar-transparent">
+    <header class="site-header">
 
       <!-- Top navbar & branding -->
-      <nav id="main-nav-bar" class="navbar navbar-default">
-        <div class="container-fluid">
+      <nav class="navbar navbar-default">
+        <div class="container">
 
           <!-- Toggle buttons and brand -->
           <div class="navbar-header">
@@ -39,6 +38,16 @@ $args = WPAS\Controller\WPASController::getViewData();
               <span class="icon-bar"></span>
             </button>
 
+            <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                <?php $redux_demo = get_option('redux_demo'); if(isset($redux_demo['logo']['url'])){?>
+                <?php  if($redux_demo['logo']['url'] != ''){ ?>
+                <img alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" src="<?php echo esc_url($redux_demo['logo']['url']); ?>" class="logo-padding"/>
+                <?php }else{ ?>
+                <img  src="<?php echo get_template_directory_uri();?>/assets/img/logo.png" alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" class="logo-padding" />
+                <?php }}else{?>
+                <img  src="<?php echo get_template_directory_uri();?>/assets/img/logo.png" alt="<?php echo esc_html__( 'logo', 'thedocs' );?>" class="logo-padding" />
+                <?php }?>
+           </a>
           </div>
           <!-- END Toggle buttons and brand -->
 
@@ -71,15 +80,5 @@ $args = WPAS\Controller\WPASController::getViewData();
         </div>
       </nav>
       <!-- END Top navbar & branding -->
-
-      <!-- Banner -->
-      <div class="course-banner banner auto-size" style="background-color: #5cc7b2">
-        <div class="container-fluid text-white">
-          <h1><?php echo $args['course']->name; ?></h1>
-          <h5><?php echo $args['getCourseSubheading'](); ?></h5>
-          <a class='btn btn-success btn-lg' href="<?php echo $args['index-lesson']; ?>"><?php echo pll__('Start Course'); ?></a>
-        </div>
-      </div>
-      <!-- END Banner -->
-
+      
     </header>

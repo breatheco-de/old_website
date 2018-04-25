@@ -4,6 +4,7 @@
 $redux_demo = get_option('redux_demo'); ?>
 <html lang="en">
   <head>
+    <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-head.php')); ?>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
     <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
@@ -17,6 +18,7 @@ $redux_demo = get_option('redux_demo'); ?>
     </head>
 
   <body>
+  <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-body.php')); ?>
   <?php if(!isset($_GET['plain'])) { ?>
     <!-- Sidebar -->
     <?php include(locate_template(VIEWS_PATH.'_partials/template-course-sidebar.php')); ?>

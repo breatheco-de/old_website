@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" <?php language_attributes(); ?>>
   <head>
+    <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-head.php')); ?>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <!-- Styles -->
     <?php if ( ! function_exists( 'has_site_icon' ) || ! has_site_icon() ) {
@@ -16,7 +17,7 @@
       </head>
 
   <body <?php body_class(); ?>>
-
+    <?php include(locate_template(VIEWS_PATH.'_partials/script-tagmanager-body.php')); ?>
     <header class="site-header sticky navbar-fullwidth navbar-transparent">
 
       <!-- Top navbar & branding -->
