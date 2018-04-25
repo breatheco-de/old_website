@@ -4,7 +4,7 @@ Theme URI: http://shtheme.com/demosd/thedocs
 Author: Verga Theme Team
 Author URI: http://vergatheme.com
 Description: Thedocs is a powerful, responsive, and high-performance html online documentation template which can help you rapidly develop your next software’s documentation. It can be used for documenting API, frameworks, plugins, templates, etc.
-Version: 1.0
+Version: 1.0.01
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -955,6 +955,18 @@ Text Domain:  thedocs-child
   .confirmation-modal.modal .modal-footer {
     border-top: none;
     text-align: center; }
+
+.thumbs-rating-container {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
+  text-align: center; }
+  .thumbs-rating-container .thumbs-rating-up, .thumbs-rating-container .thumbs-rating-down {
+    border-radius: 10px; }
+  .thumbs-rating-container .thumbs-rating-already-voted {
+    color: #c84848;
+    font-weight: 900; }
 
 .code-iframe {
   border: 0 solid white;

@@ -1,24 +1,337 @@
-webpackJsonp([8],{/***/
-13:/***/
-function(e,n,t){"use strict";/* WEBPACK VAR INJECTION */
-(function(e){Object.defineProperty(n,"__esModule",{value:true});var a=function(){function e(e,n){for(var t=0;t<n.length;t++){var a=n[t];a.enumerable=a.enumerable||false;a.configurable=true;if("value"in a)a.writable=true;Object.defineProperty(e,a.key,a)}}return function(n,t,a){if(t)e(n.prototype,t);if(a)e(n,a);return n}}();var i=t(35);function s(e,n){if(!(e instanceof n)){throw new TypeError("Cannot call a class as a function")}}/**
+webpackJsonp([8],{
+
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _messaging = __webpack_require__(35);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
 *    Declaration of your module
 *    @params modulename and undefined
 **/
-var r=function(){function n(){s(this,n)}a(n,[{key:"init",value:function n(){var t=this;document.querySelector("#modal_new-assignment .send-btn").addEventListener("click",function(n){var a=e("#cohort").val();var i=e("#atemplate-select").val();var s=e("#duedate").val();t.createAsignment(a,s,i)});var a=document.querySelectorAll(".assignments .btn-success");if(a&&a.length>0)Array.from(a).forEach(function(n){n.addEventListener("click",function(n){var a={action:"get_assignment_earnings",slug:n.target.getAttribute("data-slug")};document.querySelector("#assignment-id").value=n.target.getAttribute("data-assignment");document.querySelector("#student-name").value=n.target.getAttribute("data-student");var s=document.querySelector("#modal-accept_assignment .send-btn");e.ajax({url:WPAS_APP.ajax_url,data:a,success:function e(n){if(n.code==500){i.BCMessaging.notify(i.BCMessaging.ERROR,n.msg);document.querySelector(".project-earnings").innerHTML="";s.classList.add("hidden")}else{var a=n.data;var r=t.printProjectEarnings(a);document.querySelector(".project-earnings").innerHTML=r;document.querySelector("#assignment-title").value=a.title;s.classList.remove("hidden")}}})})});document.querySelector("#modal-accept_assignment .send-btn").addEventListener("click",function(e){
-//let inputs = document.forms.acceptassignment;
-//var myControls = inputs.elements['badge[]'];
-var n=document.querySelector("#assignment-id").value;var a=document.querySelectorAll("input[name*='badge']");var i={};a.forEach(function(e){i[e.getAttribute("data-key")]=e.value});t.acceptAsignment(i,n)});var s=document.querySelectorAll(".assignments .btn-danger");if(s&&s.length>0)Array.from(s).forEach(function(e){e.addEventListener("click",function(e){document.querySelector("#assignment-id").value=e.target.getAttribute("data-assignment");var n=document.querySelector("#modal-reject_assignment .send-btn");n.classList.remove("hidden")})});document.querySelector("#modal-reject_assignment .send-btn").addEventListener("click",function(e){
-//let inputs = document.forms.acceptassignment;
-//var myControls = inputs.elements['badge[]'];
-var n=document.querySelector("#assignment-id").value;var a=document.querySelector("#reject_reason").value;t.rejectAssignment(n,a)})}},{key:"send",value:function n(t){var a={action:"deliver_project",assignment:t};
-// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
-e.ajax({url:WPAS_APP.ajax_url,method:"post",dataType:"json",data:a,success:function e(n){if(n){if(n.code=="200")window.location.reload();else i.BCMessaging.notify(i.BCMessaging.ERROR,n.msg)}else i.BCMessaging.notify(i.BCMessaging.ERROR,"The was an unexpected error")}});return false}},{key:"createAsignment",value:function n(t,a,s){var r={action:"create_new_assignment",cohort_id:t,duedate:a,template_id:s};
-// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
-e.ajax({url:WPAS_APP.ajax_url,method:"post",dataType:"json",data:r,success:function e(n){if(n){if(n.code=="200")window.location.reload();else i.BCMessaging.notify(i.BCMessaging.ERROR,n.msg)}else i.BCMessaging.notify(i.BCMessaging.ERROR,"The was an unexpected error")}});return false}},{key:"acceptAsignment",value:function n(t,a){var s={action:"accept_assignment",assignment_id:a,points:t};
-// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
-e.ajax({url:WPAS_APP.ajax_url,method:"post",dataType:"json",data:s,success:function e(n){console.log(n);if(n){if(n.code=="200")window.location.reload();else i.BCMessaging.notify(i.BCMessaging.ERROR,n.msg)}else i.BCMessaging.notify(i.BCMessaging.ERROR,"The was an unexpected error")}});return false}},{key:"rejectAssignment",value:function n(t,a){var s={action:"reject_assignment",assignment_id:t,reject_reason:a};
-// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
-e.ajax({url:WPAS_APP.ajax_url,method:"post",dataType:"json",data:s,success:function e(n){console.log(n);if(n){if(n.code=="200")window.location.reload();else i.BCMessaging.notify(i.BCMessaging.ERROR,n.msg)}else i.BCMessaging.notify(i.BCMessaging.ERROR,"The was an unexpected error")}});return false}},{key:"printProjectEarnings",value:function e(n){var t="";n.talents.forEach(function(e){t+='<div class="input-group">\n\t\t\t\t            <span class="input-group-addon">'+e.badge+"</span>\n\t\t\t\t\t\t    <input max='"+e.points+"' min='0' data-key=\""+e.badge+'" class="form-control talent-input" required="required" type="number" name=\'badge[]\' value=\''+e.points+"'>\n\t\t\t\t        </div>"});return t}}]);return n}();n.default=r}).call(n,t(0))},/***/
-35:/***/
-function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:true});var a=n.BCMessaging=function(){var e={};e.ERROR="danger";e.WARNING="warning";e.SUCCESS="success";var n=null;var t=[];e.addMessage=function(e,n){if(typeof t[e]=="undefined")t[e]=[];t[e].push(n)};e.getMessages=function(e){if(typeof t[e]=="undefined")t[e]=[];return t[e]};e.notify=function(e,n){a("top",{type:e,message:n})};e.notifyPending=function(e){var n=arguments.length>1&&arguments[1]!==undefined?arguments[1]:null;var i="<ul>";if(!n)t[e].forEach(function(e){i+="<li>"+e+"</li>"});else n.forEach(function(e){i+="<li>"+e+"</li>"});i+="</ul>";t[e]=[];a("top",{type:e,message:i})};function a(e,t){if(!n)s(e);i(t)}function i(e){var t=document.createElement("div");t.classList.add("single-notification");t.innerHTML=o()(e.type,e.message);n.appendChild(t);var a=t.childNodes;for(var i=0;i<a.length;i++){if(a[i].className=="close"){a[i].addEventListener("click",function(){n.removeChild(t)});break}}setTimeout(function(){t.classList.add("about-to-close");setTimeout(function(){n.removeChild(t);if(n.childNodes.length==0)r()},500)},3e3)}function s(e){n=document.createElement("div");n.classList.add("bcnotification");n.classList.add(e+"-notification");document.body.appendChild(n)}function r(){if(n){n.parentNode.removeChild(n);n=null}}function o(){return function(e,n){return'<div class="inner-message alert alert-'+e+'">\n                                    <button type="button" class="close" data-dismiss="alert">&times;</button>\n                                    '+n+"\n                                </div>"}}return e}()}});
+var ReviewAssignments = function () {
+	function ReviewAssignments() {
+		_classCallCheck(this, ReviewAssignments);
+	}
+
+	_createClass(ReviewAssignments, [{
+		key: 'init',
+		value: function init() {
+			var _this = this;
+
+			document.querySelector('#modal_new-assignment .send-btn').addEventListener("click", function (btn) {
+				var cohortId = $('#cohort').val();
+				var templateId = $('#atemplate-select').val();
+				var duedate = $('#duedate').val();
+				_this.createAsignment(cohortId, duedate, templateId);
+			});
+
+			var acceptButtons = document.querySelectorAll('.assignments .btn-success');
+			if (acceptButtons && acceptButtons.length > 0) Array.from(acceptButtons).forEach(function (btn) {
+				btn.addEventListener('click', function (e) {
+					var thedata = {
+						action: 'get_assignment_earnings',
+						slug: e.target.getAttribute('data-slug')
+					};
+
+					document.querySelector('#assignment-id').value = e.target.getAttribute('data-assignment');
+					document.querySelector('#student-name').value = e.target.getAttribute('data-student');
+					var accptButton = document.querySelector('#modal-accept_assignment .send-btn');
+
+					$.ajax({
+						url: WPAS_APP.ajax_url,
+						data: thedata,
+						success: function success(response) {
+							if (response.code == 500) {
+								_messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, response.msg);
+								document.querySelector('.project-earnings').innerHTML = '';
+								accptButton.classList.add("hidden");
+							} else {
+								var project = response.data;
+								var content = _this.printProjectEarnings(project);
+								document.querySelector('.project-earnings').innerHTML = content;
+								document.querySelector('#assignment-title').value = project.title;
+								accptButton.classList.remove("hidden");
+							}
+						}
+					});
+				});
+			});
+			document.querySelector('#modal-accept_assignment .send-btn').addEventListener("click", function (btn) {
+
+				//let inputs = document.forms.acceptassignment;
+				//var myControls = inputs.elements['badge[]'];
+				var assignment = document.querySelector("#assignment-id").value;
+				var inputs = document.querySelectorAll("input[name*='badge']");
+				var badges = {};
+				inputs.forEach(function (input) {
+					badges[input.getAttribute('data-key')] = input.value;
+				});
+
+				_this.acceptAsignment(badges, assignment);
+			});
+
+			var rejectButtons = document.querySelectorAll('.assignments .btn-danger');
+			if (rejectButtons && rejectButtons.length > 0) Array.from(rejectButtons).forEach(function (btn) {
+				btn.addEventListener('click', function (e) {
+					document.querySelector('#assignment-id').value = e.target.getAttribute('data-assignment');
+					var rjButton = document.querySelector('#modal-reject_assignment .send-btn');
+					rjButton.classList.remove("hidden");
+				});
+			});
+			document.querySelector('#modal-reject_assignment .send-btn').addEventListener("click", function (btn) {
+
+				//let inputs = document.forms.acceptassignment;
+				//var myControls = inputs.elements['badge[]'];
+				var assignmentId = document.querySelector("#assignment-id").value;
+				var reason = document.querySelector("#reject_reason").value;
+				_this.rejectAssignment(assignmentId, reason);
+			});
+		}
+	}, {
+		key: 'send',
+		value: function send(assignmentId) {
+
+			var thedata = {
+				action: 'deliver_project',
+				assignment: assignmentId
+			};
+			// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
+			$.ajax({
+				url: WPAS_APP.ajax_url,
+				method: 'post',
+				dataType: "json",
+				data: thedata,
+				success: function success(response) {
+					if (response) {
+						if (response.code == '200') window.location.reload();else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, response.msg);
+					} else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, "The was an unexpected error");
+				}
+			});
+
+			return false;
+		}
+	}, {
+		key: 'createAsignment',
+		value: function createAsignment(cohortId, duedate, templateId) {
+
+			var thedata = {
+				action: 'create_new_assignment',
+				cohort_id: cohortId,
+				duedate: duedate,
+				template_id: templateId
+			};
+			// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
+			$.ajax({
+				url: WPAS_APP.ajax_url,
+				method: 'post',
+				dataType: "json",
+				data: thedata,
+				success: function success(response) {
+					if (response) {
+						if (response.code == '200') window.location.reload();else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, response.msg);
+					} else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, "The was an unexpected error");
+				}
+			});
+
+			return false;
+		}
+	}, {
+		key: 'acceptAsignment',
+		value: function acceptAsignment(badges, assignmentId) {
+
+			var thedata = {
+				action: 'accept_assignment',
+				assignment_id: assignmentId,
+				points: badges
+			};
+			// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
+			$.ajax({
+				url: WPAS_APP.ajax_url,
+				method: 'post',
+				dataType: "json",
+				data: thedata,
+				success: function success(response) {
+					console.log(response);
+					if (response) {
+						if (response.code == '200') window.location.reload();else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, response.msg);
+					} else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, "The was an unexpected error");
+				}
+			});
+
+			return false;
+		}
+	}, {
+		key: 'rejectAssignment',
+		value: function rejectAssignment(assignmentId, reason) {
+
+			var thedata = {
+				action: 'reject_assignment',
+				assignment_id: assignmentId,
+				reject_reason: reason
+			};
+			// the_ajax_script.ajaxurl is a variable that will contain the url to the ajax processing file
+			$.ajax({
+				url: WPAS_APP.ajax_url,
+				method: 'post',
+				dataType: "json",
+				data: thedata,
+				success: function success(response) {
+					console.log(response);
+					if (response) {
+						if (response.code == '200') window.location.reload();else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, response.msg);
+					} else _messaging.BCMessaging.notify(_messaging.BCMessaging.ERROR, "The was an unexpected error");
+				}
+			});
+
+			return false;
+		}
+	}, {
+		key: 'printProjectEarnings',
+		value: function printProjectEarnings(project) {
+			var content = '';
+			project.talents.forEach(function (talent) {
+				content += '<div class="input-group">\n\t\t\t\t            <span class="input-group-addon">' + talent.badge + '</span>\n\t\t\t\t\t\t    <input max=\'' + talent.points + '\' min=\'0\' data-key="' + talent.badge + '" class="form-control talent-input" required="required" type="number" name=\'badge[]\' value=\'' + talent.points + '\'>\n\t\t\t\t        </div>';
+			});
+			return content;
+		}
+	}]);
+
+	return ReviewAssignments;
+}();
+
+exports.default = ReviewAssignments;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var BCMessaging = exports.BCMessaging = function () {
+
+    var _public = {};
+    _public.ERROR = 'danger';
+    _public.WARNING = 'warning';
+    _public.SUCCESS = 'success';
+    var notificationContainer = null;
+
+    var messages = [];
+
+    _public.addMessage = function (type, message) {
+
+        if (typeof messages[type] == 'undefined') messages[type] = [];
+        messages[type].push(message);
+    };
+
+    _public.getMessages = function (type) {
+
+        if (typeof messages[type] == 'undefined') messages[type] = [];
+        return messages[type];
+    };
+
+    _public.notify = function (type, message) {
+
+        showNotification('top', {
+            type: type,
+            message: message
+        });
+    };
+
+    _public.notifyPending = function (type) {
+        var messagesArray = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+
+        var content = '<ul>';
+        if (!messagesArray) messages[type].forEach(function (msg) {
+            content += '<li>' + msg + '</li>';
+        });else messagesArray.forEach(function (msg) {
+            content += '<li>' + msg + '</li>';
+        });
+        content += '</ul>';
+
+        messages[type] = [];
+
+        showNotification('top', {
+            type: type,
+            message: content
+        });
+    };
+
+    function showNotification(position, notification) {
+        if (!notificationContainer) createNotificationContainer(position);
+
+        appendNotification(notification);
+    }
+
+    function appendNotification(notification) {
+
+        var singleNotification = document.createElement('div');
+        singleNotification.classList.add('single-notification');
+        singleNotification.innerHTML = getTemplate()(notification.type, notification.message);
+
+        notificationContainer.appendChild(singleNotification);
+
+        var nodeChilds = singleNotification.childNodes;
+        for (var i = 0; i < nodeChilds.length; i++) {
+            if (nodeChilds[i].className == "close") {
+                nodeChilds[i].addEventListener('click', function () {
+                    notificationContainer.removeChild(singleNotification);
+                });
+                break;
+            }
+        }
+
+        setTimeout(function () {
+            singleNotification.classList.add('about-to-close');
+            setTimeout(function () {
+                notificationContainer.removeChild(singleNotification);
+                if (notificationContainer.childNodes.length == 0) deleteNotificationContainer();
+            }, 500);
+        }, 3000);
+    }
+
+    function createNotificationContainer(position) {
+
+        notificationContainer = document.createElement('div');
+        notificationContainer.classList.add('bcnotification');
+        notificationContainer.classList.add(position + '-notification');
+        document.body.appendChild(notificationContainer);
+    }
+
+    function deleteNotificationContainer() {
+        if (notificationContainer) {
+            notificationContainer.parentNode.removeChild(notificationContainer);
+            notificationContainer = null;
+        }
+    }
+
+    function getTemplate() {
+        return function (type, message) {
+            return '<div class="inner-message alert alert-' + type + '">\n                                    <button type="button" class="close" data-dismiss="alert">&times;</button>\n                                    ' + message + '\n                                </div>';
+        };
+    }
+
+    return _public;
+}();
+
+/***/ })
+
+});

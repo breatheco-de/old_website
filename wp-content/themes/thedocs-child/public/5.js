@@ -1,11 +1,109 @@
-webpackJsonp([5],{/***/
-14:/***/
-function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:true});var r=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||false;r.configurable=true;if("value"in r)r.writable=true;Object.defineProperty(e,r.key,r)}}return function(t,n,r){if(n)e(t.prototype,n);if(r)e(t,r);return t}}();var a=n(52);function o(e,t){if(!(e instanceof t)){throw new TypeError("Cannot call a class as a function")}}/**
+webpackJsonp([5],{
+
+/***/ 14:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _search = __webpack_require__(52);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
 *    Declaration of your module
 *    @params modulename and undefined
 **/
-var c=function(){function e(){
-//any properties here using this.propertyName
-o(this,e)}r(e,[{key:"init",value:function e(){a.BCSearch.init("assets")}}]);return e}();t.default=c},/***/
-52:/***/
-function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:true});var r=t.BCSearch=function(){var e={};var t,n,r;var a=false;e.init=function(e){t=document.querySelector(".search-top-bar .search-box");t.addEventListener("focus",o);c(e);var n=document.querySelectorAll(".search-mode .btn");n.forEach(function(e){e.addEventListener("click",function(e){c(this.childNodes[1].value)})})};function o(e){if(!a)t.addEventListener("keypress",function(e){if(e.keyCode==13){if(t.value!="")window.location="/?s="+t.value+"&post_type="+u(n)}});a=true}function c(e){n=e;document.querySelector(".search-mode input[type=radio]").classList.remove("active");var r=document.querySelector(".search-mode input[value="+e+"] ");r.parentNode.classList.add("active");t.placeholder="Search "+e}function u(e){switch(e){case"lessons":return"lesson";break;case"assets":return"lesson-asset";break;default:return"";break}}return e}()}});
+var search = function () {
+    function search() {
+        //any properties here using this.propertyName
+
+        _classCallCheck(this, search);
+    }
+
+    _createClass(search, [{
+        key: 'init',
+        value: function init() {
+            _search.BCSearch.init('assets');
+        }
+    }]);
+
+    return search;
+}();
+
+exports.default = search;
+
+/***/ }),
+
+/***/ 52:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var BCSearch = exports.BCSearch = function () {
+
+    var _public = {};
+    var searchInput, searchMode, postType;
+    var listening = false;
+
+    _public.init = function (mode) {
+        searchInput = document.querySelector(".search-top-bar .search-box");
+        searchInput.addEventListener('focus', startListeningSearch);
+        changeMode(mode);
+
+        var radios = document.querySelectorAll('.search-mode .btn');
+        radios.forEach(function (elm) {
+            elm.addEventListener('click', function (e) {
+                changeMode(this.childNodes[1].value); //get the radio button (is always the second child)
+            });
+        });
+    };
+
+    function startListeningSearch(e) {
+
+        if (!listening) searchInput.addEventListener('keypress', function (e) {
+            if (e.keyCode == 13) {
+                if (searchInput.value != '') window.location = '/?s=' + searchInput.value + '&post_type=' + getPostType(searchMode);
+            }
+        });
+        listening = true;
+    }
+
+    function changeMode(mode) {
+        searchMode = mode;
+        document.querySelector('.search-mode input[type=radio]').classList.remove('active');
+        var activeBtn = document.querySelector('.search-mode input[value=' + mode + '] ');
+        activeBtn.parentNode.classList.add('active');
+        searchInput.placeholder = 'Search ' + mode;
+    }
+
+    function getPostType(mode) {
+        switch (mode) {
+            case 'lessons':
+                return 'lesson';
+                break;
+            case 'assets':
+                return 'lesson-asset';
+                break;
+            default:
+                return '';
+                break;
+        }
+    }
+
+    return _public;
+}();
+
+/***/ })
+
+});

@@ -114,9 +114,9 @@ class GeeksAcademyOnline {
 	function wti_loginout_menu_link( $items, $args ) {
 	   if ($args->theme_location == 'primary') {
 	      if (is_user_logged_in()) {
-	      	 if(!strpos($items,"Log Out")) $items .= '<li class="menu-item drop-normal"><a href="https://student.breatheco.de"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>';
+	      	 if(!strpos($items,"Log Out")) $items .= '<li class="menu-item drop-normal"><a href="'. wp_logout_url() .'"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>';
 	      } else {
-	         if(!strpos($items,"Log In")) $items .= '<li class="menu-item drop-normal"><a href="https://student.breatheco.de">'. __("Log In") .'</a></li>';
+	         if(!strpos($items,"Log In")) $items .= '<li class="menu-item drop-normal"><a href="http://student.breatheco.de">'. __("Log In") .'</a></li>';
 	      }
 	   }
 	   return $items;

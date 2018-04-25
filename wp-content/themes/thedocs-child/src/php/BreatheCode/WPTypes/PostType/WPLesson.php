@@ -108,7 +108,7 @@ class WPLesson{
     
     function render_quiz_metabox( $post ) { 
         
-        $quizesContent = file_get_contents(ASSETS_URL.'quiz/quizzes.php');
+        $quizesContent = file_get_contents(ASSETS_URL.'apis/quiz/all');
         $quizes = json_decode($quizesContent);
         if(!$quizes) echo "<p>Unable to get the quizzes from Assets API.</p>";
         else

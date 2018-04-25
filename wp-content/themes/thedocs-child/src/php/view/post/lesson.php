@@ -96,4 +96,5 @@ $args = WPAS\Controller\WPASController::getViewData();
     }?>
     </div>
       </article>
+      <?php if(function_exists('thumbs_rating_getlink')) echo thumbs_rating_getlink(); ?>
 <?php get_footer('box-sidebar'); ?>

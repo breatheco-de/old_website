@@ -67,7 +67,8 @@ class User{
             $language = pll_get_term_language($cTerm->term_id);
             //print_r($terms); die();
             //echo $currentLang.'=='.$language; die();
-            if($status=='publish' and $cTerm->parent != 0 and $currentLang==$language) array_push($auxTerms,$cTerm);
+            if($status=='publish' and $cTerm->parent != 0 and $currentLang==$language) 
+            array_push($auxTerms,$cTerm);
         }
         
         return $auxTerms;

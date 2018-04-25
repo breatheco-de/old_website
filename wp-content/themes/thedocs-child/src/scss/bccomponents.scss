@@ -36,3 +36,18 @@
         text-align: center;
     }
 }
+
+.thumbs-rating-container{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1;
+        text-align: center;
+    .thumbs-rating-up,.thumbs-rating-down{
+        border-radius: 10px;
+    }
+    .thumbs-rating-already-voted{
+        color: #c84848;
+        font-weight: 900;
+    }
+}
