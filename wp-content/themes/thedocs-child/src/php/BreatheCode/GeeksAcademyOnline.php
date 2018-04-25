@@ -53,7 +53,6 @@ class GeeksAcademyOnline {
 		
 		add_action("template_redirect", [$this,'replit_redirects']);
 		
-    	//$this->inicialize();
 	}
 	
 	function init_theme(){
