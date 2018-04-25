@@ -23,7 +23,10 @@ $args = WPAS\Controller\WPASController::getViewData();
                 <a class="start-lesson-icon btn btn-primary btn-lg" href="#">Read Lesson</a>
                 
                 <?php if(!empty($args['lesson']['replit'])){ ?>
-                <a class="btn btn-warning btn-lg" href="<?php echo $args['lesson']['replit']; ?>">Access Replit's</a>
+                <a class="btn btn-warning btn-lg confirm" href="/signup"
+                data-text="<h5>Please Signup</h5> In order to access the exercises you have to signup into BreatheCode"
+                data-confirm-button="Sign up"
+                data-cancel-button="No, I better wait">Access Replit's</a>
                 <?php } ?>
                 
                 <?php if(!empty($args['lesson']['quiz'])){ ?>
@@ -93,6 +96,4 @@ $args = WPAS\Controller\WPASController::getViewData();
     }?>
     </div>
       </article>
-
-
 <?php get_footer('box-sidebar'); ?>

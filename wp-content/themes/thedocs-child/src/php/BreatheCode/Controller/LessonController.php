@@ -47,9 +47,9 @@ class LessonController{
     
     public function renderMyCourses(){
         $userId = get_current_user_id();
-
+        
         $args = [];
-        if(!empty($userId)) $args['courses'] = User::getCourses($userId);
+        $args['courses'] = User::getAllCourses();
         return $args;
     }
     

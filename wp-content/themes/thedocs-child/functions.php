@@ -121,45 +121,7 @@ $WPLanguages = new BreatheCode\WPLanguages();
  **/
 $BCThemeOptions = new BreatheCode\BCThemeOptions();
 
-
-/**
- * Managing the user accesss of the platform
-*/
-use WPAS\Roles\WPASRole;
-//use WPAS\Roles\WPASRoleAccessManager;
-//$manager = new WPASRoleAccessManager();//instanciate the manager
-//$manager->allowDefaultAccess([
-//    'page'=> ['breathe','respira-codigo','feedback','bclogin','no-access'] //set a default public page (or post)
-//]);
-
-$unverifiedRole = new WPASRole('unverified'); 
-//$manager->allowAccessFor($unverifiedRole,['page' => ['pending']]);
-
-$subscriber = new WPASRole('subscriber'); 
-//$manager->allowAccessFor($subscriber,'all');
-
-$prework = new WPASRole('prework_full_stack'); 
-//$manager->allowAccessFor($prework,['parent' => $subscriber]);
-
-$premium = new WPASRole('premium_full_stack'); 
-//$manager->allowAccessFor($premium,['parent' => $prework]);
-
-$assistant = new WPASRole('teacher_assistant'); 
-//$manager->allowAccessFor($assistant,['parent' => $premium]);
-
-$teacher = new WPASRole('main_teacher'); 
-//$manager->allowAccessFor($teacher,['parent' => $assistant]);
-$disabled = new WPASRole('disabled'); 
-
-
-$api = new \WPAS\Controller\WPASAPIController([
-        'application_name' => 'bc',
-        'version' => 1
-    ]);
     
-//you can use a function as controller instead of a whole class
-$api->get(['path' => '/replits', 'controller' => 'BreatheCode\Controller\QuizController:getReplits']);
-
 /**
  * Load the notifications
  **/
