@@ -121,6 +121,16 @@ $WPLanguages = new BreatheCode\WPLanguages();
  **/
 $BCThemeOptions = new BreatheCode\BCThemeOptions();
 
+/**
+ * To create new API calls, you have to instanciate the API controller and start adding endpoints
+*/
+$api = new \WPAS\Controller\WPASAPIController([ 
+    'version' => '1', 
+    'application_name' => 'bc', 
+    'namespace' => 'BreatheCode\\Controller\\' 
+]);
+$api->get([ 'path' => '/lesson', 'controller' => 'APIController:getLessons' ]); 
+
     
 /**
  * Load the notifications
