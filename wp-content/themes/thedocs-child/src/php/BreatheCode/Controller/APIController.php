@@ -9,9 +9,9 @@ class APIController{
     
     function getLessons(){
         global $wpdb;
+        debug($wpdb);
         //$rows = $wpdb->get_results("SELECT post_name, post_title, post_status, post_excerpt FROM wp_posts WHERE post_type='lesson'");
         $rows = $wpdb->get_results("SELECT post_name, post_title, post_status, post_excerpt FROM wp_posts");
-        debug($rows);
         return $rows;
     }
     
