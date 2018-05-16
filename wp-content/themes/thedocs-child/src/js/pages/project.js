@@ -12,6 +12,8 @@ export default class project{
             $(this).parent().siblings().css('display','none');
             $(this).parent().siblings('#'+$(this).attr('for')).css("display","block");
         });
+        
+        $('.markdown-body a').attr('target', '_blank');
     }
     
     init(){
