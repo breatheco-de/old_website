@@ -7,7 +7,7 @@ use \BreatheCode\Utils\BreatheCodeAPI;
 
 class GeeksAcademyOnline {
 
-	private $prependversion = 0.07;
+	private $prependversion = 0.08;
 
 	function __construct() {
 		

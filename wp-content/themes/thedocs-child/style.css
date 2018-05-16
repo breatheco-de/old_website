@@ -923,6 +923,9 @@ Text Domain:  thedocs-child
 /**
  * Apply this class to the html tag when developing the slide-in button
  */
+pre.code-preview {
+  position: relative; }
+
 .browserChecker i {
   font-size: 60px; }
 

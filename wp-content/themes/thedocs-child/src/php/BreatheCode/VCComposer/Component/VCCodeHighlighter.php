@@ -90,6 +90,6 @@ class VCCodeHighlighter{
 	   if(!$linenumbers or $linenumbers!='true') $numerstring = '';
 	   else $numerstring = 'line-numbers';
 	  
-	   return '<pre class="'.$numerstring.' '.($active ? 'active':'').'"><code class="language-'.$codelanguage.'">'.$content.'</code></pre>';
+	   return '<pre class="code-preview '.$numerstring.' '.($active ? 'active':'').'"><code class="language-'.$codelanguage.'">'.$content.'</code></pre>';
 	}
 }
