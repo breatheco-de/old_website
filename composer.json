@@ -18,7 +18,8 @@
         "wpackagist-plugin/rest-api": "dev-trunk",
         "wpackagist-plugin/duplicator": "*",
         "respect/validation": "^1.1",
-        "erusev/parsedown": "^1.6"
+        "erusev/parsedown": "^1.6",
+        "wpackagist-plugin/tiny-compress-images": "^2.2"
     },
     "autoload": {
         "psr-0" : {
